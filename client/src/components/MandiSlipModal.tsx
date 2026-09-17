@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import type { MarketItem, Language } from '../types';
-import { Printer, X, ShieldCheck, FileText } from 'lucide-react';
+import { Printer, X, ShieldCheck, FileText, User, Truck, Package, Phone, MapPin, Edit3 } from 'lucide-react';
 
 interface MandiSlipModalProps {
   isOpen: boolean;
@@ -21,6 +21,14 @@ export const MandiSlipModal: React.FC<MandiSlipModalProps> = ({
   grossValue
 }) => {
   if (!isOpen) return null;
+
+  // Editable Farmer & Dispatch Details
+  const [farmerName, setFarmerName] = useState('Ramesh Gowda');
+  const [farmerVillage, setFarmerVillage] = useState('Siruguppa, Ballari');
+  const [farmerPhone, setFarmerPhone] = useState('+91 98450 12345');
+  const [vehicleNo, setVehicleNo] = useState('KA-34-T-4912');
+  const [packagingDetails, setPackagingDetails] = useState(`${Math.round(quantityQuintals * 2)} Crates / Bags`);
+  const [showEditForm, setShowEditForm] = useState(false);
 
   const handlePrint = () => {
     window.print();
@@ -43,25 +51,32 @@ export const MandiSlipModal: React.FC<MandiSlipModalProps> = ({
 
   return (
     <div 
-      className="fixed inset-0 z-50 bg-stone-900/60 backdrop-blur-xs flex items-center justify-center p-4 cursor-pointer"
+      className="fixed inset-0 z-50 bg-stone-900/60 backdrop-blur-xs flex items-center justify-center p-4 cursor-pointer overflow-y-auto"
       role="dialog"
       aria-modal="true"
       onClick={onClose}
     >
       <div 
-        className="bg-white rounded-3xl max-w-xl w-full overflow-hidden shadow-2xl border-2 border-stone-300 animate-in fade-in zoom-in-95 cursor-default"
+        className="bg-white rounded-3xl max-w-xl w-full overflow-hidden shadow-2xl border-2 border-stone-300 animate-in fade-in zoom-in-95 cursor-default my-8"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Actions bar (hidden in print) */}
         <div className="no-print bg-stone-900 text-white px-6 py-3.5 flex items-center justify-between border-b border-stone-800">
           <div className="flex items-center gap-2 text-sm font-bold">
             <FileText className="w-4 h-4 text-amber-400" />
-            <span>MandiMate Farmer Dispatch Voucher</span>
+            <span>Mandi Dispatch Gate Slip</span>
           </div>
           <div className="flex items-center gap-2">
             <button
+              onClick={() => setShowEditForm(!showEditForm)}
+              className="flex items-center gap-1.5 px-3 py-1.5 bg-stone-800 hover:bg-stone-700 text-stone-200 text-xs font-semibold rounded-xl transition-colors cursor-pointer"
+            >
+              <Edit3 className="w-3.5 h-3.5 text-amber-400" />
+              <span>{showEditForm ? 'Hide Details' : 'Edit Details'}</span>
+            </button>
+            <button
               onClick={handlePrint}
-              className="flex items-center gap-1.5 px-3 py-1.5 bg-emerald-700 hover:bg-emerald-600 text-white text-xs font-bold rounded-xl transition-colors cursor-pointer"
+              className="flex items-center gap-1.5 px-3.5 py-1.5 bg-emerald-700 hover:bg-emerald-600 text-white text-xs font-bold rounded-xl transition-colors cursor-pointer shadow-sm"
             >
               <Printer className="w-4 h-4" />
               <span>Print Slip</span>
@@ -75,62 +90,153 @@ export const MandiSlipModal: React.FC<MandiSlipModalProps> = ({
           </div>
         </div>
 
+        {/* Editable Details Panel (hidden in print) */}
+        {showEditForm && (
+          <div className="no-print p-4 bg-amber-50/60 border-b border-amber-200 text-xs space-y-3">
+            <div className="font-bold text-stone-800 flex items-center gap-1.5">
+              <Edit3 className="w-3.5 h-3.5 text-amber-700" />
+              <span>Customize Farmer & Vehicle Info for Gate Entry</span>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label className="block text-stone-600 font-semibold mb-1">Farmer Name</label>
+                <input
+                  type="text"
+                  value={farmerName}
+                  onChange={(e) => setFarmerName(e.target.value)}
+                  className="w-full px-2.5 py-1.5 bg-white border border-stone-300 rounded-lg font-bold"
+                />
+              </div>
+              <div>
+                <label className="block text-stone-600 font-semibold mb-1">Phone Number</label>
+                <input
+                  type="text"
+                  value={farmerPhone}
+                  onChange={(e) => setFarmerPhone(e.target.value)}
+                  className="w-full px-2.5 py-1.5 bg-white border border-stone-300 rounded-lg font-bold"
+                />
+              </div>
+              <div>
+                <label className="block text-stone-600 font-semibold mb-1">Village / District</label>
+                <input
+                  type="text"
+                  value={farmerVillage}
+                  onChange={(e) => setFarmerVillage(e.target.value)}
+                  className="w-full px-2.5 py-1.5 bg-white border border-stone-300 rounded-lg font-bold"
+                />
+              </div>
+              <div>
+                <label className="block text-stone-600 font-semibold mb-1">Vehicle / Tractor Reg No</label>
+                <input
+                  type="text"
+                  value={vehicleNo}
+                  onChange={(e) => setVehicleNo(e.target.value)}
+                  className="w-full px-2.5 py-1.5 bg-white border border-stone-300 rounded-lg font-bold"
+                />
+              </div>
+              <div className="sm:col-span-2">
+                <label className="block text-stone-600 font-semibold mb-1">Packaging / Bags / Crates</label>
+                <input
+                  type="text"
+                  value={packagingDetails}
+                  onChange={(e) => setPackagingDetails(e.target.value)}
+                  className="w-full px-2.5 py-1.5 bg-white border border-stone-300 rounded-lg font-bold"
+                />
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Printable Voucher Slip */}
-        <div className="p-8 space-y-6 text-stone-900" id="printable-voucher">
+        <div className="p-7 sm:p-8 space-y-5 text-stone-900" id="printable-voucher">
           {/* Slip Header */}
-          <div className="border-b-2 border-dashed border-stone-400 pb-5 text-center relative">
+          <div className="border-b-2 border-dashed border-stone-400 pb-4 text-center relative">
             <div className="text-2xl font-black tracking-tight text-emerald-900 flex items-center justify-center gap-1.5">
-              <span>🌾 MandiMate Farmer Slip</span>
+              <span>🌾 MandiMate Gate Entry Voucher</span>
             </div>
             <p className="text-xs text-stone-600 font-medium mt-0.5">
-              Verified Agricultural Produce Market Intelligence Voucher
+              Official Agricultural Produce Market Dispatch Slip (APMC Yard Inward)
             </p>
-            <div className="flex justify-between items-center text-[11px] font-mono text-stone-500 mt-3 pt-2 border-t border-stone-200">
+            <div className="flex justify-between items-center text-[11px] font-mono text-stone-500 mt-2.5 pt-2 border-t border-stone-200">
               <span>SLIP NO: <strong>{slipId}</strong></span>
               <span>DATE: <strong>{todayStr}</strong></span>
             </div>
           </div>
 
+          {/* Farmer & Transport Info Block */}
+          <div className="bg-stone-50 p-3.5 rounded-xl border border-stone-200 text-xs grid grid-cols-2 gap-3">
+            <div>
+              <span className="text-[10px] font-bold text-stone-500 uppercase flex items-center gap-1">
+                <User className="w-3 h-3 text-stone-400" />
+                <span>Farmer / Consignor</span>
+              </span>
+              <strong className="text-sm text-stone-900 block mt-0.5">{farmerName}</strong>
+              <span className="text-stone-600 flex items-center gap-1 mt-0.5">
+                <MapPin className="w-3 h-3 text-stone-400" />
+                <span>{farmerVillage}</span>
+              </span>
+              <span className="text-stone-500 text-[11px] flex items-center gap-1 mt-0.5">
+                <Phone className="w-3 h-3 text-stone-400" />
+                <span>{farmerPhone}</span>
+              </span>
+            </div>
+
+            <div>
+              <span className="text-[10px] font-bold text-stone-500 uppercase flex items-center gap-1">
+                <Truck className="w-3 h-3 text-stone-400" />
+                <span>Dispatch Logistics</span>
+              </span>
+              <strong className="text-sm text-stone-900 block mt-0.5">Vehicle: {vehicleNo}</strong>
+              <span className="text-stone-600 flex items-center gap-1 mt-0.5">
+                <Package className="w-3 h-3 text-stone-400" />
+                <span>{packagingDetails}</span>
+              </span>
+              <span className="text-stone-500 text-[11px] block mt-0.5">
+                Distance: ~{market.distance_km ? `${market.distance_km} km` : 'Local Mandi'}
+              </span>
+            </div>
+          </div>
+
           {/* Market & Crop Information */}
-          <div className="grid grid-cols-2 gap-4 text-xs">
+          <div className="grid grid-cols-2 gap-3 text-xs">
             <div className="bg-stone-50 p-3.5 rounded-xl border border-stone-200">
               <span className="text-[10px] font-bold text-stone-500 uppercase block">Target Mandi Yard</span>
-              <strong className="text-base text-stone-900 block mt-0.5">{market.market_name}</strong>
+              <strong className="text-sm text-stone-900 block mt-0.5">{market.market_name}</strong>
               <span className="text-stone-600">{market.district}, {market.state}</span>
             </div>
 
             <div className="bg-stone-50 p-3.5 rounded-xl border border-stone-200">
               <span className="text-[10px] font-bold text-stone-500 uppercase block">Produce Details</span>
-              <strong className="text-base text-stone-900 block mt-0.5">{crop} ({market.variety})</strong>
+              <strong className="text-sm text-stone-900 block mt-0.5">{crop} ({market.variety})</strong>
               <span className="text-stone-600">Grade: {market.grade}</span>
             </div>
           </div>
 
           {/* Pricing & Estimation Breakdown */}
-          <div className="bg-emerald-50 rounded-2xl p-5 border-2 border-emerald-200 space-y-3">
-            <div className="flex justify-between items-center text-sm border-b border-emerald-200/80 pb-2">
-              <span className="text-stone-700">Reported Modal Price:</span>
-              <strong className="text-emerald-950 font-black text-base">₹{market.modal_price.toLocaleString('en-IN')}/quintal</strong>
+          <div className="bg-emerald-50/80 rounded-2xl p-4 border-2 border-emerald-200 space-y-2.5 text-xs">
+            <div className="flex justify-between items-center border-b border-emerald-200/80 pb-1.5">
+              <span className="text-stone-700">Verified Modal Price:</span>
+              <strong className="text-emerald-950 font-black text-sm">₹{market.modal_price.toLocaleString('en-IN')}/quintal</strong>
             </div>
 
-            <div className="flex justify-between items-center text-sm border-b border-emerald-200/80 pb-2">
+            <div className="flex justify-between items-center border-b border-emerald-200/80 pb-1.5">
               <span className="text-stone-700">Dispatched Quantity:</span>
               <strong className="text-stone-900 font-bold">{quantityQuintals} Quintals ({quantityQuintals * 100} kg)</strong>
             </div>
 
-            <div className="flex justify-between items-center text-sm border-b border-emerald-200/80 pb-2">
+            <div className="flex justify-between items-center border-b border-emerald-200/80 pb-1.5">
               <span className="text-stone-700">Official Daily Range:</span>
               <span className="font-mono text-stone-800">₹{market.min_price} - ₹{market.max_price}</span>
             </div>
 
-            <div className="flex justify-between items-center pt-1">
-              <span className="font-bold text-emerald-950 text-base">Estimated Gross Value:</span>
-              <span className="text-2xl font-black text-emerald-900">₹{grossValue.toLocaleString('en-IN')}</span>
+            <div className="flex justify-between items-center pt-1 text-sm">
+              <span className="font-bold text-emerald-950">Estimated Gross Value:</span>
+              <span className="text-xl font-black text-emerald-900">₹{grossValue.toLocaleString('en-IN')}</span>
             </div>
           </div>
 
           {/* Verification source watermark */}
-          <div className="p-3.5 rounded-xl bg-stone-50 border border-stone-200 flex items-center justify-between text-xs text-stone-600">
+          <div className="p-3 rounded-xl bg-stone-50 border border-stone-200 flex items-center justify-between text-xs text-stone-600">
             <div className="flex items-center gap-2">
               <ShieldCheck className="w-5 h-5 text-emerald-700 shrink-0" />
               <div>
@@ -143,15 +249,20 @@ export const MandiSlipModal: React.FC<MandiSlipModalProps> = ({
             </div>
           </div>
 
-          {/* Farmer signature & disclaimer */}
-          <div className="pt-4 border-t border-dashed border-stone-300 flex justify-between items-end text-xs text-stone-500">
+          {/* Signatures & Disclaimers */}
+          <div className="pt-4 border-t border-dashed border-stone-300 grid grid-cols-2 gap-4 text-xs text-stone-500 items-end">
             <div>
-              <p className="text-[10px] max-w-xs leading-tight text-stone-400">
+              <p className="text-[9px] leading-tight text-stone-400">
                 *Estimated gross value based on verified APMC modal price. Final auction settlements depend on weighbridge verification and lot grading.
               </p>
             </div>
-            <div className="text-right border-t border-stone-400 pt-1 px-4">
-              <span className="text-[10px] font-bold text-stone-700">Farmer Signature</span>
+            <div className="text-right space-y-6">
+              <div className="border-t border-stone-400 pt-1">
+                <span className="text-[10px] font-bold text-stone-700">Farmer Signature</span>
+              </div>
+              <div className="border-t border-stone-400 pt-1">
+                <span className="text-[10px] font-bold text-stone-700">APMC Gate Inspector</span>
+              </div>
             </div>
           </div>
         </div>

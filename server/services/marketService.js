@@ -1,12 +1,81 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import db from '../database/db.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const dataPath = path.join(__dirname, '../data/verified_markets.json');
-const dataset = JSON.parse(fs.readFileSync(dataPath, 'utf-8'));
+const jsonPath = path.join(__dirname, '../data/verified_markets.json');
+let fallbackData = null;
+if (fs.existsSync(jsonPath)) {
+  try {
+    fallbackData = JSON.parse(fs.readFileSync(jsonPath, 'utf-8'));
+  } catch (e) {
+    console.warn("[marketService] Could not parse fallback JSON", e.message);
+  }
+}
+
+// In-memory cache synced with SQLite
+let cachedCommodities = fallbackData?.commodities || [];
+let cachedMarkets = fallbackData?.markets || [];
+let cachedPriceRecords = fallbackData?.price_records || [];
+
+// Refresh cache from SQLite database
+export async function refreshCache() {
+  try {
+    const commRows = await db.query("SELECT * FROM commodities ORDER BY name ASC;");
+    if (commRows && commRows.length > 0) {
+      cachedCommodities = commRows.map(r => ({
+        commodity_id: r.commodity_id,
+        name: r.name,
+        localNames: { hi: r.name_hi, kn: r.name_kn },
+        category: r.category,
+        unit: r.unit,
+        icon: r.icon,
+        varieties: JSON.parse(r.varieties_json || '[]')
+      }));
+    }
+
+    const mktRows = await db.query("SELECT * FROM markets ORDER BY market_name ASC;");
+    if (mktRows && mktRows.length > 0) {
+      cachedMarkets = mktRows.map(m => ({
+        market_id: m.market_id,
+        market_name: m.market_name,
+        district: m.district,
+        state: m.state,
+        lat: m.latitude,
+        lon: m.longitude,
+        pin: m.pin
+      }));
+    }
+
+    const recRows = await db.query("SELECT * FROM price_records;");
+    if (recRows && recRows.length > 0) {
+      cachedPriceRecords = recRows.map(r => ({
+        record_id: r.record_id,
+        market_id: r.market_id,
+        commodity_id: r.commodity_id,
+        variety: r.variety,
+        grade: r.grade,
+        arrival_date: r.arrival_date,
+        min_price: r.min_price,
+        modal_price: r.modal_price,
+        max_price: r.max_price,
+        arrival_quantity: r.arrival_quantity,
+        unit: r.unit,
+        source: r.source,
+        source_timestamp: r.source_timestamp,
+        is_today: r.is_today === 1
+      }));
+    }
+  } catch (err) {
+    console.warn("[marketService] SQLite cache refresh warning:", err.message);
+  }
+}
+
+// Initial cache population from SQLite on import
+refreshCache().catch(() => {});
 
 // Haversine distance in kilometers
 export function calculateDistanceKm(lat1, lon1, lat2, lon2) {
@@ -23,7 +92,6 @@ export function calculateDistanceKm(lat1, lon1, lat2, lon2) {
 }
 
 // Normalize quantities internally to Quintals
-// 1 quintal = 100 kg, 1 tonne = 1000 kg = 10 quintals
 export function normalizeToQuintals(quantity, unit = 'quintal') {
   const q = Number(quantity);
   if (isNaN(q) || q <= 0) return 0;
@@ -34,14 +102,13 @@ export function normalizeToQuintals(quantity, unit = 'quintal') {
   if (u === 'tonne' || u === 'ton' || u === 'tonnes' || u === 'tons') {
     return q * 10;
   }
-  // Default is quintal
   return q;
 }
 
 // Format human-friendly data freshness
 export function formatDataFreshness(timestampIso) {
   if (!timestampIso) return "Unknown";
-  const now = new Date("2026-09-17T15:52:00Z"); // PRD baseline clock
+  const now = new Date();
   const ts = new Date(timestampIso);
   const diffHours = Math.max(1, Math.round((now.getTime() - ts.getTime()) / (1000 * 60 * 60)));
   if (diffHours < 24) {
@@ -79,14 +146,28 @@ const DISTRICT_COORDS = {
 };
 
 export function getCommodities() {
-  return dataset.commodities;
+  return cachedCommodities;
 }
 
 export function getMarkets() {
-  return dataset.markets;
+  return cachedMarkets;
 }
 
-export function searchMarkets({ crop, location, quantity, unit = 'quintal', lat, lon }) {
+export function getAllPriceRecords() {
+  return cachedPriceRecords;
+}
+
+export function searchMarkets({ 
+  crop, 
+  location, 
+  quantity, 
+  unit = 'quintal', 
+  lat, 
+  lon,
+  filterState,
+  maxDistanceKm,
+  sortBy = 'distance'
+}) {
   if (!crop) {
     return {
       success: false,
@@ -96,11 +177,11 @@ export function searchMarkets({ crop, location, quantity, unit = 'quintal', lat,
   }
 
   const normalizedCrop = crop.trim().toLowerCase();
-  const matchedCommodity = dataset.commodities.find(c => 
+  const matchedCommodity = cachedCommodities.find(c => 
     c.name.toLowerCase() === normalizedCrop ||
     c.commodity_id.toLowerCase() === normalizedCrop ||
-    c.localNames.hi.toLowerCase() === normalizedCrop ||
-    c.localNames.kn.toLowerCase() === normalizedCrop
+    (c.localNames?.hi && c.localNames.hi.toLowerCase() === normalizedCrop) ||
+    (c.localNames?.kn && c.localNames.kn.toLowerCase() === normalizedCrop)
   );
 
   if (!matchedCommodity) {
@@ -128,11 +209,20 @@ export function searchMarkets({ crop, location, quantity, unit = 'quintal', lat,
     }
   }
 
-  // Get the latest records for this commodity
-  // Today's records are marked is_today = true
-  const latestRecords = dataset.price_records.filter(r => 
+  // Get the latest records for this commodity (today's quotes)
+  let latestRecords = cachedPriceRecords.filter(r => 
     r.commodity_id === matchedCommodity.commodity_id && r.is_today
   );
+
+  // Fallback if no records flagged is_today: pick latest date records
+  if (latestRecords.length === 0) {
+    const commodityRecords = cachedPriceRecords.filter(r => r.commodity_id === matchedCommodity.commodity_id);
+    if (commodityRecords.length > 0) {
+      const dates = [...new Set(commodityRecords.map(r => r.arrival_date))].sort();
+      const latestDate = dates[dates.length - 1];
+      latestRecords = commodityRecords.filter(r => r.arrival_date === latestDate);
+    }
+  }
 
   if (latestRecords.length === 0) {
     return {
@@ -144,24 +234,25 @@ export function searchMarkets({ crop, location, quantity, unit = 'quintal', lat,
     };
   }
 
-  // Process market comparison cards
-  const enrichedMarkets = latestRecords.map(record => {
-    const marketMeta = dataset.markets.find(m => m.market_id === record.market_id);
-    const distanceKm = (userLat && userLon) 
-      ? calculateDistanceKm(userLat, userLon, record.latitude, record.longitude)
+  // Process and enrich market comparison cards
+  let enrichedMarkets = latestRecords.map(record => {
+    const marketMeta = cachedMarkets.find(m => m.market_id === record.market_id);
+    const targetLat = marketMeta?.lat || record.latitude;
+    const targetLon = marketMeta?.lon || record.longitude;
+    const distanceKm = (userLat && userLon && targetLat && targetLon) 
+      ? calculateDistanceKm(userLat, userLon, targetLat, targetLon)
       : null;
 
     // Gross value estimation (PRD Section 12)
-    // "500 kg = 5 quintals. If the reported modal price is ₹2,200/quintal, estimated gross value = 5 × ₹2,200 = ₹11,000"
     const estimatedGrossValue = normQuantity > 0 ? Math.round(normQuantity * record.modal_price) : 0;
 
     return {
       market_id: record.market_id,
-      market_name: record.market_name,
-      district: record.district,
-      state: record.state,
+      market_name: marketMeta?.market_name || record.market_name || "APMC Mandi",
+      district: marketMeta?.district || record.district || "District Yard",
+      state: marketMeta?.state || record.state || "State",
       commodity_id: record.commodity_id,
-      commodity_name: record.commodity_name,
+      commodity_name: matchedCommodity.name,
       variety: record.variety,
       grade: record.grade,
       arrival_date: record.arrival_date,
@@ -182,11 +273,37 @@ export function searchMarkets({ crop, location, quantity, unit = 'quintal', lat,
     };
   });
 
-  // Sort by location if available (proximity), else by modal price descending
-  if (userLat && userLon) {
-    enrichedMarkets.sort((a, b) => (a.distance_km ?? 9999) - (b.distance_km ?? 9999));
-  } else {
+  // State filtering if requested
+  if (filterState && filterState !== 'all') {
+    enrichedMarkets = enrichedMarkets.filter(m => 
+      m.state.toLowerCase() === filterState.toLowerCase()
+    );
+  }
+
+  // Max distance filtering if requested
+  if (maxDistanceKm && !isNaN(Number(maxDistanceKm)) && Number(maxDistanceKm) > 0) {
+    const maxDist = Number(maxDistanceKm);
+    enrichedMarkets = enrichedMarkets.filter(m => 
+      m.distance_km === null || m.distance_km <= maxDist
+    );
+  }
+
+  // Sorting
+  if (sortBy === 'price_desc') {
     enrichedMarkets.sort((a, b) => b.modal_price - a.modal_price);
+  } else if (sortBy === 'price_asc') {
+    enrichedMarkets.sort((a, b) => a.modal_price - b.modal_price);
+  } else if (sortBy === 'arrivals_desc') {
+    enrichedMarkets.sort((a, b) => b.arrival_quantity - a.arrival_quantity);
+  } else if (sortBy === 'spread_asc') {
+    enrichedMarkets.sort((a, b) => a.price_spread - b.price_spread);
+  } else {
+    // Default: Proximity if location known, otherwise highest price
+    if (userLat && userLon) {
+      enrichedMarkets.sort((a, b) => (a.distance_km ?? 9999) - (b.distance_km ?? 9999));
+    } else {
+      enrichedMarkets.sort((a, b) => b.modal_price - a.modal_price);
+    }
   }
 
   return {
@@ -209,3 +326,28 @@ export function searchMarkets({ crop, location, quantity, unit = 'quintal', lat,
     markets: enrichedMarkets
   };
 }
+
+// Persist search history to SQLite
+export async function logSearch({ crop, location, quantity, unit }) {
+  try {
+    await db.run(`
+      INSERT INTO search_history (crop, location, quantity, unit, timestamp)
+      VALUES (?, ?, ?, ?, ?);
+    `, [crop, location || 'Current Location', Number(quantity) || 1, unit || 'quintal', new Date().toISOString()]);
+  } catch (e) {
+    // silent catch
+  }
+}
+
+// Retrieve recent search history
+export async function getRecentSearches(limit = 10) {
+  try {
+    const rows = await db.query(`
+      SELECT * FROM search_history ORDER BY id DESC LIMIT ?;
+    `, [limit]);
+    return rows;
+  } catch (e) {
+    return [];
+  }
+}
+

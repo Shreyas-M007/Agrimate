@@ -120,3 +120,22 @@ export interface SellingChecklistData {
   language: Language;
   steps: ChecklistStep[];
 }
+
+export interface SyncStatusData {
+  success: boolean;
+  last_sync?: {
+    id: number;
+    source: string;
+    records_synced: number;
+    timestamp: string;
+    status: string;
+  };
+  total_verified_records: number;
+}
+
+export interface UserPreferences {
+  user_id?: string;
+  language: Language;
+  location: string;
+  preferred_units: CropUnit;
+}

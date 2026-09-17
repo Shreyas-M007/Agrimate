@@ -205,7 +205,80 @@ async function runAudit() {
     }
   });
 
-  // 3. FRONTEND STATIC SERVING
+  // 3. PRODUCTION FEATURES & DATABASE INTEGRITY AUDIT
+  await checkAsync("GET /api/sync/status returns verified sync health and record count", async () => {
+    const res = await fetch(`${BASE_URL}/api/sync/status`);
+    assert.strictEqual(res.status, 200);
+    const data = await res.json();
+    assert.strictEqual(data.success, true);
+    assert.ok(data.total_verified_records >= 5000);
+    assert.ok(data.last_sync !== undefined);
+  });
+
+  await checkAsync("POST /api/sync executes live Agmarknet pipeline sync and updates SQLite", async () => {
+    const res = await fetch(`${BASE_URL}/api/sync`, { method: 'POST' });
+    assert.strictEqual(res.status, 200);
+    const data = await res.json();
+    assert.strictEqual(data.success, true);
+    assert.ok(data.records_synced > 0);
+  });
+
+  await checkAsync("GET /api/markets/all returns complete set of 20 verified APMC mandis", async () => {
+    const res = await fetch(`${BASE_URL}/api/markets/all`);
+    assert.strictEqual(res.status, 200);
+    const data = await res.json();
+    assert.strictEqual(data.success, true);
+    assert.strictEqual(data.markets.length, 20);
+  });
+
+  await checkAsync("GET & POST /api/preferences stores farmer profile in SQLite", async () => {
+    const postRes = await fetch(`${BASE_URL}/api/preferences`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ language: 'kn', location: 'Ballari, Karnataka', preferredUnits: 'quintal' })
+    });
+    assert.strictEqual(postRes.status, 200);
+    const postData = await postRes.json();
+    assert.strictEqual(postData.success, true);
+
+    const getRes = await fetch(`${BASE_URL}/api/preferences`);
+    assert.strictEqual(getRes.status, 200);
+    const getData = await getRes.json();
+    assert.strictEqual(getData.preferences.language, 'kn');
+    assert.strictEqual(getData.preferences.location, 'Ballari, Karnataka');
+  });
+
+  await checkAsync("GET & POST /api/history logs and retrieves search history from SQLite", async () => {
+    const postRes = await fetch(`${BASE_URL}/api/history`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ crop: 'Tomato', location: 'Ballari', quantity: 10, unit: 'quintal' })
+    });
+    assert.strictEqual(postRes.status, 200);
+
+    const getRes = await fetch(`${BASE_URL}/api/history`);
+    assert.strictEqual(getRes.status, 200);
+    const getData = await getRes.json();
+    assert.strictEqual(getData.success, true);
+    assert.ok(Array.isArray(getData.history));
+  });
+
+  await checkAsync("GET /api/markets supports state filtering, max distance, and sorting", async () => {
+    const res = await fetch(`${BASE_URL}/api/markets?crop=Tomato&filterState=Karnataka&sortBy=price_desc&quantity=10&unit=quintal`);
+    assert.strictEqual(res.status, 200);
+    const data = await res.json();
+    assert.strictEqual(data.success, true);
+    assert.ok(data.markets.length > 0);
+    for (const m of data.markets) {
+      assert.strictEqual(m.state, 'Karnataka');
+    }
+    // Verify descending order
+    for (let i = 0; i < data.markets.length - 1; i++) {
+      assert.ok(data.markets[i].modal_price >= data.markets[i+1].modal_price, "Must be sorted descending by price");
+    }
+  });
+
+  // 4. FRONTEND STATIC SERVING
   await checkAsync("GET / serves the SPA index.html with 200", async () => {
     const res = await fetch(`${BASE_URL}/`);
     assert.strictEqual(res.status, 200);

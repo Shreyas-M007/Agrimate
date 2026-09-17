@@ -47,7 +47,25 @@ if (fs.existsSync(distPath)) {
   });
 }
 
-app.listen(PORT, () => {
-  console.log(`🌾 MandiMate full-stack service running on http://localhost:${PORT}`);
-  console.log(`🌾 Verified agricultural intelligence ready.`);
-});
+import db from './database/db.js';
+import { refreshCache } from './services/marketService.js';
+
+// Initialize SQLite database and warm cache
+async function startServer() {
+  try {
+    console.log("🌾 Initializing MandiMate SQLite database...");
+    await db.initDb();
+    await refreshCache();
+    console.log("🌾 MandiMate SQLite database ready and verified.");
+
+    app.listen(PORT, () => {
+      console.log(`🌾 MandiMate full-stack service running on http://localhost:${PORT}`);
+      console.log(`🌾 Verified agricultural intelligence ready.`);
+    });
+  } catch (err) {
+    console.error("Failed to start MandiMate service:", err);
+    process.exit(1);
+  }
+}
+
+startServer();

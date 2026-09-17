@@ -4,7 +4,9 @@ import type {
   CropUnit, 
   Commodity, 
   MarketItem, 
-  SearchResult 
+  SearchResult,
+  SyncStatusData,
+  PriceTrend
 } from './types';
 import { TRANSLATIONS } from './i18n/translations';
 import { Header } from './components/Header';
@@ -18,11 +20,12 @@ import { AiExplanation } from './components/AiExplanation';
 import { SellingChecklist } from './components/SellingChecklist';
 import { ExplainModal } from './components/ExplainModal';
 import { MandiSlipModal } from './components/MandiSlipModal';
+import { SettingsModal } from './components/SettingsModal';
 import { 
   saveSearchResultToCache, 
   getCachedSearchResult 
 } from './utils/storage';
-import { AlertCircle, Sparkles, BookOpen } from 'lucide-react';
+import { AlertCircle, Sparkles, BookOpen, CheckCircle2 } from 'lucide-react';
 
 export const App: React.FC = () => {
   const [language, setLanguage] = useState<Language>('en');
@@ -43,9 +46,16 @@ export const App: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [searchResult, setSearchResult] = useState<SearchResult | null>(null);
   const [selectedMarket, setSelectedMarket] = useState<MarketItem | null>(null);
+  const [activeTrend, setActiveTrend] = useState<PriceTrend | null>(null);
   const [cachedAt, setCachedAt] = useState<string | undefined>();
   const [explanationTerm, setExplanationTerm] = useState<string | null>(null);
   const [isSlipModalOpen, setIsSlipModalOpen] = useState<boolean>(false);
+
+  // Production Sync & Settings state
+  const [syncStatus, setSyncStatus] = useState<SyncStatusData | null>(null);
+  const [isSyncing, setIsSyncing] = useState<boolean>(false);
+  const [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false);
+  const [syncToast, setSyncToast] = useState<string | null>(null);
 
   const t = TRANSLATIONS[language];
 
@@ -62,6 +72,81 @@ export const App: React.FC = () => {
       window.removeEventListener('offline', handleOffline);
     };
   }, []);
+
+  // Fetch sync status & stored preferences on mount
+  const fetchSyncStatus = async () => {
+    try {
+      const res = await fetch('/api/sync/status');
+      const data = await res.json();
+      if (data.success) {
+        setSyncStatus(data);
+      }
+    } catch (e) {
+      console.warn("Could not fetch sync status", e);
+    }
+  };
+
+  useEffect(() => {
+    fetchSyncStatus();
+
+    // Fetch user preferences
+    async function loadPreferences() {
+      try {
+        const res = await fetch('/api/preferences');
+        const data = await res.json();
+        if (data.success && data.preferences) {
+          if (data.preferences.language) setLanguage(data.preferences.language as Language);
+          if (data.preferences.location) setLocation(data.preferences.location);
+          if (data.preferences.preferred_units) setUnit(data.preferences.preferred_units as CropUnit);
+        }
+      } catch (e) {
+        console.warn("Could not load preferences", e);
+      }
+    }
+    loadPreferences();
+  }, []);
+
+  // Fetch trend whenever selectedMarket or crop changes
+  useEffect(() => {
+    if (!selectedMarket || !crop) {
+      setActiveTrend(null);
+      return;
+    }
+    const marketId = selectedMarket.market_id;
+    async function loadMarketTrend() {
+      try {
+        const res = await fetch(`/api/trends?crop=${encodeURIComponent(crop)}&market_id=${encodeURIComponent(marketId)}&days=7`);
+        const data = await res.json();
+        if (data.success && data.has_data) {
+          setActiveTrend(data);
+        } else {
+          setActiveTrend(null);
+        }
+      } catch {
+        setActiveTrend(null);
+      }
+    }
+    loadMarketTrend();
+  }, [selectedMarket?.market_id, crop]);
+
+  // Live Sync trigger handler
+  const handleTriggerSync = async () => {
+    setIsSyncing(true);
+    try {
+      const res = await fetch('/api/sync', { method: 'POST' });
+      const data = await res.json();
+      if (data.success) {
+        setSyncToast(`⚡ Successfully synced ${data.records_synced} APMC records into SQLite DB!`);
+        setTimeout(() => setSyncToast(null), 4500);
+        await fetchSyncStatus();
+        await handleSearch();
+      }
+    } catch (err) {
+      console.error("Live sync failed", err);
+    } finally {
+      setIsSyncing(false);
+    }
+  };
 
   // Fetch standardized commodities on mount
   useEffect(() => {
@@ -166,12 +251,24 @@ export const App: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-stone-100 text-stone-900 flex flex-col font-sans">
-      {/* Header with language & online toggle */}
+      {/* Header with language, sync, settings & online toggle */}
       <Header
         language={language}
         onLanguageChange={setLanguage}
         isOnline={isOnline}
+        syncStatus={syncStatus}
+        onTriggerSync={handleTriggerSync}
+        isSyncing={isSyncing}
+        onOpenSettings={() => setIsSettingsOpen(true)}
       />
+
+      {/* Live Sync Notification Toast */}
+      {syncToast && (
+        <div className="bg-amber-400 text-stone-950 font-black text-xs sm:text-sm px-4 py-2.5 text-center flex items-center justify-center gap-2 shadow-md animate-in fade-in">
+          <CheckCircle2 className="w-4 h-4 text-emerald-950 shrink-0" />
+          <span>{syncToast}</span>
+        </div>
+      )}
 
       {/* Offline / Cached timestamp notification banner */}
       <OfflineBanner
@@ -303,7 +400,7 @@ export const App: React.FC = () => {
                 {/* Row 3: Bedrock AI Explanation Narrative (PRD Sec 14, 18, 34) */}
                 <AiExplanation
                   market={selectedMarket}
-                  trend={null}
+                  trend={activeTrend}
                   language={language}
                   quantityQuintals={quantityQuintals}
                 />
@@ -332,6 +429,21 @@ export const App: React.FC = () => {
           <span>{t.educationalModalTitle}</span>
         </button>
       </div>
+
+      {/* Farmer Preferences & Profile Modal */}
+      <SettingsModal
+        isOpen={isSettingsOpen}
+        onClose={() => setIsSettingsOpen(false)}
+        currentLanguage={language}
+        onLanguageChange={setLanguage}
+        currentLocation={location}
+        onLocationChange={setLocation}
+        currentUnit={unit}
+        onUnitChange={setUnit}
+        syncStatus={syncStatus}
+        onTriggerSync={handleTriggerSync}
+        isSyncing={isSyncing}
+      />
 
       {/* Printable Mandi Dispatch Slip Modal */}
       {selectedMarket && (

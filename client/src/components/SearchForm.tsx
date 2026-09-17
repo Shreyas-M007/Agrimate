@@ -278,6 +278,33 @@ export const SearchForm: React.FC<SearchFormProps> = ({
             )}
           </button>
         </div>
+
+        {/* Quick Pre-sets / Scenario Chips */}
+        <div className="pt-2 border-t border-stone-200 flex flex-wrap items-center gap-2 text-xs">
+          <span className="font-bold text-stone-500">Quick Queries:</span>
+          {[
+            { label: "🍅 Tomato 500kg (Ballari)", crop: "Tomato", loc: "Ballari, Karnataka", qty: 500, u: "kg" as CropUnit },
+            { label: "🧅 Onion 15q (Nashik)", crop: "Onion", loc: "Nashik, Maharashtra", qty: 15, u: "quintal" as CropUnit },
+            { label: "🥔 Potato 20q (Agra)", crop: "Potato", loc: "Agra, Uttar Pradesh", qty: 20, u: "quintal" as CropUnit },
+            { label: "🌶️ Chilli 5q (Guntur)", crop: "Chilli", loc: "Guntur, Andhra Pradesh", qty: 5, u: "quintal" as CropUnit },
+            { label: "🌾 Paddy 30q (Karnal)", crop: "Paddy", loc: "Karnal, Haryana", qty: 30, u: "quintal" as CropUnit }
+          ].map((item, idx) => (
+            <button
+              key={idx}
+              type="button"
+              onClick={() => {
+                onCropChange(item.crop);
+                onLocationChange(item.loc);
+                onQuantityChange(item.qty);
+                onUnitChange(item.u);
+                setTimeout(() => onSearch(), 50);
+              }}
+              className="bg-stone-100 hover:bg-emerald-100 text-stone-700 hover:text-emerald-900 font-semibold px-2.5 py-1 rounded-lg border border-stone-200 transition-colors cursor-pointer text-[11px]"
+            >
+              {item.label}
+            </button>
+          ))}
+        </div>
       </form>
     </div>
   );

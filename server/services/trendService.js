@@ -1,12 +1,4 @@
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-const dataPath = path.join(__dirname, '../data/verified_markets.json');
-const dataset = JSON.parse(fs.readFileSync(dataPath, 'utf-8'));
+import { getCommodities, getAllPriceRecords, getMarkets } from './marketService.js';
 
 export function getPriceTrends({ crop, market_id, days = 7 }) {
   if (!crop) {
@@ -14,9 +6,12 @@ export function getPriceTrends({ crop, market_id, days = 7 }) {
   }
 
   const normalizedCrop = crop.trim().toLowerCase();
-  const matchedCommodity = dataset.commodities.find(c => 
+  const commodities = getCommodities();
+  const matchedCommodity = commodities.find(c => 
     c.name.toLowerCase() === normalizedCrop ||
-    c.commodity_id.toLowerCase() === normalizedCrop
+    c.commodity_id.toLowerCase() === normalizedCrop ||
+    (c.localNames?.hi && c.localNames.hi.toLowerCase() === normalizedCrop) ||
+    (c.localNames?.kn && c.localNames.kn.toLowerCase() === normalizedCrop)
   );
 
   if (!matchedCommodity) {
@@ -24,7 +19,8 @@ export function getPriceTrends({ crop, market_id, days = 7 }) {
   }
 
   // Filter records for this commodity and (optionally) market
-  let records = dataset.price_records.filter(r => r.commodity_id === matchedCommodity.commodity_id);
+  const allRecords = getAllPriceRecords();
+  let records = allRecords.filter(r => r.commodity_id === matchedCommodity.commodity_id);
   
   if (market_id) {
     records = records.filter(r => r.market_id === market_id);
@@ -92,7 +88,7 @@ export function getPriceTrends({ crop, market_id, days = 7 }) {
     success: true,
     has_data: true,
     commodity: matchedCommodity.name,
-    market_name: market_id ? slicedRecords[0].market_name : "Regional Average",
+    market_name: market_id ? (slicedRecords[0].market_name || getMarkets().find(m => m.market_id === market_id)?.market_name || "APMC Yard") : "Regional Average",
     period_days: periodDays,
     start_date: startRecord.arrival_date,
     end_date: endRecord.arrival_date,

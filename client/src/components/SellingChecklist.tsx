@@ -23,6 +23,22 @@ export const SellingChecklist: React.FC<SellingChecklistProps> = ({
   const [loading, setLoading] = useState<boolean>(false);
   const [celebrated, setCelebrated] = useState<boolean>(false);
 
+  const storageKey = `mandimate_checklist_${crop}_${marketName}`;
+
+  // Load persisted checklist state on market/crop change
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(storageKey);
+      if (saved) {
+        setCheckedIds(JSON.parse(saved));
+      } else {
+        setCheckedIds([]);
+      }
+    } catch {
+      setCheckedIds([]);
+    }
+  }, [storageKey]);
+
   useEffect(() => {
     let isMounted = true;
     async function fetchChecklist() {
@@ -50,7 +66,6 @@ export const SellingChecklist: React.FC<SellingChecklistProps> = ({
     }
 
     if (marketName) {
-      setCheckedIds([]);
       setCelebrated(false);
       fetchChecklist();
     }
@@ -60,6 +75,10 @@ export const SellingChecklist: React.FC<SellingChecklistProps> = ({
   const toggleCheck = (id: number) => {
     setCheckedIds(prev => {
       const next = prev.includes(id) ? prev.filter(item => item !== id) : [...prev, id];
+      try {
+        localStorage.setItem(storageKey, JSON.stringify(next));
+      } catch {}
+
       if (checklist && next.length === checklist.steps.length && !celebrated) {
         setCelebrated(true);
         try {
@@ -74,6 +93,14 @@ export const SellingChecklist: React.FC<SellingChecklistProps> = ({
       }
       return next;
     });
+  };
+
+  const handleResetChecklist = () => {
+    setCheckedIds([]);
+    setCelebrated(false);
+    try {
+      localStorage.removeItem(storageKey);
+    } catch {}
   };
 
   const handlePrint = () => {
@@ -109,7 +136,16 @@ export const SellingChecklist: React.FC<SellingChecklistProps> = ({
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
+          {completedCount > 0 && (
+            <button
+              type="button"
+              onClick={handleResetChecklist}
+              className="no-print px-3 py-2 bg-stone-100 hover:bg-stone-200 text-stone-700 text-xs font-bold rounded-xl transition-all cursor-pointer border border-stone-300"
+            >
+              Reset
+            </button>
+          )}
           <button
             type="button"
             onClick={handlePrint}

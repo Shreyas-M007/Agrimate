@@ -3,7 +3,9 @@ import {
   searchMarkets, 
   getCommodities, 
   getMarkets, 
-  normalizeToQuintals 
+  normalizeToQuintals,
+  logSearch,
+  getRecentSearches
 } from '../services/marketService.js';
 import { getPriceTrends } from '../services/trendService.js';
 import { 
@@ -12,6 +14,8 @@ import {
 } from '../services/aiService.js';
 import { getSellingChecklist } from '../services/checklistService.js';
 import { parseNaturalLanguageQuery } from '../services/nlpService.js';
+import { syncMarketData, getSyncStatus } from '../services/syncService.js';
+import db from '../database/db.js';
 
 const router = express.Router();
 
@@ -28,10 +32,29 @@ router.get('/crops', (req, res) => {
   });
 });
 
+// GET /api/markets/all
+router.get('/markets/all', (req, res) => {
+  res.json({
+    success: true,
+    markets: getMarkets()
+  });
+});
+
 // GET /api/markets
 // Suggested API flow: GET /markets?crop=tomato&district=Ballari&quantity=500&unit=kg
-router.get('/markets', (req, res) => {
-  const { crop, location, district, quantity = 5, unit = 'quintal', lat, lon } = req.query;
+router.get('/markets', async (req, res) => {
+  const { 
+    crop, 
+    location, 
+    district, 
+    quantity = 5, 
+    unit = 'quintal', 
+    lat, 
+    lon,
+    filterState,
+    maxDistanceKm,
+    sortBy 
+  } = req.query;
   const targetLocation = location || district || '';
 
   // Input validation
@@ -50,11 +73,19 @@ router.get('/markets', (req, res) => {
     quantity: numQuantity,
     unit,
     lat,
-    lon
+    lon,
+    filterState,
+    maxDistanceKm,
+    sortBy
   });
 
   if (!result.success) {
     return res.status(400).json(result);
+  }
+
+  // Persist search query to history
+  if (crop) {
+    logSearch({ crop, location: targetLocation, quantity: numQuantity, unit }).catch(() => {});
   }
 
   res.json(result);
@@ -172,6 +203,55 @@ router.post('/net-return', (req, res) => {
     estimated_net_return: estimatedNetReturn,
     disclaimer: "This net return is strictly an approximation for budgeting purposes based on user-entered cost estimates. Official receipts may vary."
   });
+});
+
+// POST /api/sync - Triggers verified Agmarknet pipeline sync (PRD Sec 22 & 23)
+router.post('/sync', async (req, res) => {
+  const result = await syncMarketData();
+  res.json(result);
+});
+
+// GET /api/sync/status - Returns pipeline health and total records
+router.get('/sync/status', async (req, res) => {
+  const status = await getSyncStatus();
+  res.json({ success: true, ...status });
+});
+
+// GET /api/history - Returns recent queries from SQLite
+router.get('/history', async (req, res) => {
+  const history = await getRecentSearches(15);
+  res.json({ success: true, history });
+});
+
+// POST /api/history - Log query
+router.post('/history', async (req, res) => {
+  const { crop, location, quantity, unit } = req.body;
+  await logSearch({ crop, location, quantity, unit });
+  res.json({ success: true });
+});
+
+// GET /api/preferences - Fetch stored preferences
+router.get('/preferences', async (req, res) => {
+  try {
+    const pref = await db.get("SELECT * FROM user_preferences WHERE user_id = 'default_farmer';");
+    res.json({ success: true, preferences: pref || null });
+  } catch (err) {
+    res.json({ success: false, error: err.message });
+  }
+});
+
+// POST /api/preferences - Update farmer preferences
+router.post('/preferences', async (req, res) => {
+  const { language = 'en', location = '', preferredUnits = 'quintal' } = req.body;
+  try {
+    await db.run(`
+      INSERT OR REPLACE INTO user_preferences (user_id, language, location, preferred_units, updated_at)
+      VALUES ('default_farmer', ?, ?, ?, ?);
+    `, [language, location, preferredUnits, new Date().toISOString()]);
+    res.json({ success: true, message: "Preferences saved" });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
 });
 
 export default router;
