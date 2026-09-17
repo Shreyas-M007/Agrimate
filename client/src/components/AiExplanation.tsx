@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import type { MarketItem, PriceTrend, Language, AiExplanationData } from '../types';
 import { TRANSLATIONS } from '../i18n/translations';
-import { Sparkles, Bot, ShieldCheck, Volume2, VolumeX, Share2, Check, Copy } from 'lucide-react';
+import { Sparkles, Bot, ShieldCheck, Volume2, VolumeX, Share2, Check, Copy, Cpu } from 'lucide-react';
 
 interface AiExplanationProps {
   market: MarketItem;
@@ -49,7 +49,6 @@ export const AiExplanation: React.FC<AiExplanationProps> = ({
     }
 
     if (market) {
-      // Stop speech if speaking
       if ('speechSynthesis' in window) {
         window.speechSynthesis.cancel();
         setIsSpeaking(false);
@@ -79,7 +78,6 @@ export const AiExplanation: React.FC<AiExplanationProps> = ({
     const fullText = `${explanation.title}. ${explanation.summary} ${explanation.priceDetails} ${explanation.trendExplanation} ${explanation.advice}`;
     const utterance = new SpeechSynthesisUtterance(fullText);
 
-    // Set voice/lang
     if (language === 'hi') {
       utterance.lang = 'hi-IN';
     } else if (language === 'kn') {
@@ -87,7 +85,7 @@ export const AiExplanation: React.FC<AiExplanationProps> = ({
     } else {
       utterance.lang = 'en-IN';
     }
-    utterance.rate = 0.92; // Slightly slower for clarity
+    utterance.rate = 0.92;
 
     utterance.onstart = () => setIsSpeaking(true);
     utterance.onend = () => setIsSpeaking(false);
@@ -113,11 +111,11 @@ export const AiExplanation: React.FC<AiExplanationProps> = ({
 
   if (loading) {
     return (
-      <div className="bg-gradient-to-br from-emerald-900 to-stone-900 text-white rounded-3xl p-6 shadow-xl border-2 border-emerald-700 animate-pulse">
+      <div className="glass-panel-elevated rounded-3xl p-6 border border-emerald-500/30 animate-pulse">
         <div className="flex items-center gap-3">
-          <div className="w-6 h-6 border-3 border-amber-400 border-t-transparent rounded-full animate-spin" />
-          <span className="text-base font-bold text-emerald-200">
-            Generating Bedrock AI market intelligence in {language === 'hi' ? 'हिन्दी' : (language === 'kn' ? 'ಕನ್ನಡ' : 'English')}...
+          <div className="w-5 h-5 border-2 border-[#00FF87] border-t-transparent rounded-full animate-spin" />
+          <span className="text-sm font-mono text-emerald-300">
+            Synthesizing Bedrock AI market intelligence in {language === 'hi' ? 'हिन्दी' : (language === 'kn' ? 'ಕನ್ನಡ' : 'English')}...
           </span>
         </div>
       </div>
@@ -127,37 +125,38 @@ export const AiExplanation: React.FC<AiExplanationProps> = ({
   if (!explanation) return null;
 
   return (
-    <div className="relative overflow-hidden bg-gradient-to-br from-emerald-950 via-stone-900 to-emerald-950 text-white rounded-3xl p-6 sm:p-8 shadow-2xl border-2 border-emerald-700/80">
-      {/* Background glow effects */}
-      <div className="absolute top-0 right-0 -mt-8 -mr-8 w-64 h-64 bg-emerald-600/20 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 left-0 -mb-8 -ml-8 w-64 h-64 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
+    <div className="relative overflow-hidden glass-panel-elevated text-white rounded-3xl p-6 sm:p-8 border border-emerald-500/30 shadow-[0_16px_50px_rgba(0,0,0,0.9)]">
+      {/* Background glowing telemetry gradients */}
+      <div className="absolute top-0 right-0 -mt-10 -mr-10 w-72 h-72 bg-emerald-500/15 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 left-0 -mb-10 -ml-10 w-72 h-72 bg-[#00FF87]/10 rounded-full blur-3xl pointer-events-none" />
 
       {/* Header with audio and action controls */}
-      <div className="relative z-10 flex flex-wrap items-center justify-between gap-4 border-b border-emerald-800/80 pb-5 mb-6">
-        <div className="flex items-center gap-3">
-          <div className="p-3 bg-gradient-to-br from-amber-400 to-amber-500 text-emerald-950 rounded-2xl shadow-lg border border-amber-300">
-            <Sparkles className="w-6 h-6" />
+      <div className="relative z-10 flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-5 mb-6">
+        <div className="flex items-center gap-3.5">
+          <div className="p-3 bg-gradient-to-br from-emerald-500/30 to-emerald-950 border border-emerald-500/40 text-[#00FF87] rounded-2xl shadow-[0_0_20px_rgba(0,255,135,0.25)]">
+            <Cpu className="w-6 h-6" />
           </div>
           <div>
-            <h3 className="text-xl sm:text-2xl font-black tracking-tight text-white drop-shadow">
+            <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-white font-['Syne',sans-serif]">
               {explanation.title}
             </h3>
-            <span className="text-xs font-semibold text-emerald-300 flex items-center gap-1.5 mt-0.5">
+            <span className="text-xs font-mono text-[#00FF87] flex items-center gap-1.5 mt-0.5">
+              <Sparkles className="w-3.5 h-3.5" />
               <span>{t.aiExplanationBadge}</span>
             </span>
           </div>
         </div>
 
-        {/* Action Controls: Audio Voice Output, Copy, WhatsApp */}
+        {/* Action Controls */}
         <div className="flex items-center gap-2">
-          {/* Voice Text-to-Speech Button (PRD Sec 32) */}
+          {/* Voice Text-to-Speech Button */}
           <button
             type="button"
             onClick={handleSpeak}
-            className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer shadow-md ${
+            className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-mono font-bold transition-all cursor-pointer ${
               isSpeaking 
-                ? 'bg-amber-400 text-emerald-950 animate-bounce' 
-                : 'bg-emerald-800 hover:bg-emerald-700 text-emerald-100 border border-emerald-600'
+                ? 'bg-amber-400 text-stone-950 animate-bounce shadow-[0_0_15px_rgba(245,158,11,0.5)]' 
+                : 'bg-emerald-950/80 hover:bg-emerald-900 text-[#00FF87] border border-emerald-500/40 hover:shadow-[0_0_15px_rgba(0,255,135,0.2)]'
             }`}
             title={isSpeaking ? "Stop Voice Narration" : "Listen in Selected Language"}
           >
@@ -169,17 +168,17 @@ export const AiExplanation: React.FC<AiExplanationProps> = ({
           <button
             type="button"
             onClick={handleCopy}
-            className="p-2 rounded-xl bg-stone-800/80 hover:bg-stone-700 text-emerald-200 border border-stone-700 transition-colors cursor-pointer"
+            className="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-stone-300 hover:text-white border border-white/10 transition-colors cursor-pointer"
             title="Copy Insights"
           >
-            {copied ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
+            {copied ? <Check className="w-4 h-4 text-[#00FF87]" /> : <Copy className="w-4 h-4" />}
           </button>
 
           {/* WhatsApp Share Button */}
           <button
             type="button"
             onClick={handleShareWhatsApp}
-            className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition-colors cursor-pointer shadow-md"
+            className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-emerald-600/90 hover:bg-emerald-500 text-white text-xs font-mono font-bold transition-all cursor-pointer shadow-[0_0_15px_rgba(16,185,129,0.3)]"
             title="Share to WhatsApp"
           >
             <Share2 className="w-3.5 h-3.5" />
@@ -189,58 +188,60 @@ export const AiExplanation: React.FC<AiExplanationProps> = ({
       </div>
 
       {/* Narrative Cards */}
-      <div className="relative z-10 space-y-4 text-sm sm:text-base leading-relaxed text-emerald-50">
-        <div className="bg-emerald-900/50 p-5 rounded-2xl border border-emerald-700/60 shadow-inner">
+      <div className="relative z-10 space-y-4 text-sm sm:text-base leading-relaxed">
+        <div className="bg-[#0A0D0B] p-5 rounded-2xl border border-emerald-500/20 shadow-inner">
           <p className="font-semibold text-emerald-100 text-base sm:text-lg">
             {explanation.summary}
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="bg-stone-900/70 p-4.5 rounded-2xl border border-stone-700/80">
-            <div className="text-xs font-bold uppercase tracking-wider text-amber-400 mb-1.5">
-              Price Range & Volume Details
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 font-mono text-xs">
+          <div className="bg-[#0A0D0B] p-4.5 rounded-2xl border border-white/10">
+            <div className="text-[10px] uppercase tracking-wider text-amber-400 font-bold mb-1.5">
+              Price Range & Arrival Volume
             </div>
-            <p className="text-stone-300 text-sm">{explanation.priceDetails}</p>
+            <p className="text-stone-300 leading-normal">{explanation.priceDetails}</p>
           </div>
 
-          <div className="bg-stone-900/70 p-4.5 rounded-2xl border border-stone-700/80">
-            <div className="text-xs font-bold uppercase tracking-wider text-emerald-400 mb-1.5">
+          <div className="bg-[#0A0D0B] p-4.5 rounded-2xl border border-white/10">
+            <div className="text-[10px] uppercase tracking-wider text-[#00FF87] font-bold mb-1.5">
               Historical Trend Insight
             </div>
-            <p className="text-stone-300 text-sm">{explanation.trendExplanation}</p>
+            <p className="text-stone-300 leading-normal">{explanation.trendExplanation}</p>
           </div>
         </div>
 
         {explanation.estimatedValueNote && (
-          <div className="bg-amber-950/60 p-4 rounded-2xl border border-amber-600/60 text-xs sm:text-sm text-amber-200">
-            <strong className="font-bold text-amber-300">Produce Estimate Note:</strong> {explanation.estimatedValueNote}
+          <div className="bg-amber-950/40 p-4 rounded-2xl border border-amber-500/30 text-xs font-mono text-amber-200">
+            <strong className="text-amber-300">Produce Estimate Note:</strong> {explanation.estimatedValueNote}
           </div>
         )}
 
-        <div className="bg-gradient-to-r from-emerald-900/80 to-emerald-950/80 p-5 rounded-2xl border border-emerald-600/70 flex items-start gap-3.5">
-          <div className="p-2 bg-emerald-800 text-amber-300 rounded-xl shrink-0 mt-0.5 shadow">
+        <div className="bg-[#0D120E] p-5 rounded-2xl border border-emerald-500/30 flex items-start gap-3.5 shadow-inner">
+          <div className="p-2 bg-emerald-950 text-[#00FF87] border border-emerald-500/30 rounded-xl shrink-0 mt-0.5">
             <Bot className="w-5 h-5" />
           </div>
           <div>
-            <div className="text-xs font-black uppercase tracking-wider text-amber-300 mb-1">
+            <div className="text-xs font-mono uppercase tracking-wider text-[#00FF87] font-bold mb-1">
               Field Action Advice
             </div>
-            <p className="text-emerald-100 font-medium">{explanation.advice}</p>
+            <p className="text-stone-200 font-medium">{explanation.advice}</p>
           </div>
         </div>
       </div>
 
-      {/* Verified Notice Footer */}
-      <div className="relative z-10 mt-6 pt-4 border-t border-emerald-800/80 text-xs text-emerald-300 flex flex-wrap items-center justify-between gap-2">
+      {/* Telemetry Footer */}
+      <div className="relative z-10 mt-6 pt-4 border-t border-white/10 text-xs font-mono text-stone-400 flex flex-wrap items-center justify-between gap-2">
         <div className="flex items-center gap-1.5">
-          <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
+          <ShieldCheck className="w-4 h-4 text-[#00FF87] shrink-0" />
           <span>{explanation.verifiedNotice}</span>
         </div>
-        <span className="text-[11px] font-mono bg-emerald-900/60 px-2.5 py-1 rounded-md border border-emerald-700 text-emerald-200">
-          Bedrock Architecture • Deterministic Grounding
+        <span className="text-[10px] bg-white/5 px-2.5 py-1 rounded-md border border-white/10 text-stone-300">
+          Bedrock + Gemini Architecture • Ground Truth Verified
         </span>
       </div>
     </div>
   );
 };
+
+export default AiExplanation;

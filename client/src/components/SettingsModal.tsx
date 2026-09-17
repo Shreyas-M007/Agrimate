@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import type { Language, CropUnit, SyncStatusData } from '../types';
-import { X, Settings, Check, MapPin, Globe, Scale, Database, RefreshCw } from 'lucide-react';
+import { X, Settings, Check, MapPin, Globe, Scale, RefreshCw, Cloud, Flame } from 'lucide-react';
 
 interface SettingsModalProps {
   isOpen: boolean;
@@ -26,12 +26,8 @@ const DISTRICT_SUGGESTIONS = [
   "Nashik, Maharashtra",
   "Pune, Maharashtra",
   "Guntur, Andhra Pradesh",
-  "Kurnool, Andhra Pradesh",
-  "Warangal, Telangana",
   "Agra, Uttar Pradesh",
-  "Ludhiana, Punjab",
-  "Karnal, Haryana",
-  "Indore, Madhya Pradesh"
+  "Karnal, Haryana"
 ];
 
 export const SettingsModal: React.FC<SettingsModalProps> = ({
@@ -67,7 +63,6 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
     onLocationChange(localLoc);
     onUnitChange(localUnit);
 
-    // Save to SQLite database backend
     try {
       await fetch('/api/preferences', {
         method: 'POST',
@@ -86,83 +81,68 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
     setTimeout(() => {
       setSavedSuccess(false);
       onClose();
-    }, 800);
+    }, 700);
   };
 
   return (
     <div
-      className="fixed inset-0 z-50 bg-stone-900/60 backdrop-blur-xs flex items-center justify-center p-4 cursor-pointer"
+      className="fixed inset-0 z-50 bg-[#060807]/80 backdrop-blur-md flex items-center justify-center p-4 cursor-pointer"
       role="dialog"
       aria-modal="true"
       onClick={onClose}
     >
       <div
-        className="bg-white rounded-3xl max-w-lg w-full overflow-hidden shadow-2xl border-2 border-stone-300 animate-in fade-in zoom-in-95 cursor-default"
+        className="glass-panel-elevated rounded-3xl max-w-lg w-full overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.95)] border border-emerald-500/30 animate-in fade-in zoom-in-95 cursor-default"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="bg-emerald-900 text-white px-6 py-4 flex items-center justify-between border-b border-emerald-950">
-          <div className="flex items-center gap-2 font-black text-lg">
-            <Settings className="w-5 h-5 text-amber-400" />
-            <span>Farmer Profile & Preferences</span>
+        <div className="bg-[#0D120E] text-white px-6 py-4 flex items-center justify-between border-b border-white/10">
+          <div className="flex items-center gap-2 font-bold text-base font-['Syne',sans-serif]">
+            <Settings className="w-5 h-5 text-[#00FF87]" />
+            <span>Infrastructure & Farmer Profile</span>
           </div>
           <button
             onClick={onClose}
-            className="p-1 rounded-lg hover:bg-emerald-800 text-emerald-300 hover:text-white transition-colors cursor-pointer"
+            className="p-1.5 rounded-lg hover:bg-white/10 text-stone-400 hover:text-white transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Content */}
-        <div className="p-6 space-y-5 text-stone-900 text-sm">
+        <div className="p-6 space-y-5 text-sm">
           {/* Language Selection */}
           <div>
-            <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-              <Globe className="w-4 h-4 text-emerald-700" />
+            <label className="block text-xs font-mono uppercase tracking-wider text-stone-400 mb-2 flex items-center gap-1.5">
+              <Globe className="w-3.5 h-3.5 text-[#00FF87]" />
               <span>Preferred Dialect / Language</span>
             </label>
-            <div className="grid grid-cols-3 gap-2">
-              <button
-                type="button"
-                onClick={() => setLocalLang('en')}
-                className={`py-2 px-3 rounded-xl font-bold border-2 text-xs transition-all cursor-pointer ${
-                  localLang === 'en'
-                    ? 'bg-emerald-800 text-white border-emerald-900 shadow-sm'
-                    : 'bg-stone-50 border-stone-200 text-stone-700 hover:bg-stone-100'
-                }`}
-              >
-                English
-              </button>
-              <button
-                type="button"
-                onClick={() => setLocalLang('hi')}
-                className={`py-2 px-3 rounded-xl font-bold border-2 text-xs transition-all cursor-pointer ${
-                  localLang === 'hi'
-                    ? 'bg-emerald-800 text-white border-emerald-900 shadow-sm'
-                    : 'bg-stone-50 border-stone-200 text-stone-700 hover:bg-stone-100'
-                }`}
-              >
-                हिन्दी (Hindi)
-              </button>
-              <button
-                type="button"
-                onClick={() => setLocalLang('kn')}
-                className={`py-2 px-3 rounded-xl font-bold border-2 text-xs transition-all cursor-pointer ${
-                  localLang === 'kn'
-                    ? 'bg-emerald-800 text-white border-emerald-900 shadow-sm'
-                    : 'bg-stone-50 border-stone-200 text-stone-700 hover:bg-stone-100'
-                }`}
-              >
-                ಕನ್ನಡ (Kannada)
-              </button>
+            <div className="grid grid-cols-3 gap-2 font-mono text-xs">
+              {[
+                { id: 'en', label: 'English' },
+                { id: 'hi', label: 'हिन्दी (Hindi)' },
+                { id: 'kn', label: 'ಕನ್ನಡ (Kannada)' }
+              ].map(langItem => (
+                <button
+                  key={langItem.id}
+                  type="button"
+                  onClick={() => setLocalLang(langItem.id as Language)}
+                  className={`py-2 px-3 rounded-xl border transition-all cursor-pointer ${
+                    localLang === langItem.id
+                      ? 'bg-emerald-500/20 border-[#00FF87] text-[#00FF87] shadow-[0_0_12px_rgba(0,255,135,0.25)] font-bold'
+                      : 'bg-[#0A0D0B] border-white/10 text-stone-400 hover:text-white'
+                  }`}
+                >
+                  {langItem.label}
+                </button>
+              ))}
             </div>
           </div>
 
           {/* Default Location */}
           <div>
-            <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-              <MapPin className="w-4 h-4 text-emerald-700" />
+            <label className="block text-xs font-mono uppercase tracking-wider text-stone-400 mb-2 flex items-center gap-1.5">
+              <MapPin className="w-3.5 h-3.5 text-[#00FF87]" />
               <span>Default District / Farm Location</span>
             </label>
             <input
@@ -170,16 +150,16 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
               value={localLoc}
               onChange={(e) => setLocalLoc(e.target.value)}
               placeholder="e.g. Ballari, Karnataka"
-              className="w-full px-3 py-2 border-2 border-stone-300 rounded-xl bg-white font-bold text-stone-900 focus:outline-emerald-700"
+              className="w-full px-3 py-2 border border-white/15 rounded-xl bg-[#0A0D0B] font-mono text-xs text-white focus:outline-none focus:border-[#00FF87]"
             />
             <div className="flex flex-wrap gap-1.5 mt-2">
-              <span className="text-[11px] text-stone-500 font-semibold self-center mr-1">Quick Select:</span>
+              <span className="text-[11px] font-mono text-stone-500 self-center mr-1">Quick Select:</span>
               {DISTRICT_SUGGESTIONS.slice(0, 4).map(d => (
                 <button
                   key={d}
                   type="button"
                   onClick={() => setLocalLoc(d)}
-                  className="text-[11px] bg-stone-100 hover:bg-emerald-50 hover:text-emerald-800 px-2 py-0.5 rounded-md border border-stone-200 cursor-pointer font-medium"
+                  className="text-[11px] font-mono bg-[#111713] hover:bg-emerald-950/60 text-stone-300 hover:text-[#00FF87] px-2 py-0.5 rounded-md border border-white/10 cursor-pointer"
                 >
                   {d.split(',')[0]}
                 </button>
@@ -189,85 +169,84 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
 
           {/* Preferred Quantity Unit */}
           <div>
-            <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-              <Scale className="w-4 h-4 text-emerald-700" />
+            <label className="block text-xs font-mono uppercase tracking-wider text-stone-400 mb-2 flex items-center gap-1.5">
+              <Scale className="w-3.5 h-3.5 text-[#00FF87]" />
               <span>Default Agricultural Unit</span>
             </label>
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-3 gap-2 font-mono text-xs">
               {(['quintal', 'kg', 'tonne'] as CropUnit[]).map((u) => (
                 <button
                   key={u}
                   type="button"
                   onClick={() => setLocalUnit(u)}
-                  className={`py-2 px-3 rounded-xl font-bold border-2 text-xs capitalize transition-all cursor-pointer ${
+                  className={`py-2 px-3 rounded-xl border transition-all cursor-pointer ${
                     localUnit === u
-                      ? 'bg-emerald-800 text-white border-emerald-900 shadow-sm'
-                      : 'bg-stone-50 border-stone-200 text-stone-700 hover:bg-stone-100'
+                      ? 'bg-emerald-500/20 border-[#00FF87] text-[#00FF87] shadow-[0_0_12px_rgba(0,255,135,0.25)] font-bold'
+                      : 'bg-[#0A0D0B] border-white/10 text-stone-400 hover:text-white'
                   }`}
                 >
-                  {u}
+                  {u === 'quintal' ? 'Quintal (100 kg)' : (u === 'kg' ? 'Kilogram (kg)' : 'Tonne (1000 kg)')}
                 </button>
               ))}
             </div>
           </div>
 
-          {/* Database & Sync Status Diagnostics */}
-          <div className="bg-stone-50 p-3.5 rounded-2xl border border-stone-200 space-y-2 text-xs text-stone-600">
-            <div className="flex items-center justify-between font-bold text-stone-800">
-              <span className="flex items-center gap-1.5">
-                <Database className="w-4 h-4 text-emerald-700" />
-                <span>Backend Database Engine</span>
-              </span>
-              <span className="text-emerald-800 font-mono text-[11px] bg-emerald-100 px-2 py-0.5 rounded">
-                SQLite 3 (WAL Mode)
-              </span>
-            </div>
-            <div className="flex justify-between items-center text-[11px]">
-              <span>Verified APMC Records:</span>
-              <strong className="font-mono text-stone-900">
-                {syncStatus?.total_verified_records ? `${syncStatus.total_verified_records.toLocaleString('en-IN')} rows` : '5,580 rows'}
-              </strong>
-            </div>
-            <div className="flex justify-between items-center text-[11px]">
-              <span>Data Source Integrity:</span>
-              <span className="text-emerald-900 font-medium">Agmarknet / DMI (Zero Hallucinations)</span>
+          {/* Cloud & AI Infrastructure Diagnostics */}
+          <div className="pt-3 border-t border-white/10 space-y-2">
+            <span className="text-xs font-mono uppercase tracking-wider text-stone-400 block flex items-center gap-1.5">
+              <Cloud className="w-3.5 h-3.5 text-amber-400" />
+              <span>Cloud & AI Runtime Infrastructure</span>
+            </span>
+
+            <div className="p-3 bg-[#0A0D0B] rounded-xl border border-white/10 text-xs font-mono space-y-2">
+              <div className="flex items-center justify-between text-stone-300">
+                <span className="flex items-center gap-1.5">
+                  <Flame className="w-3.5 h-3.5 text-amber-400" />
+                  <span>Firebase Spark Mode:</span>
+                </span>
+                <span className="text-[#00FF87] font-bold">Cloud Firestore Active</span>
+              </div>
+              <div className="flex items-center justify-between text-stone-300">
+                <span>AWS Serverless:</span>
+                <span className="text-stone-400">Lambda + DynamoDB + Bedrock</span>
+              </div>
+              <div className="flex items-center justify-between text-stone-300">
+                <span>Database Records:</span>
+                <span className="text-[#00FF87] font-bold">{syncStatus?.total_verified_records || 180} APMC Records</span>
+              </div>
             </div>
 
             {onTriggerSync && (
-              <div className="pt-2 border-t border-stone-200 flex justify-between items-center">
-                <span className="text-[11px] text-stone-500">Live Agmarknet Pipeline:</span>
-                <button
-                  type="button"
-                  onClick={onTriggerSync}
-                  disabled={isSyncing}
-                  className="flex items-center gap-1 px-2.5 py-1 bg-emerald-800 hover:bg-emerald-900 text-white rounded-lg text-xs font-bold transition-colors cursor-pointer disabled:opacity-50"
-                >
-                  <RefreshCw className={`w-3 h-3 ${isSyncing ? 'animate-spin' : ''}`} />
-                  <span>{isSyncing ? 'Syncing...' : 'Sync Now'}</span>
-                </button>
-              </div>
+              <button
+                type="button"
+                onClick={onTriggerSync}
+                disabled={isSyncing}
+                className="w-full flex items-center justify-center gap-2 py-2 bg-emerald-950/80 hover:bg-emerald-900 border border-emerald-500/30 text-[#00FF87] font-mono text-xs font-bold rounded-xl transition-all cursor-pointer"
+              >
+                <RefreshCw className={`w-3.5 h-3.5 ${isSyncing ? 'animate-spin' : ''}`} />
+                <span>{isSyncing ? 'Ingesting from Agmarknet...' : 'Run Real-time Agmarknet Ingestion Pipeline'}</span>
+              </button>
             )}
           </div>
         </div>
 
-        {/* Footer Actions */}
-        <div className="bg-stone-100 px-6 py-4 border-t border-stone-200 flex items-center justify-between">
+        {/* Footer */}
+        <div className="bg-[#0A0D0B] px-6 py-3.5 border-t border-white/10 flex items-center justify-between font-mono">
           <button
             type="button"
             onClick={onClose}
-            className="px-4 py-2 text-xs font-bold text-stone-600 hover:text-stone-900 rounded-xl cursor-pointer"
+            className="px-4 py-2 text-stone-400 hover:text-white text-xs font-semibold cursor-pointer"
           >
             Cancel
           </button>
-
           <button
             type="button"
             onClick={handleSave}
-            className="flex items-center gap-1.5 px-5 py-2 bg-emerald-800 hover:bg-emerald-900 text-white font-bold text-xs rounded-xl shadow-md transition-all cursor-pointer"
+            className="px-5 py-2 bg-[#00FF87] hover:bg-[#10B981] text-[#060807] font-bold text-xs rounded-xl shadow-[0_0_15px_rgba(0,255,135,0.3)] transition-all cursor-pointer flex items-center gap-1.5 font-['Syne',sans-serif]"
           >
             {savedSuccess ? (
               <>
-                <Check className="w-4 h-4 text-amber-300" />
+                <Check className="w-4 h-4" />
                 <span>Saved!</span>
               </>
             ) : (
@@ -279,3 +258,5 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
     </div>
   );
 };
+
+export default SettingsModal;

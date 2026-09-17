@@ -8,6 +8,9 @@
     "dev": "node --watch server.js"
   },
   "dependencies": {
+    "@aws-sdk/client-bedrock-runtime": "^3.1134.0",
+    "@aws-sdk/client-dynamodb": "^3.1134.0",
+    "@aws-sdk/lib-dynamodb": "^3.1134.0",
     "cors": "^2.8.5",
     "express": "^4.21.2",
     "sqlite3": "^6.0.1"

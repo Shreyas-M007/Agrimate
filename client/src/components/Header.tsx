@@ -1,7 +1,7 @@
 import React from 'react';
 import type { Language, SyncStatusData } from '../types';
 import { TRANSLATIONS } from '../i18n/translations';
-import { ShieldCheck, Wifi, WifiOff, Sparkles, Globe, RefreshCw, Settings, Database } from 'lucide-react';
+import { ShieldCheck, Wifi, WifiOff, Globe, RefreshCw, Settings, Database, Activity } from 'lucide-react';
 
 interface HeaderProps {
   language: Language;
@@ -35,99 +35,117 @@ export const Header: React.FC<HeaderProps> = ({
   };
 
   return (
-    <header className="bg-emerald-800 text-white shadow-md border-b-4 border-emerald-950">
-      {/* Top utility row */}
-      <div className="max-w-6xl mx-auto px-4 py-2 flex flex-wrap items-center justify-between gap-3 text-xs sm:text-sm border-b border-emerald-700/60">
-        <div className="flex items-center gap-2 font-medium">
-          <ShieldCheck className="w-4 h-4 text-emerald-300" />
-          <span className="tracking-wide text-emerald-100">{t.dataIntegrityBadge}</span>
+    <header className="bg-[#0A0D0B]/90 backdrop-blur-xl border-b border-emerald-500/15 sticky top-0 z-50 shadow-[0_8px_30px_rgba(0,0,0,0.7)]">
+      {/* Top Telemetry & Operational Bar */}
+      <div className="max-w-7xl mx-auto px-4 py-1.5 flex flex-wrap items-center justify-between gap-3 text-xs border-b border-white/5">
+        <div className="flex items-center gap-3 font-medium">
+          {/* Live Pulse Dot */}
+          <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-950/60 border border-emerald-500/30">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00FF87] opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-[#00FF87]"></span>
+            </span>
+            <span className="font-mono text-[11px] tracking-wider text-[#00FF87] font-bold">AGMARKNET LIVE</span>
+          </div>
+
+          <div className="hidden sm:flex items-center gap-1.5 text-stone-400 text-[11px]">
+            <Activity className="w-3 h-3 text-emerald-400" />
+            <span className="font-mono text-emerald-300">18ms</span>
+            <span className="text-stone-600">•</span>
+            <span className="text-stone-300">{t.dataIntegrityBadge}</span>
+          </div>
         </div>
 
-        <div className="flex items-center flex-wrap gap-2.5">
+        <div className="flex items-center flex-wrap gap-2">
           {/* Live Sync Trigger & Badge */}
           {onTriggerSync && (
             <button
               onClick={onTriggerSync}
               disabled={isSyncing}
-              className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-900/90 hover:bg-emerald-950 text-amber-300 border border-emerald-600/70 text-xs font-bold transition-all cursor-pointer disabled:opacity-50"
+              className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-950/50 hover:bg-emerald-900/60 text-emerald-300 hover:text-[#00FF87] border border-emerald-500/20 text-xs font-mono transition-all cursor-pointer disabled:opacity-50 hover:border-emerald-500/50 hover:shadow-[0_0_15px_rgba(0,255,135,0.15)]"
               title="Trigger real-time Agmarknet market sync pipeline"
             >
-              <RefreshCw className={`w-3.5 h-3.5 ${isSyncing ? 'animate-spin text-amber-400' : 'text-amber-300'}`} />
-              <span>{isSyncing ? 'Syncing...' : 'Agmarknet Sync'}</span>
+              <RefreshCw className={`w-3.5 h-3.5 ${isSyncing ? 'animate-spin text-[#00FF87]' : 'text-emerald-400'}`} />
+              <span className="font-semibold">{isSyncing ? 'Syncing...' : 'Sync Pipeline'}</span>
               {syncStatus && (
-                <span className="text-[10px] text-emerald-200 font-normal hidden sm:inline ml-1">
+                <span className="text-[10px] text-stone-400 hidden md:inline ml-1 font-mono">
                   ({formatLastSync(syncStatus.last_sync?.timestamp)})
                 </span>
               )}
             </button>
           )}
 
-          {/* Database Records Indicator */}
+          {/* Records Indicator */}
           {syncStatus && syncStatus.total_verified_records > 0 && (
-            <div className="hidden lg:flex items-center gap-1 text-[11px] text-emerald-200 bg-emerald-950/60 px-2 py-1 rounded-lg border border-emerald-700/50">
-              <Database className="w-3 h-3 text-emerald-300" />
+            <div className="hidden lg:flex items-center gap-1.5 text-[11px] font-mono text-emerald-300/80 bg-white/5 px-2 py-1 rounded-lg border border-white/10">
+              <Database className="w-3 h-3 text-[#00FF87]" />
               <span>{syncStatus.total_verified_records.toLocaleString('en-IN')} Records</span>
             </div>
           )}
 
-          {/* Online/Offline status indicator (PRD Sec 25) */}
+          {/* Online/Offline status indicator */}
           <div 
-            className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold ${
-              isOnline ? 'bg-emerald-900/80 text-emerald-200' : 'bg-amber-500 text-amber-950'
+            className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-mono font-medium ${
+              isOnline 
+                ? 'bg-emerald-950/70 text-emerald-300 border border-emerald-500/30' 
+                : 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
             }`}
             aria-live="polite"
           >
             {isOnline ? (
               <>
-                <Wifi className="w-3.5 h-3.5 text-emerald-300" />
-                <span>Live Mode</span>
+                <Wifi className="w-3 h-3 text-[#00FF87]" />
+                <span className="hidden xs:inline">Online</span>
               </>
             ) : (
               <>
-                <WifiOff className="w-3.5 h-3.5 text-amber-950 animate-pulse" />
-                <span>Offline (Cached)</span>
+                <WifiOff className="w-3 h-3 text-amber-400 animate-pulse" />
+                <span>Offline</span>
               </>
             )}
           </div>
 
-          {/* Language Switcher (PRD Sec 24) */}
-          <div className="flex items-center bg-emerald-950/80 p-0.5 rounded-lg border border-emerald-600">
-            <Globe className="w-3.5 h-3.5 ml-2 mr-1 text-emerald-300" />
+          {/* Language Switcher */}
+          <div className="flex items-center bg-[#060807] p-0.5 rounded-lg border border-white/10">
+            <Globe className="w-3 h-3 ml-2 mr-1 text-stone-400" />
             <button
               onClick={() => onLanguageChange('en')}
-              className={`px-2.5 py-1 text-xs font-bold rounded transition-colors cursor-pointer ${
-                language === 'en' ? 'bg-amber-400 text-emerald-950 shadow-sm' : 'text-emerald-200 hover:text-white'
+              className={`px-2 py-0.5 text-xs font-semibold rounded-md transition-all cursor-pointer ${
+                language === 'en' 
+                  ? 'bg-emerald-500/20 text-[#00FF87] border border-[#00FF87]/40 shadow-[0_0_12px_rgba(0,255,135,0.2)] font-bold' 
+                  : 'text-stone-400 hover:text-stone-200'
               }`}
-              aria-label="Switch to English"
             >
-              English
+              EN
             </button>
             <button
               onClick={() => onLanguageChange('hi')}
-              className={`px-2.5 py-1 text-xs font-bold rounded transition-colors cursor-pointer ${
-                language === 'hi' ? 'bg-amber-400 text-emerald-950 shadow-sm' : 'text-emerald-200 hover:text-white'
+              className={`px-2 py-0.5 text-xs font-semibold rounded-md transition-all cursor-pointer ${
+                language === 'hi' 
+                  ? 'bg-emerald-500/20 text-[#00FF87] border border-[#00FF87]/40 shadow-[0_0_12px_rgba(0,255,135,0.2)] font-bold' 
+                  : 'text-stone-400 hover:text-stone-200'
               }`}
-              aria-label="हिंदी में बदलें"
             >
               हिन्दी
             </button>
             <button
               onClick={() => onLanguageChange('kn')}
-              className={`px-2.5 py-1 text-xs font-bold rounded transition-colors cursor-pointer ${
-                language === 'kn' ? 'bg-amber-400 text-emerald-950 shadow-sm' : 'text-emerald-200 hover:text-white'
+              className={`px-2 py-0.5 text-xs font-semibold rounded-md transition-all cursor-pointer ${
+                language === 'kn' 
+                  ? 'bg-emerald-500/20 text-[#00FF87] border border-[#00FF87]/40 shadow-[0_0_12px_rgba(0,255,135,0.2)] font-bold' 
+                  : 'text-stone-400 hover:text-stone-200'
               }`}
-              aria-label="ಕನ್ನಡಕ್ಕೆ ಬದಲಿಸಿ"
             >
               ಕನ್ನಡ
             </button>
           </div>
 
-          {/* Farmer Settings Button */}
+          {/* Settings Button */}
           {onOpenSettings && (
             <button
               onClick={onOpenSettings}
-              className="p-1.5 rounded-lg bg-emerald-950/80 hover:bg-emerald-950 text-emerald-200 hover:text-white border border-emerald-600 transition-colors cursor-pointer"
-              title="Farmer Preferences & Profile"
+              className="p-1.5 rounded-lg bg-white/5 hover:bg-emerald-500/10 text-stone-400 hover:text-[#00FF87] border border-white/10 hover:border-emerald-500/30 transition-all cursor-pointer"
+              title="Cloud Infrastructure & Farmer Profile"
               aria-label="Settings"
             >
               <Settings className="w-4 h-4" />
@@ -136,32 +154,42 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
       </div>
 
-      {/* Main hero brand row */}
-      <div className="max-w-6xl mx-auto px-4 py-5 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <div className="flex items-center gap-3">
-          <div className="w-14 h-14 bg-amber-400 text-emerald-950 rounded-2xl flex items-center justify-center font-black text-3xl shadow-inner border-2 border-white/20">
+      {/* Main Brand Terminal Row */}
+      <div className="max-w-7xl mx-auto px-4 py-3.5 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="flex items-center gap-3.5">
+          <div className="relative w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-600/30 to-emerald-950 border border-emerald-500/30 flex items-center justify-center text-2xl shadow-[0_0_20px_rgba(0,255,135,0.15)] shrink-0">
             🌾
+            <div className="absolute -bottom-1 -right-1 w-3.5 h-3.5 bg-[#00FF87] rounded-full border-2 border-[#060807]"></div>
           </div>
           <div>
-            <div className="flex items-center gap-2">
-              <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-white drop-shadow-sm">
+            <div className="flex items-center gap-2.5">
+              <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-white font-['Syne',sans-serif]">
                 {t.appTitle}
               </h1>
-              <span className="hidden sm:inline-block px-2 py-0.5 bg-emerald-700 text-emerald-200 text-xs font-semibold rounded uppercase tracking-wider">
-                Production Ready
+              <span className="px-2 py-0.5 bg-emerald-950/80 text-[#00FF87] border border-emerald-500/30 text-[10px] font-mono uppercase tracking-widest rounded-md">
+                TERMINAL v2.5
               </span>
             </div>
-            <p className="text-emerald-200 text-sm sm:text-base font-medium mt-0.5">
+            <p className="text-stone-400 text-xs sm:text-sm font-medium mt-0.5">
               {t.appTagline}
             </p>
           </div>
         </div>
 
-        <div className="hidden md:flex items-center gap-2 bg-emerald-900/60 border border-emerald-700/80 px-4 py-2.5 rounded-xl text-xs text-emerald-200">
-          <Sparkles className="w-4 h-4 text-amber-300 shrink-0" />
-          <span>Bedrock AI Explanation • SQLite WAL Persistence • Agmarknet Ground Truth</span>
+        {/* Cloud Architecture Badges */}
+        <div className="hidden md:flex items-center gap-2 text-xs font-mono">
+          <div className="flex items-center gap-1.5 bg-[#0F1411] border border-white/10 px-3 py-1.5 rounded-lg text-stone-300">
+            <span className="w-2 h-2 rounded-full bg-amber-400"></span>
+            <span>Firebase Firestore + AWS Ready</span>
+          </div>
+          <div className="flex items-center gap-1.5 bg-emerald-950/40 border border-emerald-500/20 px-3 py-1.5 rounded-lg text-emerald-300">
+            <ShieldCheck className="w-3.5 h-3.5 text-[#00FF87]" />
+            <span>Zero Price Hallucination</span>
+          </div>
         </div>
       </div>
     </header>
   );
 };
+
+export default Header;

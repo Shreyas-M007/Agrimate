@@ -1,15 +1,81 @@
 @import "tailwindcss";
 
+@theme {
+  --font-display: 'Syne', sans-serif;
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'Inter', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  --color-obsidian-950: #060807;
+  --color-obsidian-900: #0A0D0B;
+  --color-obsidian-850: #0D120E;
+  --color-obsidian-800: #111713;
+  --color-obsidian-750: #161E19;
+  --color-obsidian-700: #1D2721;
+  --color-obsidian-600: #28372E;
+
+  --color-mint-neon: #00FF87;
+  --color-mint-glow: rgba(0, 255, 135, 0.25);
+  --color-emerald-accent: #10B981;
+  --color-brass-gold: #F59E0B;
+}
+
 @layer base {
   body {
-    @apply bg-stone-50 text-stone-900 antialiased min-h-screen font-sans;
-    font-size: 16px;
+    background-color: #060807;
+    color: #F3F4F6;
+    font-family: var(--font-sans);
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  /* Monospace figures for financial rates */
+  .tnum {
+    font-variant-numeric: tabular-nums;
   }
 }
 
-/* Custom accessibility scrollbars and utility classes */
-.focus-ring {
-  @apply focus:outline-none focus:ring-4 focus:ring-emerald-600/40 focus:border-emerald-700;
+/* Glassmorphism styling per Figma system */
+.glass-panel {
+  background: rgba(15, 20, 17, 0.72);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(16, 185, 129, 0.15);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5), inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+}
+
+.glass-panel-elevated {
+  background: rgba(21, 28, 23, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(0, 255, 135, 0.22);
+  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.7), 0 0 20px -2px rgba(0, 255, 135, 0.12), inset 0 1px 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.glow-mint {
+  box-shadow: 0 0 25px -4px rgba(0, 255, 135, 0.35);
+}
+
+.glow-subtle {
+  box-shadow: 0 0 35px -5px rgba(16, 185, 129, 0.12);
+}
+
+.hairline-border {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Custom dark scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #060807;
+}
+::-webkit-scrollbar-thumb {
+  background: #1D2721;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #10B981;
 }
 
 /* Print styles for selling checklist */
@@ -20,5 +86,11 @@
   }
   .no-print {
     display: none !important;
+  }
+  .glass-panel, .glass-panel-elevated {
+    background: white !important;
+    border: 1px solid #ccc !important;
+    box-shadow: none !important;
+    color: black !important;
   }
 }

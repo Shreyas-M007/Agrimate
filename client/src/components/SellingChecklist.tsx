@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import confetti from 'canvas-confetti';
 import type { Language, SellingChecklistData } from '../types';
 import { TRANSLATIONS } from '../i18n/translations';
-import { CheckSquare, Square, Printer, CheckCircle2, Trophy } from 'lucide-react';
+import { CheckSquare, Square, Printer, CheckCircle2, Trophy, RotateCcw } from 'lucide-react';
 
 interface SellingChecklistProps {
   crop: string;
@@ -109,8 +109,8 @@ export const SellingChecklist: React.FC<SellingChecklistProps> = ({
 
   if (loading) {
     return (
-      <div className="bg-white rounded-3xl border-2 border-stone-200 p-8 text-center text-sm text-stone-600">
-        Loading 11-step selling checklist...
+      <div className="glass-panel rounded-3xl border border-white/10 p-8 text-center text-xs font-mono text-stone-500">
+        Loading 11-step selling protocol checklist...
       </div>
     );
   }
@@ -123,33 +123,34 @@ export const SellingChecklist: React.FC<SellingChecklistProps> = ({
   const isAllComplete = completedCount === totalSteps;
 
   return (
-    <div className="bg-white rounded-3xl border-2 border-stone-200 overflow-hidden shadow-lg">
+    <div className="glass-panel rounded-3xl border border-emerald-500/20 overflow-hidden shadow-[0_12px_40px_rgba(0,0,0,0.8)]">
       {/* Header */}
-      <div className="bg-gradient-to-r from-stone-100 to-stone-50 border-b border-stone-200 px-6 py-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="bg-[#0D120E] border-b border-white/10 px-6 py-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h3 className="text-xl sm:text-2xl font-black text-stone-900 flex items-center gap-2">
-            <CheckSquare className="w-6 h-6 text-emerald-700" />
+          <h3 className="text-xl sm:text-2xl font-bold text-white flex items-center gap-2.5 font-['Syne',sans-serif]">
+            <CheckSquare className="w-6 h-6 text-[#00FF87]" />
             <span>{checklist.title}</span>
           </h3>
-          <p className="text-xs sm:text-sm text-stone-600 mt-1">
+          <p className="text-xs font-mono text-stone-400 mt-1">
             {t.checklistSubtitle}
           </p>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 font-mono">
           {completedCount > 0 && (
             <button
               type="button"
               onClick={handleResetChecklist}
-              className="no-print px-3 py-2 bg-stone-100 hover:bg-stone-200 text-stone-700 text-xs font-bold rounded-xl transition-all cursor-pointer border border-stone-300"
+              className="no-print flex items-center gap-1 px-3 py-1.5 bg-white/5 hover:bg-white/10 text-stone-300 text-xs font-semibold rounded-xl border border-white/10 transition-all cursor-pointer"
             >
-              Reset
+              <RotateCcw className="w-3 h-3" />
+              <span>Reset</span>
             </button>
           )}
           <button
             type="button"
             onClick={handlePrint}
-            className="no-print flex items-center gap-1.5 px-4 py-2 bg-stone-200 hover:bg-stone-300 text-stone-800 text-xs sm:text-sm font-bold rounded-xl transition-all shadow-xs cursor-pointer"
+            className="no-print flex items-center gap-1.5 px-3.5 py-1.5 bg-emerald-950/80 hover:bg-emerald-900 text-[#00FF87] text-xs font-bold rounded-xl border border-emerald-500/30 transition-all cursor-pointer shadow-[0_0_12px_rgba(0,255,135,0.15)]"
           >
             <Printer className="w-4 h-4" />
             <span>{t.printChecklist}</span>
@@ -159,31 +160,31 @@ export const SellingChecklist: React.FC<SellingChecklistProps> = ({
 
       <div className="p-6 sm:p-8 space-y-6">
         {/* Progress Bar & Achievement Banner */}
-        <div className="bg-stone-50 rounded-2xl p-4 border border-stone-200">
-          <div className="flex items-center justify-between text-xs sm:text-sm font-bold text-stone-700 mb-2">
+        <div className="bg-[#0A0D0B] rounded-2xl p-4 border border-white/10 shadow-inner font-mono">
+          <div className="flex items-center justify-between text-xs text-stone-300 mb-2">
             <span className="flex items-center gap-1.5">
               <span>{t.checklistProgress}:</span>
-              <strong className="text-emerald-800">{completedCount} / {totalSteps} Steps</strong>
+              <strong className="text-[#00FF87]">{completedCount} / {totalSteps} Steps Cleared</strong>
             </span>
-            <span className="font-mono font-black text-emerald-900 text-base">{progressPercent}%</span>
+            <span className="font-bold text-[#00FF87] text-sm">{progressPercent}%</span>
           </div>
-          <div className="w-full h-3 bg-stone-200 rounded-full overflow-hidden shadow-inner">
+          <div className="w-full h-2.5 bg-white/5 rounded-full overflow-hidden shadow-inner">
             <div 
-              className="h-full bg-gradient-to-r from-emerald-600 to-emerald-700 transition-all duration-500 rounded-full shadow"
+              className="h-full bg-gradient-to-r from-emerald-600 to-[#00FF87] transition-all duration-500 rounded-full shadow-[0_0_10px_rgba(0,255,135,0.5)]"
               style={{ width: `${progressPercent}%` }}
             />
           </div>
 
           {/* Celebration Banner when 100% */}
           {isAllComplete && (
-            <div className="mt-4 p-4 bg-gradient-to-r from-amber-100 to-emerald-100 border-2 border-emerald-400 rounded-xl flex items-center gap-3 text-emerald-950 animate-in fade-in zoom-in-95">
-              <div className="p-2 bg-amber-400 text-emerald-950 rounded-xl shadow">
+            <div className="mt-4 p-4 bg-gradient-to-r from-emerald-950 to-[#0D120E] border border-[#00FF87]/60 rounded-xl flex items-center gap-3 text-white shadow-[0_0_25px_rgba(0,255,135,0.2)]">
+              <div className="p-2 bg-[#00FF87] text-[#060807] rounded-xl shadow font-black">
                 <Trophy className="w-6 h-6" />
               </div>
               <div>
-                <h4 className="font-black text-base">You are 100% Prepared for the Mandi!</h4>
-                <p className="text-xs text-emerald-900 mt-0.5">
-                  All price verification, loading counts, weighbridge checks, and statutory payment rules are confirmed.
+                <h4 className="font-bold text-base text-[#00FF87] font-['Syne',sans-serif]">Mandi Clearance Protocol Complete!</h4>
+                <p className="text-xs text-stone-300 mt-0.5">
+                  All price verification, gate passes, weighbridge tickets, and statutory APMC payment rules are secured.
                 </p>
               </div>
             </div>
@@ -191,7 +192,7 @@ export const SellingChecklist: React.FC<SellingChecklistProps> = ({
         </div>
 
         {/* 11 Steps List */}
-        <div className="space-y-3.5">
+        <div className="space-y-3">
           {checklist.steps.map((step) => {
             const isChecked = checkedIds.includes(step.id);
 
@@ -199,39 +200,39 @@ export const SellingChecklist: React.FC<SellingChecklistProps> = ({
               <div
                 key={step.id}
                 onClick={() => toggleCheck(step.id)}
-                className={`p-4 sm:p-5 rounded-2xl border-2 transition-all cursor-pointer flex items-start gap-4 ${
+                className={`p-4 sm:p-5 rounded-2xl border transition-all cursor-pointer flex items-start gap-4 ${
                   isChecked 
-                    ? 'bg-emerald-50/70 border-emerald-400 text-emerald-950 shadow-xs' 
-                    : 'bg-white border-stone-200 hover:border-emerald-300 hover:shadow-md'
+                    ? 'bg-emerald-950/30 border-[#00FF87]/40 text-stone-300 shadow-[0_0_15px_rgba(0,255,135,0.08)]' 
+                    : 'bg-[#0A0D0B] border-white/10 hover:border-emerald-500/40 hover:bg-[#111713]'
                 }`}
               >
-                <div className="mt-0.5 shrink-0 text-emerald-700">
+                <div className="mt-0.5 shrink-0">
                   {isChecked ? (
-                    <CheckCircle2 className="w-6 h-6 text-emerald-700 animate-in zoom-in" />
+                    <CheckCircle2 className="w-5 h-5 text-[#00FF87] drop-shadow-[0_0_8px_rgba(0,255,135,0.8)]" />
                   ) : (
-                    <Square className="w-6 h-6 text-stone-300 hover:text-stone-400" />
+                    <Square className="w-5 h-5 text-stone-600 hover:text-stone-400" />
                   )}
                 </div>
 
                 <div className="flex-1 min-w-0">
-                  <div className="flex flex-wrap items-center gap-2 mb-1.5">
-                    <span className="text-xs font-black bg-stone-200 text-stone-800 px-2.5 py-0.5 rounded-md">
+                  <div className="flex flex-wrap items-center gap-2 mb-1.5 font-mono text-[11px]">
+                    <span className="font-bold bg-white/10 text-stone-300 px-2 py-0.5 rounded">
                       Step {step.id}
                     </span>
-                    <span className="text-xs font-bold text-stone-600 bg-stone-100 px-2.5 py-0.5 rounded-md">
+                    <span className="text-stone-400 bg-white/5 px-2 py-0.5 rounded">
                       {step.category}
                     </span>
                     {step.important && (
-                      <span className="text-[10px] font-black uppercase tracking-wider bg-rose-100 text-rose-800 px-2 py-0.5 rounded-md">
+                      <span className="font-bold uppercase tracking-wider bg-rose-950/80 text-rose-300 border border-rose-500/30 px-2 py-0.5 rounded">
                         Critical
                       </span>
                     )}
                   </div>
 
-                  <h4 className={`text-base font-bold transition-colors ${isChecked ? 'line-through text-stone-500' : 'text-stone-900'}`}>
+                  <h4 className={`text-sm sm:text-base font-bold transition-colors ${isChecked ? 'line-through text-stone-500' : 'text-white'}`}>
                     {step.title}
                   </h4>
-                  <p className="text-xs sm:text-sm text-stone-600 mt-1 leading-relaxed">
+                  <p className="text-xs text-stone-400 mt-1 leading-relaxed">
                     {step.desc}
                   </p>
                 </div>
@@ -243,3 +244,5 @@ export const SellingChecklist: React.FC<SellingChecklistProps> = ({
     </div>
   );
 };
+
+export default SellingChecklist;

@@ -60,27 +60,27 @@ export const ExplainModal: React.FC<ExplainModalProps> = ({
 
   return (
     <div 
-      className="fixed inset-0 z-50 bg-stone-900/60 backdrop-blur-xs flex items-center justify-center p-4 cursor-pointer"
+      className="fixed inset-0 z-50 bg-[#060807]/80 backdrop-blur-md flex items-center justify-center p-4 cursor-pointer"
       role="dialog"
       aria-modal="true"
       onClick={onClose}
     >
       <div 
-        className="bg-white rounded-3xl max-w-lg w-full overflow-hidden shadow-2xl border-2 border-stone-300 animate-in fade-in zoom-in-95 duration-200 cursor-default"
+        className="glass-panel-elevated rounded-3xl max-w-lg w-full overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.95)] border border-emerald-500/30 animate-in fade-in zoom-in-95 duration-200 cursor-default"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="bg-emerald-800 text-white px-6 py-4 flex items-center justify-between">
+        <div className="bg-[#0D120E] border-b border-white/10 px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <BookOpen className="w-5 h-5 text-amber-400" />
-            <h2 className="text-lg font-black tracking-tight">
+            <BookOpen className="w-5 h-5 text-[#00FF87]" />
+            <h2 className="text-lg font-bold tracking-tight text-white font-['Syne',sans-serif]">
               {t.educationalModalTitle}
             </h2>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="p-1 rounded-full hover:bg-emerald-700 text-emerald-200 hover:text-white transition-colors cursor-pointer"
+            className="p-1.5 rounded-lg hover:bg-white/10 text-stone-400 hover:text-white transition-colors cursor-pointer"
             aria-label="Close"
           >
             <X className="w-5 h-5" />
@@ -88,16 +88,16 @@ export const ExplainModal: React.FC<ExplainModalProps> = ({
         </div>
 
         {/* Term Tabs */}
-        <div className="flex border-b border-stone-200 bg-stone-50 p-1.5 gap-1 overflow-x-auto">
+        <div className="flex border-b border-white/10 bg-[#0A0D0B] p-2 gap-1.5 overflow-x-auto font-mono text-xs">
           {termsList.map((item) => (
             <button
               key={item.key}
               type="button"
               onClick={() => setActiveTab(item.key)}
-              className={`px-3 py-1.5 text-xs font-bold rounded-xl whitespace-nowrap transition-all cursor-pointer ${
+              className={`px-3 py-1.5 rounded-xl whitespace-nowrap transition-all cursor-pointer ${
                 activeTab === item.key 
-                  ? 'bg-emerald-700 text-white shadow-xs' 
-                  : 'text-stone-700 hover:bg-stone-200'
+                  ? 'bg-emerald-500/20 text-[#00FF87] border border-[#00FF87]/40 shadow-[0_0_12px_rgba(0,255,135,0.2)] font-bold' 
+                  : 'text-stone-400 hover:text-white hover:bg-white/5'
               }`}
             >
               {item.label}
@@ -110,49 +110,49 @@ export const ExplainModal: React.FC<ExplainModalProps> = ({
           {termData ? (
             <>
               <div>
-                <h3 className="text-xl font-black text-stone-900 mb-1">
+                <h3 className="text-xl font-bold text-white mb-1.5 font-['Syne',sans-serif]">
                   {termData.title}
                 </h3>
-                <p className="text-sm text-stone-700 leading-relaxed font-medium">
+                <p className="text-sm text-stone-300 leading-relaxed">
                   {termData.definition}
                 </p>
               </div>
 
               {/* Real life analogy */}
-              <div className="bg-amber-50 rounded-2xl p-4 border border-amber-200">
-                <div className="flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-amber-900 mb-1.5">
-                  <Compass className="w-4 h-4 text-amber-700" />
+              <div className="bg-[#0A0D0B] rounded-2xl p-4 border border-amber-500/30">
+                <div className="flex items-center gap-1.5 text-xs font-mono uppercase tracking-wider text-amber-400 font-bold mb-1.5">
+                  <Compass className="w-4 h-4 text-amber-400" />
                   <span>Farmer Analogy (सरल उदाहरण)</span>
                 </div>
-                <p className="text-xs sm:text-sm text-amber-950 leading-relaxed">
+                <p className="text-xs sm:text-sm text-stone-200 leading-relaxed font-mono">
                   {termData.analogy}
                 </p>
               </div>
 
               {/* Actionable Tip */}
-              <div className="bg-emerald-50 rounded-2xl p-4 border border-emerald-200">
-                <div className="flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-emerald-900 mb-1.5">
-                  <Lightbulb className="w-4 h-4 text-emerald-700" />
-                  <span>Practical Selling Advice</span>
+              <div className="bg-[#0A0D0B] rounded-2xl p-4 border border-emerald-500/30">
+                <div className="flex items-center gap-1.5 text-xs font-mono uppercase tracking-wider text-[#00FF87] font-bold mb-1.5">
+                  <Lightbulb className="w-4 h-4 text-[#00FF87]" />
+                  <span>Field Action Tip</span>
                 </div>
-                <p className="text-xs sm:text-sm text-emerald-950 leading-relaxed font-medium">
+                <p className="text-xs sm:text-sm text-stone-200 leading-relaxed">
                   {termData.farmerTip}
                 </p>
               </div>
             </>
           ) : (
-            <div className="py-8 text-center text-sm text-stone-600">
-              Loading definition...
+            <div className="py-8 text-center text-xs font-mono text-stone-500">
+              Loading terminology telemetry...
             </div>
           )}
         </div>
 
         {/* Footer */}
-        <div className="bg-stone-100 px-6 py-3 border-t border-stone-200 flex justify-end">
+        <div className="bg-[#0A0D0B] px-6 py-3.5 border-t border-white/10 flex justify-end">
           <button
             type="button"
             onClick={onClose}
-            className="px-5 py-2 bg-stone-800 hover:bg-stone-900 text-white text-xs font-black rounded-xl transition-colors cursor-pointer"
+            className="px-5 py-2 bg-white/10 hover:bg-[#00FF87] text-white hover:text-[#060807] text-xs font-mono font-bold rounded-xl transition-all cursor-pointer"
           >
             {t.close}
           </button>
@@ -161,3 +161,5 @@ export const ExplainModal: React.FC<ExplainModalProps> = ({
     </div>
   );
 };
+
+export default ExplainModal;

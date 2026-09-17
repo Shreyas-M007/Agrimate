@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import type { Language, CropUnit } from '../types';
 import { TRANSLATIONS } from '../i18n/translations';
-import { Mic, MicOff, Sparkles, CornerDownLeft, CheckCircle2 } from 'lucide-react';
+import { Mic, MicOff, CornerDownLeft, CheckCircle2, Terminal } from 'lucide-react';
 
 interface NaturalQueryProps {
   language: Language;
@@ -78,14 +78,19 @@ export const NaturalQuery: React.FC<NaturalQueryProps> = ({
   };
 
   return (
-    <div className="bg-gradient-to-br from-emerald-50 to-amber-50 rounded-2xl p-5 border-2 border-emerald-300 shadow-sm">
-      <div className="flex items-center gap-2 mb-2">
-        <Sparkles className="w-5 h-5 text-amber-600" />
-        <h3 className="font-black text-stone-900 text-base">
-          {t.searchTabNlp} (Bedrock NLP Layer)
-        </h3>
+    <div className="glass-panel rounded-2xl p-5 border border-emerald-500/25 shadow-[0_12px_40px_rgba(0,0,0,0.8)]">
+      <div className="flex items-center justify-between gap-2 mb-2">
+        <div className="flex items-center gap-2">
+          <Terminal className="w-5 h-5 text-[#00FF87]" />
+          <h3 className="font-bold text-white text-base font-['Syne',sans-serif]">
+            {t.searchTabNlp} <span className="text-stone-500 font-mono text-xs">(Bedrock NLU Engine)</span>
+          </h3>
+        </div>
+        <span className="text-[10px] font-mono text-[#00FF87] bg-emerald-950/70 border border-emerald-500/30 px-2 py-0.5 rounded-full">
+          STRICT DETERMINISTIC PARSING
+        </span>
       </div>
-      <p className="text-xs text-stone-600 mb-3">
+      <p className="text-xs font-mono text-stone-400 mb-3.5">
         {t.nlpPrompt}
       </p>
 
@@ -107,7 +112,7 @@ export const NaturalQuery: React.FC<NaturalQueryProps> = ({
                 ? "जैसे: 'बेल्लारी में 500 किलो टमाटर बेचना है'" 
                 : (language === 'kn' ? "ಉದಾ: 'ಬಳ್ಳಾರಿಯಲ್ಲಿ 500 ಕೆಜಿ ಟೊಮೆಟೊ'" : "e.g. 'I want to sell 500 kg tomato in Ballari'")
             }
-            className="w-full pl-4 pr-10 py-3 bg-white border-2 border-emerald-400 rounded-xl text-stone-900 font-medium text-sm focus:outline-none focus:ring-4 focus:ring-emerald-600/30"
+            className="w-full pl-4 pr-10 py-3 bg-[#0A0D0B] border border-white/15 rounded-xl text-white font-mono text-sm placeholder:text-stone-600 focus:outline-none focus:border-[#00FF87] focus:ring-1 focus:ring-[#00FF87] transition-all"
           />
         </div>
 
@@ -116,14 +121,14 @@ export const NaturalQuery: React.FC<NaturalQueryProps> = ({
           type="button"
           onClick={handleVoiceInput}
           title={isListening ? t.nlpListening : t.nlpMicStart}
-          className={`px-3.5 py-3 rounded-xl border-2 flex items-center justify-center transition-all cursor-pointer ${
+          className={`px-3.5 py-3 rounded-xl border flex items-center justify-center transition-all cursor-pointer ${
             isListening 
-              ? 'bg-red-600 border-red-700 text-white animate-pulse' 
-              : 'bg-emerald-700 hover:bg-emerald-800 border-emerald-800 text-white'
+              ? 'bg-red-600/90 border-red-500 text-white animate-pulse shadow-[0_0_20px_rgba(239,68,68,0.5)]' 
+              : 'bg-white/5 hover:bg-emerald-500/10 border-white/15 hover:border-emerald-500/30 text-stone-300 hover:text-[#00FF87]'
           }`}
           aria-label={t.nlpMicStart}
         >
-          {isListening ? <MicOff className="w-5 h-5" /> : <Mic className="w-5 h-5" />}
+          {isListening ? <MicOff className="w-5 h-5 text-white" /> : <Mic className="w-5 h-5" />}
         </button>
 
         {/* Submit button */}
@@ -131,10 +136,10 @@ export const NaturalQuery: React.FC<NaturalQueryProps> = ({
           type="button"
           onClick={() => parseAndApply(queryText)}
           disabled={isProcessing || !queryText.trim()}
-          className="px-4 py-3 bg-emerald-800 hover:bg-emerald-900 text-white font-bold text-sm rounded-xl transition-all flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
+          className="px-5 py-3 bg-[#00FF87] hover:bg-[#10B981] text-[#060807] font-black text-sm rounded-xl transition-all flex items-center gap-1.5 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_0_20px_rgba(0,255,135,0.25)] font-['Syne',sans-serif]"
         >
           {isProcessing ? (
-            <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+            <div className="w-4 h-4 border-2 border-[#060807] border-t-transparent rounded-full animate-spin" />
           ) : (
             <>
               <CornerDownLeft className="w-4 h-4" />
@@ -145,8 +150,8 @@ export const NaturalQuery: React.FC<NaturalQueryProps> = ({
       </div>
 
       {/* Sample Quick Prompts */}
-      <div className="flex flex-wrap gap-2 mt-3 items-center">
-        <span className="text-[11px] font-bold text-stone-600 uppercase tracking-wider">Try:</span>
+      <div className="flex flex-wrap gap-2 mt-3.5 items-center">
+        <span className="text-[11px] font-mono uppercase tracking-wider text-stone-500">Quick Prompt:</span>
         {samplePrompts.map((prompt, idx) => {
           const label = language === 'hi' ? prompt.hi : (language === 'kn' ? prompt.kn : prompt.en);
           return (
@@ -157,7 +162,7 @@ export const NaturalQuery: React.FC<NaturalQueryProps> = ({
                 setQueryText(label);
                 parseAndApply(label);
               }}
-              className="text-xs bg-white hover:bg-emerald-100/70 border border-emerald-300 text-emerald-950 font-semibold px-2.5 py-1 rounded-lg transition-colors cursor-pointer"
+              className="text-xs font-mono bg-[#111713] hover:bg-emerald-950/60 border border-white/10 hover:border-emerald-500/40 text-stone-300 hover:text-[#00FF87] px-2.5 py-1 rounded-lg transition-all cursor-pointer"
             >
               "{label}"
             </button>
@@ -167,18 +172,20 @@ export const NaturalQuery: React.FC<NaturalQueryProps> = ({
 
       {/* Structured parsed preview verification */}
       {parsedPreview && (
-        <div className="mt-3 p-2.5 bg-emerald-100/70 border border-emerald-300 rounded-xl flex items-center justify-between text-xs text-emerald-950">
+        <div className="mt-3.5 p-3 bg-emerald-950/60 border border-emerald-500/30 rounded-xl flex items-center justify-between text-xs text-stone-200 font-mono shadow-inner">
           <div className="flex items-center gap-2">
-            <CheckCircle2 className="w-4 h-4 text-emerald-700 shrink-0" />
+            <CheckCircle2 className="w-4 h-4 text-[#00FF87] shrink-0" />
             <span>
-              <strong>Parsed:</strong> {parsedPreview.crop} • {parsedPreview.location} • {parsedPreview.quantity} {parsedPreview.unit}
+              <strong className="text-[#00FF87]">Validated:</strong> {parsedPreview.crop} • {parsedPreview.location} • {parsedPreview.quantity} {parsedPreview.unit}
             </span>
           </div>
-          <span className="text-[11px] font-bold text-emerald-800">
-            Validated by Backend
+          <span className="text-[10px] uppercase tracking-wider text-emerald-400 bg-emerald-900/50 px-2 py-0.5 rounded border border-emerald-700/50">
+            PRD Sec 18 Validated
           </span>
         </div>
       )}
     </div>
   );
 };
+
+export default NaturalQuery;

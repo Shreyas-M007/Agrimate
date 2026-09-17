@@ -1,0 +1,199 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  MandiMate - AI-Powered Agricultural Market Intelligence Platform
+  Strict PRD Compliance: AWS API Gateway, AWS Lambda, Amazon DynamoDB, Amazon Bedrock, and EventBridge Data Pipeline.
+
+Globals:
+  Function:
+    Timeout: 15
+    MemorySize: 512
+    Runtime: nodejs20.x
+    Architectures:
+      - arm64
+    Environment:
+      Variables:
+        NODE_ENV: production
+        AWS_REGION: !Ref AWS::Region
+        BEDROCK_MODEL_ID: !Ref BedrockModelId
+        DYNAMO_TABLE_MARKETS: !Ref MarketsTable
+        DYNAMO_TABLE_COMMODITIES: !Ref CommoditiesTable
+        DYNAMO_TABLE_PRICES: !Ref PriceRecordsTable
+        DYNAMO_TABLE_USERS: !Ref UserPreferencesTable
+
+Parameters:
+  Environment:
+    Type: String
+    Default: prod
+    AllowedValues: [dev, staging, prod]
+    Description: Deployment target environment
+  BedrockModelId:
+    Type: String
+    Default: anthropic.claude-3-haiku-20240307-v1:0
+    Description: Amazon Bedrock Foundation Model ID for multilingual explanation layer
+
+Resources:
+  ##############################################################################
+  # 1. API Gateway REST API (PRD Sec 19.4)
+  ##############################################################################
+  MandiMateApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: !Ref Environment
+      Cors:
+        AllowMethods: "'GET,POST,OPTIONS'"
+        AllowHeaders: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+        AllowOrigin: "'*'"
+
+  ##############################################################################
+  # 2. Main API Lambda Handler (PRD Sec 19.2)
+  ##############################################################################
+  MandiMateFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: server/
+      Handler: lambda.handler
+      Description: Core Lambda handler serving /markets, /prices, /trends, /explain, /checklist, /parse-query
+      Policies:
+        # DynamoDB Read/Write Policy
+        - DynamoDBCrudPolicy:
+            TableName: !Ref PriceRecordsTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref MarketsTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref CommoditiesTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref UserPreferencesTable
+        # Amazon Bedrock Invoke Policy (PRD Sec 14, 18, 19.1)
+        - Statement:
+            - Effect: Allow
+              Action:
+                - bedrock:InvokeModel
+                - bedrock:InvokeModelWithResponseStream
+              Resource: !Sub 'arn:aws:bedrock:${AWS::Region}::foundation-model/*'
+      Events:
+        ApiProxy:
+          Type: Api
+          Properties:
+            RestApiId: !Ref MandiMateApi
+            Path: /{proxy+}
+            Method: ANY
+        ApiRoot:
+          Type: Api
+          Properties:
+            RestApiId: !Ref MandiMateApi
+            Path: /
+            Method: ANY
+
+  ##############################################################################
+  # 3. Scheduled Data Pipeline Lambda (PRD Sec 22 & 23)
+  ##############################################################################
+  ScheduledPipelineFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: server/
+      Handler: lambda.pipelineHandler
+      Description: Scheduled EventBridge Lambda pulling daily Agmarknet records into DynamoDB
+      Timeout: 60
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref PriceRecordsTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref MarketsTable
+      Events:
+        DailyAgmarknetCron:
+          Type: Schedule
+          Properties:
+            Schedule: cron(0 6 * * ? *) # Daily at 06:00 UTC
+            Name: DailyAgmarknetPipelineRule
+            Description: Ingest, validate records, normalize units, and persist verified APMC arrivals
+
+  ##############################################################################
+  # 4. Amazon DynamoDB Tables (PRD Sec 19.3 & 21)
+  ##############################################################################
+  # Markets Table: market_id, market_name, district, state, latitude, longitude
+  MarketsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: !Sub MandiMate_Markets_${Environment}
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: market_id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: market_id
+          KeyType: HASH
+      SSESpecification:
+        SSEEnabled: true
+
+  # Commodities Table: commodity_id, commodity_name, variety, unit
+  CommoditiesTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: !Sub MandiMate_Commodities_${Environment}
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: commodity_id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: commodity_id
+          KeyType: HASH
+      SSESpecification:
+        SSEEnabled: true
+
+  # PriceRecords Table: record_id, market_id, commodity_id, date, min_price, modal_price, max_price, arrival_quantity, source, source_timestamp
+  PriceRecordsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: !Sub MandiMate_PriceRecords_${Environment}
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: record_id
+          AttributeType: S
+        - AttributeName: market_id
+          AttributeType: S
+        - AttributeName: date
+          AttributeType: S
+      KeySchema:
+        - AttributeName: record_id
+          KeyType: HASH
+      GlobalSecondaryIndexes:
+        - IndexName: MarketDateIndex
+          KeySchema:
+            - AttributeName: market_id
+              KeyType: HASH
+            - AttributeName: date
+              KeyType: RANGE
+          Projection:
+            ProjectionType: ALL
+      SSESpecification:
+        SSEEnabled: true
+
+  # UserPreferences Table: user_id, language, location, preferred_units
+  UserPreferencesTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: !Sub MandiMate_UserPreferences_${Environment}
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: user_id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: user_id
+          KeyType: HASH
+      SSESpecification:
+        SSEEnabled: true
+
+Outputs:
+  MandiMateApiUrl:
+    Description: Production API Gateway URL endpoint for MandiMate
+    Value: !Sub 'https://${MandiMateApi}.execute-api.${AWS::Region}.amazonaws.com/${Environment}/'
+  BedrockModel:
+    Description: Active Amazon Bedrock Model configured for multilingual explanations
+    Value: !Ref BedrockModelId
+  PriceRecordsTableArn:
+    Description: DynamoDB Price Records Table ARN
+    Value: !GetAtt PriceRecordsTable.Arn
+  ScheduledPipelineFunctionArn:
+    Description: EventBridge Scheduled Ingestion Lambda Function ARN
+    Value: !GetAtt ScheduledPipelineFunction.Arn

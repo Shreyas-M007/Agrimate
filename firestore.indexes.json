@@ -1,0 +1,23 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "price_records",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "commodity_name", "order": "ASCENDING" },
+        { "fieldPath": "date", "order": "DESCENDING" },
+        { "fieldPath": "modal_price", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "price_records",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "market_id", "order": "ASCENDING" },
+        { "fieldPath": "commodity_name", "order": "ASCENDING" },
+        { "fieldPath": "date", "order": "DESCENDING" }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}

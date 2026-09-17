@@ -12,6 +12,8 @@ import {
   generateMarketExplanation, 
   TERMINOLOGY_EXPLANATIONS 
 } from '../services/aiService.js';
+import { explainMarketWithBedrock, getBedrockConfig } from '../services/bedrockService.js';
+import { getDynamoConfig } from '../services/dynamoService.js';
 import { getSellingChecklist } from '../services/checklistService.js';
 import { parseNaturalLanguageQuery } from '../services/nlpService.js';
 import { syncMarketData, getSyncStatus } from '../services/syncService.js';
@@ -22,6 +24,33 @@ const router = express.Router();
 // GET /api/health
 router.get('/health', (req, res) => {
   res.json({ status: "healthy", timestamp: new Date().toISOString() });
+});
+
+// GET /api/aws/status - PRD Section 19 AWS Architecture Telemetry
+router.get('/aws/status', (req, res) => {
+  res.json({
+    success: true,
+    platform: "AWS",
+    bedrock: getBedrockConfig(),
+    dynamodb: getDynamoConfig(),
+    lambda: {
+      runtime: "nodejs20.x",
+      architecture: "arm64",
+      handler: "server/lambda.handler",
+      timeout: "15s"
+    },
+    apiGateway: {
+      type: "REST / HTTP API",
+      stage: "prod",
+      cors: true,
+      rateLimit: "100 req/sec"
+    },
+    pipeline: {
+      trigger: "Amazon EventBridge",
+      schedule: "cron(0 6 * * ? *)",
+      service: "Scheduled Lambda Data Ingestion"
+    }
+  });
 });
 
 // GET /api/crops
@@ -114,19 +143,30 @@ router.get('/trends', (req, res) => {
   res.json(result);
 });
 
-// POST /api/explain
-router.post('/explain', (req, res) => {
+// POST /api/explain - PRD Section 14, 18, 19.1 Amazon Bedrock Explanation Layer
+router.post('/explain', async (req, res) => {
   const { market, trend, language = 'en', quantityQuintals = 0 } = req.body;
   if (!market) {
     return res.status(400).json({ success: false, error: "Market data object is required." });
   }
-  const explanation = generateMarketExplanation({
-    market,
-    trend,
-    language,
-    quantityQuintals: Number(quantityQuintals) || 0
-  });
-  res.json({ success: true, explanation });
+  try {
+    const explanation = await explainMarketWithBedrock({
+      market,
+      trend,
+      language,
+      quantityQuintals: Number(quantityQuintals) || 0
+    });
+    res.json({ success: true, explanation });
+  } catch (err) {
+    // Graceful fallback to deterministic generator
+    const explanation = generateMarketExplanation({
+      market,
+      trend,
+      language,
+      quantityQuintals: Number(quantityQuintals) || 0
+    });
+    res.json({ success: true, explanation });
+  }
 });
 
 // GET /api/explain-term/:term

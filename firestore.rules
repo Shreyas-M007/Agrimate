@@ -1,0 +1,29 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Verified Mandi Market Directory (PRD Sec 8 & 9: Public read-only, admin pipeline write)
+    match /markets/{marketId} {
+      allow read: if true;
+      allow write: if request.auth != null && request.auth.token.admin == true;
+    }
+
+    // Standardized Commodities (PRD Sec 7.1)
+    match /commodities/{commodityId} {
+      allow read: if true;
+      allow write: if request.auth != null && request.auth.token.admin == true;
+    }
+
+    // Daily Verified Price Records (PRD Sec 8 & 22)
+    match /price_records/{recordId} {
+      allow read: if true;
+      allow write: if request.auth != null && request.auth.token.admin == true;
+    }
+
+    // User Preferences & Profiles (PRD Sec 21)
+    match /user_preferences/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+      // Allow anonymous guest access for offline / first-time users
+      allow read, write: if userId == 'default_farmer';
+    }
+  }
+}
