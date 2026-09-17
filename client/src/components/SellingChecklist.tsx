@@ -104,7 +104,14 @@ export const SellingChecklist: React.FC<SellingChecklistProps> = ({
   };
 
   const handlePrint = () => {
+    document.body.classList.add('printing-checklist');
+    const cleanup = () => {
+      document.body.classList.remove('printing-checklist');
+      window.removeEventListener('afterprint', cleanup);
+    };
+    window.addEventListener('afterprint', cleanup);
     window.print();
+    setTimeout(cleanup, 1500);
   };
 
   if (loading) {
@@ -123,10 +130,19 @@ export const SellingChecklist: React.FC<SellingChecklistProps> = ({
   const isAllComplete = completedCount === totalSteps;
 
   return (
-    <div className="verda-card rounded-3xl border border-[#E2ECE3] overflow-hidden shadow-sm">
+    <div className="verda-card rounded-3xl border border-[#E2ECE3] overflow-hidden shadow-sm" id="printable-checklist">
       {/* Header */}
       <div className="bg-[#F4F8F5] border-b border-[#E2ECE3] px-6 py-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
+          {/* Print Context Header (visible only when printing) */}
+          <div className="hidden print:block pb-2 mb-2 border-b border-stone-300 text-xs font-mono text-stone-700">
+            <div className="flex justify-between items-center">
+              <span><strong>Crop:</strong> {crop}</span>
+              <span><strong>Mandi:</strong> {marketName}</span>
+              <span><strong>Quantity:</strong> {quantityQuintals} q</span>
+              <span><strong>Official Agmarknet Protocol</strong></span>
+            </div>
+          </div>
           <h3 className="text-xl sm:text-2xl font-bold text-[#123826] flex items-center gap-2.5 font-['Syne',sans-serif]">
             <CheckSquare className="w-6 h-6 text-[#2E7D32]" />
             <span>{checklist.title}</span>

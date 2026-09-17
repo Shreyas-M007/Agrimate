@@ -31,15 +31,27 @@ export const MandiSlipModal: React.FC<MandiSlipModalProps> = ({
   const [showEditForm, setShowEditForm] = useState(false);
 
   const handlePrint = () => {
+    document.body.classList.add('printing-mandi-slip');
+    const cleanup = () => {
+      document.body.classList.remove('printing-mandi-slip');
+      window.removeEventListener('afterprint', cleanup);
+    };
+    window.addEventListener('afterprint', cleanup);
     window.print();
+    setTimeout(cleanup, 1500);
   };
 
   React.useEffect(() => {
+    document.body.classList.add('mandi-slip-modal-open');
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
     };
     window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    return () => {
+      document.body.classList.remove('mandi-slip-modal-open');
+      document.body.classList.remove('printing-mandi-slip');
+      window.removeEventListener('keydown', handleKeyDown);
+    };
   }, [onClose]);
 
   const slipId = `MND-${Math.floor(100000 + Math.random() * 900000)}`;

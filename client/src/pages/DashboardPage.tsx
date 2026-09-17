@@ -92,7 +92,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
   return (
     <div className="space-y-8 pb-16">
       {/* Terminal Title & Overview Hero */}
-      <div className="verda-card rounded-3xl p-6 sm:p-10 border border-[#E2ECE3] relative overflow-hidden bg-gradient-to-br from-white via-[#F7FBF8] to-[#EBF5ED]">
+      <div className="verda-card rounded-3xl p-6 sm:p-10 border border-[#E2ECE3] relative overflow-hidden bg-gradient-to-br from-white via-[#F7FBF8] to-[#EBF5ED] print-hide-on-checklist">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           {/* Left Content Column */}
           <div className="lg:col-span-7 space-y-4">
@@ -172,7 +172,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
       </div>
 
       {/* AGRIDFLOW SATELLITE & MICROCLIMATE TELEMETRY BAR */}
-      <div className="bg-white rounded-2xl border border-[#E2ECE3] p-4 sm:p-5 shadow-xs space-y-4">
+      <div className="bg-white rounded-2xl border border-[#E2ECE3] p-4 sm:p-5 shadow-xs space-y-4 print-hide-on-checklist">
         <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#F0F5F1] pb-3">
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-[#2E7D32] animate-pulse"></span>
@@ -293,7 +293,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
       </div>
 
       {/* Search & Query Section */}
-      <section className="space-y-3">
+      <section className="space-y-3 print-hide-on-checklist">
         {/* Query Mode Toggle Tabs */}
         <div className="flex gap-2">
           <button
@@ -348,7 +348,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
 
       {/* No-data notice if unverified or missing */}
       {searchResult && !searchResult.verified && (
-        <div className="verda-card rounded-3xl border border-amber-200 bg-[#FEF8ED] p-8 text-center max-w-2xl mx-auto shadow-sm">
+        <div className="verda-card rounded-3xl border border-amber-200 bg-[#FEF8ED] p-8 text-center max-w-2xl mx-auto shadow-sm print-hide-on-checklist">
           <div className="w-12 h-12 bg-amber-100 text-amber-700 rounded-full flex items-center justify-center mx-auto mb-3 border border-amber-200">
             <AlertCircle className="w-6 h-6" />
           </div>
@@ -368,54 +368,58 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
       {searchResult && searchResult.verified && searchResult.markets.length > 0 && (
         <div className="space-y-8">
           {/* Market Comparison Cards */}
-          <MarketComparison
-            markets={searchResult.markets}
-            language={language}
-            selectedMarket={selectedMarket}
-            onSelectMarket={setSelectedMarket}
-            onExplainTerm={setExplanationTerm}
-          />
+          <div className="print-hide-on-checklist">
+            <MarketComparison
+              markets={searchResult.markets}
+              language={language}
+              selectedMarket={selectedMarket}
+              onSelectMarket={setSelectedMarket}
+              onExplainTerm={setExplanationTerm}
+            />
+          </div>
 
           {/* Selected Market Deep-Dive Section */}
           {selectedMarket && (
             <div className="space-y-8 pt-4 border-t border-[#E2ECE3]">
-              <div className="verda-card p-5 rounded-3xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 border border-[#CCE0D0] shadow-sm">
-                <div>
-                  <span className="text-[11px] uppercase tracking-wider text-[#2E7D32] font-bold">
-                    Selected Mandi Overview
-                  </span>
-                  <h3 className="text-xl sm:text-2xl font-bold text-[#123826] font-['Syne',sans-serif]">
-                    {selectedMarket.market_name} ({selectedMarket.district})
-                  </h3>
+              <div className="space-y-8 print-hide-on-checklist">
+                <div className="verda-card p-5 rounded-3xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 border border-[#CCE0D0] shadow-sm">
+                  <div>
+                    <span className="text-[11px] uppercase tracking-wider text-[#2E7D32] font-bold">
+                      Selected Mandi Overview
+                    </span>
+                    <h3 className="text-xl sm:text-2xl font-bold text-[#123826] font-['Syne',sans-serif]">
+                      {selectedMarket.market_name} ({selectedMarket.district})
+                    </h3>
+                  </div>
+                  <div className="text-xs bg-[#F4F8F5] px-4 py-2.5 rounded-2xl border border-[#CCE0D0] self-start sm:self-auto font-mono">
+                    Modal Rate: <strong className="text-[#123826] text-base tnum font-black">₹{selectedMarket.modal_price}/quintal</strong>
+                  </div>
                 </div>
-                <div className="text-xs bg-[#F4F8F5] px-4 py-2.5 rounded-2xl border border-[#CCE0D0] self-start sm:self-auto font-mono">
-                  Modal Rate: <strong className="text-[#123826] text-base tnum font-black">₹{selectedMarket.modal_price}/quintal</strong>
-                </div>
+
+                {/* Row 1: Quantity Value Calculator & Net Return Calculator */}
+                <ValueCalculator
+                  market={selectedMarket}
+                  quantityQuintals={quantityQuintals}
+                  language={language}
+                  onOpenSlip={() => setIsSlipModalOpen(true)}
+                />
+
+                {/* Row 2: Deterministic Price Trend Chart */}
+                <PriceTrendChart
+                  crop={crop}
+                  marketId={selectedMarket.market_id}
+                  marketName={selectedMarket.market_name}
+                  language={language}
+                />
+
+                {/* Row 3: AI Explanation Advisory Narrative */}
+                <AiExplanation
+                  market={selectedMarket}
+                  trend={activeTrend}
+                  language={language}
+                  quantityQuintals={quantityQuintals}
+                />
               </div>
-
-              {/* Row 1: Quantity Value Calculator & Net Return Calculator */}
-              <ValueCalculator
-                market={selectedMarket}
-                quantityQuintals={quantityQuintals}
-                language={language}
-                onOpenSlip={() => setIsSlipModalOpen(true)}
-              />
-
-              {/* Row 2: Deterministic Price Trend Chart */}
-              <PriceTrendChart
-                crop={crop}
-                marketId={selectedMarket.market_id}
-                marketName={selectedMarket.market_name}
-                language={language}
-              />
-
-              {/* Row 3: AI Explanation Advisory Narrative */}
-              <AiExplanation
-                market={selectedMarket}
-                trend={activeTrend}
-                language={language}
-                quantityQuintals={quantityQuintals}
-              />
 
               {/* Row 4: 11-Step Farmer's Selling Checklist */}
               <SellingChecklist

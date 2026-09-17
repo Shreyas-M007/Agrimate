@@ -120,19 +120,113 @@
   background: #2E7D32;
 }
 
-/* Print styles for selling checklist */
+/* Print styles - Isolated, clean, single/multi-page printouts */
 @media print {
+  @page {
+    margin: 10mm;
+    size: auto;
+  }
+
   body {
     background: white !important;
     color: black !important;
+    font-size: 11pt;
+    line-height: 1.35;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
   }
-  .no-print {
+
+  .no-print,
+  .print\:hidden {
     display: none !important;
   }
-  .glass-panel, .glass-panel-elevated, .verda-card {
-    background: white !important;
-    border: 1px solid #ccc !important;
+
+  header,
+  footer,
+  nav {
+    display: none !important;
+  }
+
+  /* -----------------------------------------------------------------
+     CASE 1: MANDI DISPATCH GATE SLIP MODAL PRINT MODE
+     Completely hides the entire background website (all 12 pages)
+     and renders ONLY the official gate voucher slip as a single 1-page pass.
+     ----------------------------------------------------------------- */
+  body.printing-mandi-slip main,
+  body.mandi-slip-modal-open main,
+  body:has(#printable-voucher) main {
+    display: none !important;
+  }
+
+  body.printing-mandi-slip [role="dialog"],
+  body.mandi-slip-modal-open [role="dialog"],
+  body:has(#printable-voucher) [role="dialog"] {
+    position: static !important;
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    background: transparent !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: visible !important;
     box-shadow: none !important;
-    color: black !important;
+    border: none !important;
+  }
+
+  body.printing-mandi-slip [role="dialog"] > div,
+  body.mandi-slip-modal-open [role="dialog"] > div,
+  body:has(#printable-voucher) [role="dialog"] > div {
+    max-width: 100% !important;
+    width: 100% !important;
+    box-shadow: none !important;
+    border: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  #printable-voucher {
+    display: block !important;
+    width: 100% !important;
+    max-width: 740px !important;
+    margin: 0 auto !important;
+    padding: 20px 24px !important;
+    background: white !important;
+    border: 2px solid #123826 !important;
+    border-radius: 16px !important;
+    box-shadow: none !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+  }
+
+  /* -----------------------------------------------------------------
+     CASE 2: SELLING PROTOCOL CHECKLIST PRINT MODE
+     Hides all other dashboard sections so only the 11-step checklist
+     prints cleanly without the rest of the website.
+     ----------------------------------------------------------------- */
+  body.printing-checklist .print-hide-on-checklist {
+    display: none !important;
+  }
+
+  body.printing-checklist #printable-checklist {
+    display: block !important;
+    width: 100% !important;
+    max-width: 800px !important;
+    margin: 0 auto !important;
+    padding: 20px !important;
+    background: white !important;
+    border: 1px solid #123826 !important;
+    border-radius: 16px !important;
+    box-shadow: none !important;
+    page-break-after: auto;
+  }
+
+  body.printing-checklist #printable-checklist .no-print {
+    display: none !important;
+  }
+
+  .glass-panel, .glass-panel-elevated, .verda-card {
+    box-shadow: none !important;
   }
 }
