@@ -47,8 +47,8 @@ export const PriceTrendChart: React.FC<PriceTrendChartProps> = ({
 
   if (!trendData || !trendData.has_data) {
     return (
-      <div className="glass-panel rounded-2xl border border-white/10 p-6 text-center text-stone-400 font-mono">
-        <Activity className="w-8 h-8 mx-auto text-stone-500 mb-2" />
+      <div className="verda-card rounded-2xl border border-[#E2ECE3] p-6 text-center text-stone-600 font-mono">
+        <Activity className="w-8 h-8 mx-auto text-[#2E7D32] mb-2" />
         <p className="text-xs">No historical price records found for this market.</p>
       </div>
     );
@@ -84,21 +84,21 @@ export const PriceTrendChart: React.FC<PriceTrendChartProps> = ({
   const areaStr = `${points[0].x},${svgHeight - padding} ` + polylineStr + ` ${points[points.length - 1].x},${svgHeight - padding}`;
 
   return (
-    <div className="glass-panel rounded-2xl border border-emerald-500/20 overflow-hidden shadow-[0_12px_40px_rgba(0,0,0,0.8)]">
+    <div className="verda-card rounded-2xl border border-[#E2ECE3] overflow-hidden shadow-sm">
       {/* Header with period toggle */}
-      <div className="bg-[#0D120E] border-b border-white/10 px-5 py-3.5 flex flex-wrap items-center justify-between gap-3">
+      <div className="bg-[#F4F8F5] border-b border-[#E2ECE3] px-5 py-3.5 flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h3 className="text-base sm:text-lg font-bold text-white flex items-center gap-2 font-['Syne',sans-serif]">
-            <Activity className="w-5 h-5 text-[#00FF87]" />
+          <h3 className="text-base sm:text-lg font-bold text-[#123826] flex items-center gap-2 font-['Syne',sans-serif]">
+            <Activity className="w-5 h-5 text-[#2E7D32]" />
             <span>{t.trendsTitle}</span>
           </h3>
-          <p className="text-xs font-mono text-stone-400 mt-0.5">
+          <p className="text-xs font-mono text-stone-600 mt-0.5">
             {crop} @ {marketName}
           </p>
         </div>
 
         {/* Days selector */}
-        <div className="flex bg-[#060807] p-1 rounded-xl border border-white/10 font-mono">
+        <div className="flex bg-white p-1 rounded-xl border border-[#CCE0D0] font-mono">
           {[7, 15, 30].map(d => (
             <button
               key={d}
@@ -106,8 +106,8 @@ export const PriceTrendChart: React.FC<PriceTrendChartProps> = ({
               onClick={() => setDays(d)}
               className={`px-3 py-1 text-xs font-semibold rounded-lg transition-all cursor-pointer ${
                 days === d 
-                  ? 'bg-emerald-500/20 text-[#00FF87] border border-[#00FF87]/40 shadow-[0_0_12px_rgba(0,255,135,0.2)] font-bold' 
-                  : 'text-stone-400 hover:text-white'
+                  ? 'bg-[#2E7D32] text-white shadow-sm font-bold' 
+                  : 'text-stone-600 hover:text-[#123826]'
               }`}
             >
               {d === 7 ? t.period7Days : (d === 15 ? t.period15Days : t.period30Days)}
@@ -118,67 +118,67 @@ export const PriceTrendChart: React.FC<PriceTrendChartProps> = ({
 
       <div className="p-5 sm:p-6 space-y-5">
         {/* Trend Direction Highlight */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-xl border bg-[#0A0D0B] border-white/10 shadow-inner">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-xl border bg-[#F7FAF8] border-[#E2ECE3] shadow-inner">
           <div className="flex items-center gap-3">
             <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-2xl font-black ${
-              direction === 'increasing' ? 'bg-emerald-950/80 text-[#00FF87] border border-emerald-500/30' :
-              direction === 'decreasing' ? 'bg-rose-950/80 text-rose-400 border border-rose-500/30' :
-              'bg-blue-950/80 text-blue-400 border border-blue-500/30'
+              direction === 'increasing' ? 'bg-[#EBF5ED] text-[#2E7D32] border border-[#CCE0D0]' :
+              direction === 'decreasing' ? 'bg-rose-50 text-rose-700 border border-rose-200' :
+              'bg-blue-50 text-blue-700 border border-blue-200'
             }`}>
-              {direction === 'increasing' ? <TrendingUp className="w-6 h-6 text-[#00FF87]" /> :
-               direction === 'decreasing' ? <TrendingDown className="w-6 h-6 text-rose-400" /> :
-               <Minus className="w-6 h-6 text-blue-400" />}
+              {direction === 'increasing' ? <TrendingUp className="w-6 h-6 text-[#2E7D32]" /> :
+               direction === 'decreasing' ? <TrendingDown className="w-6 h-6 text-rose-600" /> :
+               <Minus className="w-6 h-6 text-blue-600" />}
             </div>
 
             <div>
               <div className="flex items-center gap-2">
-                <span className="text-base sm:text-lg font-bold text-white font-['Syne',sans-serif]">
+                <span className="text-base sm:text-lg font-bold text-[#123826] font-['Syne',sans-serif]">
                   {symbol} {direction === 'increasing' ? 'Increasing' : (direction === 'decreasing' ? 'Decreasing' : 'Stable')}
                 </span>
                 <span className={`text-xs font-mono font-bold px-2 py-0.5 rounded-full border ${
-                  direction === 'increasing' ? 'bg-emerald-950/90 text-[#00FF87] border-emerald-500/40' :
-                  direction === 'decreasing' ? 'bg-rose-950/90 text-rose-300 border-rose-500/40' :
-                  'bg-white/10 text-stone-300 border-white/20'
+                  direction === 'increasing' ? 'bg-[#EBF5ED] text-[#2E7D32] border-[#CCE0D0]' :
+                  direction === 'decreasing' ? 'bg-rose-50 text-rose-700 border-rose-200' :
+                  'bg-stone-100 text-stone-700 border-stone-200'
                 }`}>
                   {percent_change > 0 ? `+${percent_change}%` : `${percent_change}%`}
                 </span>
               </div>
-              <p className="text-xs font-mono text-stone-400 mt-0.5">
+              <p className="text-xs font-mono text-stone-600 mt-0.5">
                 {descriptive_statement}
               </p>
             </div>
           </div>
 
-          <div className="text-xs font-mono text-stone-300 bg-[#111713] px-3 py-2 rounded-lg border border-white/10 shrink-0">
-            <div>Net Shift: <strong className={price_change >= 0 ? "text-[#00FF87]" : "text-rose-400"}>{price_change > 0 ? `+₹${price_change}` : `-₹${Math.abs(price_change)}`}</strong></div>
+          <div className="text-xs font-mono text-stone-700 bg-white px-3 py-2 rounded-lg border border-[#CCE0D0] shrink-0">
+            <div>Net Shift: <strong className={price_change >= 0 ? "text-[#2E7D32]" : "text-rose-600"}>{price_change > 0 ? `+₹${price_change}` : `-₹${Math.abs(price_change)}`}</strong></div>
             <div className="text-[10px] text-stone-500">Trailing {days} days</div>
           </div>
         </div>
 
         {/* Statistical Summary Row */}
         <div className="grid grid-cols-3 gap-3 text-center font-mono">
-          <div className="glass-panel p-3 rounded-xl border border-white/10">
+          <div className="verda-card p-3 rounded-xl border border-[#E2ECE3]">
             <div className="text-[10px] uppercase tracking-wider text-stone-500 font-semibold">{t.periodAvg}</div>
-            <div className="text-base sm:text-xl font-bold text-stone-200 tnum">
+            <div className="text-base sm:text-xl font-bold text-stone-800 tnum">
               ₹{average_price.toLocaleString('en-IN')}
             </div>
           </div>
-          <div className="glass-panel p-3 rounded-xl border border-emerald-500/30">
-            <div className="text-[10px] uppercase tracking-wider text-[#00FF87] font-semibold">{t.periodHigh}</div>
-            <div className="text-base sm:text-xl font-bold text-[#00FF87] tnum">
+          <div className="verda-card p-3 rounded-xl border border-[#A5D6A7] bg-[#F4F8F5]">
+            <div className="text-[10px] uppercase tracking-wider text-[#123826] font-semibold">{t.periodHigh}</div>
+            <div className="text-base sm:text-xl font-bold text-[#123826] tnum">
               ₹{highest_price.toLocaleString('en-IN')}
             </div>
           </div>
-          <div className="glass-panel p-3 rounded-xl border border-amber-500/30">
-            <div className="text-[10px] uppercase tracking-wider text-amber-400 font-semibold">{t.periodLow}</div>
-            <div className="text-base sm:text-xl font-bold text-amber-300 tnum">
+          <div className="verda-card p-3 rounded-xl border border-amber-200 bg-amber-50/50">
+            <div className="text-[10px] uppercase tracking-wider text-amber-800 font-semibold">{t.periodLow}</div>
+            <div className="text-base sm:text-xl font-bold text-amber-900 tnum">
               ₹{lowest_price.toLocaleString('en-IN')}
             </div>
           </div>
         </div>
 
-        {/* SVG Sparkline Telemetry Chart */}
-        <div className="relative bg-[#0A0D0B] rounded-xl border border-white/10 p-2 overflow-x-auto shadow-inner">
+        {/* SVG Telemetry Chart */}
+        <div className="relative bg-white rounded-xl border border-[#E2ECE3] p-2 overflow-x-auto shadow-inner">
           {isLoading ? (
             <div className="h-48 flex items-center justify-center text-xs font-mono text-stone-500">
               Loading price trend chart...
@@ -187,19 +187,15 @@ export const PriceTrendChart: React.FC<PriceTrendChartProps> = ({
             <svg viewBox={`0 0 ${svgWidth} ${svgHeight}`} className="w-full h-48 sm:h-56">
               <defs>
                 <linearGradient id="trendGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#00FF87" stopOpacity="0.25" />
-                  <stop offset="100%" stopColor="#00FF87" stopOpacity="0.0" />
+                  <stop offset="0%" stopColor="#2E7D32" stopOpacity="0.18" />
+                  <stop offset="100%" stopColor="#2E7D32" stopOpacity="0.0" />
                 </linearGradient>
-                <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
-                  <feGaussianBlur stdDeviation="3" result="blur" />
-                  <feComposite in="SourceGraphic" in2="blur" operator="over" />
-                </filter>
               </defs>
 
               {/* Grid lines */}
-              <line x1={padding} y1={padding} x2={svgWidth - padding} y2={padding} stroke="rgba(255,255,255,0.05)" strokeWidth="1" strokeDasharray="3 3" />
-              <line x1={padding} y1={svgHeight / 2} x2={svgWidth - padding} y2={svgHeight / 2} stroke="rgba(255,255,255,0.05)" strokeWidth="1" strokeDasharray="3 3" />
-              <line x1={padding} y1={svgHeight - padding} x2={svgWidth - padding} y2={svgHeight - padding} stroke="rgba(255,255,255,0.15)" strokeWidth="1.5" />
+              <line x1={padding} y1={padding} x2={svgWidth - padding} y2={padding} stroke="#E2ECE3" strokeWidth="1" strokeDasharray="3 3" />
+              <line x1={padding} y1={svgHeight / 2} x2={svgWidth - padding} y2={svgHeight / 2} stroke="#E2ECE3" strokeWidth="1" strokeDasharray="3 3" />
+              <line x1={padding} y1={svgHeight - padding} x2={svgWidth - padding} y2={svgHeight - padding} stroke="#CCE0D0" strokeWidth="1.5" />
 
               {/* Area fill */}
               <polygon points={areaStr} fill="url(#trendGradient)" />
@@ -207,12 +203,11 @@ export const PriceTrendChart: React.FC<PriceTrendChartProps> = ({
               {/* Trend Polyline */}
               <polyline
                 fill="none"
-                stroke="#00FF87"
+                stroke="#2E7D32"
                 strokeWidth="3"
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 points={polylineStr}
-                filter="url(#glow)"
               />
 
               {/* Data points */}
@@ -222,7 +217,7 @@ export const PriceTrendChart: React.FC<PriceTrendChartProps> = ({
                   cx={pt.x}
                   cy={pt.y}
                   r="4.5"
-                  className="fill-[#00FF87] stroke-[#060807] stroke-2 hover:r-7 transition-all cursor-pointer"
+                  className="fill-[#2E7D32] stroke-white stroke-2 hover:r-7 transition-all cursor-pointer"
                   onMouseEnter={() => setHoveredPoint(pt)}
                   onMouseLeave={() => setHoveredPoint(null)}
                 />
@@ -240,7 +235,7 @@ export const PriceTrendChart: React.FC<PriceTrendChartProps> = ({
               <text x={points[0].x} y={svgHeight - 15} textAnchor="start" className="text-[10px] fill-stone-500 font-mono">
                 {points[0].item.date.slice(5)}
               </text>
-              <text x={points[points.length - 1].x} y={svgHeight - 15} textAnchor="end" className="text-[10px] fill-[#00FF87] font-mono font-bold">
+              <text x={points[points.length - 1].x} y={svgHeight - 15} textAnchor="end" className="text-[10px] fill-[#2E7D32] font-mono font-bold">
                 Today ({points[points.length - 1].item.date.slice(5)})
               </text>
             </svg>
@@ -248,8 +243,8 @@ export const PriceTrendChart: React.FC<PriceTrendChartProps> = ({
 
           {/* Point Tooltip */}
           {hoveredPoint && (
-            <div className="absolute top-4 right-4 bg-[#0F1411] border border-[#00FF87]/40 text-white text-xs px-3 py-1.5 rounded-lg shadow-[0_0_15px_rgba(0,255,135,0.2)] pointer-events-none font-mono">
-              <span className="text-[#00FF87] font-bold">Date: {hoveredPoint.item.date}</span> • ₹{hoveredPoint.item.modal_price}/q
+            <div className="absolute top-4 right-4 bg-[#123826] border border-[#2E7D32]/40 text-white text-xs px-3 py-1.5 rounded-lg shadow-md pointer-events-none font-mono">
+              <span className="text-emerald-200 font-bold">Date: {hoveredPoint.item.date}</span> • ₹{hoveredPoint.item.modal_price}/q
             </div>
           )}
         </div>

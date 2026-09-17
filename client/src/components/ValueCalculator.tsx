@@ -60,24 +60,24 @@ export const ValueCalculator: React.FC<ValueCalculatorProps> = ({
   const deductionPercentage = grossValue > 0 ? ((totalDeductions / grossValue) * 100).toFixed(1) : '0';
 
   return (
-    <div className="glass-panel rounded-2xl border border-emerald-500/20 overflow-hidden shadow-[0_12px_40px_rgba(0,0,0,0.8)]">
+    <div className="verda-card rounded-2xl border border-[#E2ECE3] overflow-hidden shadow-sm">
       {/* Subheader */}
-      <div className="bg-[#0D120E] border-b border-white/10 px-5 py-3.5 flex items-center justify-between">
-        <h3 className="text-base sm:text-lg font-bold text-white flex items-center gap-2 font-['Syne',sans-serif]">
-          <Calculator className="w-5 h-5 text-[#00FF87]" />
+      <div className="bg-[#F4F8F5] border-b border-[#E2ECE3] px-5 py-3.5 flex items-center justify-between">
+        <h3 className="text-base sm:text-lg font-bold text-[#123826] flex items-center gap-2 font-['Syne',sans-serif]">
+          <Calculator className="w-5 h-5 text-[#2E7D32]" />
           <span>{t.grossValueTitle}</span>
         </h3>
-        <span className="text-xs font-mono font-bold text-[#00FF87] bg-emerald-950/70 border border-emerald-500/30 px-2.5 py-1 rounded-md">
+        <span className="text-xs font-mono font-bold text-[#123826] bg-[#EBF5ED] border border-[#CCE0D0] px-2.5 py-1 rounded-md">
           {market.market_name}
         </span>
       </div>
 
       <div className="p-5 sm:p-6">
         {/* Gross Value Formula & Result Card */}
-        <div className="bg-[#0A0D0B] rounded-2xl p-5 border border-white/10 mb-4 shadow-inner">
+        <div className="bg-[#F7FAF8] rounded-2xl p-5 border border-[#E2ECE3] mb-4 shadow-inner">
           <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 mb-3">
-            <div className="text-xs font-mono text-stone-400">
-              Estimated Value: <span className="text-[#00FF87] font-bold">{quantityQuintals} Quintals × ₹{market.modal_price.toLocaleString('en-IN')}/q</span>
+            <div className="text-xs font-mono text-stone-600">
+              Estimated Value: <span className="text-[#123826] font-bold">{quantityQuintals} Quintals × ₹{market.modal_price.toLocaleString('en-IN')}/q</span>
             </div>
             <div className="text-[11px] font-mono text-stone-500">
               Prevailing Mandi Modal Rate
@@ -85,7 +85,7 @@ export const ValueCalculator: React.FC<ValueCalculatorProps> = ({
           </div>
 
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div className="text-4xl sm:text-5xl font-bold text-[#00FF87] tracking-tight font-mono tnum drop-shadow-[0_0_25px_rgba(0,255,135,0.3)]">
+            <div className="text-4xl sm:text-5xl font-bold text-[#123826] tracking-tight font-mono tnum">
               ₹{grossValue.toLocaleString('en-IN')}
             </div>
 
@@ -93,7 +93,7 @@ export const ValueCalculator: React.FC<ValueCalculatorProps> = ({
               <button
                 type="button"
                 onClick={onOpenSlip}
-                className="flex items-center justify-center gap-2 px-4 py-2.5 bg-emerald-950/80 hover:bg-emerald-900 text-[#00FF87] hover:text-white font-mono font-bold text-xs sm:text-sm rounded-xl border border-emerald-500/30 hover:border-emerald-500/60 shadow-[0_0_15px_rgba(0,255,135,0.15)] transition-all cursor-pointer"
+                className="flex items-center justify-center gap-2 px-4 py-2.5 bg-[#2E7D32] hover:bg-[#1B5E20] text-white font-mono font-bold text-xs sm:text-sm rounded-xl shadow-sm hover:shadow-md transition-all cursor-pointer"
               >
                 <Receipt className="w-4 h-4" />
                 <span>Generate Mandi Gate Slip</span>
@@ -102,8 +102,8 @@ export const ValueCalculator: React.FC<ValueCalculatorProps> = ({
           </div>
 
           {/* Mandatory PRD Disclaimer */}
-          <div className="mt-4 flex items-start gap-2 text-xs font-mono text-amber-300 bg-amber-950/40 p-2.5 rounded-xl border border-amber-500/30">
-            <AlertCircle className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+          <div className="mt-4 flex items-start gap-2 text-xs font-mono text-amber-900 bg-amber-50 p-2.5 rounded-xl border border-amber-200">
+            <AlertCircle className="w-4 h-4 text-amber-700 shrink-0 mt-0.5" />
             <p className="leading-relaxed">
               <strong>{t.grossValueDisclaimer}</strong>
             </p>
@@ -111,16 +111,16 @@ export const ValueCalculator: React.FC<ValueCalculatorProps> = ({
         </div>
 
         {/* Toggle Net Return Estimator (PRD Sec 17) */}
-        <div className="border-t border-white/10 pt-4">
+        <div className="border-t border-[#E2ECE3] pt-4">
           <button
             type="button"
             onClick={() => setShowNetCalculator(!showNetCalculator)}
-            className="w-full flex items-center justify-between text-left p-3.5 rounded-xl bg-[#0A0D0B] hover:bg-[#111713] transition-all border border-white/10 hover:border-emerald-500/30 cursor-pointer"
+            className="w-full flex items-center justify-between text-left p-3.5 rounded-xl bg-[#F4F8F5] hover:bg-[#EBF5ED] transition-all border border-[#E2ECE3] hover:border-[#2E7D32] cursor-pointer"
           >
             <div>
-              <div className="font-bold text-sm sm:text-base text-white flex items-center gap-2 font-['Syne',sans-serif]">
+              <div className="font-bold text-sm sm:text-base text-[#123826] flex items-center gap-2 font-['Syne',sans-serif]">
                 <span>{t.netReturnTitle}</span>
-                <span className="text-xs font-mono font-bold text-[#F59E0B] bg-amber-950/60 border border-amber-500/30 px-2 py-0.5 rounded-md">
+                <span className="text-xs font-mono font-bold text-amber-800 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded-md">
                   Net in Hand: ₹{estimatedNetReturn.toLocaleString('en-IN')}
                 </span>
               </div>
@@ -128,33 +128,33 @@ export const ValueCalculator: React.FC<ValueCalculatorProps> = ({
                 {t.netReturnSubtitle}
               </div>
             </div>
-            <div className="text-[#00FF87]">
+            <div className="text-[#2E7D32]">
               {showNetCalculator ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
             </div>
           </button>
 
           {showNetCalculator && (
-            <div className="mt-4 p-4 sm:p-5 bg-[#0A0D0B] rounded-xl border border-white/10 space-y-4">
+            <div className="mt-4 p-4 sm:p-5 bg-[#F7FAF8] rounded-xl border border-[#E2ECE3] space-y-4">
               {/* Vehicle selector */}
               <div>
-                <label className="block text-xs font-mono text-stone-400 mb-1 flex items-center gap-1.5">
-                  <Fuel className="w-3.5 h-3.5 text-[#00FF87]" />
+                <label className="block text-xs font-mono text-stone-600 mb-1 flex items-center gap-1.5">
+                  <Fuel className="w-3.5 h-3.5 text-[#2E7D32]" />
                   <span>Transport Vehicle Mode (auto-calibrated for {market.distance_km ? `${market.distance_km} km` : 'distance'})</span>
                 </label>
                 <select
                   value={selectedVehicle}
                   onChange={(e) => setSelectedVehicle(e.target.value)}
-                  className="w-full px-3 py-2 border border-white/15 rounded-lg bg-[#111713] text-white font-mono text-xs sm:text-sm focus:outline-none focus:border-[#00FF87]"
+                  className="w-full px-3 py-2 border border-[#CCE0D0] rounded-lg bg-white text-[#162E21] font-mono text-xs sm:text-sm focus:outline-none focus:border-[#2E7D32]"
                 >
                   {VEHICLE_TYPES.map(v => (
-                    <option key={v.id} value={v.id} className="bg-[#111713] text-white">{v.name}</option>
+                    <option key={v.id} value={v.id} className="bg-white text-stone-900">{v.name}</option>
                   ))}
                 </select>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-mono">
                 <div>
-                  <label className="block text-stone-400 mb-1 flex items-center gap-1.5">
+                  <label className="block text-stone-600 mb-1 flex items-center gap-1.5">
                     <Truck className="w-3.5 h-3.5 text-stone-500" />
                     <span>{t.transportCost} (₹)</span>
                   </label>
@@ -162,7 +162,7 @@ export const ValueCalculator: React.FC<ValueCalculatorProps> = ({
                     type="number"
                     value={transportCost}
                     onChange={(e) => setTransportCost(Math.max(0, Number(e.target.value) || 0))}
-                    className="w-full px-3 py-2 border border-white/15 rounded-lg bg-[#111713] text-white font-bold focus:outline-none focus:border-[#00FF87]"
+                    className="w-full px-3 py-2 border border-[#CCE0D0] rounded-lg bg-white text-[#162E21] font-bold focus:outline-none focus:border-[#2E7D32]"
                   />
                   {market.distance_km && (
                     <span className="text-[11px] text-stone-500 mt-0.5 block">
@@ -172,7 +172,7 @@ export const ValueCalculator: React.FC<ValueCalculatorProps> = ({
                 </div>
 
                 <div>
-                  <label className="block text-stone-400 mb-1 flex items-center gap-1.5">
+                  <label className="block text-stone-600 mb-1 flex items-center gap-1.5">
                     <Layers className="w-3.5 h-3.5 text-stone-500" />
                     <span>{t.loadingCost} (₹)</span>
                   </label>
@@ -180,7 +180,7 @@ export const ValueCalculator: React.FC<ValueCalculatorProps> = ({
                     type="number"
                     value={loadingCost}
                     onChange={(e) => setLoadingCost(Math.max(0, Number(e.target.value) || 0))}
-                    className="w-full px-3 py-2 border border-white/15 rounded-lg bg-[#111713] text-white font-bold focus:outline-none focus:border-[#00FF87]"
+                    className="w-full px-3 py-2 border border-[#CCE0D0] rounded-lg bg-white text-[#162E21] font-bold focus:outline-none focus:border-[#2E7D32]"
                   />
                   <span className="text-[11px] text-stone-500 mt-0.5 block">
                     ~₹30/q for {quantityQuintals} quintals
@@ -188,20 +188,20 @@ export const ValueCalculator: React.FC<ValueCalculatorProps> = ({
                 </div>
 
                 <div>
-                  <label className="block text-stone-400 mb-1 flex items-center gap-1.5">
+                  <label className="block text-stone-600 mb-1 flex items-center gap-1.5">
                     <Coins className="w-3.5 h-3.5 text-stone-500" />
                     <span>{t.marketCess} (%)</span>
                   </label>
                   <select
                     value={marketCessPercent}
                     onChange={(e) => setMarketCessPercent(Number(e.target.value))}
-                    className="w-full px-3 py-2 border border-white/15 rounded-lg bg-[#111713] text-white font-bold focus:outline-none focus:border-[#00FF87]"
+                    className="w-full px-3 py-2 border border-[#CCE0D0] rounded-lg bg-white text-[#162E21] font-bold focus:outline-none focus:border-[#2E7D32]"
                   >
-                    <option value={1.5} className="bg-[#111713] text-white">1.5% Standard APMC Cess</option>
-                    <option value={2.0} className="bg-[#111713] text-white">2.0% State Cess</option>
-                    <option value={1.0} className="bg-[#111713] text-white">1.0% Concessional Cess</option>
-                    <option value={0.5} className="bg-[#111713] text-white">0.5% Special Scheme</option>
-                    <option value={0} className="bg-[#111713] text-white">0% Direct Farmer Exemption</option>
+                    <option value={1.5} className="bg-white text-stone-900">1.5% Standard APMC Cess</option>
+                    <option value={2.0} className="bg-white text-stone-900">2.0% State Cess</option>
+                    <option value={1.0} className="bg-white text-stone-900">1.0% Concessional Cess</option>
+                    <option value={0.5} className="bg-white text-stone-900">0.5% Special Scheme</option>
+                    <option value={0} className="bg-white text-stone-900">0% Direct Farmer Exemption</option>
                   </select>
                   <span className="text-[11px] text-stone-500 mt-0.5 block">
                     Calculated ~₹{marketCess.toLocaleString('en-IN')}
@@ -209,33 +209,33 @@ export const ValueCalculator: React.FC<ValueCalculatorProps> = ({
                 </div>
 
                 <div>
-                  <label className="block text-stone-400 mb-1">
+                  <label className="block text-stone-600 mb-1">
                     Other Deductions (Weighbridge ₹)
                   </label>
                   <input
                     type="number"
                     value={otherCharges}
                     onChange={(e) => setOtherCharges(Math.max(0, Number(e.target.value) || 0))}
-                    className="w-full px-3 py-2 border border-white/15 rounded-lg bg-[#111713] text-white font-bold focus:outline-none focus:border-[#00FF87]"
+                    className="w-full px-3 py-2 border border-[#CCE0D0] rounded-lg bg-white text-[#162E21] font-bold focus:outline-none focus:border-[#2E7D32]"
                   />
                 </div>
               </div>
 
               {/* Net Return Summary Banner */}
-              <div className="bg-[#060807] border border-emerald-500/30 p-4 rounded-xl flex flex-col sm:flex-row items-center justify-between gap-3 shadow-inner">
+              <div className="bg-[#123826] text-white p-4 rounded-xl flex flex-col sm:flex-row items-center justify-between gap-3 shadow-sm">
                 <div>
-                  <div className="text-[11px] font-mono uppercase tracking-wider text-stone-400">
+                  <div className="text-[11px] font-mono uppercase tracking-wider text-emerald-200">
                     {t.estimatedNetReturn} (Estimated In-Hand)
                   </div>
-                  <div className="text-3xl sm:text-4xl font-black text-[#F59E0B] font-mono tnum drop-shadow-[0_0_15px_rgba(245,158,11,0.3)]">
+                  <div className="text-3xl sm:text-4xl font-black text-[#E8A238] font-mono tnum">
                     ₹{estimatedNetReturn.toLocaleString('en-IN')}
                   </div>
                 </div>
 
-                <div className="text-xs font-mono text-stone-400 text-right sm:border-l sm:border-white/10 sm:pl-4">
+                <div className="text-xs font-mono text-stone-200 text-right sm:border-l sm:border-white/20 sm:pl-4">
                   <div>Gross: <strong className="text-white">₹{grossValue.toLocaleString('en-IN')}</strong></div>
-                  <div>Deductions: <strong className="text-amber-400">-₹{totalDeductions.toLocaleString('en-IN')}</strong> ({deductionPercentage}%)</div>
-                  <div className="text-[10px] text-stone-500 mt-1">*Simulation for budgeting only</div>
+                  <div>Deductions: <strong className="text-[#E8A238]">-₹{totalDeductions.toLocaleString('en-IN')}</strong> ({deductionPercentage}%)</div>
+                  <div className="text-[10px] text-stone-400 mt-1">*Simulation for budgeting only</div>
                 </div>
               </div>
             </div>

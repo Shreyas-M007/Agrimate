@@ -5,24 +5,35 @@
   --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'Inter', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
-  --color-obsidian-950: #060807;
-  --color-obsidian-900: #0A0D0B;
-  --color-obsidian-850: #0D120E;
-  --color-obsidian-800: #111713;
-  --color-obsidian-750: #161E19;
-  --color-obsidian-700: #1D2721;
-  --color-obsidian-600: #28372E;
+  --color-forest-950: #0A1F14;
+  --color-forest-900: #123826;
+  --color-forest-850: #16422D;
+  --color-forest-800: #1B4D35;
+  --color-forest-700: #236344;
+  --color-forest-600: #2E7D55;
 
-  --color-mint-neon: #00FF87;
-  --color-mint-glow: rgba(0, 255, 135, 0.25);
-  --color-emerald-accent: #10B981;
-  --color-brass-gold: #F59E0B;
+  --color-leaf-600: #2E7D32;
+  --color-leaf-500: #3FA744;
+  --color-leaf-400: #4CAF50;
+  --color-leaf-100: #E8F5E9;
+  --color-leaf-50: #F1F8F2;
+
+  --color-sage-100: #EBF5ED;
+  --color-sage-50: #F4F8F5;
+
+  --color-harvest-500: #E8A238;
+  --color-harvest-600: #D97706;
+  --color-harvest-50: #FEF8ED;
+
+  --color-cream-bg: #FBFDF9;
+  --color-cream-card: #FFFFFF;
+  --color-cream-border: #E2ECE3;
 }
 
 @layer base {
   body {
-    background-color: #060807;
-    color: #F3F4F6;
+    background-color: #FBFDF9;
+    color: #162E21;
     font-family: var(--font-sans);
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   }
@@ -33,49 +44,75 @@
   }
 }
 
-/* Glassmorphism styling per Figma system */
+/* VerdaAgro Card & Container System */
+.verda-card {
+  background: #FFFFFF;
+  border: 1px solid #E2ECE3;
+  box-shadow: 0 4px 20px -2px rgba(18, 56, 38, 0.05), 0 2px 6px -1px rgba(18, 56, 38, 0.03);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.verda-card:hover {
+  border-color: #C3D9C6;
+  box-shadow: 0 12px 30px -4px rgba(18, 56, 38, 0.08), 0 4px 10px -2px rgba(18, 56, 38, 0.04);
+}
+
+.verda-card-elevated {
+  background: #FFFFFF;
+  border: 1px solid #D1E3D4;
+  box-shadow: 0 16px 36px -6px rgba(18, 56, 38, 0.09), 0 6px 16px -2px rgba(18, 56, 38, 0.05);
+}
+
+.verda-card-sage {
+  background: #F4F8F5;
+  border: 1px solid #E0ECE2;
+}
+
+.verda-badge {
+  background: #EBF5ED;
+  color: #123826;
+  border: 1px solid #D5E7D8;
+}
+
+/* Backward compatibility classes mapped to VerdaAgro light styling */
 .glass-panel {
-  background: rgba(15, 20, 17, 0.72);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(16, 185, 129, 0.15);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5), inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+  background: #FFFFFF;
+  border: 1px solid #E2ECE3;
+  box-shadow: 0 6px 24px -2px rgba(18, 56, 38, 0.06);
 }
 
 .glass-panel-elevated {
-  background: rgba(21, 28, 23, 0.85);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(0, 255, 135, 0.22);
-  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.7), 0 0 20px -2px rgba(0, 255, 135, 0.12), inset 0 1px 1px 0 rgba(255, 255, 255, 0.08);
+  background: #FFFFFF;
+  border: 1px solid #CCE0D0;
+  box-shadow: 0 14px 35px -4px rgba(18, 56, 38, 0.09);
 }
 
 .glow-mint {
-  box-shadow: 0 0 25px -4px rgba(0, 255, 135, 0.35);
+  box-shadow: 0 0 25px -4px rgba(46, 125, 50, 0.25);
 }
 
 .glow-subtle {
-  box-shadow: 0 0 35px -5px rgba(16, 185, 129, 0.12);
+  box-shadow: 0 0 35px -5px rgba(46, 125, 50, 0.12);
 }
 
 .hairline-border {
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid #E2ECE3;
 }
 
-/* Custom dark scrollbars */
+/* Custom Light Nature Scrollbars */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #060807;
+  background: #F4F8F5;
 }
 ::-webkit-scrollbar-thumb {
-  background: #1D2721;
+  background: #C8DCD0;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #10B981;
+  background: #2E7D32;
 }
 
 /* Print styles for selling checklist */
@@ -87,7 +124,7 @@
   .no-print {
     display: none !important;
   }
-  .glass-panel, .glass-panel-elevated {
+  .glass-panel, .glass-panel-elevated, .verda-card {
     background: white !important;
     border: 1px solid #ccc !important;
     box-shadow: none !important;

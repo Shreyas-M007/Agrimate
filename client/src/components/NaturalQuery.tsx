@@ -78,19 +78,19 @@ export const NaturalQuery: React.FC<NaturalQueryProps> = ({
   };
 
   return (
-    <div className="glass-panel rounded-2xl p-5 border border-emerald-500/25 shadow-[0_12px_40px_rgba(0,0,0,0.8)]">
+    <div className="verda-card rounded-2xl p-5 border border-[#E2ECE3] shadow-sm">
       <div className="flex items-center justify-between gap-2 mb-2">
         <div className="flex items-center gap-2">
-          <Sparkles className="w-5 h-5 text-[#00FF87]" />
-          <h3 className="font-bold text-white text-base font-['Syne',sans-serif]">
+          <Sparkles className="w-5 h-5 text-[#2E7D32]" />
+          <h3 className="font-bold text-[#123826] text-base font-['Syne',sans-serif]">
             {t.searchTabNlp}
           </h3>
         </div>
-        <span className="text-[11px] font-mono text-[#00FF87] bg-emerald-950/70 border border-emerald-500/30 px-2.5 py-0.5 rounded-full">
+        <span className="text-[11px] font-mono text-[#123826] bg-[#EBF5ED] border border-[#CCE0D0] px-2.5 py-0.5 rounded-full font-medium">
           Voice & Natural Search
         </span>
       </div>
-      <p className="text-xs font-mono text-stone-400 mb-3.5">
+      <p className="text-xs font-mono text-stone-600 mb-3.5">
         {t.nlpPrompt}
       </p>
 
@@ -112,7 +112,7 @@ export const NaturalQuery: React.FC<NaturalQueryProps> = ({
                 ? "जैसे: 'बेल्लारी में 500 किलो टमाटर बेचना है'" 
                 : (language === 'kn' ? "ಉದಾ: 'ಬಳ್ಳಾರಿಯಲ್ಲಿ 500 ಕೆಜಿ ಟೊಮೆಟೊ'" : "e.g. 'I want to sell 500 kg tomato in Ballari'")
             }
-            className="w-full pl-4 pr-10 py-3 bg-[#0A0D0B] border border-white/15 rounded-xl text-white font-mono text-sm placeholder:text-stone-600 focus:outline-none focus:border-[#00FF87] focus:ring-1 focus:ring-[#00FF87] transition-all"
+            className="w-full pl-4 pr-10 py-3 bg-white border border-[#CCE0D0] rounded-xl text-[#162E21] font-mono text-sm placeholder:text-stone-400 focus:outline-none focus:border-[#2E7D32] focus:ring-1 focus:ring-[#2E7D32] transition-all"
           />
         </div>
 
@@ -123,8 +123,8 @@ export const NaturalQuery: React.FC<NaturalQueryProps> = ({
           title={isListening ? t.nlpListening : t.nlpMicStart}
           className={`px-3.5 py-3 rounded-xl border flex items-center justify-center transition-all cursor-pointer ${
             isListening 
-              ? 'bg-red-600/90 border-red-500 text-white animate-pulse shadow-[0_0_20px_rgba(239,68,68,0.5)]' 
-              : 'bg-white/5 hover:bg-emerald-500/10 border-white/15 hover:border-emerald-500/30 text-stone-300 hover:text-[#00FF87]'
+              ? 'bg-red-600 text-white animate-pulse shadow-md border-red-700' 
+              : 'bg-[#F4F8F5] hover:bg-[#EBF5ED] border-[#CCE0D0] hover:border-[#2E7D32] text-[#123826] hover:text-[#2E7D32]'
           }`}
           aria-label={t.nlpMicStart}
         >
@@ -136,10 +136,10 @@ export const NaturalQuery: React.FC<NaturalQueryProps> = ({
           type="button"
           onClick={() => parseAndApply(queryText)}
           disabled={isProcessing || !queryText.trim()}
-          className="px-5 py-3 bg-[#00FF87] hover:bg-[#10B981] text-[#060807] font-black text-sm rounded-xl transition-all flex items-center gap-1.5 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_0_20px_rgba(0,255,135,0.25)] font-['Syne',sans-serif]"
+          className="px-5 py-3 bg-[#2E7D32] hover:bg-[#1B5E20] text-white font-bold text-sm rounded-xl transition-all flex items-center gap-1.5 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow-md font-['Syne',sans-serif]"
         >
           {isProcessing ? (
-            <div className="w-4 h-4 border-2 border-[#060807] border-t-transparent rounded-full animate-spin" />
+            <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
           ) : (
             <>
               <CornerDownLeft className="w-4 h-4" />
@@ -162,7 +162,7 @@ export const NaturalQuery: React.FC<NaturalQueryProps> = ({
                 setQueryText(label);
                 parseAndApply(label);
               }}
-              className="text-xs font-mono bg-[#111713] hover:bg-emerald-950/60 border border-white/10 hover:border-emerald-500/40 text-stone-300 hover:text-[#00FF87] px-2.5 py-1 rounded-lg transition-all cursor-pointer"
+              className="text-xs font-mono bg-[#F4F8F5] hover:bg-[#EBF5ED] border border-[#CCE0D0] hover:border-[#2E7D32] text-stone-700 hover:text-[#123826] px-2.5 py-1 rounded-lg transition-all cursor-pointer"
             >
               "{label}"
             </button>
@@ -172,14 +172,14 @@ export const NaturalQuery: React.FC<NaturalQueryProps> = ({
 
       {/* Structured parsed preview verification */}
       {parsedPreview && (
-        <div className="mt-3.5 p-3 bg-emerald-950/60 border border-emerald-500/30 rounded-xl flex items-center justify-between text-xs text-stone-200 font-mono shadow-inner">
+        <div className="mt-3.5 p-3 bg-[#EBF5ED] border border-[#A5D6A7] rounded-xl flex items-center justify-between text-xs text-[#123826] font-mono shadow-inner">
           <div className="flex items-center gap-2">
-            <CheckCircle2 className="w-4 h-4 text-[#00FF87] shrink-0" />
+            <CheckCircle2 className="w-4 h-4 text-[#2E7D32] shrink-0" />
             <span>
-              <strong className="text-[#00FF87]">Validated:</strong> {parsedPreview.crop} • {parsedPreview.location} • {parsedPreview.quantity} {parsedPreview.unit}
+              <strong className="text-[#123826]">Validated:</strong> {parsedPreview.crop} • {parsedPreview.location} • {parsedPreview.quantity} {parsedPreview.unit}
             </span>
           </div>
-          <span className="text-[11px] text-emerald-300 bg-emerald-900/50 px-2.5 py-0.5 rounded border border-emerald-700/50 font-medium">
+          <span className="text-[11px] text-[#123826] bg-white px-2.5 py-0.5 rounded border border-[#A5D6A7] font-semibold">
             Search Ready
           </span>
         </div>

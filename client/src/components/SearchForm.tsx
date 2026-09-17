@@ -95,25 +95,25 @@ export const SearchForm: React.FC<SearchFormProps> = ({
   };
 
   return (
-    <div className="glass-panel rounded-2xl overflow-hidden shadow-[0_12px_40px_rgba(0,0,0,0.8)] border border-emerald-500/20">
-      {/* Visual Terminal Subheader */}
-      <div className="bg-[#0D120E] border-b border-white/10 px-5 py-3.5 flex items-center justify-between">
-        <h2 className="text-base sm:text-lg font-bold text-white flex items-center gap-2 font-['Syne',sans-serif]">
-          <SlidersHorizontal className="w-5 h-5 text-[#00FF87]" />
+    <div className="verda-card rounded-3xl overflow-hidden border border-[#E2ECE3] shadow-sm">
+      {/* Visual Subheader */}
+      <div className="bg-[#F4F8F5] border-b border-[#E2ECE3] px-6 py-4 flex items-center justify-between">
+        <h2 className="text-base sm:text-lg font-bold text-[#123826] flex items-center gap-2 font-['Syne',sans-serif]">
+          <SlidersHorizontal className="w-5 h-5 text-[#2E7D32]" />
           <span>{t.searchTabForm}</span>
         </h2>
         <div className="flex items-center gap-2">
-          <span className="text-[11px] font-mono uppercase tracking-wider text-emerald-300 bg-emerald-950/60 border border-emerald-500/30 px-2.5 py-1 rounded-md">
+          <span className="text-[11px] font-medium uppercase tracking-wider text-[#123826] bg-[#EBF5ED] border border-[#CCE0D0] px-3 py-1 rounded-full">
             Official Agmarknet Rates
           </span>
         </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="p-5 sm:p-6 space-y-6">
+      <form onSubmit={handleSubmit} className="p-6 sm:p-8 space-y-6">
         {/* Commodity Selector Matrix */}
         <div>
-          <label className="block text-xs font-mono uppercase tracking-wider text-stone-400 mb-2.5">
-            {t.cropLabel} <span className="text-red-400">*</span>
+          <label className="block text-xs font-semibold uppercase tracking-wider text-stone-600 mb-2.5">
+            {t.cropLabel} <span className="text-red-500">*</span>
           </label>
 
           {/* Quick select pills */}
@@ -132,19 +132,19 @@ export const SearchForm: React.FC<SearchFormProps> = ({
                       onVarietyChange(item.varieties[0]);
                     }
                   }}
-                  className={`flex flex-col items-center justify-center p-2.5 rounded-xl border transition-all cursor-pointer ${
+                  className={`flex flex-col items-center justify-center p-2.5 rounded-2xl border transition-all cursor-pointer ${
                     isSelected 
-                      ? 'bg-emerald-950/90 border-[#00FF87] text-[#00FF87] font-bold shadow-[0_0_20px_rgba(0,255,135,0.25)] scale-105' 
-                      : 'bg-[#111713]/80 border-white/10 text-stone-300 hover:border-emerald-500/40 hover:bg-[#161E19]'
+                      ? 'bg-[#EBF5ED] border-[#2E7D32] text-[#123826] font-bold shadow-xs scale-102 ring-1 ring-[#2E7D32]' 
+                      : 'bg-white border-[#E2ECE3] text-stone-700 hover:border-[#2E7D32] hover:bg-[#F7FAF8]'
                   }`}
                   aria-pressed={isSelected}
                 >
-                  <span className="text-2xl mb-1 filter drop-shadow">{item.icon}</span>
+                  <span className="text-2xl mb-1 filter drop-shadow-xs">{item.icon}</span>
                   <span className="text-xs font-bold leading-tight truncate w-full text-center">
                     {localName}
                   </span>
                   {language !== 'en' && (
-                    <span className="text-[10px] text-stone-500 truncate w-full text-center font-mono">
+                    <span className="text-[10px] text-stone-400 truncate w-full text-center font-mono">
                       {item.name}
                     </span>
                   )}
@@ -155,18 +155,18 @@ export const SearchForm: React.FC<SearchFormProps> = ({
 
           {/* Variety Selector */}
           {activeCommodity && activeCommodity.varieties && activeCommodity.varieties.length > 0 && (
-            <div className="flex items-center gap-2 text-xs font-mono text-stone-400 bg-[#0A0D0B] p-2.5 rounded-xl border border-white/10">
-              <span className="text-emerald-400 font-semibold">{t.varietyLabel}:</span>
+            <div className="flex items-center gap-2 text-xs font-mono text-stone-600 bg-[#F4F8F5] p-3 rounded-2xl border border-[#CCE0D0]">
+              <span className="text-[#123826] font-bold">{t.varietyLabel}:</span>
               <div className="flex flex-wrap gap-1.5">
                 {activeCommodity.varieties.map(v => (
                   <button
                     key={v}
                     type="button"
                     onClick={() => onVarietyChange(v)}
-                    className={`px-2.5 py-1 rounded-md text-xs transition-all cursor-pointer ${
+                    className={`px-3 py-1 rounded-lg text-xs font-medium transition-all cursor-pointer ${
                       variety === v 
-                        ? 'bg-emerald-500/20 text-[#00FF87] border border-[#00FF87]/50 font-bold shadow-[0_0_10px_rgba(0,255,135,0.2)]' 
-                        : 'bg-white/5 text-stone-400 hover:text-white border border-white/5 hover:border-white/20'
+                        ? 'bg-[#123826] text-white shadow-xs font-bold' 
+                        : 'bg-white text-stone-700 hover:text-stone-900 border border-[#CCE0D0]'
                     }`}
                   >
                     {v}
@@ -181,19 +181,19 @@ export const SearchForm: React.FC<SearchFormProps> = ({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           {/* Location Input */}
           <div>
-            <label className="block text-xs font-mono uppercase tracking-wider text-stone-400 mb-1.5 flex items-center justify-between">
-              <span className="flex items-center gap-1.5 text-stone-300">
-                <MapPin className="w-3.5 h-3.5 text-[#00FF87]" />
+            <label className="block text-xs uppercase tracking-wider font-semibold text-stone-600 mb-1.5 flex items-center justify-between">
+              <span className="flex items-center gap-1.5 text-stone-800">
+                <MapPin className="w-3.5 h-3.5 text-[#2E7D32]" />
                 {t.locationLabel}
               </span>
               <button
                 type="button"
                 onClick={handleGpsClick}
                 disabled={locating}
-                className="text-xs text-emerald-300 hover:text-[#00FF87] font-semibold flex items-center gap-1 bg-emerald-950/60 hover:bg-emerald-900/60 px-2 py-0.5 rounded-md border border-emerald-500/30 transition-all cursor-pointer"
+                className="text-xs text-[#123826] hover:text-[#2E7D32] font-semibold flex items-center gap-1 bg-[#EBF5ED] hover:bg-[#D5E7D8] px-2.5 py-0.5 rounded-full border border-[#CCE0D0] transition-all cursor-pointer shadow-xs"
                 aria-label="Use device GPS location"
               >
-                <Navigation className={`w-3 h-3 ${locating ? 'animate-spin text-[#00FF87]' : ''}`} />
+                <Navigation className={`w-3 h-3 ${locating ? 'animate-spin text-[#2E7D32]' : 'text-[#2E7D32]'}`} />
                 <span>{locating ? 'Locating...' : (gpsActive ? t.gpsActive : t.useGps)}</span>
               </button>
             </label>
@@ -205,39 +205,39 @@ export const SearchForm: React.FC<SearchFormProps> = ({
                 setGpsActive(false);
               }}
               placeholder={t.locationPlaceholder}
-              className="w-full px-4 py-3 text-sm bg-[#0A0D0B] border border-white/15 rounded-xl text-white placeholder:text-stone-600 focus:outline-none focus:border-[#00FF87] focus:ring-1 focus:ring-[#00FF87] transition-all font-medium"
+              className="w-full px-4 py-3 text-sm bg-white border border-[#CCE0D0] rounded-2xl text-stone-900 placeholder:text-stone-400 focus:outline-none focus:border-[#2E7D32] focus:ring-1 focus:ring-[#2E7D32] transition-all font-medium shadow-xs"
             />
-            <p className="text-[11px] font-mono text-stone-500 mt-1">
-              Hubs: Ballari, Kolar, Bangalore, Belagavi, Mysuru, Nashik, Pune, Guntur, Agra, Khanna...
+            <p className="text-[11px] text-stone-500 mt-1">
+              Popular APMCs: Ballari, Kolar, Bangalore, Belagavi, Mysuru, Nashik, Pune, Guntur, Agra...
             </p>
           </div>
 
           {/* Quantity Input with Unit Selector */}
           <div>
-            <label className="block text-xs font-mono uppercase tracking-wider text-stone-400 mb-1.5 flex items-center gap-1.5">
-              <Scale className="w-3.5 h-3.5 text-[#00FF87]" />
-              <span className="text-stone-300">{t.quantityLabel}</span>
+            <label className="block text-xs uppercase tracking-wider font-semibold text-stone-600 mb-1.5 flex items-center gap-1.5">
+              <Scale className="w-3.5 h-3.5 text-[#2E7D32]" />
+              <span className="text-stone-800">{t.quantityLabel}</span>
             </label>
-            <div className="flex rounded-xl overflow-hidden border border-white/15 bg-[#0A0D0B] focus-within:border-[#00FF87] focus-within:ring-1 focus-within:ring-[#00FF87] transition-all">
+            <div className="flex rounded-2xl overflow-hidden border border-[#CCE0D0] bg-white focus-within:border-[#2E7D32] focus-within:ring-1 focus-within:ring-[#2E7D32] transition-all shadow-xs">
               <input
                 type="number"
                 min="0.1"
                 step="any"
                 value={quantity}
                 onChange={(e) => onQuantityChange(Math.max(0, parseFloat(e.target.value) || 0))}
-                className="w-full px-4 py-3 text-sm bg-transparent text-white font-mono font-bold focus:outline-none"
+                className="w-full px-4 py-3 text-sm bg-transparent text-stone-900 font-mono font-bold focus:outline-none"
                 placeholder="500"
               />
-              <div className="flex bg-[#111713] border-l border-white/10 shrink-0">
+              <div className="flex bg-[#F4F8F5] border-l border-[#CCE0D0] shrink-0 p-1 gap-1">
                 {(['kg', 'quintal', 'tonne'] as CropUnit[]).map((u) => (
                   <button
                     key={u}
                     type="button"
                     onClick={() => onUnitChange(u)}
-                    className={`px-3 py-2 text-xs font-mono font-semibold transition-all cursor-pointer ${
+                    className={`px-3 py-1.5 text-xs font-semibold rounded-xl transition-all cursor-pointer ${
                       unit === u 
-                        ? 'bg-emerald-500/20 text-[#00FF87] border-b-2 border-[#00FF87]' 
-                        : 'text-stone-400 hover:text-white'
+                        ? 'bg-[#123826] text-white shadow-xs font-bold' 
+                        : 'text-stone-600 hover:text-stone-900 hover:bg-white/60'
                     }`}
                   >
                     {u === 'kg' ? t.unitKg : (u === 'quintal' ? t.unitQuintal : t.unitTonne)}
@@ -246,13 +246,13 @@ export const SearchForm: React.FC<SearchFormProps> = ({
               </div>
             </div>
 
-            {/* Live Normalized Quantity Preview (PRD Sec 7.3) */}
-            <div className="mt-2 text-xs bg-[#0F1411] border border-white/10 text-stone-300 px-3 py-1.5 rounded-lg flex items-center justify-between font-mono">
-              <span className="text-stone-400">{t.normalizedPreview}:</span>
+            {/* Live Normalized Quantity Preview */}
+            <div className="mt-2 text-xs bg-[#F4F8F5] border border-[#CCE0D0] text-stone-700 px-3.5 py-2 rounded-xl flex items-center justify-between font-mono">
+              <span className="text-stone-500">{t.normalizedPreview}:</span>
               <span>
                 {numQty > 0 ? (
                   <>
-                    <strong className="text-[#00FF87]">{normalizedInQuintals} Quintals</strong> <span className="text-stone-500">({normalizedInKg} kg / {normalizedInTonnes} t)</span>
+                    <strong className="text-[#123826] font-bold">{normalizedInQuintals} Quintals</strong> <span className="text-stone-500">({normalizedInKg} kg / {normalizedInTonnes} t)</span>
                   </>
                 ) : '0 Quintals'}
               </span>
@@ -265,16 +265,16 @@ export const SearchForm: React.FC<SearchFormProps> = ({
           <button
             type="submit"
             disabled={isLoading || !selectedCrop}
-            className="w-full bg-gradient-to-r from-[#00FF87] to-[#059669] hover:from-[#10B981] hover:to-[#047857] text-[#060807] font-black text-base py-3.5 px-6 rounded-xl shadow-[0_0_30px_rgba(0,255,135,0.3)] hover:shadow-[0_0_40px_rgba(0,255,135,0.5)] transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed font-['Syne',sans-serif] tracking-wide"
+            className="w-full bg-[#123826] hover:bg-[#1B4D35] text-white font-black text-base py-3.5 px-6 rounded-2xl shadow-sm hover:shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed font-['Syne',sans-serif] tracking-wide"
           >
             {isLoading ? (
               <>
-                <div className="w-5 h-5 border-2 border-[#060807] border-t-transparent rounded-full animate-spin" />
+                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
                 <span>{t.searching}</span>
               </>
             ) : (
               <>
-                <Search className="w-5 h-5" />
+                <Search className="w-5 h-5 text-[#A5D6A7]" />
                 <span>{t.searchButton}</span>
               </>
             )}
@@ -282,10 +282,10 @@ export const SearchForm: React.FC<SearchFormProps> = ({
         </div>
 
         {/* Quick Presets */}
-        <div className="pt-2 border-t border-white/10 flex flex-wrap items-center gap-2 text-xs">
-          <span className="font-mono text-stone-500 flex items-center gap-1">
-            <Sparkles className="w-3 h-3 text-[#00FF87]" />
-            Presets:
+        <div className="pt-3 border-t border-[#E2ECE3] flex flex-wrap items-center gap-2 text-xs">
+          <span className="text-stone-500 font-medium flex items-center gap-1">
+            <Sparkles className="w-3 h-3 text-[#2E7D32]" />
+            Quick Presets:
           </span>
           {[
             { label: "🍅 Tomato 500kg (Ballari)", crop: "Tomato", loc: "Ballari, Karnataka", qty: 500, u: "kg" as CropUnit },
@@ -304,7 +304,7 @@ export const SearchForm: React.FC<SearchFormProps> = ({
                 onUnitChange(item.u);
                 setTimeout(() => onSearch(), 50);
               }}
-              className="bg-[#111713] hover:bg-emerald-950/60 text-stone-300 hover:text-[#00FF87] font-mono px-2.5 py-1 rounded-lg border border-white/10 hover:border-emerald-500/40 transition-all cursor-pointer text-[11px]"
+              className="bg-[#F4F8F5] hover:bg-[#EBF5ED] text-stone-700 hover:text-[#123826] px-3 py-1 rounded-xl border border-[#CCE0D0] transition-all cursor-pointer text-[11px] font-medium"
             >
               {item.label}
             </button>

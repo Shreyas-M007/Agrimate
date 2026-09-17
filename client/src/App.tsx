@@ -95,7 +95,7 @@ export const App: React.FC = () => {
         const res = await fetch('/api/preferences');
         const data = await res.json();
         if (data.success && data.preferences) {
-          if (data.preferences.language) setLanguage(data.preferences.language as Language);
+          // English is ALWAYS default on initial load per user specification
           if (data.preferences.location) setLocation(data.preferences.location);
           if (data.preferences.preferred_units) setUnit(data.preferences.preferred_units as CropUnit);
         }
@@ -247,7 +247,7 @@ export const App: React.FC = () => {
   const quantityQuintals = searchResult?.normalized_quantity?.in_quintals || (unit === 'kg' ? quantity / 100 : (unit === 'tonne' ? quantity * 10 : quantity));
 
   return (
-    <div className="min-h-screen bg-[#060807] text-stone-100 flex flex-col font-['Plus_Jakarta_Sans',sans-serif]">
+    <div className="min-h-screen bg-[#FBFDF9] text-[#162E21] flex flex-col font-['Plus_Jakarta_Sans',sans-serif]">
       {/* Header with language, sync, settings & online toggle */}
       <Header
         language={language}
@@ -261,8 +261,8 @@ export const App: React.FC = () => {
 
       {/* Live Sync Notification Toast */}
       {syncToast && (
-        <div className="bg-[#00FF87] text-[#060807] font-bold text-xs sm:text-sm px-4 py-2.5 text-center flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(0,255,135,0.4)] animate-in fade-in font-mono">
-          <CheckCircle2 className="w-4 h-4 text-[#060807] shrink-0" />
+        <div className="bg-[#123826] text-white font-semibold text-xs sm:text-sm px-4 py-2.5 text-center flex items-center justify-center gap-2 shadow-sm animate-in fade-in font-mono">
+          <CheckCircle2 className="w-4 h-4 text-[#4CAF50] shrink-0" />
           <span>{syncToast}</span>
         </div>
       )}
@@ -277,47 +277,64 @@ export const App: React.FC = () => {
 
       {/* Main Container */}
       <main className="max-w-7xl mx-auto w-full px-4 py-6 flex-1 space-y-8">
-        {/* Hero Visual Graphic Banner */}
-        <div className="relative rounded-3xl overflow-hidden border border-emerald-500/25 shadow-[0_12px_45px_rgba(0,0,0,0.85)] group">
-          <div className="absolute inset-0">
-            <img 
-              src="/agro_terminal_hero.jpg" 
-              alt="MandiMate Agro-Financial Intelligence Terminal" 
-              className="w-full h-full object-cover object-center opacity-40 group-hover:scale-102 transition-all duration-700 filter brightness-90"
-            />
-            <div className="absolute inset-0 bg-gradient-to-r from-[#060807] via-[#060807]/80 to-transparent" />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#060807] via-transparent to-transparent" />
-          </div>
+        {/* VerdaAgro Agriculture Hero Section */}
+        <div className="verda-card rounded-3xl p-6 sm:p-10 border border-[#E2ECE3] relative overflow-hidden bg-gradient-to-br from-white via-[#F7FBF8] to-[#EBF5ED]">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            {/* Left Content Column */}
+            <div className="lg:col-span-7 space-y-4">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#EBF5ED] border border-[#CCE0D0] text-xs font-semibold text-[#123826]">
+                <ShieldCheck className="w-4 h-4 text-[#2E7D32]" />
+                <span>100% Official APMC Rates • Zero Speculation</span>
+              </div>
+              <h2 className="text-3xl sm:text-5xl font-black text-[#123826] font-['Syne',sans-serif] tracking-tight leading-[1.15]">
+                Modern Agriculture Intelligence for Farms & Growers
+              </h2>
+              <p className="text-sm sm:text-base text-stone-600 font-normal leading-relaxed max-w-xl">
+                Compare verified wholesale mandi prices across 20 APMC hubs, calculate realistic transport logistics, and receive clear selling advisory in your regional language.
+              </p>
 
-          <div className="relative z-10 p-6 sm:p-10 max-w-2xl space-y-3">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-950/80 border border-emerald-500/30 text-[11px] font-medium text-[#00FF87]">
-              <ShieldCheck className="w-3.5 h-3.5" />
-              <span>Official Agmarknet Market Rates</span>
+              {/* Agricultural Key Stat Tiles */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
+                <div className="bg-white p-3.5 rounded-2xl border border-[#E2ECE3] shadow-xs">
+                  <span className="text-[11px] text-stone-500 font-medium block">Active Markets</span>
+                  <span className="text-[#123826] font-black text-lg sm:text-xl">20 Mandis</span>
+                </div>
+                <div className="bg-white p-3.5 rounded-2xl border border-[#E2ECE3] shadow-xs">
+                  <span className="text-[11px] text-stone-500 font-medium block">Key Crops</span>
+                  <span className="text-[#123826] font-black text-lg sm:text-xl">10 Crops</span>
+                </div>
+                <div className="bg-white p-3.5 rounded-2xl border border-[#E2ECE3] shadow-xs">
+                  <span className="text-[11px] text-stone-500 font-medium block">Top Spread</span>
+                  <span className="text-[#D97706] font-black text-lg sm:text-xl">₹1,400/q</span>
+                </div>
+                <div className="bg-white p-3.5 rounded-2xl border border-[#E2ECE3] shadow-xs">
+                  <span className="text-[11px] text-stone-500 font-medium block">Sync Status</span>
+                  <span className="text-[#2E7D32] font-black text-lg sm:text-xl">Daily Live</span>
+                </div>
+              </div>
             </div>
-            <h2 className="text-2xl sm:text-4xl font-black text-white font-['Syne',sans-serif] tracking-tight leading-tight">
-              Real-Time Mandi Prices & Selling Advisory
-            </h2>
-            <p className="text-xs sm:text-sm text-stone-300 font-normal leading-relaxed">
-              Verified wholesale arrival rates, transport cost calculators, and multilingual market advisory to help farmers get the best price for their harvest.
-            </p>
 
-            {/* Live Metrics Strip */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-2 font-mono text-xs">
-              <div className="bg-[#0A0D0B]/80 backdrop-blur-md p-2.5 rounded-xl border border-white/10">
-                <span className="text-[10px] text-stone-400 block">Active Markets</span>
-                <span className="text-[#00FF87] font-bold">20 Mandis</span>
-              </div>
-              <div className="bg-[#0A0D0B]/80 backdrop-blur-md p-2.5 rounded-xl border border-white/10">
-                <span className="text-[10px] text-stone-400 block">Commodities</span>
-                <span className="text-stone-200 font-bold">10 Crops</span>
-              </div>
-              <div className="bg-[#0A0D0B]/80 backdrop-blur-md p-2.5 rounded-xl border border-white/10">
-                <span className="text-[10px] text-stone-400 block">Top Modal Spread</span>
-                <span className="text-[#F59E0B] font-bold">₹1,400/q</span>
-              </div>
-              <div className="bg-[#0A0D0B]/80 backdrop-blur-md p-2.5 rounded-xl border border-white/10">
-                <span className="text-[10px] text-stone-400 block">Update Status</span>
-                <span className="text-[#00FF87] font-bold">Daily Live Sync</span>
+            {/* Right Photography Column */}
+            <div className="lg:col-span-5 relative">
+              <div className="relative rounded-2xl overflow-hidden shadow-lg border border-[#D5E7D8] aspect-[4/3] group">
+                <img 
+                  src="/verda_agro_hero.jpg" 
+                  alt="VerdaAgro Agriculture Fields and Crops" 
+                  className="w-full h-full object-cover group-hover:scale-103 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+                
+                {/* Floating Farm Card */}
+                <div className="absolute bottom-3 left-3 right-3 bg-white/95 backdrop-blur-md p-3.5 rounded-xl border border-white/80 shadow-md flex items-center justify-between">
+                  <div>
+                    <span className="text-[10px] font-bold text-[#2E7D32] uppercase tracking-wider block">Featured Market Rate</span>
+                    <strong className="text-sm text-[#123826]">Ballari APMC • Tomato Hybrid</strong>
+                  </div>
+                  <div className="text-right font-mono">
+                    <span className="text-base font-black text-[#123826]">₹2,200</span>
+                    <span className="text-xs text-stone-500">/q</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -330,10 +347,10 @@ export const App: React.FC = () => {
             <button
               type="button"
               onClick={() => setActiveTab('form')}
-              className={`px-4 py-2 font-mono text-xs font-bold rounded-xl border transition-all cursor-pointer ${
+              className={`px-5 py-2.5 text-xs font-bold rounded-2xl border transition-all cursor-pointer ${
                 activeTab === 'form'
-                  ? 'bg-emerald-500/20 text-[#00FF87] border-[#00FF87]/40 shadow-[0_0_15px_rgba(0,255,135,0.2)]'
-                  : 'bg-[#0A0D0B] text-stone-400 border-white/10 hover:text-white'
+                  ? 'bg-[#123826] text-white border-[#123826] shadow-sm'
+                  : 'bg-white text-stone-600 border-[#E2ECE3] hover:border-[#CCE0D0] hover:text-[#123826]'
               }`}
             >
               {t.searchTabForm}
@@ -341,13 +358,13 @@ export const App: React.FC = () => {
             <button
               type="button"
               onClick={() => setActiveTab('nlp')}
-              className={`px-4 py-2 font-mono text-xs font-bold rounded-xl border transition-all cursor-pointer flex items-center gap-1.5 ${
+              className={`px-5 py-2.5 text-xs font-bold rounded-2xl border transition-all cursor-pointer flex items-center gap-1.5 ${
                 activeTab === 'nlp'
-                  ? 'bg-emerald-500/20 text-[#00FF87] border-[#00FF87]/40 shadow-[0_0_15px_rgba(0,255,135,0.2)]'
-                  : 'bg-[#0A0D0B] text-stone-400 border-white/10 hover:text-white'
+                  ? 'bg-[#123826] text-white border-[#123826] shadow-sm'
+                  : 'bg-white text-stone-600 border-[#E2ECE3] hover:border-[#CCE0D0] hover:text-[#123826]'
               }`}
             >
-              <Sparkles className="w-3.5 h-3.5 text-[#00FF87]" />
+              <Sparkles className="w-3.5 h-3.5 text-[#2E7D32]" />
               <span>{t.searchTabNlp}</span>
             </button>
           </div>
@@ -377,19 +394,19 @@ export const App: React.FC = () => {
           )}
         </section>
 
-        {/* No-data notice if unverified or missing (PRD Sec 9 & 26) */}
+        {/* No-data notice if unverified or missing */}
         {searchResult && !searchResult.verified && (
-          <div className="glass-panel rounded-2xl border border-amber-500/30 p-8 text-center max-w-2xl mx-auto shadow-2xl">
-            <div className="w-12 h-12 bg-amber-950/60 text-amber-400 rounded-full flex items-center justify-center mx-auto mb-3 border border-amber-500/30">
+          <div className="verda-card rounded-3xl border border-amber-200 bg-[#FEF8ED] p-8 text-center max-w-2xl mx-auto shadow-sm">
+            <div className="w-12 h-12 bg-amber-100 text-amber-700 rounded-full flex items-center justify-center mx-auto mb-3 border border-amber-200">
               <AlertCircle className="w-6 h-6" />
             </div>
-            <h3 className="text-lg font-bold text-white mb-2 font-['Syne',sans-serif]">
+            <h3 className="text-lg font-bold text-[#123826] mb-2 font-['Syne',sans-serif]">
               {t.noDataTitle}
             </h3>
-            <p className="text-stone-300 text-xs sm:text-sm mb-4 leading-relaxed font-mono">
+            <p className="text-stone-700 text-xs sm:text-sm mb-4 leading-relaxed">
               {searchResult.message || t.noDataMsg}
             </p>
-            <p className="text-[11px] font-mono text-stone-400">
+            <p className="text-[11px] text-stone-500 font-medium">
               Notice: MandiMate only displays official government APMC market prices. When market committees have not filed today's rates, we do not estimate or substitute unverified prices.
             </p>
           </div>
@@ -398,7 +415,7 @@ export const App: React.FC = () => {
         {/* Results Section when verified data is available */}
         {searchResult && searchResult.verified && searchResult.markets.length > 0 && (
           <div className="space-y-8">
-            {/* Market Comparison Cards (PRD Sec 10, 11) */}
+            {/* Market Comparison Cards */}
             <MarketComparison
               markets={searchResult.markets}
               language={language}
@@ -409,18 +426,18 @@ export const App: React.FC = () => {
 
             {/* Selected Market Deep-Dive Section */}
             {selectedMarket && (
-              <div className="space-y-8 pt-4 border-t border-white/10">
-                <div className="glass-panel-elevated p-4 sm:p-5 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 border border-emerald-500/30 shadow-[0_8px_30px_rgba(0,0,0,0.8)]">
+              <div className="space-y-8 pt-4 border-t border-[#E2ECE3]">
+                <div className="verda-card p-5 rounded-3xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 border border-[#CCE0D0] shadow-sm">
                   <div>
-                    <span className="text-[11px] font-mono uppercase tracking-wider text-[#00FF87] font-bold">
+                    <span className="text-[11px] uppercase tracking-wider text-[#2E7D32] font-bold">
                       Selected Mandi Overview
                     </span>
-                    <h3 className="text-xl sm:text-2xl font-bold text-white font-['Syne',sans-serif]">
+                    <h3 className="text-xl sm:text-2xl font-bold text-[#123826] font-['Syne',sans-serif]">
                       {selectedMarket.market_name} ({selectedMarket.district})
                     </h3>
                   </div>
-                  <div className="text-xs font-mono bg-[#0A0D0B] px-3.5 py-2 rounded-xl border border-white/15 self-start sm:self-auto">
-                    Modal Rate: <strong className="text-[#00FF87] text-base tnum font-bold">₹{selectedMarket.modal_price}/quintal</strong>
+                  <div className="text-xs bg-[#F4F8F5] px-4 py-2.5 rounded-2xl border border-[#CCE0D0] self-start sm:self-auto font-mono">
+                    Modal Rate: <strong className="text-[#123826] text-base tnum font-black">₹{selectedMarket.modal_price}/quintal</strong>
                   </div>
                 </div>
 
@@ -466,9 +483,9 @@ export const App: React.FC = () => {
         <button
           type="button"
           onClick={() => setExplanationTerm('modal_price')}
-          className="bg-[#0A0D0B] hover:bg-[#111713] text-white font-mono font-bold px-4 py-2.5 rounded-full shadow-[0_0_20px_rgba(245,158,11,0.3)] border border-amber-400/80 flex items-center gap-2 transition-all hover:scale-105 cursor-pointer text-xs sm:text-sm"
+          className="bg-[#123826] hover:bg-[#1B4D35] text-white font-bold px-4 py-2.5 rounded-full shadow-lg border border-[#3FA744]/40 flex items-center gap-2 transition-all hover:scale-105 cursor-pointer text-xs sm:text-sm"
         >
-          <BookOpen className="w-4 h-4 text-amber-400" />
+          <BookOpen className="w-4 h-4 text-[#A5D6A7]" />
           <span>{t.educationalModalTitle}</span>
         </button>
       </div>
@@ -501,25 +518,31 @@ export const App: React.FC = () => {
         />
       )}
 
-      {/* Educational Term Modal (PRD Sec 15) */}
+      {/* Educational Term Modal */}
       <ExplainModal
         term={explanationTerm}
         language={language}
         onClose={() => setExplanationTerm(null)}
       />
 
-      {/* Footer */}
-      <footer className="bg-[#0A0D0B] text-stone-500 text-xs py-8 border-t border-white/10 mt-12 no-print font-mono">
-        <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+      {/* VerdaAgro Forest Green Footer */}
+      <footer className="bg-[#123826] text-stone-300 text-xs py-10 border-t border-[#1B4D35] mt-16 no-print">
+        <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-6">
           <div>
-            <span className="font-bold text-white text-sm font-['Syne',sans-serif]">🌾 MandiMate</span>
-            <p className="text-stone-400 mt-0.5 text-[11px]">
-              Agricultural market intelligence and selling advisory for Indian farmers.
+            <div className="flex items-center gap-2">
+              <span className="text-xl">🌾</span>
+              <span className="font-bold text-white text-base font-['Syne',sans-serif]">MandiMate</span>
+              <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-[#1B4D35] text-[#A5D6A7] border border-[#2E7D32]">
+                VerdaAgro Edition
+              </span>
+            </div>
+            <p className="text-emerald-200/80 mt-1 text-xs">
+              Official agricultural wholesale pricing and transparent advisory for Indian farmers.
             </p>
           </div>
-          <div className="text-center sm:text-right text-[10px] text-stone-400 space-y-0.5 font-mono">
-            <div>Official Data Source: Agmarknet • Ministry of Agriculture & Farmers Welfare</div>
-            <div>Trilingual Support: ಕನ್ನಡ • हिन्दी • English</div>
+          <div className="text-center sm:text-right text-[11px] text-emerald-200/70 space-y-1">
+            <div>Data Source: Agmarknet • Directorate of Marketing & Inspection, Ministry of Agriculture</div>
+            <div>Trilingual Support: English (Default) • ಕನ್ನಡ • हिन्दी</div>
           </div>
         </div>
       </footer>

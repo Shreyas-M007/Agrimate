@@ -35,144 +35,145 @@ export const Header: React.FC<HeaderProps> = ({
   };
 
   return (
-    <header className="bg-[#0A0D0B]/90 backdrop-blur-xl border-b border-emerald-500/15 sticky top-0 z-50 shadow-[0_8px_30px_rgba(0,0,0,0.7)]">
-      {/* Top Telemetry & Operational Bar */}
-      <div className="max-w-7xl mx-auto px-4 py-1.5 flex flex-wrap items-center justify-between gap-3 text-xs border-b border-white/5">
-        <div className="flex items-center gap-3 font-medium">
-          {/* Live Pulse Dot */}
-          <div className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-950/60 border border-emerald-500/30">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00FF87] opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-[#00FF87]"></span>
+    <header className="bg-white/95 backdrop-blur-md border-b border-[#E2ECE3] sticky top-0 z-50 shadow-[0_4px_20px_-4px_rgba(18,56,38,0.06)]">
+      {/* Top Agricultural Telemetry & Advisory Bar */}
+      <div className="bg-[#EBF5ED] border-b border-[#D5E7D8] text-xs text-[#123826] py-1.5">
+        <div className="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-between gap-2">
+          <div className="flex items-center gap-2 font-medium">
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white text-[#123826] font-bold text-[11px] shadow-xs border border-[#CCE0D0]">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#2E7D32] opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#2E7D32]"></span>
+              </span>
+              <span>Live Daily Feed</span>
             </span>
-            <span className="text-[11px] tracking-wide text-[#00FF87] font-semibold">Live Market Rates</span>
+            <span className="hidden sm:inline text-[#23583C] text-[11px]">
+              Official APMC Market Rates • Directorate of Marketing & Inspection, Ministry of Agriculture
+            </span>
           </div>
 
-          <div className="hidden sm:flex items-center gap-1.5 text-stone-400 text-[11px]">
-            <span className="text-stone-300">{t.dataIntegrityBadge}</span>
-          </div>
-        </div>
+          <div className="flex items-center gap-2">
+            {/* Sync trigger button */}
+            {onTriggerSync && (
+              <button
+                onClick={onTriggerSync}
+                disabled={isSyncing}
+                className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white hover:bg-[#F2F8F4] text-[#123826] border border-[#CCE0D0] text-[11px] font-medium transition-all cursor-pointer shadow-xs disabled:opacity-50"
+                title="Refresh latest Agmarknet market rates"
+              >
+                <RefreshCw className={`w-3 h-3 ${isSyncing ? 'animate-spin text-[#2E7D32]' : 'text-[#2E7D32]'}`} />
+                <span>{isSyncing ? 'Updating...' : 'Refresh Rates'}</span>
+                {syncStatus && (
+                  <span className="text-stone-500 hidden md:inline ml-1 font-mono text-[10px]">
+                    ({formatLastSync(syncStatus.last_sync?.timestamp)})
+                  </span>
+                )}
+              </button>
+            )}
 
-        <div className="flex items-center flex-wrap gap-2">
-          {/* Live Sync Trigger & Badge */}
-          {onTriggerSync && (
-            <button
-              onClick={onTriggerSync}
-              disabled={isSyncing}
-              className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-950/50 hover:bg-emerald-900/60 text-emerald-300 hover:text-[#00FF87] border border-emerald-500/20 text-xs font-mono transition-all cursor-pointer disabled:opacity-50 hover:border-emerald-500/50 hover:shadow-[0_0_15px_rgba(0,255,135,0.15)]"
-              title="Refresh latest Agmarknet market rates"
+            {/* Online/Offline status */}
+            <div 
+              className={`flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-medium border ${
+                isOnline 
+                  ? 'bg-emerald-50 text-emerald-800 border-emerald-200' 
+                  : 'bg-amber-50 text-amber-800 border-amber-200'
+              }`}
             >
-              <RefreshCw className={`w-3.5 h-3.5 ${isSyncing ? 'animate-spin text-[#00FF87]' : 'text-emerald-400'}`} />
-              <span className="font-semibold">{isSyncing ? 'Updating...' : 'Refresh Rates'}</span>
-              {syncStatus && (
-                <span className="text-[10px] text-stone-400 hidden md:inline ml-1 font-mono">
-                  ({formatLastSync(syncStatus.last_sync?.timestamp)})
-                </span>
+              {isOnline ? (
+                <>
+                  <Wifi className="w-3 h-3 text-[#2E7D32]" />
+                  <span className="hidden xs:inline">Online</span>
+                </>
+              ) : (
+                <>
+                  <WifiOff className="w-3 h-3 text-amber-600 animate-pulse" />
+                  <span>Offline</span>
+                </>
               )}
-            </button>
-          )}
-
-          {/* Records Indicator */}
-          {syncStatus && syncStatus.total_verified_records > 0 && (
-            <div className="hidden lg:flex items-center gap-1.5 text-[11px] font-mono text-emerald-300/80 bg-white/5 px-2 py-1 rounded-lg border border-white/10">
-              <Database className="w-3 h-3 text-[#00FF87]" />
-              <span>{syncStatus.total_verified_records.toLocaleString('en-IN')} Records</span>
             </div>
-          )}
 
-          {/* Online/Offline status indicator */}
-          <div 
-            className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-mono font-medium ${
-              isOnline 
-                ? 'bg-emerald-950/70 text-emerald-300 border border-emerald-500/30' 
-                : 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
-            }`}
-            aria-live="polite"
-          >
-            {isOnline ? (
-              <>
-                <Wifi className="w-3 h-3 text-[#00FF87]" />
-                <span className="hidden xs:inline">Online</span>
-              </>
-            ) : (
-              <>
-                <WifiOff className="w-3 h-3 text-amber-400 animate-pulse" />
-                <span>Offline</span>
-              </>
+            {/* Language Switcher */}
+            <div className="flex items-center bg-white p-0.5 rounded-lg border border-[#CCE0D0] shadow-xs">
+              <Globe className="w-3 h-3 ml-1.5 mr-1 text-stone-500" />
+              <button
+                onClick={() => onLanguageChange('en')}
+                className={`px-2 py-0.5 text-xs font-semibold rounded-md transition-all cursor-pointer ${
+                  language === 'en' 
+                    ? 'bg-[#123826] text-white shadow-xs font-bold' 
+                    : 'text-stone-600 hover:text-stone-900'
+                }`}
+              >
+                EN
+              </button>
+              <button
+                onClick={() => onLanguageChange('hi')}
+                className={`px-2 py-0.5 text-xs font-semibold rounded-md transition-all cursor-pointer ${
+                  language === 'hi' 
+                    ? 'bg-[#123826] text-white shadow-xs font-bold' 
+                    : 'text-stone-600 hover:text-stone-900'
+                }`}
+              >
+                हिन्दी
+              </button>
+              <button
+                onClick={() => onLanguageChange('kn')}
+                className={`px-2 py-0.5 text-xs font-semibold rounded-md transition-all cursor-pointer ${
+                  language === 'kn' 
+                    ? 'bg-[#123826] text-white shadow-xs font-bold' 
+                    : 'text-stone-600 hover:text-stone-900'
+                }`}
+              >
+                ಕನ್ನಡ
+              </button>
+            </div>
+
+            {/* Settings Button */}
+            {onOpenSettings && (
+              <button
+                onClick={onOpenSettings}
+                className="p-1 rounded-lg bg-white hover:bg-stone-50 text-stone-700 border border-[#CCE0D0] transition-all cursor-pointer shadow-xs"
+                title="Preferences & Data Sync"
+                aria-label="Settings"
+              >
+                <Settings className="w-3.5 h-3.5 text-[#123826]" />
+              </button>
             )}
           </div>
-
-          {/* Language Switcher */}
-          <div className="flex items-center bg-[#060807] p-0.5 rounded-lg border border-white/10">
-            <Globe className="w-3 h-3 ml-2 mr-1 text-stone-400" />
-            <button
-              onClick={() => onLanguageChange('en')}
-              className={`px-2 py-0.5 text-xs font-semibold rounded-md transition-all cursor-pointer ${
-                language === 'en' 
-                  ? 'bg-emerald-500/20 text-[#00FF87] border border-[#00FF87]/40 shadow-[0_0_12px_rgba(0,255,135,0.2)] font-bold' 
-                  : 'text-stone-400 hover:text-stone-200'
-              }`}
-            >
-              EN
-            </button>
-            <button
-              onClick={() => onLanguageChange('hi')}
-              className={`px-2 py-0.5 text-xs font-semibold rounded-md transition-all cursor-pointer ${
-                language === 'hi' 
-                  ? 'bg-emerald-500/20 text-[#00FF87] border border-[#00FF87]/40 shadow-[0_0_12px_rgba(0,255,135,0.2)] font-bold' 
-                  : 'text-stone-400 hover:text-stone-200'
-              }`}
-            >
-              हिन्दी
-            </button>
-            <button
-              onClick={() => onLanguageChange('kn')}
-              className={`px-2 py-0.5 text-xs font-semibold rounded-md transition-all cursor-pointer ${
-                language === 'kn' 
-                  ? 'bg-emerald-500/20 text-[#00FF87] border border-[#00FF87]/40 shadow-[0_0_12px_rgba(0,255,135,0.2)] font-bold' 
-                  : 'text-stone-400 hover:text-stone-200'
-              }`}
-            >
-              ಕನ್ನಡ
-            </button>
-          </div>
-
-          {/* Settings Button */}
-          {onOpenSettings && (
-            <button
-              onClick={onOpenSettings}
-              className="p-1.5 rounded-lg bg-white/5 hover:bg-emerald-500/10 text-stone-400 hover:text-[#00FF87] border border-white/10 hover:border-emerald-500/30 transition-all cursor-pointer"
-              title="Preferences & Data Sync"
-              aria-label="Settings"
-            >
-              <Settings className="w-4 h-4" />
-            </button>
-          )}
         </div>
       </div>
 
-      {/* Main Brand Terminal Row */}
+      {/* Main Brand Bar */}
       <div className="max-w-7xl mx-auto px-4 py-3.5 flex flex-col sm:flex-row items-center justify-between gap-4">
         <div className="flex items-center gap-3.5">
-          <div className="relative w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-600/30 to-emerald-950 border border-emerald-500/30 flex items-center justify-center text-2xl shadow-[0_0_20px_rgba(0,255,135,0.15)] shrink-0">
+          <div className="relative w-11 h-11 rounded-2xl bg-[#EBF5ED] border border-[#CCE0D0] flex items-center justify-center text-2xl shadow-xs shrink-0">
             🌾
-            <div className="absolute -bottom-1 -right-1 w-3.5 h-3.5 bg-[#00FF87] rounded-full border-2 border-[#060807]"></div>
+            <div className="absolute -bottom-1 -right-1 w-3.5 h-3.5 bg-[#2E7D32] rounded-full border-2 border-white"></div>
           </div>
           <div>
-            <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-white font-['Syne',sans-serif]">
-              {t.appTitle}
+            <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-[#123826] font-['Syne',sans-serif] flex items-center gap-2">
+              <span>{t.appTitle}</span>
+              <span className="text-[10px] font-mono font-bold uppercase tracking-wider bg-[#EBF5ED] text-[#123826] px-2 py-0.5 rounded-full border border-[#D5E7D8]">
+                VerdaAgro Edition
+              </span>
             </h1>
-            <p className="text-stone-400 text-xs sm:text-sm font-medium mt-0.5">
+            <p className="text-stone-500 text-xs sm:text-sm font-medium mt-0.5">
               {t.appTagline}
             </p>
           </div>
         </div>
 
         {/* Clean trust badge */}
-        <div className="hidden md:flex items-center gap-2 text-xs">
-          <div className="flex items-center gap-1.5 bg-[#0F1411] border border-white/10 px-3.5 py-1.5 rounded-xl text-stone-300">
-            <ShieldCheck className="w-4 h-4 text-[#00FF87]" />
-            <span className="font-medium">Official Government APMC Data</span>
+        <div className="hidden md:flex items-center gap-3 text-xs">
+          {syncStatus && syncStatus.total_verified_records > 0 && (
+            <div className="flex items-center gap-1.5 bg-[#F4F8F5] border border-[#E2ECE3] px-3 py-1.5 rounded-xl text-stone-600 font-mono">
+              <Database className="w-3.5 h-3.5 text-[#2E7D32]" />
+              <span>{syncStatus.total_verified_records.toLocaleString('en-IN')} Records</span>
+            </div>
+          )}
+
+          <div className="flex items-center gap-1.5 bg-[#F4F8F5] border border-[#E2ECE3] px-3.5 py-1.5 rounded-xl text-stone-700">
+            <ShieldCheck className="w-4 h-4 text-[#2E7D32]" />
+            <span className="font-semibold text-[#123826]">Official APMC Verified Data</span>
           </div>
         </div>
       </div>

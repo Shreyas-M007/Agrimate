@@ -111,10 +111,10 @@ export const AiExplanation: React.FC<AiExplanationProps> = ({
 
   if (loading) {
     return (
-      <div className="glass-panel-elevated rounded-3xl p-6 border border-emerald-500/30 animate-pulse">
+      <div className="verda-card rounded-3xl p-6 border border-[#CCE0D0] animate-pulse">
         <div className="flex items-center gap-3">
-          <div className="w-5 h-5 border-2 border-[#00FF87] border-t-transparent rounded-full animate-spin" />
-          <span className="text-sm font-medium text-emerald-300">
+          <div className="w-5 h-5 border-2 border-[#2E7D32] border-t-transparent rounded-full animate-spin" />
+          <span className="text-sm font-medium text-[#123826]">
             Generating market analysis in {language === 'hi' ? 'हिन्दी' : (language === 'kn' ? 'ಕನ್ನಡ' : 'English')}...
           </span>
         </div>
@@ -125,22 +125,21 @@ export const AiExplanation: React.FC<AiExplanationProps> = ({
   if (!explanation) return null;
 
   return (
-    <div className="relative overflow-hidden glass-panel-elevated text-white rounded-3xl p-6 sm:p-8 border border-emerald-500/30 shadow-[0_16px_50px_rgba(0,0,0,0.9)]">
-      {/* Background glowing telemetry gradients */}
-      <div className="absolute top-0 right-0 -mt-10 -mr-10 w-72 h-72 bg-emerald-500/15 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 left-0 -mb-10 -ml-10 w-72 h-72 bg-[#00FF87]/10 rounded-full blur-3xl pointer-events-none" />
+    <div className="relative overflow-hidden verda-card text-[#162E21] rounded-3xl p-6 sm:p-8 border border-[#CCE0D0] shadow-sm">
+      {/* Background subtle nature ambiance */}
+      <div className="absolute top-0 right-0 -mt-10 -mr-10 w-72 h-72 bg-[#EBF5ED] rounded-full blur-3xl pointer-events-none opacity-60" />
 
       {/* Header with audio and action controls */}
-      <div className="relative z-10 flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-5 mb-6">
+      <div className="relative z-10 flex flex-wrap items-center justify-between gap-4 border-b border-[#E2ECE3] pb-5 mb-6">
         <div className="flex items-center gap-3.5">
-          <div className="p-3 bg-gradient-to-br from-emerald-500/30 to-emerald-950 border border-emerald-500/40 text-[#00FF87] rounded-2xl shadow-[0_0_20px_rgba(0,255,135,0.25)]">
+          <div className="p-3 bg-[#EBF5ED] border border-[#CCE0D0] text-[#2E7D32] rounded-2xl">
             <Sparkles className="w-6 h-6" />
           </div>
           <div>
-            <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-white font-['Syne',sans-serif]">
+            <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-[#123826] font-['Syne',sans-serif]">
               {explanation.title}
             </h3>
-            <span className="text-xs font-mono text-[#00FF87] flex items-center gap-1.5 mt-0.5">
+            <span className="text-xs font-mono text-[#2E7D32] flex items-center gap-1.5 mt-0.5 font-medium">
               <Sparkles className="w-3.5 h-3.5" />
               <span>{t.aiExplanationBadge}</span>
             </span>
@@ -155,8 +154,8 @@ export const AiExplanation: React.FC<AiExplanationProps> = ({
             onClick={handleSpeak}
             className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-mono font-bold transition-all cursor-pointer ${
               isSpeaking 
-                ? 'bg-amber-400 text-stone-950 animate-bounce shadow-[0_0_15px_rgba(245,158,11,0.5)]' 
-                : 'bg-emerald-950/80 hover:bg-emerald-900 text-[#00FF87] border border-emerald-500/40 hover:shadow-[0_0_15px_rgba(0,255,135,0.2)]'
+                ? 'bg-amber-500 text-white animate-bounce shadow-md' 
+                : 'bg-[#2E7D32] hover:bg-[#1B5E20] text-white shadow-sm hover:shadow-md'
             }`}
             title={isSpeaking ? "Stop Voice Narration" : "Listen in Selected Language"}
           >
@@ -168,17 +167,17 @@ export const AiExplanation: React.FC<AiExplanationProps> = ({
           <button
             type="button"
             onClick={handleCopy}
-            className="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-stone-300 hover:text-white border border-white/10 transition-colors cursor-pointer"
+            className="p-2 rounded-xl bg-[#F4F8F5] hover:bg-[#EBF5ED] text-stone-700 hover:text-[#123826] border border-[#CCE0D0] transition-colors cursor-pointer"
             title="Copy Insights"
           >
-            {copied ? <Check className="w-4 h-4 text-[#00FF87]" /> : <Copy className="w-4 h-4" />}
+            {copied ? <Check className="w-4 h-4 text-[#2E7D32]" /> : <Copy className="w-4 h-4" />}
           </button>
 
           {/* WhatsApp Share Button */}
           <button
             type="button"
             onClick={handleShareWhatsApp}
-            className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-emerald-600/90 hover:bg-emerald-500 text-white text-xs font-mono font-bold transition-all cursor-pointer shadow-[0_0_15px_rgba(16,185,129,0.3)]"
+            className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-[#25D366] hover:bg-[#1EBE5D] text-white text-xs font-mono font-bold transition-all cursor-pointer shadow-sm"
             title="Share to WhatsApp"
           >
             <Share2 className="w-3.5 h-3.5" />
@@ -189,54 +188,54 @@ export const AiExplanation: React.FC<AiExplanationProps> = ({
 
       {/* Narrative Cards */}
       <div className="relative z-10 space-y-4 text-sm sm:text-base leading-relaxed">
-        <div className="bg-[#0A0D0B] p-5 rounded-2xl border border-emerald-500/20 shadow-inner">
-          <p className="font-semibold text-emerald-100 text-base sm:text-lg">
+        <div className="bg-[#F4F8F5] p-5 rounded-2xl border border-[#CCE0D0] shadow-inner">
+          <p className="font-semibold text-[#123826] text-base sm:text-lg">
             {explanation.summary}
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 font-mono text-xs">
-          <div className="bg-[#0A0D0B] p-4.5 rounded-2xl border border-white/10">
-            <div className="text-[10px] uppercase tracking-wider text-amber-400 font-bold mb-1.5">
+          <div className="bg-white p-4.5 rounded-2xl border border-[#E2ECE3]">
+            <div className="text-[10px] uppercase tracking-wider text-amber-800 font-bold mb-1.5">
               Price Range & Arrival Volume
             </div>
-            <p className="text-stone-300 leading-normal">{explanation.priceDetails}</p>
+            <p className="text-stone-700 leading-normal">{explanation.priceDetails}</p>
           </div>
 
-          <div className="bg-[#0A0D0B] p-4.5 rounded-2xl border border-white/10">
-            <div className="text-[10px] uppercase tracking-wider text-[#00FF87] font-bold mb-1.5">
+          <div className="bg-white p-4.5 rounded-2xl border border-[#E2ECE3]">
+            <div className="text-[10px] uppercase tracking-wider text-[#123826] font-bold mb-1.5">
               Historical Trend Insight
             </div>
-            <p className="text-stone-300 leading-normal">{explanation.trendExplanation}</p>
+            <p className="text-stone-700 leading-normal">{explanation.trendExplanation}</p>
           </div>
         </div>
 
         {explanation.estimatedValueNote && (
-          <div className="bg-amber-950/40 p-4 rounded-2xl border border-amber-500/30 text-xs font-mono text-amber-200">
-            <strong className="text-amber-300">Produce Estimate Note:</strong> {explanation.estimatedValueNote}
+          <div className="bg-amber-50 p-4 rounded-2xl border border-amber-200 text-xs font-mono text-amber-900">
+            <strong className="text-amber-800">Produce Estimate Note:</strong> {explanation.estimatedValueNote}
           </div>
         )}
 
-        <div className="bg-[#0D120E] p-5 rounded-2xl border border-emerald-500/30 flex items-start gap-3.5 shadow-inner">
-          <div className="p-2 bg-emerald-950 text-[#00FF87] border border-emerald-500/30 rounded-xl shrink-0 mt-0.5">
+        <div className="bg-[#EBF5ED] p-5 rounded-2xl border border-[#A5D6A7] flex items-start gap-3.5 shadow-inner">
+          <div className="p-2 bg-[#2E7D32] text-white rounded-xl shrink-0 mt-0.5">
             <Bot className="w-5 h-5" />
           </div>
           <div>
-            <div className="text-xs font-mono uppercase tracking-wider text-[#00FF87] font-bold mb-1">
+            <div className="text-xs font-mono uppercase tracking-wider text-[#123826] font-bold mb-1">
               Field Action Advice
             </div>
-            <p className="text-stone-200 font-medium">{explanation.advice}</p>
+            <p className="text-stone-800 font-medium">{explanation.advice}</p>
           </div>
         </div>
       </div>
 
       {/* Telemetry Footer */}
-      <div className="relative z-10 mt-6 pt-4 border-t border-white/10 text-xs font-mono text-stone-400 flex flex-wrap items-center justify-between gap-2">
+      <div className="relative z-10 mt-6 pt-4 border-t border-[#E2ECE3] text-xs font-mono text-stone-500 flex flex-wrap items-center justify-between gap-2">
         <div className="flex items-center gap-1.5">
-          <ShieldCheck className="w-4 h-4 text-[#00FF87] shrink-0" />
+          <ShieldCheck className="w-4 h-4 text-[#2E7D32] shrink-0" />
           <span>{explanation.verifiedNotice}</span>
         </div>
-        <span className="text-[10px] bg-white/5 px-2.5 py-1 rounded-md border border-white/10 text-stone-400">
+        <span className="text-[10px] bg-[#F4F8F5] px-2.5 py-1 rounded-md border border-[#E2ECE3] text-stone-600">
           Official APMC Market Advisory • Ministry of Agriculture
         </span>
       </div>

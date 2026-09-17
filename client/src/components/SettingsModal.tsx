@@ -86,24 +86,24 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
 
   return (
     <div
-      className="fixed inset-0 z-50 bg-[#060807]/80 backdrop-blur-md flex items-center justify-center p-4 cursor-pointer"
+      className="fixed inset-0 z-50 bg-stone-900/50 backdrop-blur-xs flex items-center justify-center p-4 cursor-pointer"
       role="dialog"
       aria-modal="true"
       onClick={onClose}
     >
       <div
-        className="glass-panel-elevated rounded-3xl max-w-lg w-full overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.95)] border border-emerald-500/30 animate-in fade-in zoom-in-95 cursor-default"
+        className="verda-card bg-white rounded-3xl max-w-lg w-full overflow-hidden shadow-xl border border-[#CCE0D0] animate-in fade-in zoom-in-95 cursor-default"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="bg-[#0D120E] text-white px-6 py-4 flex items-center justify-between border-b border-white/10">
+        <div className="bg-[#F4F8F5] text-[#123826] px-6 py-4 flex items-center justify-between border-b border-[#E2ECE3]">
           <div className="flex items-center gap-2 font-bold text-base font-['Syne',sans-serif]">
-            <Settings className="w-5 h-5 text-[#00FF87]" />
+            <Settings className="w-5 h-5 text-[#2E7D32]" />
             <span>Infrastructure & Farmer Profile</span>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg hover:bg-white/10 text-stone-400 hover:text-white transition-colors cursor-pointer"
+            className="p-1.5 rounded-lg hover:bg-[#EBF5ED] text-stone-500 hover:text-[#123826] transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
@@ -113,8 +113,8 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
         <div className="p-6 space-y-5 text-sm">
           {/* Language Selection */}
           <div>
-            <label className="block text-xs font-mono uppercase tracking-wider text-stone-400 mb-2 flex items-center gap-1.5">
-              <Globe className="w-3.5 h-3.5 text-[#00FF87]" />
+            <label className="block text-xs font-mono uppercase tracking-wider text-stone-600 mb-2 flex items-center gap-1.5 font-bold">
+              <Globe className="w-3.5 h-3.5 text-[#2E7D32]" />
               <span>Preferred Dialect / Language</span>
             </label>
             <div className="grid grid-cols-3 gap-2 font-mono text-xs">
@@ -129,8 +129,8 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                   onClick={() => setLocalLang(langItem.id as Language)}
                   className={`py-2 px-3 rounded-xl border transition-all cursor-pointer ${
                     localLang === langItem.id
-                      ? 'bg-emerald-500/20 border-[#00FF87] text-[#00FF87] shadow-[0_0_12px_rgba(0,255,135,0.25)] font-bold'
-                      : 'bg-[#0A0D0B] border-white/10 text-stone-400 hover:text-white'
+                      ? 'bg-[#EBF5ED] border-2 border-[#2E7D32] text-[#123826] shadow-xs font-bold'
+                      : 'bg-[#F4F8F5] border-[#CCE0D0] text-stone-700 hover:bg-[#EBF5ED]'
                   }`}
                 >
                   {langItem.label}
@@ -141,8 +141,8 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
 
           {/* Default Location */}
           <div>
-            <label className="block text-xs font-mono uppercase tracking-wider text-stone-400 mb-2 flex items-center gap-1.5">
-              <MapPin className="w-3.5 h-3.5 text-[#00FF87]" />
+            <label className="block text-xs font-mono uppercase tracking-wider text-stone-600 mb-2 flex items-center gap-1.5 font-bold">
+              <MapPin className="w-3.5 h-3.5 text-[#2E7D32]" />
               <span>Default District / Farm Location</span>
             </label>
             <input
@@ -150,7 +150,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
               value={localLoc}
               onChange={(e) => setLocalLoc(e.target.value)}
               placeholder="e.g. Ballari, Karnataka"
-              className="w-full px-3 py-2 border border-white/15 rounded-xl bg-[#0A0D0B] font-mono text-xs text-white focus:outline-none focus:border-[#00FF87]"
+              className="w-full px-3 py-2 border border-[#CCE0D0] rounded-xl bg-white font-mono text-xs text-[#162E21] focus:outline-none focus:border-[#2E7D32]"
             />
             <div className="flex flex-wrap gap-1.5 mt-2">
               <span className="text-[11px] font-mono text-stone-500 self-center mr-1">Quick Select:</span>
@@ -159,7 +159,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                   key={d}
                   type="button"
                   onClick={() => setLocalLoc(d)}
-                  className="text-[11px] font-mono bg-[#111713] hover:bg-emerald-950/60 text-stone-300 hover:text-[#00FF87] px-2 py-0.5 rounded-md border border-white/10 cursor-pointer"
+                  className="text-[11px] font-mono bg-[#F4F8F5] hover:bg-[#EBF5ED] text-stone-700 hover:text-[#123826] px-2 py-0.5 rounded-md border border-[#CCE0D0] cursor-pointer"
                 >
                   {d.split(',')[0]}
                 </button>
@@ -169,8 +169,8 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
 
           {/* Preferred Quantity Unit */}
           <div>
-            <label className="block text-xs font-mono uppercase tracking-wider text-stone-400 mb-2 flex items-center gap-1.5">
-              <Scale className="w-3.5 h-3.5 text-[#00FF87]" />
+            <label className="block text-xs font-mono uppercase tracking-wider text-stone-600 mb-2 flex items-center gap-1.5 font-bold">
+              <Scale className="w-3.5 h-3.5 text-[#2E7D32]" />
               <span>Default Agricultural Unit</span>
             </label>
             <div className="grid grid-cols-3 gap-2 font-mono text-xs">
@@ -181,8 +181,8 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                   onClick={() => setLocalUnit(u)}
                   className={`py-2 px-3 rounded-xl border transition-all cursor-pointer ${
                     localUnit === u
-                      ? 'bg-emerald-500/20 border-[#00FF87] text-[#00FF87] shadow-[0_0_12px_rgba(0,255,135,0.25)] font-bold'
-                      : 'bg-[#0A0D0B] border-white/10 text-stone-400 hover:text-white'
+                      ? 'bg-[#EBF5ED] border-2 border-[#2E7D32] text-[#123826] shadow-xs font-bold'
+                      : 'bg-[#F4F8F5] border-[#CCE0D0] text-stone-700 hover:bg-[#EBF5ED]'
                   }`}
                 >
                   {u === 'quintal' ? 'Quintal (100 kg)' : (u === 'kg' ? 'Kilogram (kg)' : 'Tonne (1000 kg)')}
@@ -192,27 +192,27 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
           </div>
 
           {/* Data Storage & Market Feed */}
-          <div className="pt-3 border-t border-white/10 space-y-2">
-            <span className="text-xs font-mono uppercase tracking-wider text-stone-400 block flex items-center gap-1.5">
-              <Database className="w-3.5 h-3.5 text-[#00FF87]" />
+          <div className="pt-3 border-t border-[#E2ECE3] space-y-2">
+            <span className="text-xs font-mono uppercase tracking-wider text-stone-600 block flex items-center gap-1.5 font-bold">
+              <Database className="w-3.5 h-3.5 text-[#2E7D32]" />
               <span>Data Sync & Storage</span>
             </span>
 
-            <div className="p-3 bg-[#0A0D0B] rounded-xl border border-white/10 text-xs font-mono space-y-2">
-              <div className="flex items-center justify-between text-stone-300">
+            <div className="p-3.5 bg-[#F7FAF8] rounded-xl border border-[#E2ECE3] text-xs font-mono space-y-2">
+              <div className="flex items-center justify-between text-stone-700">
                 <span className="flex items-center gap-1.5">
-                  <ShieldCheck className="w-3.5 h-3.5 text-[#00FF87]" />
+                  <ShieldCheck className="w-3.5 h-3.5 text-[#2E7D32]" />
                   <span>Market Feed Source:</span>
                 </span>
-                <span className="text-stone-300 font-semibold">Agmarknet / DMI</span>
+                <span className="text-stone-900 font-semibold">Agmarknet / DMI</span>
               </div>
-              <div className="flex items-center justify-between text-stone-300">
+              <div className="flex items-center justify-between text-stone-700">
                 <span>Storage Status:</span>
-                <span className="text-[#00FF87] font-bold">Cloud & Offline Synced</span>
+                <span className="text-[#123826] font-bold">Cloud & Offline Synced</span>
               </div>
-              <div className="flex items-center justify-between text-stone-300">
+              <div className="flex items-center justify-between text-stone-700">
                 <span>Verified APMC Records:</span>
-                <span className="text-[#00FF87] font-bold">{syncStatus?.total_verified_records || 180} Records</span>
+                <span className="text-[#123826] font-bold">{syncStatus?.total_verified_records || 180} Records</span>
               </div>
             </div>
 
@@ -221,7 +221,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                 type="button"
                 onClick={onTriggerSync}
                 disabled={isSyncing}
-                className="w-full flex items-center justify-center gap-2 py-2 bg-emerald-950/80 hover:bg-emerald-900 border border-emerald-500/30 text-[#00FF87] font-mono text-xs font-bold rounded-xl transition-all cursor-pointer"
+                className="w-full flex items-center justify-center gap-2 py-2.5 bg-[#2E7D32] hover:bg-[#1B5E20] text-white font-mono text-xs font-bold rounded-xl transition-all cursor-pointer shadow-sm"
               >
                 <RefreshCw className={`w-3.5 h-3.5 ${isSyncing ? 'animate-spin' : ''}`} />
                 <span>{isSyncing ? 'Updating Mandi Rates...' : 'Refresh Market Rates'}</span>
@@ -231,18 +231,18 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
         </div>
 
         {/* Footer */}
-        <div className="bg-[#0A0D0B] px-6 py-3.5 border-t border-white/10 flex items-center justify-between font-mono">
+        <div className="bg-[#F4F8F5] px-6 py-3.5 border-t border-[#E2ECE3] flex items-center justify-between font-mono">
           <button
             type="button"
             onClick={onClose}
-            className="px-4 py-2 text-stone-400 hover:text-white text-xs font-semibold cursor-pointer"
+            className="px-4 py-2 text-stone-600 hover:text-[#123826] text-xs font-semibold cursor-pointer"
           >
             Cancel
           </button>
           <button
             type="button"
             onClick={handleSave}
-            className="px-5 py-2 bg-[#00FF87] hover:bg-[#10B981] text-[#060807] font-bold text-xs rounded-xl shadow-[0_0_15px_rgba(0,255,135,0.3)] transition-all cursor-pointer flex items-center gap-1.5 font-['Syne',sans-serif]"
+            className="px-5 py-2 bg-[#2E7D32] hover:bg-[#1B5E20] text-white font-bold text-xs rounded-xl shadow-sm hover:shadow-md transition-all cursor-pointer flex items-center gap-1.5 font-['Syne',sans-serif]"
           >
             {savedSuccess ? (
               <>
