@@ -1,7 +1,7 @@
-# 🌾 MandiMate
+# 🌾 AgriMate
 
 > **AI-Assisted Agricultural Market Intelligence Platform for Small & Marginal Farmers**
-> Built strictly in accordance with the MandiMate Product Requirements Document (PRD v1.0).
+> Modern farming, verified APMC mandi rates, freight simulation, and produce realization.
 
 ---
 
@@ -9,10 +9,10 @@
 
 Small and marginal farmers often struggle to interpret complex agricultural market information (varying modal prices, minimum/maximum ranges, arrival volumes, grades, and disparate reporting dates across APMC yards).
 
-**MandiMate** bridges this information gap by converting verified market data into simple, accessible, and actionable intelligence.
+**AgriMate** bridges this information gap by converting verified market data into simple, accessible, and actionable intelligence.
 
 ### 🛡️ Core Principle: Never Invent a Market Price
-MandiMate operates under a non-negotiable data integrity constraint:
+AgriMate operates under a non-negotiable data integrity constraint:
 - **Numerical market data originates strictly from verified external sources** (Agmarknet / Directorate of Marketing & Inspection, Ministry of Agriculture, Govt. of India).
 - If verified data is not available for a given crop and market, the application explicitly states that no verified data is available rather than guessing or extrapolating.
 - **Amazon Bedrock / LLM layers serve strictly as an explanation and natural language translation layer**—they are never used to substitute or hallucinate numerical market data.
@@ -88,8 +88,8 @@ Deterministic Math & Statistics (Zero Hallucination)
 ### Installation
 ```bash
 # Clone the repository
-git clone https://github.com/Shreyas-M007/mandimate.git
-cd mandimate
+git clone https://github.com/Shreyas-M007/Agrimate.git
+cd Agrimate
 
 # Install dependencies
 npm --prefix server install
