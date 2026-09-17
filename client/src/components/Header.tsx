@@ -9,7 +9,10 @@ import {
   Settings, 
   Menu, 
   X, 
-  ArrowRight
+  ArrowRight,
+  Bell,
+  Search,
+  CheckCircle2
 } from 'lucide-react';
 
 interface HeaderProps {
@@ -36,6 +39,7 @@ export const Header: React.FC<HeaderProps> = ({
   onNavigate
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [notificationsOpen, setNotificationsOpen] = useState(false);
   const t = TRANSLATIONS[language];
 
   const formatLastSync = (ts?: string) => {
@@ -215,7 +219,89 @@ export const Header: React.FC<HeaderProps> = ({
         </nav>
 
         {/* Action Button & Mobile Hamburger */}
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-2 relative">
+          {/* Quick Search Button */}
+          <button
+            onClick={() => handleNavClick('dashboard')}
+            className="p-2 rounded-xl bg-white hover:bg-[#F2F8F4] text-[#123826] border border-[#CCE0D0] transition-colors cursor-pointer shadow-xs hidden sm:flex items-center gap-1.5 text-xs font-semibold"
+            title="Search Mandi Rates"
+          >
+            <Search className="w-3.5 h-3.5 text-[#2E7D32]" />
+            <span className="hidden md:inline">Search</span>
+          </button>
+
+          {/* Notifications Bell with unread counter (AgridFlow style) */}
+          <div className="relative">
+            <button
+              onClick={() => setNotificationsOpen(!notificationsOpen)}
+              className="relative p-2 rounded-xl bg-white hover:bg-[#F2F8F4] text-[#123826] border border-[#CCE0D0] transition-colors cursor-pointer shadow-xs"
+              title="Mandi Live Broadcast Alerts"
+              aria-label="Mandi Notifications"
+            >
+              <Bell className="w-4 h-4 text-[#123826]" />
+              <span className="absolute -top-1 -right-1 w-4 h-4 bg-[#E8A238] text-[#123826] text-[10px] font-black rounded-full flex items-center justify-center shadow-xs">
+                3
+              </span>
+            </button>
+
+            {/* Notification Dropdown */}
+            {notificationsOpen && (
+              <div className="absolute right-0 mt-2 w-80 sm:w-88 bg-white rounded-2xl shadow-xl border border-[#D5E7D8] p-3 z-50 animate-in fade-in zoom-in-95 duration-150">
+                <div className="flex items-center justify-between pb-2 border-b border-[#E2ECE3]">
+                  <span className="text-xs font-bold text-[#123826] uppercase tracking-wider">
+                    APMC Live Feeds
+                  </span>
+                  <span className="text-[10px] text-[#2E7D32] font-semibold bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100 flex items-center gap-1">
+                    <CheckCircle2 className="w-3 h-3" /> Real-Time
+                  </span>
+                </div>
+
+                <div className="py-2 space-y-2">
+                  <div 
+                    onClick={() => { handleNavClick('dashboard'); setNotificationsOpen(false); }}
+                    className="p-2.5 rounded-xl bg-[#F7FBF8] hover:bg-[#EBF5ED] transition-colors cursor-pointer border border-[#E2ECE3]"
+                  >
+                    <div className="flex justify-between items-center text-xs font-bold text-[#123826]">
+                      <span>🌽 Davanagere Mandi</span>
+                      <span className="text-emerald-700 font-mono">+4.2%</span>
+                    </div>
+                    <p className="text-[11px] text-stone-600 mt-0.5">Maize rate firm at ₹2,150/q with 3,400 bags arrived today.</p>
+                  </div>
+
+                  <div 
+                    onClick={() => { handleNavClick('dashboard'); setNotificationsOpen(false); }}
+                    className="p-2.5 rounded-xl bg-[#F7FBF8] hover:bg-[#EBF5ED] transition-colors cursor-pointer border border-[#E2ECE3]"
+                  >
+                    <div className="flex justify-between items-center text-xs font-bold text-[#123826]">
+                      <span>🍅 Kolar APMC</span>
+                      <span className="text-emerald-700 font-mono">+2.6%</span>
+                    </div>
+                    <p className="text-[11px] text-stone-600 mt-0.5">Tomato modal auction ₹1,850/q. High grade arrivals fetching ₹2,100.</p>
+                  </div>
+
+                  <div 
+                    onClick={() => { handleNavClick('dashboard'); setNotificationsOpen(false); }}
+                    className="p-2.5 rounded-xl bg-[#F7FBF8] hover:bg-[#EBF5ED] transition-colors cursor-pointer border border-[#E2ECE3]"
+                  >
+                    <div className="flex justify-between items-center text-xs font-bold text-[#123826]">
+                      <span>🧅 Lasalgaon Mandi</span>
+                      <span className="text-emerald-700 font-mono">+1.9%</span>
+                    </div>
+                    <p className="text-[11px] text-stone-600 mt-0.5">Onion trading stable at ₹1,650/q. Export inquiries active.</p>
+                  </div>
+                </div>
+
+                <button
+                  onClick={() => { handleNavClick('dashboard'); setNotificationsOpen(false); }}
+                  className="w-full py-2 rounded-xl bg-[#123826] text-white text-xs font-bold flex items-center justify-center gap-1.5 hover:bg-[#1a4a34] transition-colors cursor-pointer"
+                >
+                  <span>Open Full Dashboard Terminal</span>
+                  <ArrowRight className="w-3 h-3 text-[#E8A238]" />
+                </button>
+              </div>
+            )}
+          </div>
+
           <button
             onClick={() => handleNavClick('dashboard')}
             className={`hidden sm:flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-black shadow-xs transition-all cursor-pointer ${

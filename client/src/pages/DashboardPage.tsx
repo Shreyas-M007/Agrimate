@@ -16,7 +16,18 @@ import { ValueCalculator } from '../components/ValueCalculator';
 import { PriceTrendChart } from '../components/PriceTrendChart';
 import { AiExplanation } from '../components/AiExplanation';
 import { SellingChecklist } from '../components/SellingChecklist';
-import { ShieldCheck, Sparkles, AlertCircle, FileText } from 'lucide-react';
+import { 
+  ShieldCheck, 
+  Sparkles, 
+  AlertCircle, 
+  FileText,
+  ThermometerSnowflake,
+  Droplets,
+  Wind,
+  Sun,
+  Sprout,
+  MapPin
+} from 'lucide-react';
 
 interface DashboardPageProps {
   language: Language;
@@ -156,6 +167,127 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+
+      {/* AGRIDFLOW SATELLITE & MICROCLIMATE TELEMETRY BAR */}
+      <div className="bg-white rounded-2xl border border-[#E2ECE3] p-4 sm:p-5 shadow-xs space-y-4">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#F0F5F1] pb-3">
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-[#2E7D32] animate-pulse"></span>
+            <span className="text-xs font-bold text-[#123826] uppercase tracking-wider">
+              AgridFlow Field Telemetry & Mandi Microclimate
+            </span>
+            <span className="text-[10px] text-stone-500 font-mono hidden sm:inline">
+              (Live sensor feed: {location || 'Karnataka APMC Cluster'})
+            </span>
+          </div>
+          <div className="flex items-center gap-2 text-xs font-bold text-[#2E7D32] bg-[#EBF5ED] px-2.5 py-1 rounded-full border border-[#D5E7D8]">
+            <Sprout className="w-3.5 h-3.5" />
+            <span>Optimal Soil Vigor (NDVI 0.76)</span>
+          </div>
+        </div>
+
+        {/* 5 Telemetry Metrics */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+          <div className="bg-[#F7FBF8] p-3 rounded-xl border border-[#E2ECE3] flex items-center gap-3">
+            <div className="w-8 h-8 rounded-lg bg-emerald-100/60 text-[#2E7D32] flex items-center justify-center shrink-0">
+              <ThermometerSnowflake className="w-4 h-4" />
+            </div>
+            <div>
+              <span className="text-[10px] text-stone-500 block font-medium">Ambient Temp</span>
+              <strong className="text-xs sm:text-sm font-black text-[#123826]">28.4°C</strong>
+            </div>
+          </div>
+
+          <div className="bg-[#F7FBF8] p-3 rounded-xl border border-[#E2ECE3] flex items-center gap-3">
+            <div className="w-8 h-8 rounded-lg bg-blue-100/60 text-blue-700 flex items-center justify-center shrink-0">
+              <Droplets className="w-4 h-4" />
+            </div>
+            <div>
+              <span className="text-[10px] text-stone-500 block font-medium">Soil Moisture</span>
+              <strong className="text-xs sm:text-sm font-black text-[#123826]">44% VWC</strong>
+            </div>
+          </div>
+
+          <div className="bg-[#F7FBF8] p-3 rounded-xl border border-[#E2ECE3] flex items-center gap-3">
+            <div className="w-8 h-8 rounded-lg bg-teal-100/60 text-teal-700 flex items-center justify-center shrink-0">
+              <Wind className="w-4 h-4" />
+            </div>
+            <div>
+              <span className="text-[10px] text-stone-500 block font-medium">Field Wind</span>
+              <strong className="text-xs sm:text-sm font-black text-[#123826]">9.8 km/h</strong>
+            </div>
+          </div>
+
+          <div className="bg-[#F7FBF8] p-3 rounded-xl border border-[#E2ECE3] flex items-center gap-3">
+            <div className="w-8 h-8 rounded-lg bg-amber-100/60 text-amber-700 flex items-center justify-center shrink-0">
+              <Sun className="w-4 h-4" />
+            </div>
+            <div>
+              <span className="text-[10px] text-stone-500 block font-medium">Solar Radiation</span>
+              <strong className="text-xs sm:text-sm font-black text-[#123826]">7.2 kWh/m²</strong>
+            </div>
+          </div>
+
+          <div className="bg-[#F7FBF8] p-3 rounded-xl border border-[#E2ECE3] flex items-center gap-3 col-span-2 sm:col-span-1">
+            <div className="w-8 h-8 rounded-lg bg-lime-100/60 text-lime-800 flex items-center justify-center shrink-0">
+              <Sprout className="w-4 h-4" />
+            </div>
+            <div>
+              <span className="text-[10px] text-stone-500 block font-medium">Arrival Velocity</span>
+              <strong className="text-xs sm:text-sm font-black text-[#123826]">+12% Peak</strong>
+            </div>
+          </div>
+        </div>
+
+        {/* Quick-Preset Chips for Mandis & Commodities (AgridFlow / AgriHub UX) */}
+        <div className="pt-1 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs border-t border-[#F0F5F1]">
+          <div className="flex flex-wrap items-center gap-1.5">
+            <span className="text-stone-500 font-semibold flex items-center gap-1 mr-1">
+              <MapPin className="w-3 h-3 text-[#2E7D32]" />
+              Quick Mandis:
+            </span>
+            {[
+              { name: 'Kolar', label: 'Kolar APMC' },
+              { name: 'Ballari', label: 'Ballari APMC' },
+              { name: 'Lasalgaon', label: 'Lasalgaon APMC' },
+              { name: 'Davanagere', label: 'Davanagere APMC' },
+              { name: 'Azadpur', label: 'Azadpur Delhi' },
+              { name: 'Guntur', label: 'Guntur APMC' }
+            ].map((m) => (
+              <button
+                key={m.name}
+                type="button"
+                onClick={() => setLocation(m.name)}
+                className={`px-2.5 py-1 rounded-lg text-[11px] font-bold transition-all cursor-pointer border ${
+                  location.toLowerCase().includes(m.name.toLowerCase())
+                    ? 'bg-[#123826] text-white border-[#123826]'
+                    : 'bg-stone-50 hover:bg-[#EBF5ED] text-stone-700 border-stone-200'
+                }`}
+              >
+                {m.label}
+              </button>
+            ))}
+          </div>
+
+          <div className="flex flex-wrap items-center gap-1.5">
+            <span className="text-stone-500 font-semibold mr-1">Crops:</span>
+            {['Tomato', 'Onion', 'Maize', 'Paddy', 'Chilli'].map((c) => (
+              <button
+                key={c}
+                type="button"
+                onClick={() => setCrop(c)}
+                className={`px-2 py-0.5 rounded-lg text-[11px] font-bold transition-all cursor-pointer border ${
+                  crop.toLowerCase() === c.toLowerCase()
+                    ? 'bg-[#E8A238] text-[#123826] border-[#E8A238]'
+                    : 'bg-stone-50 hover:bg-[#FFF8E7] text-stone-700 border-stone-200'
+                }`}
+              >
+                {c}
+              </button>
+            ))}
           </div>
         </div>
       </div>
