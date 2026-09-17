@@ -68,14 +68,9 @@ export const Header: React.FC<HeaderProps> = ({
             <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-[#2E7D32] rounded-full border-2 border-white"></div>
           </div>
           <div>
-            <div className="flex items-center gap-2">
-              <span className="text-xl sm:text-2xl font-black tracking-tight text-[#123826] font-['Syne',sans-serif]">
-                AgriMate
-              </span>
-              <span className="text-[10px] font-mono font-bold uppercase tracking-wider bg-[#EBF5ED] text-[#123826] px-2 py-0.5 rounded-full border border-[#D5E7D8]">
-                Intelligence
-              </span>
-            </div>
+            <span className="text-xl sm:text-2xl font-black tracking-tight text-[#123826] font-['Syne',sans-serif] block">
+              AgriMate
+            </span>
             <p className="text-stone-600 text-[11px] font-medium hidden sm:block">
               {t.appTagline}
             </p>
@@ -230,18 +225,6 @@ export const Header: React.FC<HeaderProps> = ({
             </button>
           )}
 
-          <button
-            onClick={() => handleNavClick('dashboard')}
-            className={`hidden sm:flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-black shadow-xs transition-all cursor-pointer ${
-              currentPage === 'dashboard'
-                ? 'bg-[#2E7D32] text-white'
-                : 'bg-[#123826] hover:bg-[#1a4a34] text-white'
-            }`}
-          >
-            <span>{t.openDashboard}</span>
-            <ArrowRight className="w-3.5 h-3.5 text-[#E8A238]" />
-          </button>
-
           {/* Mobile Menu Toggle Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -304,16 +287,6 @@ export const Header: React.FC<HeaderProps> = ({
                 ಕನ್ನಡ
               </button>
             </div>
-          </div>
-
-          <div className="pt-2 border-t border-[#E2ECE3]">
-            <button
-              onClick={() => handleNavClick('dashboard')}
-              className="w-full py-3 rounded-xl bg-[#123826] text-white font-bold text-xs flex items-center justify-center gap-2 shadow-xs cursor-pointer"
-            >
-              <span>{t.openDashboard}</span>
-              <ArrowRight className="w-3.5 h-3.5 text-[#E8A238]" />
-            </button>
           </div>
         </div>
       )}

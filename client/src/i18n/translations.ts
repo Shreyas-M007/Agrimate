@@ -1,7 +1,7 @@
 export const TRANSLATIONS = {
   en: {
     appTitle: "AgriMate",
-    appTagline: "Verified Agricultural Market Intelligence for Farmers",
+    appTagline: "Verified Agricultural Market Rates for Farmers",
     dataIntegrityBadge: "100% Verified APMC Data • No AI Price Inventions",
     navLanguage: "Language",
     searchTabForm: "Mandi Search",
