@@ -15,12 +15,12 @@ interface DispatchPageProps {
 export const DispatchPage: React.FC<DispatchPageProps> = () => {
   // Gate pass state
   const [farmerName, setFarmerName] = useState('Basavaraj Patil');
-  const [farmerPhone, setFarmerPhone] = useState('7892181947');
+  const [farmerPhone, setFarmerPhone] = useState('');
   const [village, setVillage] = useState('Hospete, Ballari');
   const [vehicleType, setVehicleType] = useState('Bolero Pickup (407)');
   const [vehicleNumber, setVehicleNumber] = useState('KA-34-M-8821');
   const [driverName, setDriverName] = useState('Ramesh Nayak');
-  const [driverPhone, setDriverPhone] = useState('7892181947');
+  const [driverPhone, setDriverPhone] = useState('');
   const [commodity, setCommodity] = useState('Tomato (Hybrid)');
   const [packageCount, setPackageCount] = useState(80);
   const [packageType, setPackageType] = useState('Plastic Crates (25kg each)');
@@ -33,10 +33,14 @@ export const DispatchPage: React.FC<DispatchPageProps> = () => {
   };
 
   const handleWhatsAppShare = () => {
-    const text = `*AGRIMATE DIGITAL MANDI GATE PASS*%0A*Pass ID:* ${passId}%0A*Farmer:* ${farmerName} (${farmerPhone})%0A*Village:* ${village}%0A*Vehicle:* ${vehicleType} [${vehicleNumber}]%0A*Commodity:* ${commodity}%0A*Packages:* ${packageCount} ${packageType}%0A*Weight:* ${grossWeightQuintals} Quintals%0A*Destination Mandi:* ${targetMandi}%0A*Statutory:* APMC Act 2026 Certified`;
-    const cleanNum = driverPhone.replace(/\D/g, '') || '7892181947';
-    const waNum = cleanNum.length === 10 ? `91${cleanNum}` : cleanNum;
-    window.open(`https://wa.me/${waNum}?text=${text}`, '_blank');
+    const text = `*AGRIMATE DIGITAL MANDI GATE PASS*%0A*Pass ID:* ${passId}%0A*Farmer:* ${farmerName}${farmerPhone ? ` (${farmerPhone})` : ''}%0A*Village:* ${village}%0A*Vehicle:* ${vehicleType} [${vehicleNumber}]%0A*Commodity:* ${commodity}%0A*Packages:* ${packageCount} ${packageType}%0A*Weight:* ${grossWeightQuintals} Quintals%0A*Destination Mandi:* ${targetMandi}%0A*Statutory:* APMC Act 2026 Certified`;
+    const cleanNum = driverPhone.replace(/\D/g, '');
+    const url = cleanNum.length === 10 
+      ? `https://wa.me/91${cleanNum}?text=${text}`
+      : cleanNum.length > 10
+      ? `https://wa.me/${cleanNum}?text=${text}`
+      : `https://wa.me/?text=${text}`;
+    window.open(url, '_blank');
   };
 
   return (

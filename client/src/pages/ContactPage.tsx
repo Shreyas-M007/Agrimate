@@ -152,13 +152,15 @@ export const ContactPage: React.FC<ContactPageProps> = () => {
               Call Helpline Now
             </a>
             <a
-              href="https://wa.me/917892181947?text=Hello%20AgriMate%20Support%2C%20I%20need%20mandi%20assistance"
-              target="_blank"
-              rel="noreferrer"
-              className="px-5 py-3 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-sm shadow-md transition-all flex items-center gap-2"
+              href="#whatsapp-group"
+              onClick={(e) => {
+                e.preventDefault();
+                alert('AgriMate Farmers Community WhatsApp Group link will be active shortly.');
+              }}
+              className="px-5 py-3 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-sm shadow-md transition-all flex items-center gap-2 cursor-pointer"
             >
               <MessageSquare className="w-4 h-4 text-white" />
-              <span>WhatsApp: +91 7892181947</span>
+              <span>Join Farmer WhatsApp Group</span>
             </a>
           </div>
         </div>

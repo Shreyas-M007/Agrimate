@@ -20,8 +20,7 @@ import {
   Search, 
   Send,
   X,
-  MapPin,
-  MessageSquare
+  MapPin
 } from 'lucide-react';
 
 interface HomePageProps {
@@ -37,7 +36,7 @@ export const HomePage: React.FC<HomePageProps> = ({
   onSelectCropAndNavigate,
   onSearchAndNavigate
 }) => {
-  const [alertPhone, setAlertPhone] = useState('7892181947');
+  const [alertPhone, setAlertPhone] = useState('');
   const [alertSubscribed, setAlertSubscribed] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -323,16 +322,6 @@ export const HomePage: React.FC<HomePageProps> = ({
                   <FileText className="w-4 h-4 text-[#2E7D32]" />
                   <span>Gate Slip Station</span>
                 </button>
-
-                <a
-                  href="https://wa.me/917892181947?text=Hello%20AgriMate%2C%20I%20need%20mandi%20rates%20and%20assistance"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="px-5 py-3.5 rounded-2xl bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-sm flex items-center gap-2 shadow-md transition-all cursor-pointer"
-                >
-                  <MessageSquare className="w-4 h-4 text-white" />
-                  <span>WhatsApp: 7892181947</span>
-                </a>
               </div>
 
               {/* Trust Badges */}

@@ -516,17 +516,19 @@ export const App: React.FC = () => {
               </ul>
             </div>
 
-            {/* Column 4: Support & Helpline */}
+            {/* Column 4: Support & Community */}
             <div className="space-y-2.5">
-              <h4 className="text-white font-bold text-xs uppercase tracking-wider">Farmer Helpline & WhatsApp</h4>
+              <h4 className="text-white font-bold text-xs uppercase tracking-wider">Farmer Helpline & Community</h4>
               <div className="space-y-2 text-xs text-emerald-100/70">
                 <a 
-                  href="https://wa.me/917892181947?text=Hello%20AgriMate%2C%20I%20need%20market%20rates%20and%20support" 
-                  target="_blank" 
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#25D366] text-white font-bold text-xs hover:bg-[#20ba59] transition-colors shadow-xs"
+                  href="#whatsapp-group" 
+                  onClick={(e) => {
+                    e.preventDefault();
+                    alert('AgriMate Farmers Community WhatsApp Group link will be active shortly.');
+                  }}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#25D366] text-white font-bold text-xs hover:bg-[#20ba59] transition-colors shadow-xs cursor-pointer"
                 >
-                  <span>💬 WhatsApp: +91 7892181947</span>
+                  <span>💬 Join Farmer WhatsApp Group</span>
                 </a>
                 <p className="font-mono text-sm font-bold text-[#E8A238] pt-1">Kisan Helpline: 1800-180-1551</p>
                 <p className="text-[11px]">Toll-free 24x7 Ministry of Agriculture & Farmers Welfare</p>
@@ -553,19 +555,6 @@ export const App: React.FC = () => {
           </div>
         </div>
       </footer>
-
-      {/* Floating WhatsApp Support Widget */}
-      <a
-        href="https://wa.me/917892181947?text=Hello%20AgriMate%2C%20I%20need%20market%20rates%20and%20assistance"
-        target="_blank"
-        rel="noreferrer"
-        className="fixed bottom-6 right-6 z-50 bg-[#25D366] hover:bg-[#20ba59] text-white px-4 py-3 rounded-full shadow-2xl flex items-center gap-2 font-bold text-xs sm:text-sm hover:scale-105 transition-all duration-200 border-2 border-white cursor-pointer group"
-        title="Chat with AgriMate on WhatsApp (+91 7892181947)"
-      >
-        <span className="text-base">💬</span>
-        <span className="hidden sm:inline">WhatsApp (+91 7892181947)</span>
-        <span className="sm:hidden">WhatsApp</span>
-      </a>
     </div>
   );
 };
