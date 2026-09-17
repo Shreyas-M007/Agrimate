@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import type { Language, CropUnit, SyncStatusData } from '../types';
-import { X, Settings, Check, MapPin, Globe, Scale, RefreshCw, Cloud, Flame } from 'lucide-react';
+import { X, Settings, Check, MapPin, Globe, Scale, RefreshCw, Database, ShieldCheck } from 'lucide-react';
 
 interface SettingsModalProps {
   isOpen: boolean;
@@ -191,28 +191,28 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
             </div>
           </div>
 
-          {/* Cloud & AI Infrastructure Diagnostics */}
+          {/* Data Storage & Market Feed */}
           <div className="pt-3 border-t border-white/10 space-y-2">
             <span className="text-xs font-mono uppercase tracking-wider text-stone-400 block flex items-center gap-1.5">
-              <Cloud className="w-3.5 h-3.5 text-amber-400" />
-              <span>Cloud & AI Runtime Infrastructure</span>
+              <Database className="w-3.5 h-3.5 text-[#00FF87]" />
+              <span>Data Sync & Storage</span>
             </span>
 
             <div className="p-3 bg-[#0A0D0B] rounded-xl border border-white/10 text-xs font-mono space-y-2">
               <div className="flex items-center justify-between text-stone-300">
                 <span className="flex items-center gap-1.5">
-                  <Flame className="w-3.5 h-3.5 text-amber-400" />
-                  <span>Firebase Spark Mode:</span>
+                  <ShieldCheck className="w-3.5 h-3.5 text-[#00FF87]" />
+                  <span>Market Feed Source:</span>
                 </span>
-                <span className="text-[#00FF87] font-bold">Cloud Firestore Active</span>
+                <span className="text-stone-300 font-semibold">Agmarknet / DMI</span>
               </div>
               <div className="flex items-center justify-between text-stone-300">
-                <span>AWS Serverless:</span>
-                <span className="text-stone-400">Lambda + DynamoDB + Bedrock</span>
+                <span>Storage Status:</span>
+                <span className="text-[#00FF87] font-bold">Cloud & Offline Synced</span>
               </div>
               <div className="flex items-center justify-between text-stone-300">
-                <span>Database Records:</span>
-                <span className="text-[#00FF87] font-bold">{syncStatus?.total_verified_records || 180} APMC Records</span>
+                <span>Verified APMC Records:</span>
+                <span className="text-[#00FF87] font-bold">{syncStatus?.total_verified_records || 180} Records</span>
               </div>
             </div>
 
@@ -224,7 +224,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                 className="w-full flex items-center justify-center gap-2 py-2 bg-emerald-950/80 hover:bg-emerald-900 border border-emerald-500/30 text-[#00FF87] font-mono text-xs font-bold rounded-xl transition-all cursor-pointer"
               >
                 <RefreshCw className={`w-3.5 h-3.5 ${isSyncing ? 'animate-spin' : ''}`} />
-                <span>{isSyncing ? 'Ingesting from Agmarknet...' : 'Run Real-time Agmarknet Ingestion Pipeline'}</span>
+                <span>{isSyncing ? 'Updating Mandi Rates...' : 'Refresh Market Rates'}</span>
               </button>
             )}
           </div>

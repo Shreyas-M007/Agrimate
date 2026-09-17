@@ -290,34 +290,34 @@ export const App: React.FC = () => {
           </div>
 
           <div className="relative z-10 p-6 sm:p-10 max-w-2xl space-y-3">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-950/80 border border-emerald-500/40 text-[11px] font-mono text-[#00FF87]">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-950/80 border border-emerald-500/30 text-[11px] font-medium text-[#00FF87]">
               <ShieldCheck className="w-3.5 h-3.5" />
-              <span>STRICT AGMARKNET VERIFICATION • ZERO HALLUCINATION</span>
+              <span>Official Agmarknet Market Rates</span>
             </div>
             <h2 className="text-2xl sm:text-4xl font-black text-white font-['Syne',sans-serif] tracking-tight leading-tight">
-              Agro-Financial Intelligence Terminal
+              Real-Time Mandi Prices & Selling Advisory
             </h2>
-            <p className="text-xs sm:text-sm text-stone-300 font-medium leading-relaxed">
-              Institutional-grade market telemetry for Indian farmers. Real-time APMC mandi modal rates, transport logistics yield simulation, and deterministic Kannada, Hindi & English advisory.
+            <p className="text-xs sm:text-sm text-stone-300 font-normal leading-relaxed">
+              Verified wholesale arrival rates, transport cost calculators, and multilingual market advisory to help farmers get the best price for their harvest.
             </p>
 
-            {/* Live Metrics Telemetry Strip */}
+            {/* Live Metrics Strip */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-2 font-mono text-xs">
               <div className="bg-[#0A0D0B]/80 backdrop-blur-md p-2.5 rounded-xl border border-white/10">
-                <span className="text-[10px] text-stone-500 block">Active Hubs</span>
+                <span className="text-[10px] text-stone-400 block">Active Markets</span>
                 <span className="text-[#00FF87] font-bold">20 Mandis</span>
               </div>
               <div className="bg-[#0A0D0B]/80 backdrop-blur-md p-2.5 rounded-xl border border-white/10">
-                <span className="text-[10px] text-stone-500 block">Coverage</span>
+                <span className="text-[10px] text-stone-400 block">Commodities</span>
                 <span className="text-stone-200 font-bold">10 Crops</span>
               </div>
               <div className="bg-[#0A0D0B]/80 backdrop-blur-md p-2.5 rounded-xl border border-white/10">
-                <span className="text-[10px] text-stone-500 block">Daily Spread</span>
+                <span className="text-[10px] text-stone-400 block">Top Modal Spread</span>
                 <span className="text-[#F59E0B] font-bold">₹1,400/q</span>
               </div>
               <div className="bg-[#0A0D0B]/80 backdrop-blur-md p-2.5 rounded-xl border border-white/10">
-                <span className="text-[10px] text-stone-500 block">Cloud Status</span>
-                <span className="text-[#00FF87] font-bold">Firebase/AWS</span>
+                <span className="text-[10px] text-stone-400 block">Update Status</span>
+                <span className="text-[#00FF87] font-bold">Daily Live Sync</span>
               </div>
             </div>
           </div>
@@ -389,8 +389,8 @@ export const App: React.FC = () => {
             <p className="text-stone-300 text-xs sm:text-sm mb-4 leading-relaxed font-mono">
               {searchResult.message || t.noDataMsg}
             </p>
-            <p className="text-[11px] font-mono text-stone-500">
-              MandiMate strictly adheres to its data integrity rule: We never invent or hallucinate market prices when official records are not yet filed.
+            <p className="text-[11px] font-mono text-stone-400">
+              Notice: MandiMate only displays official government APMC market prices. When market committees have not filed today's rates, we do not estimate or substitute unverified prices.
             </p>
           </div>
         )}
@@ -413,7 +413,7 @@ export const App: React.FC = () => {
                 <div className="glass-panel-elevated p-4 sm:p-5 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 border border-emerald-500/30 shadow-[0_8px_30px_rgba(0,0,0,0.8)]">
                   <div>
                     <span className="text-[11px] font-mono uppercase tracking-wider text-[#00FF87] font-bold">
-                      Currently Focused Market Telemetry
+                      Selected Mandi Overview
                     </span>
                     <h3 className="text-xl sm:text-2xl font-bold text-white font-['Syne',sans-serif]">
                       {selectedMarket.market_name} ({selectedMarket.district})
@@ -512,14 +512,14 @@ export const App: React.FC = () => {
       <footer className="bg-[#0A0D0B] text-stone-500 text-xs py-8 border-t border-white/10 mt-12 no-print font-mono">
         <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div>
-            <span className="font-bold text-white text-sm font-['Syne',sans-serif]">🌾 MandiMate Terminal</span>
-            <p className="text-stone-500 mt-0.5 text-[11px]">
-              AI-assisted agro-financial intelligence platform for small & marginal farmers.
+            <span className="font-bold text-white text-sm font-['Syne',sans-serif]">🌾 MandiMate</span>
+            <p className="text-stone-400 mt-0.5 text-[11px]">
+              Agricultural market intelligence and selling advisory for Indian farmers.
             </p>
           </div>
-          <div className="text-center sm:text-right text-[10px] text-stone-500 space-y-0.5">
-            <div>Data Source: Agmarknet / Directorate of Marketing & Inspection, Ministry of Agriculture</div>
-            <div>Strict Data Invariant: 100% Deterministic Ground Truth • Firebase Spark & AWS Cloud Ready</div>
+          <div className="text-center sm:text-right text-[10px] text-stone-400 space-y-0.5 font-mono">
+            <div>Official Data Source: Agmarknet • Ministry of Agriculture & Farmers Welfare</div>
+            <div>Trilingual Support: ಕನ್ನಡ • हिन्दी • English</div>
           </div>
         </div>
       </footer>

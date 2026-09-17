@@ -142,7 +142,7 @@ export const ExplainModal: React.FC<ExplainModalProps> = ({
             </>
           ) : (
             <div className="py-8 text-center text-xs font-mono text-stone-500">
-              Loading terminology telemetry...
+              Loading guide...
             </div>
           )}
         </div>

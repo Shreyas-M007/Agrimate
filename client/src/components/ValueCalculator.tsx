@@ -77,7 +77,7 @@ export const ValueCalculator: React.FC<ValueCalculatorProps> = ({
         <div className="bg-[#0A0D0B] rounded-2xl p-5 border border-white/10 mb-4 shadow-inner">
           <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 mb-3">
             <div className="text-xs font-mono text-stone-400">
-              Deterministic Math: <span className="text-[#00FF87] font-bold">{quantityQuintals} Quintals × ₹{market.modal_price.toLocaleString('en-IN')}/q</span>
+              Estimated Value: <span className="text-[#00FF87] font-bold">{quantityQuintals} Quintals × ₹{market.modal_price.toLocaleString('en-IN')}/q</span>
             </div>
             <div className="text-[11px] font-mono text-stone-500">
               Prevailing Mandi Modal Rate

@@ -104,7 +104,7 @@ export const SearchForm: React.FC<SearchFormProps> = ({
         </h2>
         <div className="flex items-center gap-2">
           <span className="text-[11px] font-mono uppercase tracking-wider text-emerald-300 bg-emerald-950/60 border border-emerald-500/30 px-2.5 py-1 rounded-md">
-            Agmarknet Ground Truth
+            Official Agmarknet Rates
           </span>
         </div>
       </div>

@@ -49,7 +49,7 @@ export const PriceTrendChart: React.FC<PriceTrendChartProps> = ({
     return (
       <div className="glass-panel rounded-2xl border border-white/10 p-6 text-center text-stone-400 font-mono">
         <Activity className="w-8 h-8 mx-auto text-stone-500 mb-2" />
-        <p className="text-xs">No historical price telemetry records found for this market.</p>
+        <p className="text-xs">No historical price records found for this market.</p>
       </div>
     );
   }
@@ -181,7 +181,7 @@ export const PriceTrendChart: React.FC<PriceTrendChartProps> = ({
         <div className="relative bg-[#0A0D0B] rounded-xl border border-white/10 p-2 overflow-x-auto shadow-inner">
           {isLoading ? (
             <div className="h-48 flex items-center justify-center text-xs font-mono text-stone-500">
-              Loading price telemetry curve...
+              Loading price trend chart...
             </div>
           ) : (
             <svg viewBox={`0 0 ${svgWidth} ${svgHeight}`} className="w-full h-48 sm:h-56">

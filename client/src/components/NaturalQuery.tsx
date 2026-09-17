@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import type { Language, CropUnit } from '../types';
 import { TRANSLATIONS } from '../i18n/translations';
-import { Mic, MicOff, CornerDownLeft, CheckCircle2, Terminal } from 'lucide-react';
+import { Mic, MicOff, CornerDownLeft, CheckCircle2, Sparkles } from 'lucide-react';
 
 interface NaturalQueryProps {
   language: Language;
@@ -81,13 +81,13 @@ export const NaturalQuery: React.FC<NaturalQueryProps> = ({
     <div className="glass-panel rounded-2xl p-5 border border-emerald-500/25 shadow-[0_12px_40px_rgba(0,0,0,0.8)]">
       <div className="flex items-center justify-between gap-2 mb-2">
         <div className="flex items-center gap-2">
-          <Terminal className="w-5 h-5 text-[#00FF87]" />
+          <Sparkles className="w-5 h-5 text-[#00FF87]" />
           <h3 className="font-bold text-white text-base font-['Syne',sans-serif]">
-            {t.searchTabNlp} <span className="text-stone-500 font-mono text-xs">(Bedrock NLU Engine)</span>
+            {t.searchTabNlp}
           </h3>
         </div>
-        <span className="text-[10px] font-mono text-[#00FF87] bg-emerald-950/70 border border-emerald-500/30 px-2 py-0.5 rounded-full">
-          STRICT DETERMINISTIC PARSING
+        <span className="text-[11px] font-mono text-[#00FF87] bg-emerald-950/70 border border-emerald-500/30 px-2.5 py-0.5 rounded-full">
+          Voice & Natural Search
         </span>
       </div>
       <p className="text-xs font-mono text-stone-400 mb-3.5">
@@ -179,8 +179,8 @@ export const NaturalQuery: React.FC<NaturalQueryProps> = ({
               <strong className="text-[#00FF87]">Validated:</strong> {parsedPreview.crop} • {parsedPreview.location} • {parsedPreview.quantity} {parsedPreview.unit}
             </span>
           </div>
-          <span className="text-[10px] uppercase tracking-wider text-emerald-400 bg-emerald-900/50 px-2 py-0.5 rounded border border-emerald-700/50">
-            PRD Sec 18 Validated
+          <span className="text-[11px] text-emerald-300 bg-emerald-900/50 px-2.5 py-0.5 rounded border border-emerald-700/50 font-medium">
+            Search Ready
           </span>
         </div>
       )}

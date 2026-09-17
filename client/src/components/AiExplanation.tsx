@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import type { MarketItem, PriceTrend, Language, AiExplanationData } from '../types';
 import { TRANSLATIONS } from '../i18n/translations';
-import { Sparkles, Bot, ShieldCheck, Volume2, VolumeX, Share2, Check, Copy, Cpu } from 'lucide-react';
+import { Sparkles, Bot, ShieldCheck, Volume2, VolumeX, Share2, Check, Copy } from 'lucide-react';
 
 interface AiExplanationProps {
   market: MarketItem;
@@ -114,8 +114,8 @@ export const AiExplanation: React.FC<AiExplanationProps> = ({
       <div className="glass-panel-elevated rounded-3xl p-6 border border-emerald-500/30 animate-pulse">
         <div className="flex items-center gap-3">
           <div className="w-5 h-5 border-2 border-[#00FF87] border-t-transparent rounded-full animate-spin" />
-          <span className="text-sm font-mono text-emerald-300">
-            Synthesizing Bedrock AI market intelligence in {language === 'hi' ? 'हिन्दी' : (language === 'kn' ? 'ಕನ್ನಡ' : 'English')}...
+          <span className="text-sm font-medium text-emerald-300">
+            Generating market analysis in {language === 'hi' ? 'हिन्दी' : (language === 'kn' ? 'ಕನ್ನಡ' : 'English')}...
           </span>
         </div>
       </div>
@@ -134,7 +134,7 @@ export const AiExplanation: React.FC<AiExplanationProps> = ({
       <div className="relative z-10 flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-5 mb-6">
         <div className="flex items-center gap-3.5">
           <div className="p-3 bg-gradient-to-br from-emerald-500/30 to-emerald-950 border border-emerald-500/40 text-[#00FF87] rounded-2xl shadow-[0_0_20px_rgba(0,255,135,0.25)]">
-            <Cpu className="w-6 h-6" />
+            <Sparkles className="w-6 h-6" />
           </div>
           <div>
             <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-white font-['Syne',sans-serif]">
@@ -236,8 +236,8 @@ export const AiExplanation: React.FC<AiExplanationProps> = ({
           <ShieldCheck className="w-4 h-4 text-[#00FF87] shrink-0" />
           <span>{explanation.verifiedNotice}</span>
         </div>
-        <span className="text-[10px] bg-white/5 px-2.5 py-1 rounded-md border border-white/10 text-stone-300">
-          Bedrock + Gemini Architecture • Ground Truth Verified
+        <span className="text-[10px] bg-white/5 px-2.5 py-1 rounded-md border border-white/10 text-stone-400">
+          Official APMC Market Advisory • Ministry of Agriculture
         </span>
       </div>
     </div>
