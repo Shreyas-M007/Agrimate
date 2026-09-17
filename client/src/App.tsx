@@ -286,6 +286,16 @@ export const App: React.FC = () => {
     handleSearch(undefined, cropName);
   };
 
+  // Full cross-platform search handler that sets crop and/or location, navigates, and queries API
+  const handleSearchAndNavigate = (targetCrop?: string, targetLocation?: string) => {
+    if (targetCrop) setCrop(targetCrop);
+    if (targetLocation) setLocation(targetLocation);
+    navigateTo('dashboard');
+    setTimeout(() => {
+      handleSearch(undefined, targetCrop || crop);
+    }, 50);
+  };
+
   const quantityQuintals = searchResult?.normalized_quantity?.in_quintals || 
     (unit === 'kg' ? quantity / 100 : (unit === 'tonne' ? quantity * 10 : quantity));
 
@@ -302,6 +312,7 @@ export const App: React.FC = () => {
         onOpenSettings={() => setIsSettingsOpen(true)}
         currentPage={currentPage}
         onNavigate={navigateTo}
+        onSearchAndNavigate={handleSearchAndNavigate}
       />
 
       {/* Live Sync Notification Toast */}
@@ -327,6 +338,7 @@ export const App: React.FC = () => {
             language={language}
             onNavigate={navigateTo}
             onSelectCropAndNavigate={handleSelectCropAndNavigate}
+            onSearchAndNavigate={handleSearchAndNavigate}
             commodities={commodities}
           />
         )}
@@ -506,11 +518,19 @@ export const App: React.FC = () => {
 
             {/* Column 4: Support & Helpline */}
             <div className="space-y-2.5">
-              <h4 className="text-white font-bold text-xs uppercase tracking-wider">Farmer Helpline</h4>
+              <h4 className="text-white font-bold text-xs uppercase tracking-wider">Farmer Helpline & WhatsApp</h4>
               <div className="space-y-2 text-xs text-emerald-100/70">
-                <p className="font-mono text-base font-bold text-[#E8A238]">1800-180-1551</p>
-                <p className="text-[11px]">Toll-free 24x7 Kisan Call Centre • Ministry of Agriculture & Farmers Welfare</p>
-                <div className="pt-2">
+                <a 
+                  href="https://wa.me/917892181947?text=Hello%20AgriMate%2C%20I%20need%20market%20rates%20and%20support" 
+                  target="_blank" 
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#25D366] text-white font-bold text-xs hover:bg-[#20ba59] transition-colors shadow-xs"
+                >
+                  <span>💬 WhatsApp: +91 7892181947</span>
+                </a>
+                <p className="font-mono text-sm font-bold text-[#E8A238] pt-1">Kisan Helpline: 1800-180-1551</p>
+                <p className="text-[11px]">Toll-free 24x7 Ministry of Agriculture & Farmers Welfare</p>
+                <div className="pt-1">
                   <span className="block text-[10px] text-emerald-300 uppercase font-bold">Language Standard:</span>
                   <p className="text-[11px]">English (Default) • हिन्दी • ಕನ್ನಡ</p>
                 </div>
@@ -533,6 +553,19 @@ export const App: React.FC = () => {
           </div>
         </div>
       </footer>
+
+      {/* Floating WhatsApp Support Widget */}
+      <a
+        href="https://wa.me/917892181947?text=Hello%20AgriMate%2C%20I%20need%20market%20rates%20and%20assistance"
+        target="_blank"
+        rel="noreferrer"
+        className="fixed bottom-6 right-6 z-50 bg-[#25D366] hover:bg-[#20ba59] text-white px-4 py-3 rounded-full shadow-2xl flex items-center gap-2 font-bold text-xs sm:text-sm hover:scale-105 transition-all duration-200 border-2 border-white cursor-pointer group"
+        title="Chat with AgriMate on WhatsApp (+91 7892181947)"
+      >
+        <span className="text-base">💬</span>
+        <span className="hidden sm:inline">WhatsApp (+91 7892181947)</span>
+        <span className="sm:hidden">WhatsApp</span>
+      </a>
     </div>
   );
 };

@@ -104,7 +104,7 @@ export const AiExplanation: React.FC<AiExplanationProps> = ({
 
   const handleShareWhatsApp = () => {
     if (!explanation) return;
-    const text = `🌾 *${explanation.title}*\n\n${explanation.summary}\n\n${explanation.priceDetails}\n${explanation.trendExplanation}\n\n💡 *Farmer Tip:* ${explanation.advice}\n\n_Source: ${market.source}_`;
+    const text = `🌾 *${explanation.title}*\n\n${explanation.summary}\n\n${explanation.priceDetails}\n${explanation.trendExplanation}\n\n💡 *Farmer Tip:* ${explanation.advice}\n\n_Source: ${market.source}_\n_AgriMate Helpline & WhatsApp: +91 7892181947_`;
     const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
     window.open(url, '_blank');
   };

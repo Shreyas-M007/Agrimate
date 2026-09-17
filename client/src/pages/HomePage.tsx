@@ -18,22 +18,29 @@ import {
   BookOpen, 
   Play, 
   Search, 
-  Send
+  Send,
+  X,
+  MapPin,
+  MessageSquare
 } from 'lucide-react';
 
 interface HomePageProps {
   language: Language;
   onNavigate: (page: NavigationPage) => void;
   onSelectCropAndNavigate?: (cropName: string) => void;
+  onSearchAndNavigate?: (crop?: string, location?: string) => void;
   commodities?: Commodity[];
 }
 
 export const HomePage: React.FC<HomePageProps> = ({
   onNavigate,
-  onSelectCropAndNavigate
+  onSelectCropAndNavigate,
+  onSearchAndNavigate
 }) => {
-  const [alertPhone, setAlertPhone] = useState('');
+  const [alertPhone, setAlertPhone] = useState('7892181947');
   const [alertSubscribed, setAlertSubscribed] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [showSuggestions, setShowSuggestions] = useState(false);
 
   // Quick live mandi ticker data (AgriHub & VerdaAgro fusion)
   const liveTickers = [
@@ -63,6 +70,73 @@ export const HomePage: React.FC<HomePageProps> = ({
     { title: 'Expert Advice', desc: 'Learn statutory rules from agronomy experts', icon: BookOpen, bg: 'bg-[#FEF3C7] text-[#D97706] border-[#FDE68A]', link: 'about' as NavigationPage },
   ];
 
+  const cropList = [
+    { name: 'Tomato', icon: '🍅', hindi: 'टमाटर', kannada: 'ಟೊಮೆಟೊ', modal: '₹1,850/q' },
+    { name: 'Onion', icon: '🧅', hindi: 'प्याज', kannada: 'ಈರುಳ್ಳಿ', modal: '₹2,100/q' },
+    { name: 'Potato', icon: '🥔', hindi: 'आलू', kannada: 'ಆಲೂಗಡ್ಡೆ', modal: '₹1,600/q' },
+    { name: 'Green Chilli', icon: '🌶️', hindi: 'हरी मिर्च', kannada: 'ಹಸಿಮೆಣಸಿನಕಾಯಿ', modal: '₹3,400/q' },
+    { name: 'Cotton', icon: '☁️', hindi: 'कपास', kannada: 'ಹತ್ತಿ', modal: '₹7,200/q' },
+    { name: 'Soybean', icon: '🌱', hindi: 'सोयाबीन', kannada: 'ಸೋಯಾಬೀನ್', modal: '₹4,350/q' },
+    { name: 'Maize', icon: '🌽', hindi: 'मक्का', kannada: 'ಮೆಕ್ಕೆಜೋಳ', modal: '₹2,150/q' },
+    { name: 'Paddy / Rice', icon: '🍚', hindi: 'धान / चावल', kannada: 'ಭತ್ತ / ಅಕ್ಕಿ', modal: '₹2,450/q' },
+    { name: 'Wheat', icon: '🌾', hindi: 'गेहूं', kannada: 'ಗೋಧಿ', modal: '₹2,600/q' },
+    { name: 'Mustard', icon: '🌼', hindi: 'सरसों', kannada: 'ಸಾಸಿವೆ', modal: '₹5,400/q' },
+  ];
+
+  const mandiList = [
+    { name: 'Ballari', apmc: 'Ballari APMC', state: 'Karnataka', topCrop: 'Tomato & Chilli' },
+    { name: 'Kolar', apmc: 'Kolar APMC', state: 'Karnataka', topCrop: 'Tomato & Veg' },
+    { name: 'Lasalgaon', apmc: 'Lasalgaon APMC', state: 'Maharashtra', topCrop: 'Onion' },
+    { name: 'Davanagere', apmc: 'Davanagere APMC', state: 'Karnataka', topCrop: 'Maize' },
+    { name: 'Azadpur', apmc: 'Azadpur Mandi', state: 'Delhi', topCrop: 'All Produce' },
+    { name: 'Guntur', apmc: 'Guntur APMC', state: 'Andhra Pradesh', topCrop: 'Red Chilli' },
+    { name: 'Hubballi', apmc: 'Hubballi APMC', state: 'Karnataka', topCrop: 'Cotton & Pulses' },
+    { name: 'Belagavi', apmc: 'Belagavi APMC', state: 'Karnataka', topCrop: 'Vegetables' },
+    { name: 'Mysuru', apmc: 'Mysuru APMC', state: 'Karnataka', topCrop: 'Paddy & Veg' },
+    { name: 'Vashi', apmc: 'Vashi APMC', state: 'Maharashtra', topCrop: 'Grain & Spices' },
+  ];
+
+  const filteredCrops = searchQuery.trim() === ''
+    ? cropList.slice(0, 4)
+    : cropList.filter(c => 
+        c.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+        c.hindi.includes(searchQuery) || 
+        c.kannada.includes(searchQuery)
+      );
+
+  const filteredMandis = searchQuery.trim() === ''
+    ? mandiList.slice(0, 4)
+    : mandiList.filter(m => 
+        m.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+        m.apmc.toLowerCase().includes(searchQuery.toLowerCase()) || 
+        m.state.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        m.topCrop.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+
+  const handleExecuteSearch = (targetCrop?: string, targetMandi?: string) => {
+    setShowSuggestions(false);
+    if (onSearchAndNavigate) {
+      onSearchAndNavigate(targetCrop, targetMandi);
+    } else if (targetCrop && onSelectCropAndNavigate) {
+      onSelectCropAndNavigate(targetCrop);
+    } else {
+      onNavigate('dashboard');
+    }
+  };
+
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const query = searchQuery.trim();
+    if (!query) {
+      onNavigate('dashboard');
+      return;
+    }
+    const foundCrop = cropList.find(c => query.toLowerCase().includes(c.name.toLowerCase()) || c.hindi.includes(query) || c.kannada.includes(query));
+    const foundMandi = mandiList.find(m => query.toLowerCase().includes(m.name.toLowerCase()) || query.toLowerCase().includes(m.state.toLowerCase()));
+    
+    handleExecuteSearch(foundCrop ? foundCrop.name : query, foundMandi ? foundMandi.name : undefined);
+  };
+
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
     if (alertPhone.trim()) {
@@ -78,22 +152,134 @@ export const HomePage: React.FC<HomePageProps> = ({
       <section className="relative overflow-hidden bg-gradient-to-b from-[#F2F8F4] via-white to-[#FBFDF9] pt-8 sm:pt-12 pb-12 sm:pb-16 border-b border-[#E2ECE3]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 space-y-8">
           
-          {/* Top Quick Search Bar (from AgriHub) */}
-          <div className="max-w-2xl mx-auto">
-            <div 
-              onClick={() => onNavigate('dashboard')}
-              className="bg-white p-2.5 sm:p-3 rounded-full border border-[#CCE0D0] shadow-sm hover:shadow-md transition-all flex items-center gap-3 cursor-pointer group"
-            >
-              <div className="w-9 h-9 rounded-full bg-[#EBF5ED] flex items-center justify-center text-[#2E7D32]">
-                <Search className="w-4 h-4" />
+          {/* Top Fully Functional Search Bar with Live Autocomplete */}
+          <div className="max-w-3xl mx-auto relative z-30">
+            <form onSubmit={handleSearchSubmit} className="relative">
+              <div className="bg-white p-2 sm:p-2.5 pl-4 rounded-full border-2 border-[#CCE0D0] focus-within:border-[#2E7D32] shadow-md hover:shadow-lg transition-all flex items-center gap-2 sm:gap-3">
+                <div className="w-10 h-10 rounded-full bg-[#EBF5ED] flex items-center justify-center text-[#2E7D32] shrink-0">
+                  <Search className="w-5 h-5" />
+                </div>
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => {
+                    setSearchQuery(e.target.value);
+                    setShowSuggestions(true);
+                  }}
+                  onFocus={() => setShowSuggestions(true)}
+                  placeholder="Search crop (Tomato, Onion, Maize...) or APMC Mandi (Kolar, Ballari, Lasalgaon)..."
+                  className="text-xs sm:text-sm text-[#123826] font-semibold flex-1 bg-transparent outline-none placeholder:text-stone-400 placeholder:font-normal"
+                />
+                {searchQuery && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSearchQuery('');
+                      setShowSuggestions(false);
+                    }}
+                    className="p-1.5 rounded-full text-stone-400 hover:text-stone-700 transition-colors cursor-pointer"
+                    title="Clear search"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                )}
+                <button
+                  type="submit"
+                  className="px-5 sm:px-6 py-2.5 rounded-full bg-[#123826] hover:bg-[#2E7D32] text-white text-xs sm:text-sm font-black transition-all cursor-pointer shrink-0 shadow-sm flex items-center gap-1.5"
+                >
+                  <span>Search Rates</span>
+                  <ArrowRight className="w-4 h-4 text-[#E8A238]" />
+                </button>
               </div>
-              <span className="text-xs sm:text-sm text-stone-500 flex-1 font-medium">
-                Search for crops (e.g. Tomato, Onion), APMC mandis, or vehicle freight...
-              </span>
-              <span className="px-3.5 py-1.5 rounded-full bg-[#123826] text-white text-xs font-bold group-hover:bg-[#2E7D32] transition-colors">
-                Terminal
-              </span>
-            </div>
+
+              {/* Autocomplete Suggestions Dropdown */}
+              {showSuggestions && (
+                <div className="absolute left-0 right-0 top-full mt-2 bg-white rounded-3xl shadow-2xl border border-[#D5E7D8] p-4 z-50 animate-in fade-in zoom-in-95 duration-150">
+                  <div className="flex items-center justify-between pb-2.5 border-b border-[#F0F5F1] text-xs">
+                    <span className="font-bold text-[#123826] uppercase tracking-wider text-[11px]">
+                      {searchQuery.trim() ? 'Matching Results' : '🔥 Trending Searches Across APMCs'}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => setShowSuggestions(false)}
+                      className="text-stone-400 hover:text-stone-600 cursor-pointer p-1"
+                    >
+                      <X className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-3">
+                    {/* Crops Column */}
+                    <div className="space-y-1.5">
+                      <span className="text-[10px] font-bold text-stone-500 uppercase tracking-wider block">
+                        Crops & Commodities
+                      </span>
+                      {filteredCrops.length === 0 ? (
+                        <p className="text-xs text-stone-400 py-1 italic">No direct crop match</p>
+                      ) : (
+                        filteredCrops.map((c) => (
+                          <div
+                            key={c.name}
+                            onClick={() => handleExecuteSearch(c.name, undefined)}
+                            className="p-2 rounded-xl hover:bg-[#EBF5ED] transition-colors cursor-pointer flex items-center justify-between text-xs"
+                          >
+                            <div className="flex items-center gap-2">
+                              <span className="text-base">{c.icon}</span>
+                              <div>
+                                <span className="font-bold text-[#123826] block">{c.name}</span>
+                                <span className="text-[10px] text-stone-500">{c.hindi} • {c.kannada}</span>
+                              </div>
+                            </div>
+                            <span className="font-mono font-black text-xs text-[#2E7D32]">{c.modal}</span>
+                          </div>
+                        ))
+                      )}
+                    </div>
+
+                    {/* Mandis Column */}
+                    <div className="space-y-1.5 border-t md:border-t-0 md:border-l border-[#F0F5F1] md:pl-4 pt-2 md:pt-0">
+                      <span className="text-[10px] font-bold text-stone-500 uppercase tracking-wider block">
+                        Verified APMC Mandis
+                      </span>
+                      {filteredMandis.length === 0 ? (
+                        <p className="text-xs text-stone-400 py-1 italic">No direct mandi match</p>
+                      ) : (
+                        filteredMandis.map((m) => (
+                          <div
+                            key={m.name}
+                            onClick={() => handleExecuteSearch(undefined, m.name)}
+                            className="p-2 rounded-xl hover:bg-[#EBF5ED] transition-colors cursor-pointer flex items-center justify-between text-xs"
+                          >
+                            <div className="flex items-center gap-2">
+                              <div className="w-6 h-6 rounded-md bg-[#EBF5ED] text-[#2E7D32] flex items-center justify-center text-[10px]">
+                                <MapPin className="w-3.5 h-3.5" />
+                              </div>
+                              <div>
+                                <span className="font-bold text-[#123826] block">{m.apmc}</span>
+                                <span className="text-[10px] text-stone-500">{m.state} • Top: {m.topCrop}</span>
+                              </div>
+                            </div>
+                            <span className="text-[10px] font-bold text-[#2E7D32] bg-emerald-50 px-2 py-0.5 rounded-md">Live</span>
+                          </div>
+                        ))
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="mt-3 pt-2.5 border-t border-[#F0F5F1] flex items-center justify-between text-[11px]">
+                    <span className="text-stone-500">Tip: Press Enter or click any item to see full price spread</span>
+                    <button
+                      type="button"
+                      onClick={() => handleExecuteSearch(searchQuery || 'Tomato', undefined)}
+                      className="font-bold text-[#2E7D32] hover:underline flex items-center gap-1 cursor-pointer"
+                    >
+                      <span>Explore all 20 Mandis in Terminal</span>
+                      <ArrowRight className="w-3 h-3" />
+                    </button>
+                  </div>
+                </div>
+              )}
+            </form>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
@@ -137,6 +323,16 @@ export const HomePage: React.FC<HomePageProps> = ({
                   <FileText className="w-4 h-4 text-[#2E7D32]" />
                   <span>Gate Slip Station</span>
                 </button>
+
+                <a
+                  href="https://wa.me/917892181947?text=Hello%20AgriMate%2C%20I%20need%20mandi%20rates%20and%20assistance"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="px-5 py-3.5 rounded-2xl bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-sm flex items-center gap-2 shadow-md transition-all cursor-pointer"
+                >
+                  <MessageSquare className="w-4 h-4 text-white" />
+                  <span>WhatsApp: 7892181947</span>
+                </a>
               </div>
 
               {/* Trust Badges */}

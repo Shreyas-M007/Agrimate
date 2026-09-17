@@ -25,6 +25,7 @@ interface HeaderProps {
   onOpenSettings?: () => void;
   currentPage: NavigationPage;
   onNavigate: (page: NavigationPage) => void;
+  onSearchAndNavigate?: (crop?: string, location?: string) => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -36,10 +37,13 @@ export const Header: React.FC<HeaderProps> = ({
   isSyncing = false,
   onOpenSettings,
   currentPage,
-  onNavigate
+  onNavigate,
+  onSearchAndNavigate
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
+  const [searchModalOpen, setSearchModalOpen] = useState(false);
+  const [headerSearchQuery, setHeaderSearchQuery] = useState('');
   const t = TRANSLATIONS[language];
 
   const formatLastSync = (ts?: string) => {
@@ -86,6 +90,17 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
 
           <div className="flex items-center gap-2">
+            {/* Direct WhatsApp Support */}
+            <a
+              href="https://wa.me/917892181947?text=Hello%20AgriMate%2C%20I%20need%20mandi%20rates%20and%20support"
+              target="_blank"
+              rel="noreferrer"
+              className="hidden sm:inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#25D366]/15 hover:bg-[#25D366]/25 text-[#123826] font-bold text-[11px] border border-[#25D366]/30 transition-colors"
+              title="Official AgriMate WhatsApp Support (+91 7892181947)"
+            >
+              <span>💬 WhatsApp: +91 7892181947</span>
+            </a>
+
             {/* Sync trigger button */}
             {onTriggerSync && (
               <button
@@ -222,7 +237,7 @@ export const Header: React.FC<HeaderProps> = ({
         <div className="flex items-center gap-2 relative">
           {/* Quick Search Button */}
           <button
-            onClick={() => handleNavClick('dashboard')}
+            onClick={() => setSearchModalOpen(true)}
             className="p-2 rounded-xl bg-white hover:bg-[#F2F8F4] text-[#123826] border border-[#CCE0D0] transition-colors cursor-pointer shadow-xs hidden sm:flex items-center gap-1.5 text-xs font-semibold"
             title="Search Mandi Rates"
           >
@@ -352,6 +367,117 @@ export const Header: React.FC<HeaderProps> = ({
               <span>{t.openDashboard}</span>
               <ArrowRight className="w-3.5 h-3.5 text-[#E8A238]" />
             </button>
+          </div>
+        </div>
+      )}
+
+      {/* Global Quick Search Modal Palette */}
+      {searchModalOpen && (
+        <div 
+          className="fixed inset-0 bg-black/50 backdrop-blur-xs z-50 flex items-start justify-center pt-20 px-4 animate-in fade-in duration-150"
+          onClick={() => setSearchModalOpen(false)}
+        >
+          <div 
+            className="bg-white w-full max-w-2xl rounded-3xl shadow-2xl border border-[#CCE0D0] overflow-hidden p-5 space-y-4 animate-in zoom-in-95 duration-150 cursor-default"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center gap-3 pb-3 border-b border-[#E2ECE3]">
+              <div className="w-10 h-10 rounded-xl bg-[#EBF5ED] text-[#2E7D32] flex items-center justify-center shrink-0">
+                <Search className="w-5 h-5" />
+              </div>
+              <input
+                type="text"
+                autoFocus
+                value={headerSearchQuery}
+                onChange={(e) => setHeaderSearchQuery(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    e.preventDefault();
+                    if (headerSearchQuery.trim()) {
+                      if (onSearchAndNavigate) onSearchAndNavigate(headerSearchQuery.trim(), undefined);
+                      else handleNavClick('dashboard');
+                      setSearchModalOpen(false);
+                      setHeaderSearchQuery('');
+                    }
+                  } else if (e.key === 'Escape') {
+                    setSearchModalOpen(false);
+                  }
+                }}
+                placeholder="Type crop name (Tomato, Onion...) or APMC mandi (Kolar, Ballari)..."
+                className="w-full text-sm font-semibold text-[#123826] outline-none placeholder:text-stone-400 placeholder:font-normal"
+              />
+              <button
+                onClick={() => setSearchModalOpen(false)}
+                className="p-1.5 rounded-full text-stone-400 hover:text-stone-700 transition-colors cursor-pointer"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Quick Match List */}
+            <div className="space-y-3 max-h-72 overflow-y-auto pr-1">
+              <span className="text-[10px] uppercase font-bold text-stone-500 tracking-wider block">
+                {headerSearchQuery ? 'Matching Commodities & Mandis' : 'Quick Access Commodities'}
+              </span>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                {[
+                  { name: 'Tomato', icon: '🍅', tag: 'Hybrid / Local', mandi: 'Ballari, Kolar' },
+                  { name: 'Onion', icon: '🧅', tag: 'Nashik Red', mandi: 'Lasalgaon, Hubballi' },
+                  { name: 'Maize', icon: '🌽', tag: 'Hybrid Yellow', mandi: 'Davanagere, Bellary' },
+                  { name: 'Green Chilli', icon: '🌶️', tag: 'G-4 Hot', mandi: 'Guntur, Ballari' },
+                  { name: 'Potato', icon: '🥔', tag: 'Kufri Jyoti', mandi: 'Hassan, Agra' },
+                  { name: 'Cotton', icon: '☁️', tag: 'DCH-32', mandi: 'Hubballi, Raichur' },
+                  { name: 'Paddy / Rice', icon: '🍚', tag: 'Sona Masoori', mandi: 'Sindhanur, Davanagere' },
+                  { name: 'Soybean', icon: '🌱', tag: 'JS-335', mandi: 'Latur, Indore' }
+                ]
+                  .filter(item => 
+                    !headerSearchQuery || 
+                    item.name.toLowerCase().includes(headerSearchQuery.toLowerCase()) || 
+                    item.mandi.toLowerCase().includes(headerSearchQuery.toLowerCase()) ||
+                    item.tag.toLowerCase().includes(headerSearchQuery.toLowerCase())
+                  )
+                  .map((item) => (
+                    <div
+                      key={item.name}
+                      onClick={() => {
+                        if (onSearchAndNavigate) onSearchAndNavigate(item.name, undefined);
+                        else handleNavClick('dashboard');
+                        setSearchModalOpen(false);
+                        setHeaderSearchQuery('');
+                      }}
+                      className="p-2.5 rounded-xl bg-[#F7FBF8] hover:bg-[#EBF5ED] border border-[#E2ECE3] hover:border-[#2E7D32] transition-colors cursor-pointer flex items-center justify-between"
+                    >
+                      <div className="flex items-center gap-2.5">
+                        <span className="text-xl">{item.icon}</span>
+                        <div>
+                          <strong className="text-xs text-[#123826] block">{item.name}</strong>
+                          <span className="text-[10px] text-stone-500">{item.tag}</span>
+                        </div>
+                      </div>
+                      <span className="text-[10px] font-bold text-[#2E7D32] bg-white px-2 py-0.5 rounded-md border border-[#D5E7D8]">
+                        APMC Rates
+                      </span>
+                    </div>
+                  ))}
+              </div>
+            </div>
+
+            <div className="pt-2 border-t border-[#E2ECE3] flex items-center justify-between text-[11px] text-stone-500">
+              <span>Press <kbd className="font-mono bg-stone-100 px-1.5 py-0.5 rounded border border-stone-300">Enter</kbd> to search terminal</span>
+              <button
+                onClick={() => {
+                  if (onSearchAndNavigate) onSearchAndNavigate(headerSearchQuery || 'Tomato', undefined);
+                  else handleNavClick('dashboard');
+                  setSearchModalOpen(false);
+                  setHeaderSearchQuery('');
+                }}
+                className="font-bold text-[#2E7D32] hover:underline flex items-center gap-1 cursor-pointer"
+              >
+                <span>Launch Full Terminal</span>
+                <ArrowRight className="w-3 h-3" />
+              </button>
+            </div>
           </div>
         </div>
       )}
