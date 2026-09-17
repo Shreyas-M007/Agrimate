@@ -41,6 +41,14 @@ export const ExplainModal: React.FC<ExplainModalProps> = ({
     return () => { isMounted = false; };
   }, [activeTab, language]);
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [onClose]);
+
   if (!term) return null;
 
   const termsList = [
@@ -52,11 +60,15 @@ export const ExplainModal: React.FC<ExplainModalProps> = ({
 
   return (
     <div 
-      className="fixed inset-0 z-50 bg-stone-900/60 backdrop-blur-xs flex items-center justify-center p-4"
+      className="fixed inset-0 z-50 bg-stone-900/60 backdrop-blur-xs flex items-center justify-center p-4 cursor-pointer"
       role="dialog"
       aria-modal="true"
+      onClick={onClose}
     >
-      <div className="bg-white rounded-3xl max-w-lg w-full overflow-hidden shadow-2xl border-2 border-stone-300 animate-in fade-in zoom-in-95 duration-200">
+      <div 
+        className="bg-white rounded-3xl max-w-lg w-full overflow-hidden shadow-2xl border-2 border-stone-300 animate-in fade-in zoom-in-95 duration-200 cursor-default"
+        onClick={(e) => e.stopPropagation()}
+      >
         {/* Header */}
         <div className="bg-emerald-800 text-white px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2.5">

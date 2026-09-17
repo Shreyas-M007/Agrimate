@@ -26,6 +26,14 @@ export const MandiSlipModal: React.FC<MandiSlipModalProps> = ({
     window.print();
   };
 
+  React.useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [onClose]);
+
   const slipId = `MND-${Math.floor(100000 + Math.random() * 900000)}`;
   const todayStr = new Date().toLocaleDateString('en-IN', {
     day: 'numeric',
@@ -34,8 +42,16 @@ export const MandiSlipModal: React.FC<MandiSlipModalProps> = ({
   });
 
   return (
-    <div className="fixed inset-0 z-50 bg-stone-900/60 backdrop-blur-xs flex items-center justify-center p-4">
-      <div className="bg-white rounded-3xl max-w-xl w-full overflow-hidden shadow-2xl border-2 border-stone-300 animate-in fade-in zoom-in-95">
+    <div 
+      className="fixed inset-0 z-50 bg-stone-900/60 backdrop-blur-xs flex items-center justify-center p-4 cursor-pointer"
+      role="dialog"
+      aria-modal="true"
+      onClick={onClose}
+    >
+      <div 
+        className="bg-white rounded-3xl max-w-xl w-full overflow-hidden shadow-2xl border-2 border-stone-300 animate-in fade-in zoom-in-95 cursor-default"
+        onClick={(e) => e.stopPropagation()}
+      >
         {/* Actions bar (hidden in print) */}
         <div className="no-print bg-stone-900 text-white px-6 py-3.5 flex items-center justify-between border-b border-stone-800">
           <div className="flex items-center gap-2 text-sm font-bold">
