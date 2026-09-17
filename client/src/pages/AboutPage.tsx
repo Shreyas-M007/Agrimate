@@ -23,13 +23,13 @@ export const AboutPage: React.FC<AboutPageProps> = ({
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="max-w-3xl space-y-4">
             <span className="text-xs font-bold uppercase tracking-widest text-[#2E7D32] bg-white px-3 py-1 rounded-full border border-[#CCE0D0]">
-              About VerdaAgro & MandiMate
+              About AgriMate Platform
             </span>
             <h1 className="text-3xl sm:text-5xl font-black text-[#123826] font-['Syne',sans-serif] tracking-tight">
               Restoring Fair Value to the Hands that Feed the Nation
             </h1>
             <p className="text-stone-600 text-base sm:text-lg leading-relaxed font-['Outfit',sans-serif]">
-              VerdaAgro bridges the generational gap between the farmer's soil and terminal APMC markets. By coupling agronomic stewardship with algorithmic price transparency, we ensure growers capture their rightful margin.
+              AgriMate bridges the generational gap between the farmer's soil and terminal APMC markets. By coupling agronomic stewardship with algorithmic price transparency, we ensure growers capture their rightful margin.
             </p>
           </div>
         </div>
@@ -47,7 +47,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({
               Historically, smallholder farmers operate under profound information asymmetry. Local middlemen quote prices arbitrarily, transport operators inflate freight during harvest peaks, and unverified weighbridges lead to unaccounted deductions.
             </p>
             <p className="text-stone-600 text-sm sm:text-base leading-relaxed">
-              VerdaAgro was conceived to systematically eliminate these leakage points. By democratizing real-time Agmarknet auction data, standardizing statutory gate passes, and simulating net returns in-hand, farmers enter APMC yards equipped with official market intelligence.
+              AgriMate was conceived to systematically eliminate these leakage points. By democratizing real-time Agmarknet auction data, standardizing statutory gate passes, and simulating net returns in-hand, farmers enter APMC yards equipped with official market intelligence.
             </p>
             
             <div className="grid grid-cols-2 gap-4 pt-2">
@@ -66,7 +66,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({
             <div className="rounded-3xl overflow-hidden border-4 border-white shadow-xl bg-stone-100">
               <img 
                 src="/agro_terminal_hero.jpg" 
-                alt="VerdaAgro Agronomy in Action" 
+                alt="AgriMate Agronomy in Action" 
                 className="w-full h-80 sm:h-96 object-cover"
               />
             </div>
@@ -85,7 +85,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({
               Our Four Pillars of Agricultural Equity
             </h2>
             <p className="text-stone-600 text-sm">
-              How VerdaAgro ensures systematic protection across the harvest lifecycle.
+              How AgriMate ensures systematic protection across the harvest lifecycle.
             </p>
           </div>
 
@@ -198,7 +198,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({
             </div>
             <h3 className="text-lg font-bold text-[#123826]">SQLite Edge Storage</h3>
             <p className="text-stone-600 text-xs sm:text-sm leading-relaxed">
-              When farmers lose 4G connectivity at remote farm gates, MandiMate automatically switches to its local-first SQLite cache. You never lose access to previously verified mandi rates.
+              When farmers lose 4G connectivity at remote farm gates, AgriMate automatically switches to its local-first SQLite cache. You never lose access to previously verified mandi rates.
             </p>
           </div>
 
@@ -229,7 +229,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({
         <div className="bg-[#123826] text-white p-8 sm:p-12 rounded-3xl flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl">
           <div className="space-y-2 max-w-xl">
             <h3 className="text-2xl sm:text-3xl font-black font-['Syne',sans-serif]">
-              Put VerdaAgro Intelligence to Work on Your Harvest
+              Put AgriMate Intelligence to Work on Your Harvest
             </h3>
             <p className="text-stone-300 text-sm">
               Access real-time APMC mandi prices, run vehicle freight simulations, and download official gate slips.

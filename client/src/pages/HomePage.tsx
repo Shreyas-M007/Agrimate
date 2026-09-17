@@ -101,7 +101,7 @@ export const HomePage: React.FC<HomePageProps> = ({
             <div className="lg:col-span-7 space-y-5">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#EBF5ED] border border-[#CCE0D0] text-[#123826] text-xs font-bold tracking-wide">
                 <span className="w-2 h-2 rounded-full bg-[#2E7D32] animate-pulse"></span>
-                <span>VERDAGRO x AGRIHUB • SMART FARMING SAAS</span>
+                <span>AGRIMATE • SMART FARMING SAAS & APMC INTELLIGENCE</span>
               </div>
 
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-[#123826] tracking-tight font-['Syne',sans-serif] leading-[1.12]">
@@ -497,7 +497,7 @@ export const HomePage: React.FC<HomePageProps> = ({
           </p>
           <div className="pt-2">
             <p className="font-bold text-[#123826] text-sm">Alexander Bennett & Agronomy Board</p>
-            <p className="text-xs text-stone-500">AgridFlow SaaS Architecture • VerdaAgro Initiative</p>
+            <p className="text-xs text-stone-500">AgridFlow SaaS Architecture • AgriMate Initiative</p>
           </div>
         </div>
 
@@ -507,7 +507,7 @@ export const HomePage: React.FC<HomePageProps> = ({
             Agricultural Heritage
           </span>
           <h2 className="text-3xl sm:text-4xl font-black text-[#123826] font-['Syne',sans-serif]">
-            Four Pillars of VerdaAgro Ecosystem
+            Four Pillars of AgriMate Ecosystem
           </h2>
         </div>
 

@@ -458,9 +458,9 @@ export const App: React.FC = () => {
             <div className="lg:col-span-2 space-y-3">
               <div className="flex items-center gap-2.5">
                 <span className="text-2xl">🌾</span>
-                <span className="font-black text-white text-xl font-['Syne',sans-serif]">VerdaAgro</span>
+                <span className="font-black text-white text-xl font-['Syne',sans-serif]">AgriMate</span>
                 <span className="text-[10px] uppercase font-mono font-bold tracking-wider px-2 py-0.5 rounded-full bg-[#1B4D35] text-[#A5D6A7] border border-[#2E7D32]">
-                  MandiMate Edition
+                  Official Platform
                 </span>
               </div>
               <p className="text-emerald-100/70 text-xs sm:text-sm leading-relaxed max-w-sm font-['Outfit',sans-serif]">
@@ -521,7 +521,7 @@ export const App: React.FC = () => {
           {/* Bottom Legal & Attribution Strip */}
           <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-emerald-200/60">
             <div>
-              © 2026 VerdaAgro x MandiMate. Built for Indian Agriculture. All data grounded in official APMC Agmarknet reporting.
+              © 2026 AgriMate. Built for Indian Agriculture. All data grounded in official APMC Agmarknet reporting.
             </div>
             <div className="flex items-center gap-4">
               <span>0% AI Hallucination Guarantee</span>

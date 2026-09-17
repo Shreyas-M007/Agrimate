@@ -33,7 +33,7 @@ export const DispatchPage: React.FC<DispatchPageProps> = () => {
   };
 
   const handleWhatsAppShare = () => {
-    const text = `*VERDAGRO DIGITAL MANDI GATE PASS*%0A*Pass ID:* ${passId}%0A*Farmer:* ${farmerName} (${farmerPhone})%0A*Village:* ${village}%0A*Vehicle:* ${vehicleType} [${vehicleNumber}]%0A*Commodity:* ${commodity}%0A*Packages:* ${packageCount} ${packageType}%0A*Weight:* ${grossWeightQuintals} Quintals%0A*Destination Mandi:* ${targetMandi}%0A*Statutory:* APMC Act 2026 Certified`;
+    const text = `*AGRIMATE DIGITAL MANDI GATE PASS*%0A*Pass ID:* ${passId}%0A*Farmer:* ${farmerName} (${farmerPhone})%0A*Village:* ${village}%0A*Vehicle:* ${vehicleType} [${vehicleNumber}]%0A*Commodity:* ${commodity}%0A*Packages:* ${packageCount} ${packageType}%0A*Weight:* ${grossWeightQuintals} Quintals%0A*Destination Mandi:* ${targetMandi}%0A*Statutory:* APMC Act 2026 Certified`;
     window.open(`https://wa.me/?text=${text}`, '_blank');
   };
 
@@ -236,7 +236,7 @@ export const DispatchPage: React.FC<DispatchPageProps> = () => {
                 AGRICULTURAL PRODUCE GATE ENTRY PASS
               </h2>
               <p className="text-[11px] text-stone-500">
-                VerdaAgro Official Consignment Tracking • Agmarknet Mandi Network
+                AgriMate Official Consignment Tracking • Agmarknet Mandi Network
               </p>
               <p className="text-xs font-mono font-bold text-[#123826] pt-1">
                 PASS REF: {passId}

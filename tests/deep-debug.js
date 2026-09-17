@@ -283,7 +283,7 @@ async function runAudit() {
     const res = await fetch(`${BASE_URL}/`);
     assert.strictEqual(res.status, 200);
     const html = await res.text();
-    assert.ok(html.includes("MandiMate"));
+    assert.ok(html.includes("AgriMate"));
     assert.ok(html.includes("<div id=\"root\">"));
   });
 

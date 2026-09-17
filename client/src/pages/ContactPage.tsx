@@ -40,7 +40,7 @@ const FAQ_LIST: FAQItem[] = [
     a: "Immediately show your Digital Mandi Gate Pass to the APMC Market Secretary or weighment supervisor before the lot is unloaded. Under APMC statutory rules, the farmer has the right to demand a re-tare calibration test on an alternative certified electronic weighbridge."
   },
   {
-    q: "Why does VerdaAgro guarantee 0% AI price hallucinations?",
+    q: "Why does AgriMate guarantee 0% AI price hallucinations?",
     a: "Unlike speculative consumer chatbots, our terminal queries raw Agmarknet government auction records directly from our local-first database. If an APMC mandi has not reported transactions today, the system alerts you rather than fabricating imaginary prices."
   }
 ];

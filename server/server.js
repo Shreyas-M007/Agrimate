@@ -39,10 +39,10 @@ if (fs.existsSync(distPath)) {
   // Fallback root endpoint
   app.get('/', (req, res) => {
     res.json({
-      app: "MandiMate API Service",
+      app: "AgriMate API Service",
       version: "1.0.0",
       docs: "/api/health",
-      principle: "MandiMate must never invent a market price. Numerical information originates from verified external data sources."
+      principle: "AgriMate must never invent a market price. Numerical information originates from verified external data sources."
     });
   });
 }
@@ -53,17 +53,17 @@ import { refreshCache } from './services/marketService.js';
 // Initialize SQLite database and warm cache
 async function startServer() {
   try {
-    console.log("🌾 Initializing MandiMate SQLite database...");
+    console.log("🌾 Initializing AgriMate SQLite database...");
     await db.initDb();
     await refreshCache();
-    console.log("🌾 MandiMate SQLite database ready and verified.");
+    console.log("🌾 AgriMate SQLite database ready and verified.");
 
     app.listen(PORT, () => {
-      console.log(`🌾 MandiMate full-stack service running on http://localhost:${PORT}`);
+      console.log(`🌾 AgriMate full-stack service running on http://localhost:${PORT}`);
       console.log(`🌾 Verified agricultural intelligence ready.`);
     });
   } catch (err) {
-    console.error("Failed to start MandiMate service:", err);
+    console.error("Failed to start AgriMate service:", err);
     process.exit(1);
   }
 }

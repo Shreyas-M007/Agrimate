@@ -1,7 +1,7 @@
 import type { SearchResult } from '../types';
 
-const CACHE_KEY_PREFIX = 'mandimate_cache_';
-const LAST_SEARCH_KEY = 'mandimate_last_search';
+const CACHE_KEY_PREFIX = 'agrimate_cache_';
+const LAST_SEARCH_KEY = 'agrimate_last_search';
 
 export function saveSearchResultToCache(crop: string, location: string, data: SearchResult): void {
   try {

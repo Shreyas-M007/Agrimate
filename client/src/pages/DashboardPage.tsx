@@ -101,7 +101,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
               <span>100% Official APMC Rates • Zero Speculation</span>
             </div>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#123826] font-['Syne',sans-serif] tracking-tight leading-[1.15]">
-              MandiMate Terminal Workstation
+              AgriMate Terminal Workstation
             </h2>
             <p className="text-sm sm:text-base text-stone-600 font-normal leading-relaxed max-w-xl">
               Compare verified wholesale mandi prices across 20 APMC hubs, calculate realistic transport logistics, and receive clear selling advisory in your regional language.
@@ -150,7 +150,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
             <div className="relative rounded-2xl overflow-hidden shadow-lg border border-[#D5E7D8] aspect-[4/3] group">
               <img 
                 src="/verda_agro_hero.jpg" 
-                alt="VerdaAgro Agriculture Fields and Crops" 
+                alt="AgriMate Agriculture Fields and Crops" 
                 className="w-full h-full object-cover group-hover:scale-103 transition-transform duration-700"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
@@ -359,7 +359,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
             {searchResult.message || t.noDataMsg}
           </p>
           <p className="text-[11px] text-stone-600 font-medium">
-            Notice: MandiMate only displays official government APMC market prices. When market committees have not filed today's rates, we do not estimate or substitute unverified prices.
+            Notice: AgriMate only displays official government APMC market prices. When market committees have not filed today's rates, we do not estimate or substitute unverified prices.
           </p>
         </div>
       )}

@@ -23,7 +23,7 @@ export const SellingChecklist: React.FC<SellingChecklistProps> = ({
   const [loading, setLoading] = useState<boolean>(false);
   const [celebrated, setCelebrated] = useState<boolean>(false);
 
-  const storageKey = `mandimate_checklist_${crop}_${marketName}`;
+  const storageKey = `agrimate_checklist_${crop}_${marketName}`;
 
   // Load persisted checklist state on market/crop change
   useEffect(() => {

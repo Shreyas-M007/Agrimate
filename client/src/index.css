@@ -44,7 +44,8 @@
   }
 }
 
-/* VerdaAgro Card & Container System */
+/* AgriMate Card & Container System */
+.agrimate-card,
 .verda-card {
   background: #FFFFFF;
   border: 1px solid #E2ECE3;
@@ -52,29 +53,33 @@
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+.agrimate-card:hover,
 .verda-card:hover {
   border-color: #C3D9C6;
   box-shadow: 0 12px 30px -4px rgba(18, 56, 38, 0.08), 0 4px 10px -2px rgba(18, 56, 38, 0.04);
 }
 
+.agrimate-card-elevated,
 .verda-card-elevated {
   background: #FFFFFF;
   border: 1px solid #D1E3D4;
   box-shadow: 0 16px 36px -6px rgba(18, 56, 38, 0.09), 0 6px 16px -2px rgba(18, 56, 38, 0.05);
 }
 
+.agrimate-card-sage,
 .verda-card-sage {
   background: #F4F8F5;
   border: 1px solid #E0ECE2;
 }
 
+.agrimate-badge,
 .verda-badge {
   background: #EBF5ED;
   color: #123826;
   border: 1px solid #D5E7D8;
 }
 
-/* Backward compatibility classes mapped to VerdaAgro light styling */
+/* Backward compatibility classes mapped to AgriMate light styling */
 .glass-panel {
   background: #FFFFFF;
   border: 1px solid #E2ECE3;

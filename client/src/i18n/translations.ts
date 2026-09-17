@@ -1,6 +1,6 @@
 export const TRANSLATIONS = {
   en: {
-    appTitle: "MandiMate",
+    appTitle: "AgriMate",
     appTagline: "Verified Agricultural Market Intelligence for Farmers",
     dataIntegrityBadge: "100% Verified APMC Data • No AI Price Inventions",
     navLanguage: "Language",
@@ -52,7 +52,7 @@ export const TRANSLATIONS = {
     periodHigh: "Highest Price",
     periodLow: "Lowest Price",
     priceChange: "Price Movement",
-    aiExplanationTitle: "MandiMate Market Insight",
+    aiExplanationTitle: "AgriMate Market Insight",
     aiExplanationBadge: "Verified Market Advisory • Official Data",
     checklistTitle: "Farmer's Selling Checklist",
     checklistSubtitle: "11 practical checks before dispatching and completing sales at the APMC yard.",
@@ -74,7 +74,7 @@ export const TRANSLATIONS = {
     openDashboard: "Open Dashboard"
   },
   hi: {
-    appTitle: "मंडीमेट (MandiMate)",
+    appTitle: "एग्रीमेट (AgriMate)",
     appTagline: "किसानों के लिए सत्यापित कृषि मंडी भाव और विश्लेषण",
     dataIntegrityBadge: "100% सत्यापित सरकारी APMC डेटा • कोई मनगढ़ंत भाव नहीं",
     navLanguage: "भाषा",
@@ -126,7 +126,7 @@ export const TRANSLATIONS = {
     periodHigh: "सर्वोच्च भाव",
     periodLow: "न्यूनतम भाव",
     priceChange: "भाव में बदलाव",
-    aiExplanationTitle: "मंडीमेट बाजार परामर्श",
+    aiExplanationTitle: "एग्रीमेट बाजार परामर्श",
     aiExplanationBadge: "सत्यापित मंडी परामर्श • आधिकारिक आंकड़ों पर आधारित",
     checklistTitle: "फसल बिक्री चेकलिस्ट (11 जरूरी कदम)",
     checklistSubtitle: "मंडी जाने से पहले और बिक्री समाप्त होने तक इन 11 बातों का ध्यान रखें।",
@@ -148,7 +148,7 @@ export const TRANSLATIONS = {
     openDashboard: "डैशबोर्ड खोलें"
   },
   kn: {
-    appTitle: "ಮಂಡಿಮೇಟ್ (MandiMate)",
+    appTitle: "ಅಗ್ರಿಮೇಟ್ (AgriMate)",
     appTagline: "ರೈತರಿಗಾಗಿ ಅಧಿಕೃತ ಕೃಷಿ ಮಾರುಕಟ್ಟೆ ಮಾಹಿತಿ ಮತ್ತು ವಿಶ್ಲೇಷಣೆ",
     dataIntegrityBadge: "100% ಅಧಿಕೃತ ಸರ್ಕಾರಿ ಎಪಿಎಂಸಿ ದತ್ತಾಂಶ • ಕಾಲ್ಪನಿಕ ಬೆಲೆಗಳಿಲ್ಲ",
     navLanguage: "ಭಾಷೆ",
@@ -200,7 +200,7 @@ export const TRANSLATIONS = {
     periodHigh: "ಅತ್ಯಧಿಕ ಬೆಲೆ",
     periodLow: "ಕನಿಷ್ಠ ಬೆಲೆ",
     priceChange: "ಬೆಲೆ ಬದಲಾವಣೆ",
-    aiExplanationTitle: "ಮಂಡಿಮೇಟ್ ಮಾರುಕಟ್ಟೆ ಸಲಹೆ",
+    aiExplanationTitle: "ಅಗ್ರಿಮೇಟ್ ಮಾರುಕಟ್ಟೆ ಸಲಹೆ",
     aiExplanationBadge: "ಪರಿಶೀಲಿಸಿದ ಮಾರುಕಟ್ಟೆ ಸಲಹೆ • ಅಧಿಕೃತ ದತ್ತಾಂಶದ ಆಧಾರದ ಮೇಲೆ",
     checklistTitle: "ಮಾರಾಟ ಪೂರ್ವ ಪರಿಶೀಲನಾ ಪಟ್ಟಿ (11 ಹಂತಗಳು)",
     checklistSubtitle: "ಮಂಡಿಗೆ ಹೊರಡುವ ಮುನ್ನ ಮತ್ತು ಮಾರಾಟ ಮುಗಿಯುವವರೆಗೆ ಈ 11 ಅಂಶಗಳನ್ನು ಗಮನಿಸಿ.",

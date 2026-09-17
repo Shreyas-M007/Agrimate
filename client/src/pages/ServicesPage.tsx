@@ -50,7 +50,7 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
               Enterprise Agronomy & Market Infrastructure
             </h1>
             <p className="text-stone-600 text-base sm:text-lg leading-relaxed font-['Outfit',sans-serif]">
-              From soil-level moisture tracking to statutory APMC gate liquidation, VerdaAgro provides full-spectrum algorithmic and operational tools for India's agricultural supply chain.
+              From soil-level moisture tracking to statutory APMC gate liquidation, AgriMate provides full-spectrum algorithmic and operational tools for India's agricultural supply chain.
             </p>
           </div>
         </div>

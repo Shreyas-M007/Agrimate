@@ -189,10 +189,10 @@ export const Header: React.FC<HeaderProps> = ({
           <div>
             <div className="flex items-center gap-2">
               <span className="text-xl sm:text-2xl font-black tracking-tight text-[#123826] font-['Syne',sans-serif]">
-                VerdaAgro
+                AgriMate
               </span>
               <span className="text-[10px] font-mono font-bold uppercase tracking-wider bg-[#EBF5ED] text-[#123826] px-2 py-0.5 rounded-full border border-[#D5E7D8]">
-                MandiMate
+                Intelligence
               </span>
             </div>
             <p className="text-stone-600 text-[11px] font-medium hidden sm:block">
