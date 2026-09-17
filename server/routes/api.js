@@ -1,0 +1,177 @@
+import express from 'express';
+import { 
+  searchMarkets, 
+  getCommodities, 
+  getMarkets, 
+  normalizeToQuintals 
+} from '../services/marketService.js';
+import { getPriceTrends } from '../services/trendService.js';
+import { 
+  generateMarketExplanation, 
+  TERMINOLOGY_EXPLANATIONS 
+} from '../services/aiService.js';
+import { getSellingChecklist } from '../services/checklistService.js';
+import { parseNaturalLanguageQuery } from '../services/nlpService.js';
+
+const router = express.Router();
+
+// GET /api/health
+router.get('/health', (req, res) => {
+  res.json({ status: "healthy", timestamp: new Date().toISOString() });
+});
+
+// GET /api/crops
+router.get('/crops', (req, res) => {
+  res.json({
+    success: true,
+    commodities: getCommodities()
+  });
+});
+
+// GET /api/markets
+// Suggested API flow: GET /markets?crop=tomato&district=Ballari&quantity=500&unit=kg
+router.get('/markets', (req, res) => {
+  const { crop, location, district, quantity = 5, unit = 'quintal', lat, lon } = req.query;
+  const targetLocation = location || district || '';
+
+  // Input validation
+  const numQuantity = Number(quantity);
+  if (isNaN(numQuantity) || numQuantity <= 0) {
+    return res.status(400).json({
+      success: false,
+      error: "Quantity must be a positive number greater than zero.",
+      code: "INVALID_QUANTITY"
+    });
+  }
+
+  const result = searchMarkets({
+    crop,
+    location: targetLocation,
+    quantity: numQuantity,
+    unit,
+    lat,
+    lon
+  });
+
+  if (!result.success) {
+    return res.status(400).json(result);
+  }
+
+  res.json(result);
+});
+
+// GET /api/prices
+router.get('/prices', (req, res) => {
+  const { crop, market_id } = req.query;
+  if (!crop) {
+    return res.status(400).json({ success: false, error: "Crop parameter is required." });
+  }
+  const result = searchMarkets({ crop, quantity: 1 });
+  if (market_id && result.markets) {
+    result.markets = result.markets.filter(m => m.market_id === market_id);
+  }
+  res.json(result);
+});
+
+// GET /api/trends
+router.get('/trends', (req, res) => {
+  const { crop, market_id, days = 7 } = req.query;
+  const result = getPriceTrends({ crop, market_id, days: Number(days) });
+  if (!result.success) {
+    return res.status(400).json(result);
+  }
+  res.json(result);
+});
+
+// POST /api/explain
+router.post('/explain', (req, res) => {
+  const { market, trend, language = 'en', quantityQuintals = 0 } = req.body;
+  if (!market) {
+    return res.status(400).json({ success: false, error: "Market data object is required." });
+  }
+  const explanation = generateMarketExplanation({
+    market,
+    trend,
+    language,
+    quantityQuintals: Number(quantityQuintals) || 0
+  });
+  res.json({ success: true, explanation });
+});
+
+// GET /api/explain-term/:term
+router.get('/explain-term/:term', (req, res) => {
+  const { term } = req.params;
+  const { lang = 'en' } = req.query;
+  const cleanTerm = term.toLowerCase().trim();
+
+  const termData = TERMINOLOGY_EXPLANATIONS[cleanTerm];
+  if (!termData) {
+    return res.status(404).json({
+      success: false,
+      error: `No explanation found for term '${term}'. Available: modal_price, min_price, max_price, arrival_quantity`
+    });
+  }
+
+  const localized = termData[lang] || termData['en'];
+  res.json({ success: true, term: cleanTerm, data: localized });
+});
+
+// POST /api/checklist
+router.post('/checklist', (req, res) => {
+  const { crop = "produce", marketName = "APMC Mandi", quantityQuintals = 0, language = 'en' } = req.body;
+  const checklist = getSellingChecklist({
+    crop,
+    marketName,
+    quantityQuintals: Number(quantityQuintals) || 0,
+    language
+  });
+  res.json({ success: true, checklist });
+});
+
+// POST /api/parse-query
+router.post('/parse-query', (req, res) => {
+  const { query } = req.body;
+  if (!query) {
+    return res.status(400).json({ success: false, error: "Query is required." });
+  }
+  const result = parseNaturalLanguageQuery(query);
+  res.json(result);
+});
+
+// POST /api/net-return
+// PRD Section 17: Net Return Calculator
+// Approximate net returns = estimated gross value - (transportation + loading/unloading + market cess/other)
+router.post('/net-return', (req, res) => {
+  const { 
+    grossValue = 0, 
+    transportCost = 0, 
+    loadingCost = 0, 
+    marketCessPercent = 1.5, 
+    otherCharges = 0 
+  } = req.body;
+
+  const gross = Math.max(0, Number(grossValue) || 0);
+  const transport = Math.max(0, Number(transportCost) || 0);
+  const loading = Math.max(0, Number(loadingCost) || 0);
+  const cess = Math.round((gross * (Number(marketCessPercent) || 0)) / 100);
+  const other = Math.max(0, Number(otherCharges) || 0);
+
+  const totalDeductions = transport + loading + cess + other;
+  const estimatedNetReturn = Math.max(0, gross - totalDeductions);
+
+  res.json({
+    success: true,
+    gross_value: gross,
+    deductions: {
+      transport: transport,
+      loading_unloading: loading,
+      market_cess: cess,
+      other_charges: other,
+      total_deductions: totalDeductions
+    },
+    estimated_net_return: estimatedNetReturn,
+    disclaimer: "This net return is strictly an approximation for budgeting purposes based on user-entered cost estimates. Official receipts may vary."
+  });
+});
+
+export default router;
