@@ -63,7 +63,15 @@ export const TRANSLATIONS = {
     nlpListening: "Listening... speak now",
     nlpMicStart: "Speak Query",
     educationalModalTitle: "Agricultural Terminology Guide",
-    close: "Close"
+    close: "Close",
+    navHome: "Home",
+    navDashboard: "Dashboard",
+    navAbout: "About Us",
+    navServices: "Services",
+    navCrops: "Crop Directory",
+    navDispatch: "Dispatch Desk",
+    navContact: "Grower Support",
+    openDashboard: "Open Dashboard"
   },
   hi: {
     appTitle: "मंडीमेट (MandiMate)",
@@ -129,7 +137,15 @@ export const TRANSLATIONS = {
     nlpListening: "सुन रहे हैं... बोलिए",
     nlpMicStart: "बोलकर खोजें",
     educationalModalTitle: "मंडी शब्दावली मार्गदर्शिका",
-    close: "बंद करें"
+    close: "बंद करें",
+    navHome: "होम",
+    navDashboard: "डैशबोर्ड",
+    navAbout: "फार्म परिचय",
+    navServices: "सेवाएं",
+    navCrops: "फसल सूची",
+    navDispatch: "गेट पर्ची",
+    navContact: "किसान सहायता",
+    openDashboard: "डैशबोर्ड खोलें"
   },
   kn: {
     appTitle: "ಮಂಡಿಮೇಟ್ (MandiMate)",
@@ -195,6 +211,14 @@ export const TRANSLATIONS = {
     nlpListening: "ಕೇಳಿಸಿಕೊಳ್ಳಲಾಗುತ್ತಿದೆ... ಮಾತನಾಡಿ",
     nlpMicStart: "ಧ್ವನಿ ಮೂಲಕ ಹುಡುಕಿ",
     educationalModalTitle: "ಕೃಷಿ ಮಾರುಕಟ್ಟೆ ಪದಕೋಶ",
-    close: "ಮುಚ್ಚಿ"
+    close: "ಮುಚ್ಚಿ",
+    navHome: "ಮುಖಪುಟ",
+    navDashboard: "ಡ್ಯಾಶ್‌ಬೋರ್ಡ್",
+    navAbout: "ಕೃಷಿ ಪರಿಚಯ",
+    navServices: "ಸೇವೆಗಳು",
+    navCrops: "ಬೆಳೆಗಳ ಪಟ್ಟಿ",
+    navDispatch: "ಗೇಟ್ ಪಾಸ್",
+    navContact: "ರೈತ ಬೆಂಬಲ",
+    openDashboard: "ಡ್ಯಾಶ್‌ಬೋರ್ಡ್ ತೆರೆಯಿರಿ"
   }
 };

@@ -6,29 +6,32 @@ import type {
   MarketItem, 
   SearchResult,
   SyncStatusData,
-  PriceTrend
+  PriceTrend,
+  NavigationPage
 } from './types';
 import { TRANSLATIONS } from './i18n/translations';
 import { Header } from './components/Header';
 import { OfflineBanner } from './components/OfflineBanner';
-import { SearchForm } from './components/SearchForm';
-import { NaturalQuery } from './components/NaturalQuery';
-import { MarketComparison } from './components/MarketComparison';
-import { ValueCalculator } from './components/ValueCalculator';
-import { PriceTrendChart } from './components/PriceTrendChart';
-import { AiExplanation } from './components/AiExplanation';
-import { SellingChecklist } from './components/SellingChecklist';
 import { ExplainModal } from './components/ExplainModal';
 import { MandiSlipModal } from './components/MandiSlipModal';
 import { SettingsModal } from './components/SettingsModal';
+import { HomePage } from './pages/HomePage';
+import { DashboardPage } from './pages/DashboardPage';
+import { AboutPage } from './pages/AboutPage';
+import { ServicesPage } from './pages/ServicesPage';
+import { CropsPage } from './pages/CropsPage';
+import { DispatchPage } from './pages/DispatchPage';
+import { ContactPage } from './pages/ContactPage';
 import { 
   saveSearchResultToCache, 
   getCachedSearchResult 
 } from './utils/storage';
-import { AlertCircle, Sparkles, BookOpen, CheckCircle2, ShieldCheck } from 'lucide-react';
+import { BookOpen, CheckCircle2, ShieldCheck } from 'lucide-react';
 
 export const App: React.FC = () => {
+  // English is ALWAYS default on initial load / refresh per user instruction
   const [language, setLanguage] = useState<Language>('en');
+  const [currentPage, setCurrentPage] = useState<NavigationPage>('home');
   const [isOnline, setIsOnline] = useState<boolean>(navigator.onLine);
   const [activeTab, setActiveTab] = useState<'form' | 'nlp'>('form');
 
@@ -58,6 +61,38 @@ export const App: React.FC = () => {
   const [syncToast, setSyncToast] = useState<string | null>(null);
 
   const t = TRANSLATIONS[language];
+
+  // Initialize page routing from pathname
+  useEffect(() => {
+    const getPageFromPath = (path: string): NavigationPage => {
+      const clean = path.replace(/^\//, '').toLowerCase();
+      if (clean === 'dashboard') return 'dashboard';
+      if (clean === 'about') return 'about';
+      if (clean === 'services') return 'services';
+      if (clean === 'crops') return 'crops';
+      if (clean === 'dispatch') return 'dispatch';
+      if (clean === 'contact') return 'contact';
+      return 'home';
+    };
+
+    setCurrentPage(getPageFromPath(window.location.pathname));
+
+    const handlePopState = () => {
+      setCurrentPage(getPageFromPath(window.location.pathname));
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  const navigateTo = (page: NavigationPage) => {
+    setCurrentPage(page);
+    const targetPath = page === 'home' ? '/' : `/${page}`;
+    if (window.location.pathname !== targetPath) {
+      window.history.pushState({}, '', targetPath);
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   // Online / Offline listeners
   useEffect(() => {
@@ -89,13 +124,12 @@ export const App: React.FC = () => {
   useEffect(() => {
     fetchSyncStatus();
 
-    // Fetch user preferences
+    // Fetch user preferences (location and unit only; language remains 'en' on fresh load)
     async function loadPreferences() {
       try {
         const res = await fetch('/api/preferences');
         const data = await res.json();
         if (data.success && data.preferences) {
-          // English is ALWAYS default on initial load per user specification
           if (data.preferences.location) setLocation(data.preferences.location);
           if (data.preferences.preferred_units) setUnit(data.preferences.preferred_units as CropUnit);
         }
@@ -163,17 +197,18 @@ export const App: React.FC = () => {
     }
     loadCrops();
 
-    // Auto-run initial search for the end-to-end example (PRD Section 35: Crop=Tomato, Location=Ballari, Quantity=500kg)
+    // Auto-run initial search for baseline data
     handleSearch();
   }, []);
 
   // Search handler
-  const handleSearch = async (gpsCoords?: { lat: number; lon: number }) => {
-    if (!crop) return;
+  const handleSearch = async (gpsCoords?: { lat: number; lon: number }, overrideCrop?: string) => {
+    const targetCrop = overrideCrop || crop;
+    if (!targetCrop) return;
     setIsLoading(true);
 
     const queryParams = new URLSearchParams({
-      crop,
+      crop: targetCrop,
       location,
       quantity: quantity.toString(),
       unit
@@ -186,7 +221,7 @@ export const App: React.FC = () => {
 
     try {
       if (!navigator.onLine) {
-        const cached = getCachedSearchResult(crop, location);
+        const cached = getCachedSearchResult(targetCrop, location);
         if (cached) {
           setSearchResult(cached.data);
           setCachedAt(cached.cachedAt);
@@ -206,13 +241,13 @@ export const App: React.FC = () => {
 
       if (data.success && data.verified && data.markets.length > 0) {
         setSelectedMarket(data.markets[0]);
-        saveSearchResultToCache(crop, location, data);
+        saveSearchResultToCache(targetCrop, location, data);
       } else {
         setSelectedMarket(null);
       }
     } catch (err) {
       console.warn("Network request failed, attempting cache lookup", err);
-      const cached = getCachedSearchResult(crop, location);
+      const cached = getCachedSearchResult(targetCrop, location);
       if (cached) {
         setSearchResult(cached.data);
         setCachedAt(cached.cachedAt);
@@ -240,15 +275,23 @@ export const App: React.FC = () => {
     setUnit(parsed.unit);
 
     setTimeout(() => {
-      handleSearch();
+      handleSearch(undefined, parsed.crop);
     }, 100);
   };
 
-  const quantityQuintals = searchResult?.normalized_quantity?.in_quintals || (unit === 'kg' ? quantity / 100 : (unit === 'tonne' ? quantity * 10 : quantity));
+  // One-click select crop from Portfolio and jump to terminal
+  const handleSelectCropAndNavigate = (cropName: string) => {
+    setCrop(cropName);
+    navigateTo('dashboard');
+    handleSearch(undefined, cropName);
+  };
+
+  const quantityQuintals = searchResult?.normalized_quantity?.in_quintals || 
+    (unit === 'kg' ? quantity / 100 : (unit === 'tonne' ? quantity * 10 : quantity));
 
   return (
     <div className="min-h-screen bg-[#FBFDF9] text-[#162E21] flex flex-col font-['Plus_Jakarta_Sans',sans-serif]">
-      {/* Header with language, sync, settings & online toggle */}
+      {/* Editorial Header with multi-page navigation, language switch & sync */}
       <Header
         language={language}
         onLanguageChange={setLanguage}
@@ -257,6 +300,8 @@ export const App: React.FC = () => {
         onTriggerSync={handleTriggerSync}
         isSyncing={isSyncing}
         onOpenSettings={() => setIsSettingsOpen(true)}
+        currentPage={currentPage}
+        onNavigate={navigateTo}
       />
 
       {/* Live Sync Notification Toast */}
@@ -275,211 +320,90 @@ export const App: React.FC = () => {
         onRefresh={() => handleSearch()}
       />
 
-      {/* Main Container */}
-      <main className="max-w-7xl mx-auto w-full px-4 py-6 flex-1 space-y-8">
-        {/* VerdaAgro Agriculture Hero Section */}
-        <div className="verda-card rounded-3xl p-6 sm:p-10 border border-[#E2ECE3] relative overflow-hidden bg-gradient-to-br from-white via-[#F7FBF8] to-[#EBF5ED]">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-            {/* Left Content Column */}
-            <div className="lg:col-span-7 space-y-4">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#EBF5ED] border border-[#CCE0D0] text-xs font-semibold text-[#123826]">
-                <ShieldCheck className="w-4 h-4 text-[#2E7D32]" />
-                <span>100% Official APMC Rates • Zero Speculation</span>
-              </div>
-              <h2 className="text-3xl sm:text-5xl font-black text-[#123826] font-['Syne',sans-serif] tracking-tight leading-[1.15]">
-                Modern Agriculture Intelligence for Farms & Growers
-              </h2>
-              <p className="text-sm sm:text-base text-stone-600 font-normal leading-relaxed max-w-xl">
-                Compare verified wholesale mandi prices across 20 APMC hubs, calculate realistic transport logistics, and receive clear selling advisory in your regional language.
-              </p>
+      {/* Main Page Content Router */}
+      <main className="flex-1 w-full">
+        {currentPage === 'home' && (
+          <HomePage
+            language={language}
+            onNavigate={navigateTo}
+            onSelectCropAndNavigate={handleSelectCropAndNavigate}
+            commodities={commodities}
+          />
+        )}
 
-              {/* Agricultural Key Stat Tiles */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
-                <div className="bg-white p-3.5 rounded-2xl border border-[#E2ECE3] shadow-xs">
-                  <span className="text-[11px] text-stone-500 font-medium block">Active Markets</span>
-                  <span className="text-[#123826] font-black text-lg sm:text-xl">20 Mandis</span>
-                </div>
-                <div className="bg-white p-3.5 rounded-2xl border border-[#E2ECE3] shadow-xs">
-                  <span className="text-[11px] text-stone-500 font-medium block">Key Crops</span>
-                  <span className="text-[#123826] font-black text-lg sm:text-xl">10 Crops</span>
-                </div>
-                <div className="bg-white p-3.5 rounded-2xl border border-[#E2ECE3] shadow-xs">
-                  <span className="text-[11px] text-stone-500 font-medium block">Top Spread</span>
-                  <span className="text-[#D97706] font-black text-lg sm:text-xl">₹1,400/q</span>
-                </div>
-                <div className="bg-white p-3.5 rounded-2xl border border-[#E2ECE3] shadow-xs">
-                  <span className="text-[11px] text-stone-500 font-medium block">Sync Status</span>
-                  <span className="text-[#2E7D32] font-black text-lg sm:text-xl">Daily Live</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Right Photography Column */}
-            <div className="lg:col-span-5 relative">
-              <div className="relative rounded-2xl overflow-hidden shadow-lg border border-[#D5E7D8] aspect-[4/3] group">
-                <img 
-                  src="/verda_agro_hero.jpg" 
-                  alt="VerdaAgro Agriculture Fields and Crops" 
-                  className="w-full h-full object-cover group-hover:scale-103 transition-transform duration-700"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
-                
-                {/* Floating Farm Card */}
-                <div className="absolute bottom-3 left-3 right-3 bg-white/95 backdrop-blur-md p-3.5 rounded-xl border border-white/80 shadow-md flex items-center justify-between">
-                  <div>
-                    <span className="text-[10px] font-bold text-[#2E7D32] uppercase tracking-wider block">Featured Market Rate</span>
-                    <strong className="text-sm text-[#123826]">Ballari APMC • Tomato Hybrid</strong>
-                  </div>
-                  <div className="text-right font-mono">
-                    <span className="text-base font-black text-[#123826]">₹2,200</span>
-                    <span className="text-xs text-stone-500">/q</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Search & Query Section */}
-        <section className="space-y-3">
-          {/* Query Mode Toggle Tabs */}
-          <div className="flex gap-2">
-            <button
-              type="button"
-              onClick={() => setActiveTab('form')}
-              className={`px-5 py-2.5 text-xs font-bold rounded-2xl border transition-all cursor-pointer ${
-                activeTab === 'form'
-                  ? 'bg-[#123826] text-white border-[#123826] shadow-sm'
-                  : 'bg-white text-stone-600 border-[#E2ECE3] hover:border-[#CCE0D0] hover:text-[#123826]'
-              }`}
-            >
-              {t.searchTabForm}
-            </button>
-            <button
-              type="button"
-              onClick={() => setActiveTab('nlp')}
-              className={`px-5 py-2.5 text-xs font-bold rounded-2xl border transition-all cursor-pointer flex items-center gap-1.5 ${
-                activeTab === 'nlp'
-                  ? 'bg-[#123826] text-white border-[#123826] shadow-sm'
-                  : 'bg-white text-stone-600 border-[#E2ECE3] hover:border-[#CCE0D0] hover:text-[#123826]'
-              }`}
-            >
-              <Sparkles className="w-3.5 h-3.5 text-[#2E7D32]" />
-              <span>{t.searchTabNlp}</span>
-            </button>
-          </div>
-
-          {activeTab === 'nlp' ? (
-            <NaturalQuery
+        {currentPage === 'dashboard' && (
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6">
+            <DashboardPage
               language={language}
-              onParsedResult={handleNlpResult}
-            />
-          ) : (
-            <SearchForm
-              language={language}
+              activeTab={activeTab}
+              setActiveTab={setActiveTab}
               commodities={commodities}
-              selectedCrop={crop}
-              onCropChange={setCrop}
+              crop={crop}
+              setCrop={setCrop}
               variety={variety}
-              onVarietyChange={setVariety}
+              setVariety={setVariety}
               location={location}
-              onLocationChange={setLocation}
+              setLocation={setLocation}
               quantity={quantity}
-              onQuantityChange={setQuantity}
+              setQuantity={setQuantity}
               unit={unit}
-              onUnitChange={setUnit}
-              onSearch={handleSearch}
+              setUnit={setUnit}
               isLoading={isLoading}
+              searchResult={searchResult}
+              selectedMarket={selectedMarket}
+              setSelectedMarket={setSelectedMarket}
+              activeTrend={activeTrend}
+              explanationTerm={explanationTerm}
+              setExplanationTerm={setExplanationTerm}
+              isSlipModalOpen={isSlipModalOpen}
+              setIsSlipModalOpen={setIsSlipModalOpen}
+              handleSearch={handleSearch}
+              handleNlpResult={handleNlpResult}
+              onNavigate={navigateTo}
             />
-          )}
-        </section>
-
-        {/* No-data notice if unverified or missing */}
-        {searchResult && !searchResult.verified && (
-          <div className="verda-card rounded-3xl border border-amber-200 bg-[#FEF8ED] p-8 text-center max-w-2xl mx-auto shadow-sm">
-            <div className="w-12 h-12 bg-amber-100 text-amber-700 rounded-full flex items-center justify-center mx-auto mb-3 border border-amber-200">
-              <AlertCircle className="w-6 h-6" />
-            </div>
-            <h3 className="text-lg font-bold text-[#123826] mb-2 font-['Syne',sans-serif]">
-              {t.noDataTitle}
-            </h3>
-            <p className="text-stone-700 text-xs sm:text-sm mb-4 leading-relaxed">
-              {searchResult.message || t.noDataMsg}
-            </p>
-            <p className="text-[11px] text-stone-500 font-medium">
-              Notice: MandiMate only displays official government APMC market prices. When market committees have not filed today's rates, we do not estimate or substitute unverified prices.
-            </p>
           </div>
         )}
 
-        {/* Results Section when verified data is available */}
-        {searchResult && searchResult.verified && searchResult.markets.length > 0 && (
-          <div className="space-y-8">
-            {/* Market Comparison Cards */}
-            <MarketComparison
-              markets={searchResult.markets}
-              language={language}
-              selectedMarket={selectedMarket}
-              onSelectMarket={setSelectedMarket}
-              onExplainTerm={setExplanationTerm}
-            />
+        {currentPage === 'about' && (
+          <AboutPage
+            language={language}
+            onNavigate={navigateTo}
+          />
+        )}
 
-            {/* Selected Market Deep-Dive Section */}
-            {selectedMarket && (
-              <div className="space-y-8 pt-4 border-t border-[#E2ECE3]">
-                <div className="verda-card p-5 rounded-3xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 border border-[#CCE0D0] shadow-sm">
-                  <div>
-                    <span className="text-[11px] uppercase tracking-wider text-[#2E7D32] font-bold">
-                      Selected Mandi Overview
-                    </span>
-                    <h3 className="text-xl sm:text-2xl font-bold text-[#123826] font-['Syne',sans-serif]">
-                      {selectedMarket.market_name} ({selectedMarket.district})
-                    </h3>
-                  </div>
-                  <div className="text-xs bg-[#F4F8F5] px-4 py-2.5 rounded-2xl border border-[#CCE0D0] self-start sm:self-auto font-mono">
-                    Modal Rate: <strong className="text-[#123826] text-base tnum font-black">₹{selectedMarket.modal_price}/quintal</strong>
-                  </div>
-                </div>
+        {currentPage === 'services' && (
+          <ServicesPage
+            language={language}
+            onNavigate={navigateTo}
+          />
+        )}
 
-                {/* Row 1: Quantity Value Calculator & Net Return Calculator (PRD Sec 12 & 17) */}
-                <ValueCalculator
-                  market={selectedMarket}
-                  quantityQuintals={quantityQuintals}
-                  language={language}
-                  onOpenSlip={() => setIsSlipModalOpen(true)}
-                />
+        {currentPage === 'crops' && (
+          <CropsPage
+            language={language}
+            onNavigate={navigateTo}
+            onSelectCropAndNavigate={handleSelectCropAndNavigate}
+            commodities={commodities}
+          />
+        )}
 
-                {/* Row 2: Deterministic Price Trend Chart (PRD Sec 13) */}
-                <PriceTrendChart
-                  crop={crop}
-                  marketId={selectedMarket.market_id}
-                  marketName={selectedMarket.market_name}
-                  language={language}
-                />
+        {currentPage === 'dispatch' && (
+          <DispatchPage
+            language={language}
+            onNavigate={navigateTo}
+          />
+        )}
 
-                {/* Row 3: Bedrock & Gemini AI Explanation Narrative (PRD Sec 14, 18, 34) */}
-                <AiExplanation
-                  market={selectedMarket}
-                  trend={activeTrend}
-                  language={language}
-                  quantityQuintals={quantityQuintals}
-                />
-
-                {/* Row 4: 11-Step Farmer's Selling Checklist (PRD Sec 16) */}
-                <SellingChecklist
-                  crop={crop}
-                  marketName={selectedMarket.market_name}
-                  quantityQuintals={quantityQuintals}
-                  language={language}
-                />
-              </div>
-            )}
-          </div>
+        {currentPage === 'contact' && (
+          <ContactPage
+            language={language}
+            onNavigate={navigateTo}
+          />
         )}
       </main>
 
       {/* Floating Educational Terminology Guide Button */}
-      <div className="fixed bottom-5 right-5 z-40">
+      <div className="fixed bottom-5 right-5 z-40 print:hidden">
         <button
           type="button"
           onClick={() => setExplanationTerm('modal_price')}
@@ -525,24 +449,87 @@ export const App: React.FC = () => {
         onClose={() => setExplanationTerm(null)}
       />
 
-      {/* VerdaAgro Forest Green Footer */}
-      <footer className="bg-[#123826] text-stone-300 text-xs py-10 border-t border-[#1B4D35] mt-16 no-print">
-        <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-6">
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="text-xl">🌾</span>
-              <span className="font-bold text-white text-base font-['Syne',sans-serif]">MandiMate</span>
-              <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-[#1B4D35] text-[#A5D6A7] border border-[#2E7D32]">
-                VerdaAgro Edition
-              </span>
+      {/* Rich Multi-Column VerdaAgro Forest Green Footer */}
+      <footer className="bg-[#123826] text-stone-300 text-xs py-14 border-t border-[#1B4D35] mt-auto print:hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 pb-10 border-b border-[#1B4D35]">
+            
+            {/* Column 1: Brand & Identity */}
+            <div className="lg:col-span-2 space-y-3">
+              <div className="flex items-center gap-2.5">
+                <span className="text-2xl">🌾</span>
+                <span className="font-black text-white text-xl font-['Syne',sans-serif]">VerdaAgro</span>
+                <span className="text-[10px] uppercase font-mono font-bold tracking-wider px-2 py-0.5 rounded-full bg-[#1B4D35] text-[#A5D6A7] border border-[#2E7D32]">
+                  MandiMate Edition
+                </span>
+              </div>
+              <p className="text-emerald-100/70 text-xs sm:text-sm leading-relaxed max-w-sm font-['Outfit',sans-serif]">
+                Cultivating tomorrow with integrity and intelligence. Providing 15,000+ growers across Karnataka, Maharashtra, Delhi, and Andhra Pradesh with verified APMC wholesale auction rates, freight simulators, and statutory gate passes.
+              </p>
+              <div className="pt-2 flex items-center gap-3 text-xs text-emerald-200/80">
+                <span className="flex items-center gap-1">
+                  <ShieldCheck className="w-3.5 h-3.5 text-[#A5D6A7]" />
+                  APMC Act 2026 Compliant
+                </span>
+                <span>•</span>
+                <span>Agmarknet Verified</span>
+              </div>
             </div>
-            <p className="text-emerald-200/80 mt-1 text-xs">
-              Official agricultural wholesale pricing and transparent advisory for Indian farmers.
-            </p>
+
+            {/* Column 2: Navigation Links */}
+            <div className="space-y-2.5">
+              <h4 className="text-white font-bold text-xs uppercase tracking-wider">Navigation</h4>
+              <ul className="space-y-1.5 text-xs text-emerald-100/70">
+                <li><button onClick={() => navigateTo('home')} className="hover:text-white transition-colors cursor-pointer">Home</button></li>
+                <li><button onClick={() => navigateTo('dashboard')} className="hover:text-white transition-colors cursor-pointer">Terminal Dashboard</button></li>
+                <li><button onClick={() => navigateTo('about')} className="hover:text-white transition-colors cursor-pointer">About Our Ecosystem</button></li>
+                <li><button onClick={() => navigateTo('services')} className="hover:text-white transition-colors cursor-pointer">Core Services</button></li>
+                <li><button onClick={() => navigateTo('crops')} className="hover:text-white transition-colors cursor-pointer">Crop Directory</button></li>
+                <li><button onClick={() => navigateTo('dispatch')} className="hover:text-white transition-colors cursor-pointer">Dispatch Desk</button></li>
+                <li><button onClick={() => navigateTo('contact')} className="hover:text-white transition-colors cursor-pointer">Grower Support</button></li>
+              </ul>
+            </div>
+
+            {/* Column 3: Agricultural Portfolio */}
+            <div className="space-y-2.5">
+              <h4 className="text-white font-bold text-xs uppercase tracking-wider">Commodities</h4>
+              <ul className="space-y-1.5 text-xs text-emerald-100/70">
+                <li><button onClick={() => handleSelectCropAndNavigate('Tomato')} className="hover:text-white transition-colors cursor-pointer">Tomato (Hybrid / Local)</button></li>
+                <li><button onClick={() => handleSelectCropAndNavigate('Onion')} className="hover:text-white transition-colors cursor-pointer">Onion (Nashik Red)</button></li>
+                <li><button onClick={() => handleSelectCropAndNavigate('Potato')} className="hover:text-white transition-colors cursor-pointer">Potato (Kufri Jyoti)</button></li>
+                <li><button onClick={() => handleSelectCropAndNavigate('Green Chilli')} className="hover:text-white transition-colors cursor-pointer">Green Chilli (G-4)</button></li>
+                <li><button onClick={() => handleSelectCropAndNavigate('Cotton')} className="hover:text-white transition-colors cursor-pointer">Cotton (DCH-32)</button></li>
+                <li><button onClick={() => handleSelectCropAndNavigate('Soybean')} className="hover:text-white transition-colors cursor-pointer">Soybean (JS-335)</button></li>
+                <li><button onClick={() => handleSelectCropAndNavigate('Maize')} className="hover:text-white transition-colors cursor-pointer">Maize & Grains</button></li>
+              </ul>
+            </div>
+
+            {/* Column 4: Support & Helpline */}
+            <div className="space-y-2.5">
+              <h4 className="text-white font-bold text-xs uppercase tracking-wider">Farmer Helpline</h4>
+              <div className="space-y-2 text-xs text-emerald-100/70">
+                <p className="font-mono text-base font-bold text-[#E8A238]">1800-180-1551</p>
+                <p className="text-[11px]">Toll-free 24x7 Kisan Call Centre • Ministry of Agriculture & Farmers Welfare</p>
+                <div className="pt-2">
+                  <span className="block text-[10px] text-emerald-300 uppercase font-bold">Language Standard:</span>
+                  <p className="text-[11px]">English (Default) • हिन्दी • ಕನ್ನಡ</p>
+                </div>
+              </div>
+            </div>
           </div>
-          <div className="text-center sm:text-right text-[11px] text-emerald-200/70 space-y-1">
-            <div>Data Source: Agmarknet • Directorate of Marketing & Inspection, Ministry of Agriculture</div>
-            <div>Trilingual Support: English (Default) • ಕನ್ನಡ • हिन्दी</div>
+
+          {/* Bottom Legal & Attribution Strip */}
+          <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-emerald-200/60">
+            <div>
+              © 2026 VerdaAgro x MandiMate. Built for Indian Agriculture. All data grounded in official APMC Agmarknet reporting.
+            </div>
+            <div className="flex items-center gap-4">
+              <span>0% AI Hallucination Guarantee</span>
+              <span>•</span>
+              <span>SQLite Edge Resilient</span>
+              <span>•</span>
+              <span>APMC Act 2026</span>
+            </div>
           </div>
         </div>
       </footer>

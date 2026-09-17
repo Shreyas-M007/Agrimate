@@ -1,7 +1,16 @@
-import React from 'react';
-import type { Language, SyncStatusData } from '../types';
+import React, { useState } from 'react';
+import type { Language, SyncStatusData, NavigationPage } from '../types';
 import { TRANSLATIONS } from '../i18n/translations';
-import { ShieldCheck, Wifi, WifiOff, Globe, RefreshCw, Settings, Database } from 'lucide-react';
+import { 
+  Wifi, 
+  WifiOff, 
+  Globe, 
+  RefreshCw, 
+  Settings, 
+  Menu, 
+  X, 
+  ArrowRight
+} from 'lucide-react';
 
 interface HeaderProps {
   language: Language;
@@ -11,6 +20,8 @@ interface HeaderProps {
   onTriggerSync?: () => void;
   isSyncing?: boolean;
   onOpenSettings?: () => void;
+  currentPage: NavigationPage;
+  onNavigate: (page: NavigationPage) => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -20,8 +31,11 @@ export const Header: React.FC<HeaderProps> = ({
   syncStatus,
   onTriggerSync,
   isSyncing = false,
-  onOpenSettings
+  onOpenSettings,
+  currentPage,
+  onNavigate
 }) => {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const t = TRANSLATIONS[language];
 
   const formatLastSync = (ts?: string) => {
@@ -32,6 +46,21 @@ export const Header: React.FC<HeaderProps> = ({
     } catch {
       return 'Today';
     }
+  };
+
+  const navItems: { id: NavigationPage; label: string }[] = [
+    { id: 'home', label: t.navHome },
+    { id: 'dashboard', label: t.navDashboard },
+    { id: 'about', label: t.navAbout },
+    { id: 'services', label: t.navServices },
+    { id: 'crops', label: t.navCrops },
+    { id: 'dispatch', label: t.navDispatch },
+    { id: 'contact', label: t.navContact },
+  ];
+
+  const handleNavClick = (pageId: NavigationPage) => {
+    onNavigate(pageId);
+    setMobileMenuOpen(false);
   };
 
   return (
@@ -142,41 +171,104 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
       </div>
 
-      {/* Main Brand Bar */}
-      <div className="max-w-7xl mx-auto px-4 py-3.5 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <div className="flex items-center gap-3.5">
-          <div className="relative w-11 h-11 rounded-2xl bg-[#EBF5ED] border border-[#CCE0D0] flex items-center justify-center text-2xl shadow-xs shrink-0">
+      {/* Main Brand & Multi-Page Navigation Bar */}
+      <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
+        {/* Brand Logo & Name */}
+        <div 
+          onClick={() => handleNavClick('home')}
+          className="flex items-center gap-3 cursor-pointer group"
+        >
+          <div className="relative w-10 h-10 rounded-2xl bg-[#EBF5ED] border border-[#CCE0D0] flex items-center justify-center text-xl shadow-xs shrink-0 group-hover:scale-105 transition-transform">
             🌾
-            <div className="absolute -bottom-1 -right-1 w-3.5 h-3.5 bg-[#2E7D32] rounded-full border-2 border-white"></div>
+            <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-[#2E7D32] rounded-full border-2 border-white"></div>
           </div>
           <div>
-            <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-[#123826] font-['Syne',sans-serif] flex items-center gap-2">
-              <span>{t.appTitle}</span>
-              <span className="text-[10px] font-mono font-bold uppercase tracking-wider bg-[#EBF5ED] text-[#123826] px-2 py-0.5 rounded-full border border-[#D5E7D8]">
-                VerdaAgro Edition
+            <div className="flex items-center gap-2">
+              <span className="text-xl sm:text-2xl font-black tracking-tight text-[#123826] font-['Syne',sans-serif]">
+                VerdaAgro
               </span>
-            </h1>
-            <p className="text-stone-500 text-xs sm:text-sm font-medium mt-0.5">
+              <span className="text-[10px] font-mono font-bold uppercase tracking-wider bg-[#EBF5ED] text-[#123826] px-2 py-0.5 rounded-full border border-[#D5E7D8]">
+                MandiMate
+              </span>
+            </div>
+            <p className="text-stone-600 text-[11px] font-medium hidden sm:block">
               {t.appTagline}
             </p>
           </div>
         </div>
 
-        {/* Clean trust badge */}
-        <div className="hidden md:flex items-center gap-3 text-xs">
-          {syncStatus && syncStatus.total_verified_records > 0 && (
-            <div className="flex items-center gap-1.5 bg-[#F4F8F5] border border-[#E2ECE3] px-3 py-1.5 rounded-xl text-stone-600 font-mono">
-              <Database className="w-3.5 h-3.5 text-[#2E7D32]" />
-              <span>{syncStatus.total_verified_records.toLocaleString('en-IN')} Records</span>
-            </div>
-          )}
+        {/* Desktop Multi-Page Navigation Links */}
+        <nav className="hidden lg:flex items-center gap-1 bg-[#F4F8F5] p-1 rounded-2xl border border-[#E2ECE3]">
+          {navItems.map((item) => (
+            <button
+              key={item.id}
+              onClick={() => handleNavClick(item.id)}
+              className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                currentPage === item.id
+                  ? 'bg-[#123826] text-white shadow-xs'
+                  : 'text-stone-600 hover:text-[#123826] hover:bg-white/60'
+              }`}
+            >
+              {item.label}
+            </button>
+          ))}
+        </nav>
 
-          <div className="flex items-center gap-1.5 bg-[#F4F8F5] border border-[#E2ECE3] px-3.5 py-1.5 rounded-xl text-stone-700">
-            <ShieldCheck className="w-4 h-4 text-[#2E7D32]" />
-            <span className="font-semibold text-[#123826]">Official APMC Verified Data</span>
-          </div>
+        {/* Action Button & Mobile Hamburger */}
+        <div className="flex items-center gap-2.5">
+          <button
+            onClick={() => handleNavClick('dashboard')}
+            className={`hidden sm:flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-black shadow-xs transition-all cursor-pointer ${
+              currentPage === 'dashboard'
+                ? 'bg-[#2E7D32] text-white'
+                : 'bg-[#123826] hover:bg-[#1a4a34] text-white'
+            }`}
+          >
+            <span>{t.openDashboard}</span>
+            <ArrowRight className="w-3.5 h-3.5 text-[#E8A238]" />
+          </button>
+
+          {/* Mobile Menu Toggle Button */}
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="lg:hidden p-2 rounded-xl border border-[#CCE0D0] bg-white text-[#123826] hover:bg-[#F2F8F4] transition-colors cursor-pointer"
+            aria-label="Toggle Navigation Menu"
+          >
+            {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          </button>
         </div>
       </div>
+
+      {/* Mobile Drawer Menu */}
+      {mobileMenuOpen && (
+        <div className="lg:hidden border-t border-[#E2ECE3] bg-white px-4 py-4 space-y-2 shadow-lg animate-in slide-in-from-top duration-200">
+          <div className="grid grid-cols-2 gap-2">
+            {navItems.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => handleNavClick(item.id)}
+                className={`w-full p-2.5 rounded-xl text-xs font-bold text-left transition-all cursor-pointer ${
+                  currentPage === item.id
+                    ? 'bg-[#123826] text-white shadow-xs'
+                    : 'bg-[#F4F8F5] text-stone-700 hover:bg-[#E2ECE3]'
+                }`}
+              >
+                {item.label}
+              </button>
+            ))}
+          </div>
+
+          <div className="pt-2 border-t border-[#E2ECE3]">
+            <button
+              onClick={() => handleNavClick('dashboard')}
+              className="w-full py-3 rounded-xl bg-[#123826] text-white font-bold text-xs flex items-center justify-center gap-2 shadow-xs cursor-pointer"
+            >
+              <span>{t.openDashboard}</span>
+              <ArrowRight className="w-3.5 h-3.5 text-[#E8A238]" />
+            </button>
+          </div>
+        </div>
+      )}
     </header>
   );
 };

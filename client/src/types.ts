@@ -139,3 +139,6 @@ export interface UserPreferences {
   location: string;
   preferred_units: CropUnit;
 }
+
+export type NavigationPage = 'home' | 'dashboard' | 'about' | 'services' | 'crops' | 'dispatch' | 'contact';
+
