@@ -99,7 +99,7 @@ export const Header: React.FC<HeaderProps> = ({
   };
 
   return (
-    <header className="bg-transparent backdrop-blur-md border-b border-[#E6E1D7]/60 sticky top-0 z-50 print:hidden transition-colors">
+    <header className="bg-transparent sticky top-0 z-50 print:hidden pt-2.5 sm:pt-3 transition-colors">
       {/* Main Brand & Multi-Page Navigation Bar */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-2.5 sm:py-3 flex items-center justify-between gap-4 relative">
         {/* Brand Logo & Name (Minimalist Cultivo Style) */}
@@ -115,8 +115,8 @@ export const Header: React.FC<HeaderProps> = ({
           </span>
         </div>
 
-        {/* Center: Slim Floating Dark Pill Capsule - Centered to align with search below */}
-        <nav className="hidden lg:flex items-center gap-1 bg-[#181F1C] p-1 sm:p-1.2 rounded-full border border-stone-800/80 shadow-md notranslate absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2" translate="no">
+        {/* Center: Clean Floating Navigation (No Dark Background) - Centered to align with search below */}
+        <nav className="hidden lg:flex items-center gap-1 p-1 notranslate absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2" translate="no">
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = currentPage === item.id;
@@ -126,11 +126,11 @@ export const Header: React.FC<HeaderProps> = ({
                 onClick={() => handleNavClick(item.id)}
                 className={`px-3 py-1.5 rounded-full text-xs transition-all duration-200 cursor-pointer flex items-center gap-1.5 select-none ${
                   isActive
-                    ? 'bg-white text-[#153424] font-bold shadow-xs'
-                    : 'text-stone-300 hover:text-white hover:bg-white/10 font-medium'
+                    ? 'bg-[#153424] text-white font-bold shadow-xs'
+                    : 'text-stone-700 hover:text-[#153424] hover:bg-stone-200/40 font-medium'
                 }`}
               >
-                {isActive && <Icon className="w-3.5 h-3.5 text-[#153424] shrink-0" />}
+                {isActive && <Icon className="w-3.5 h-3.5 text-[#4ADE80] shrink-0" />}
                 <span>{item.label}</span>
               </button>
             );
