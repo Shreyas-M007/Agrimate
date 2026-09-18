@@ -285,11 +285,6 @@ export const HomePage: React.FC<HomePageProps> = ({
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             {/* Left Column: Editorial Welcome & Copy */}
             <div className="lg:col-span-7 space-y-5">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#EBF5ED] border border-[#CCE0D0] text-[#123826] text-xs font-bold tracking-wide">
-                <span className="w-2 h-2 rounded-full bg-[#2E7D32] animate-pulse"></span>
-                <span>AGRIMATE • SMART FARMING SAAS & APMC INTELLIGENCE</span>
-              </div>
-
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-[#123826] tracking-tight font-['Syne',sans-serif] leading-[1.12]">
                 Modern Farming for a <span className="text-[#2E7D32] italic">Sustainable</span> Future
               </h1>

@@ -502,9 +502,6 @@ export const App: React.FC = () => {
               <div className="flex items-center gap-2.5 notranslate select-none" translate="no">
                 <span className="text-2xl notranslate" translate="no">🌾</span>
                 <span className="font-black text-white text-xl font-['Syne',sans-serif] notranslate" translate="no">AgriMate</span>
-                <span className="text-[10px] uppercase font-mono font-bold tracking-wider px-2 py-0.5 rounded-full bg-[#1B4D35] text-[#A5D6A7] border border-[#2E7D32] notranslate" translate="no">
-                  Official Platform
-                </span>
               </div>
               <p className="text-emerald-100/70 text-xs sm:text-sm leading-relaxed max-w-sm font-['Outfit',sans-serif]">
                 Cultivating tomorrow with integrity and intelligence. Providing 15,000+ growers across Karnataka, Maharashtra, Delhi, and Andhra Pradesh with verified APMC wholesale auction rates, freight simulators, and statutory gate passes.
