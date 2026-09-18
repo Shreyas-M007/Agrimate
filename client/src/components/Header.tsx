@@ -180,7 +180,7 @@ const SEARCH_LABELS: Record<Language, string> = {
                     className="p-2.5 rounded-xl bg-[#F7FBF8] hover:bg-[#EBF5ED] transition-colors cursor-pointer border border-[#E2ECE3]"
                   >
                     <div className="flex justify-between items-center text-xs font-bold text-[#123826]">
-                      <span>🌽 Davanagere Mandi</span>
+                      <span className="flex items-center gap-1.5"><span className="notranslate" translate="no">🌽</span> Davanagere Mandi</span>
                       <span className="text-emerald-700 font-mono">+4.2%</span>
                     </div>
                     <p className="text-[11px] text-stone-600 mt-0.5">Maize rate firm at ₹2,150/q with 3,400 bags arrived today.</p>
@@ -191,7 +191,7 @@ const SEARCH_LABELS: Record<Language, string> = {
                     className="p-2.5 rounded-xl bg-[#F7FBF8] hover:bg-[#EBF5ED] transition-colors cursor-pointer border border-[#E2ECE3]"
                   >
                     <div className="flex justify-between items-center text-xs font-bold text-[#123826]">
-                      <span>🍅 Kolar APMC</span>
+                      <span className="flex items-center gap-1.5"><span className="notranslate" translate="no">🍅</span> Kolar APMC</span>
                       <span className="text-emerald-700 font-mono">+2.6%</span>
                     </div>
                     <p className="text-[11px] text-stone-600 mt-0.5">Tomato modal auction ₹1,850/q. High grade arrivals fetching ₹2,100.</p>
@@ -202,7 +202,7 @@ const SEARCH_LABELS: Record<Language, string> = {
                     className="p-2.5 rounded-xl bg-[#F7FBF8] hover:bg-[#EBF5ED] transition-colors cursor-pointer border border-[#E2ECE3]"
                   >
                     <div className="flex justify-between items-center text-xs font-bold text-[#123826]">
-                      <span>🧅 Lasalgaon Mandi</span>
+                      <span className="flex items-center gap-1.5"><span className="notranslate" translate="no">🧅</span> Lasalgaon Mandi</span>
                       <span className="text-emerald-700 font-mono">+1.9%</span>
                     </div>
                     <p className="text-[11px] text-stone-600 mt-0.5">Onion trading stable at ₹1,650/q. Export inquiries active.</p>

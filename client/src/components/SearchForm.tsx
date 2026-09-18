@@ -391,11 +391,11 @@ export const SearchForm: React.FC<SearchFormProps> = ({
             Quick Presets:
           </span>
           {[
-            { label: "🍅 Tomato 500kg (Ballari)", crop: "Tomato", loc: "Ballari, Karnataka", qty: 500, u: "kg" as CropUnit },
-            { label: "🧅 Onion 15q (Nashik)", crop: "Onion", loc: "Nashik, Maharashtra", qty: 15, u: "quintal" as CropUnit },
-            { label: "🥔 Potato 20q (Agra)", crop: "Potato", loc: "Agra, Uttar Pradesh", qty: 20, u: "quintal" as CropUnit },
-            { label: "🌶️ Chilli 5q (Guntur)", crop: "Chilli", loc: "Guntur, Andhra Pradesh", qty: 5, u: "quintal" as CropUnit },
-            { label: "🌾 Paddy 30q (Karnal)", crop: "Paddy", loc: "Karnal, Haryana", qty: 30, u: "quintal" as CropUnit }
+            { icon: "🍅", label: "Tomato 500kg (Ballari)", crop: "Tomato", loc: "Ballari, Karnataka", qty: 500, u: "kg" as CropUnit },
+            { icon: "🧅", label: "Onion 15q (Nashik)", crop: "Onion", loc: "Nashik, Maharashtra", qty: 15, u: "quintal" as CropUnit },
+            { icon: "🥔", label: "Potato 20q (Agra)", crop: "Potato", loc: "Agra, Uttar Pradesh", qty: 20, u: "quintal" as CropUnit },
+            { icon: "🌶️", label: "Chilli 5q (Guntur)", crop: "Chilli", loc: "Guntur, Andhra Pradesh", qty: 5, u: "quintal" as CropUnit },
+            { icon: "🌾", label: "Paddy 30q (Karnal)", crop: "Paddy", loc: "Karnal, Haryana", qty: 30, u: "quintal" as CropUnit }
           ].map((item, idx) => (
             <button
               key={idx}
@@ -407,9 +407,10 @@ export const SearchForm: React.FC<SearchFormProps> = ({
                 onUnitChange(item.u);
                 setTimeout(() => onSearch(), 50);
               }}
-              className="bg-[#F4F8F5] hover:bg-[#EBF5ED] text-stone-700 hover:text-[#123826] px-3 py-1 rounded-xl border border-[#CCE0D0] transition-all cursor-pointer text-[11px] font-medium"
+              className="bg-[#F4F8F5] hover:bg-[#EBF5ED] text-stone-700 hover:text-[#123826] px-3 py-1 rounded-xl border border-[#CCE0D0] transition-all cursor-pointer text-[11px] font-medium flex items-center gap-1.5"
             >
-              {item.label}
+              <span className="notranslate" translate="no">{item.icon}</span>
+              <span>{item.label}</span>
             </button>
           ))}
         </div>

@@ -164,7 +164,8 @@ export const MandiSlipModal: React.FC<MandiSlipModalProps> = ({
           {/* Slip Header */}
           <div className="border-b-2 border-dashed border-stone-400 pb-4 text-center relative">
             <div className="text-2xl font-black tracking-tight text-emerald-900 flex items-center justify-center gap-1.5">
-              <span>🌾 AgriMate Gate Entry Voucher</span>
+              <span className="notranslate" translate="no">🌾</span>
+              <span>AgriMate Gate Entry Voucher</span>
             </div>
             <p className="text-xs text-stone-600 font-medium mt-0.5">
               Official Agricultural Produce Market Dispatch Slip (APMC Yard Inward)
