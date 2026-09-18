@@ -115,8 +115,8 @@ export const Header: React.FC<HeaderProps> = ({
           </span>
         </div>
 
-        {/* Center: Clean Floating Navigation (No Dark Background) - Centered to align with search below */}
-        <nav className="hidden lg:flex items-center gap-1 p-1 notranslate absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2" translate="no">
+        {/* Center: Dark Pill Capsule Navigation - Centered to align with search below */}
+        <nav className="hidden lg:flex items-center gap-1 p-1 notranslate absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 bg-[#181F1C] rounded-full border border-stone-800/80 shadow-md" translate="no">
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = currentPage === item.id;
@@ -126,11 +126,11 @@ export const Header: React.FC<HeaderProps> = ({
                 onClick={() => handleNavClick(item.id)}
                 className={`px-3 py-1.5 rounded-full text-xs transition-all duration-200 cursor-pointer flex items-center gap-1.5 select-none ${
                   isActive
-                    ? 'bg-[#153424] text-white font-bold shadow-xs'
-                    : 'text-stone-700 hover:text-[#153424] hover:bg-stone-200/40 font-medium'
+                    ? 'bg-white text-[#153424] font-bold shadow-xs'
+                    : 'text-stone-300 hover:text-white hover:bg-white/10 font-medium'
                 }`}
               >
-                {isActive && <Icon className="w-3.5 h-3.5 text-[#4ADE80] shrink-0" />}
+                {isActive && <Icon className="w-3.5 h-3.5 text-[#153424] shrink-0" />}
                 <span>{item.label}</span>
               </button>
             );
