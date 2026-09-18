@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ArrowRight, ShieldCheck } from 'lucide-react';
 import type { NavigationPage } from '../types';
+import { indiaMapData } from '../data/indiaMapData';
 
 export interface MandiPin {
   id: string;
@@ -8,6 +9,7 @@ export interface MandiPin {
   fullName: string;
   district: string;
   state: string;
+  stateId: string;
   region: 'karnataka' | 'maharashtra' | 'ap_ts' | 'north';
   lat: number;
   lon: number;
@@ -28,6 +30,7 @@ export const VERIFIED_MANDI_PINS: MandiPin[] = [
     fullName: "Ballari Wholesale APMC Yard",
     district: "Ballari",
     state: "Karnataka",
+    stateId: "ka",
     region: "karnataka",
     lat: 15.1394,
     lon: 76.9214,
@@ -41,9 +44,10 @@ export const VERIFIED_MANDI_PINS: MandiPin[] = [
   {
     id: "MKT-KA-002",
     name: "Kudligi APMC",
-    fullName: "Kudligi APMC Market Sub-Yard",
+    fullName: "Kudligi APMC Sub-Yard",
     district: "Ballari",
     state: "Karnataka",
+    stateId: "ka",
     region: "karnataka",
     lat: 14.9011,
     lon: 76.3872,
@@ -60,6 +64,7 @@ export const VERIFIED_MANDI_PINS: MandiPin[] = [
     fullName: "Hospet APMC Yard",
     district: "Ballari",
     state: "Karnataka",
+    stateId: "ka",
     region: "karnataka",
     lat: 15.2689,
     lon: 76.3909,
@@ -76,6 +81,7 @@ export const VERIFIED_MANDI_PINS: MandiPin[] = [
     fullName: "Kolar APMC (Asia's 2nd Largest Tomato Market)",
     district: "Kolar",
     state: "Karnataka",
+    stateId: "ka",
     region: "karnataka",
     lat: 13.1367,
     lon: 78.1291,
@@ -93,6 +99,7 @@ export const VERIFIED_MANDI_PINS: MandiPin[] = [
     fullName: "Chintamani APMC Yard",
     district: "Chikkaballapur",
     state: "Karnataka",
+    stateId: "ka",
     region: "karnataka",
     lat: 13.4007,
     lon: 78.0566,
@@ -109,6 +116,7 @@ export const VERIFIED_MANDI_PINS: MandiPin[] = [
     fullName: "Bangalore Yeshwanthpur APMC Yard",
     district: "Bangalore Urban",
     state: "Karnataka",
+    stateId: "ka",
     region: "karnataka",
     lat: 13.0280,
     lon: 77.5409,
@@ -126,6 +134,7 @@ export const VERIFIED_MANDI_PINS: MandiPin[] = [
     fullName: "Belagavi APMC Market",
     district: "Belagavi",
     state: "Karnataka",
+    stateId: "ka",
     region: "karnataka",
     lat: 15.8497,
     lon: 74.4977,
@@ -142,6 +151,7 @@ export const VERIFIED_MANDI_PINS: MandiPin[] = [
     fullName: "Mysuru Bandipalya APMC Yard",
     district: "Mysuru",
     state: "Karnataka",
+    stateId: "ka",
     region: "karnataka",
     lat: 12.2782,
     lon: 76.6747,
@@ -158,6 +168,7 @@ export const VERIFIED_MANDI_PINS: MandiPin[] = [
     fullName: "Davanagere APMC Market",
     district: "Davanagere",
     state: "Karnataka",
+    stateId: "ka",
     region: "karnataka",
     lat: 14.4644,
     lon: 75.9218,
@@ -175,6 +186,7 @@ export const VERIFIED_MANDI_PINS: MandiPin[] = [
     fullName: "Hubballi Amaragol APMC Yard",
     district: "Dharwad",
     state: "Karnataka",
+    stateId: "ka",
     region: "karnataka",
     lat: 15.3949,
     lon: 75.1240,
@@ -193,6 +205,7 @@ export const VERIFIED_MANDI_PINS: MandiPin[] = [
     fullName: "Lasalgaon APMC (Asia's Largest Onion Market)",
     district: "Nashik",
     state: "Maharashtra",
+    stateId: "mh",
     region: "maharashtra",
     lat: 20.1472,
     lon: 74.2255,
@@ -210,6 +223,7 @@ export const VERIFIED_MANDI_PINS: MandiPin[] = [
     fullName: "Nashik APMC Yard",
     district: "Nashik",
     state: "Maharashtra",
+    stateId: "mh",
     region: "maharashtra",
     lat: 19.9975,
     lon: 73.7898,
@@ -226,6 +240,7 @@ export const VERIFIED_MANDI_PINS: MandiPin[] = [
     fullName: "Pimpalgaon Baswant APMC",
     district: "Nashik",
     state: "Maharashtra",
+    stateId: "mh",
     region: "maharashtra",
     lat: 20.1697,
     lon: 73.9858,
@@ -242,6 +257,7 @@ export const VERIFIED_MANDI_PINS: MandiPin[] = [
     fullName: "Pune Gultekdi Market Yard",
     district: "Pune",
     state: "Maharashtra",
+    stateId: "mh",
     region: "maharashtra",
     lat: 18.4967,
     lon: 73.8647,
@@ -261,6 +277,7 @@ export const VERIFIED_MANDI_PINS: MandiPin[] = [
     fullName: "Guntur APMC (Asia's Largest Chilli Market)",
     district: "Guntur",
     state: "Andhra Pradesh",
+    stateId: "ap",
     region: "ap_ts",
     lat: 16.3067,
     lon: 80.4365,
@@ -278,6 +295,7 @@ export const VERIFIED_MANDI_PINS: MandiPin[] = [
     fullName: "Kurnool APMC Market Yard",
     district: "Kurnool",
     state: "Andhra Pradesh",
+    stateId: "ap",
     region: "ap_ts",
     lat: 15.8281,
     lon: 78.0373,
@@ -294,6 +312,7 @@ export const VERIFIED_MANDI_PINS: MandiPin[] = [
     fullName: "Warangal Enumamula APMC Yard",
     district: "Warangal",
     state: "Telangana",
+    stateId: "tg",
     region: "ap_ts",
     lat: 17.9689,
     lon: 79.5941,
@@ -313,6 +332,7 @@ export const VERIFIED_MANDI_PINS: MandiPin[] = [
     fullName: "Khanna APMC (Asia's Largest Grain Market)",
     district: "Ludhiana",
     state: "Punjab",
+    stateId: "pb",
     region: "north",
     lat: 30.7071,
     lon: 76.2167,
@@ -330,6 +350,7 @@ export const VERIFIED_MANDI_PINS: MandiPin[] = [
     fullName: "Agra APMC Market Yard",
     district: "Agra",
     state: "Uttar Pradesh",
+    stateId: "up",
     region: "north",
     lat: 27.1767,
     lon: 78.0081,
@@ -338,7 +359,7 @@ export const VERIFIED_MANDI_PINS: MandiPin[] = [
     modalPrice: "₹1,480/q",
     change: "-0.5%",
     arrivals: "1,100 qtls",
-    type: "Potato Belt Terminal"
+    type: "Potato Belt Hub"
   },
   {
     id: "MKT-MP-001",
@@ -346,6 +367,7 @@ export const VERIFIED_MANDI_PINS: MandiPin[] = [
     fullName: "Indore APMC Yard",
     district: "Indore",
     state: "Madhya Pradesh",
+    stateId: "mp",
     region: "north",
     lat: 22.7196,
     lon: 75.8577,
@@ -371,30 +393,26 @@ export const IndiaMarketsMap: React.FC<IndiaMarketsMapProps> = ({
   const [selectedRegion, setSelectedRegion] = useState<'all' | 'karnataka' | 'maharashtra' | 'ap_ts' | 'north'>('all');
   const [activePin, setActivePin] = useState<MandiPin>(VERIFIED_MANDI_PINS[0]);
 
-  // Geographic projection bounds for India
-  // Longitude: 68.0E to 97.2E, Latitude: 8.0N to 37.0N
+  // Exact geographic linear projection onto official SVG viewBox 0 0 612 696
   const projectCoords = (lat: number, lon: number) => {
-    const minLon = 68.0;
-    const maxLon = 97.2;
-    const minLat = 8.0;
-    const maxLat = 37.0;
-    const padX = 28;
-    const padY = 24;
-    const usableW = 440 - padX * 2;
-    const usableH = 500 - padY * 2;
+    const x = Math.round((20.75 * lon - 1416) * 10) / 10;
+    const y = Math.round((-22.35 * lat + 848) * 10) / 10;
+    return { x, y };
+  };
 
-    const x = padX + ((lon - minLon) / (maxLon - minLon)) * usableW;
-    const y = padY + ((maxLat - lat) / (maxLat - minLat)) * usableH;
-    return { x: Math.round(x * 10) / 10, y: Math.round(y * 10) / 10 };
+  // Check if a state is part of the currently active region filter
+  const isStateHighlighted = (stateId: string) => {
+    if (selectedRegion === 'all') return true;
+    if (selectedRegion === 'karnataka') return stateId === 'ka';
+    if (selectedRegion === 'maharashtra') return stateId === 'mh';
+    if (selectedRegion === 'ap_ts') return stateId === 'ap' || stateId === 'tg';
+    if (selectedRegion === 'north') return stateId === 'pb' || stateId === 'up' || stateId === 'mp' || stateId === 'dl' || stateId === 'hr';
+    return false;
   };
 
   const filteredPins = selectedRegion === 'all'
     ? VERIFIED_MANDI_PINS
     : VERIFIED_MANDI_PINS.filter(p => p.region === selectedRegion);
-
-  const handlePinClick = (pin: MandiPin) => {
-    setActivePin(pin);
-  };
 
   const handleInspectTerminal = (pin: MandiPin) => {
     if (onSearchAndNavigate) {
@@ -415,7 +433,7 @@ export const IndiaMarketsMap: React.FC<IndiaMarketsMapProps> = ({
               <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#2E7D32]"></span>
             </span>
             <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-[#2E7D32]">
-              National Mandi Grid
+              Official National Mandi Grid
             </span>
           </div>
           <h3 className="text-xs sm:text-sm font-black text-[#153424] font-['Syne',sans-serif] tracking-tight">
@@ -432,7 +450,7 @@ export const IndiaMarketsMap: React.FC<IndiaMarketsMapProps> = ({
       {/* Region Filter Chips */}
       <div className="pt-2.5 pb-1 flex items-center gap-1.5 overflow-x-auto no-scrollbar notranslate" translate="no">
         {[
-          { id: 'all', label: 'All (20)' },
+          { id: 'all', label: 'All India (20)' },
           { id: 'karnataka', label: 'Karnataka (10)' },
           { id: 'maharashtra', label: 'Maharashtra (4)' },
           { id: 'ap_ts', label: 'AP & TS (3)' },
@@ -457,88 +475,56 @@ export const IndiaMarketsMap: React.FC<IndiaMarketsMapProps> = ({
         ))}
       </div>
 
-      {/* Interactive India Map SVG Canvas */}
-      <div className="relative w-full h-72 sm:h-80 my-2 flex items-center justify-center select-none overflow-hidden">
+      {/* Official India Map SVG Canvas */}
+      <div className="relative w-full h-80 sm:h-96 my-2 flex items-center justify-center select-none overflow-hidden">
         <svg
-          viewBox="0 0 440 500"
-          className="w-full h-full max-h-[320px] drop-shadow-sm transition-transform duration-300"
+          viewBox={indiaMapData.viewBox || "0 0 612 696"}
+          className="w-full h-full max-h-[360px] drop-shadow-sm transition-transform duration-300"
         >
           <defs>
-            {/* Soft Linen Gradients */}
-            <linearGradient id="indiaLandGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#F9F7F2" />
-              <stop offset="60%" stopColor="#F2ECE1" />
-              <stop offset="100%" stopColor="#E9E2D4" />
-            </linearGradient>
-
-            <linearGradient id="highlightRegionGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#EBF5ED" />
-              <stop offset="100%" stopColor="#D9ECDD" />
-            </linearGradient>
-
-            <radialGradient id="pinRadarGrad">
-              <stop offset="0%" stopColor="#2E7D32" stopOpacity="0.4" />
+            <radialGradient id="pinPulseGrad">
+              <stop offset="0%" stopColor="#2E7D32" stopOpacity="0.6" />
               <stop offset="100%" stopColor="#2E7D32" stopOpacity="0" />
             </radialGradient>
           </defs>
 
-          {/* Background Coordinates Dotted Lat/Lon Guides */}
-          <g stroke="#E3DDD1" strokeWidth="0.75" strokeDasharray="3 3">
-            <line x1="30" y1="120" x2="410" y2="120" />
-            <line x1="30" y1="230" x2="410" y2="230" />
-            <line x1="30" y1="340" x2="410" y2="340" />
-            <line x1="30" y1="430" x2="410" y2="430" />
-            <line x1="120" y1="30" x2="120" y2="470" />
-            <line x1="210" y1="30" x2="210" y2="470" />
-            <line x1="310" y1="30" x2="310" y2="470" />
-          </g>
+          {/* Official India State Outlines */}
+          <g className="transition-colors duration-300">
+            {indiaMapData.locations.map((loc) => {
+              const highlighted = isStateHighlighted(loc.id);
+              const hasActiveMandi = activePin.stateId === loc.id;
 
-          {/* India Boundary Path: Smooth Authentic Contour */}
-          <path
-            d="
-              M 152 42
-              C 165 38, 178 50, 185 64
-              C 192 78, 196 92, 206 102
-              C 218 114, 238 128, 252 135
-              C 268 142, 290 148, 308 152
-              C 324 156, 342 165, 356 178
-              C 370 190, 395 198, 412 205
-              C 418 214, 415 228, 404 235
-              C 392 242, 375 240, 365 248
-              C 355 256, 350 268, 342 276
-              C 334 285, 318 290, 310 302
-              C 300 316, 290 334, 275 348
-              C 260 362, 242 376, 228 395
-              C 215 412, 198 435, 185 455
-              C 178 466, 172 478, 168 488
-              C 165 484, 160 468, 156 455
-              C 150 435, 142 418, 134 398
-              C 125 376, 116 355, 108 335
-              C 98 310, 88 295, 74 282
-              C 62 272, 48 266, 38 255
-              C 32 248, 35 238, 45 232
-              C 58 225, 75 220, 88 208
-              C 102 195, 114 178, 122 160
-              C 130 142, 138 120, 142 98
-              C 145 78, 146 54, 152 42
-              Z
-            "
-            fill="url(#indiaLandGrad)"
-            stroke="#CFC4B2"
-            strokeWidth="1.75"
-            strokeLinejoin="round"
-          />
-
-          {/* Internal Regional Ribbons (Subtle demarcations for agro belts) */}
-          <g fill="none" stroke="#DFD6C9" strokeWidth="1" strokeDasharray="2 2">
-            {/* Northern Belt Border */}
-            <path d="M 108 175 Q 165 185 245 195" />
-            {/* Central Heart (Madhya Pradesh) */}
-            <path d="M 95 250 Q 155 260 270 270" />
-            {/* Deccan Plateau (Maharashtra - Karnataka) */}
-            <path d="M 112 335 Q 165 345 250 355" />
-            {/* South Karnataka - Coromandel */}
-            <path d="M 134 420 Q 170 428 205 435" />
+              return (
+                <path
+                  key={loc.id}
+                  id={loc.id}
+                  d={loc.path}
+                  fill={
+                    hasActiveMandi 
+                      ? "#DDEEE0" 
+                      : highlighted 
+                        ? "#F1ECE3" 
+                        : "#E9E3D8"
+                  }
+                  stroke={
+                    hasActiveMandi 
+                      ? "#2E7D32" 
+                      : highlighted 
+                        ? "#D0C4B2" 
+                        : "#DED6CA"
+                  }
+                  strokeWidth={hasActiveMandi ? "1.4" : highlighted ? "0.9" : "0.6"}
+                  strokeLinejoin="round"
+                  className="transition-all duration-300 hover:fill-[#E5DFD4] cursor-pointer"
+                  onClick={() => {
+                    const matchMandi = VERIFIED_MANDI_PINS.find(p => p.stateId === loc.id);
+                    if (matchMandi) setActivePin(matchMandi);
+                  }}
+                >
+                  <title>{loc.name}</title>
+                </path>
+              );
+            })}
           </g>
 
           {/* Plotted Verified APMC Mandi Pins */}
@@ -549,18 +535,18 @@ export const IndiaMarketsMap: React.FC<IndiaMarketsMapProps> = ({
             return (
               <g
                 key={pin.id}
-                onClick={() => handlePinClick(pin)}
+                onClick={() => setActivePin(pin)}
                 className="cursor-pointer group/pin"
                 style={{ transformOrigin: `${x}px ${y}px` }}
               >
-                {/* Active radar ping for selected pin */}
+                {/* Active animated radar pulse */}
                 {isSelected && (
                   <circle
                     cx={x}
                     cy={y}
-                    r="12"
-                    fill="url(#pinRadarGrad)"
-                    className="animate-ping"
+                    r="14"
+                    fill="url(#pinPulseGrad)"
+                    className="animate-ping pointer-events-none"
                   />
                 )}
 
@@ -568,9 +554,9 @@ export const IndiaMarketsMap: React.FC<IndiaMarketsMapProps> = ({
                 <circle
                   cx={x}
                   cy={y}
-                  r={isSelected ? "9" : pin.isMega ? "7" : "5.5"}
+                  r={isSelected ? "8.5" : pin.isMega ? "6.5" : "5"}
                   fill={isSelected ? "#2E7D32" : pin.isMega ? "#E8A238" : "#153424"}
-                  fillOpacity={isSelected ? "0.2" : "0.15"}
+                  fillOpacity={isSelected ? "0.3" : "0.2"}
                   className="transition-all duration-300"
                 />
 
@@ -578,10 +564,10 @@ export const IndiaMarketsMap: React.FC<IndiaMarketsMapProps> = ({
                 <circle
                   cx={x}
                   cy={y}
-                  r={isSelected ? "5.5" : pin.isMega ? "4.5" : "3.5"}
+                  r={isSelected ? "5" : pin.isMega ? "4" : "3"}
                   fill={isSelected ? "#2E7D32" : pin.isMega ? "#E8A238" : "#153424"}
                   stroke="#FFFFFF"
-                  strokeWidth={isSelected ? "2" : "1.2"}
+                  strokeWidth={isSelected ? "1.8" : "1"}
                   className="transition-all duration-300 group-hover/pin:scale-125"
                 />
 
@@ -589,7 +575,7 @@ export const IndiaMarketsMap: React.FC<IndiaMarketsMapProps> = ({
                 <circle
                   cx={x}
                   cy={y}
-                  r={isSelected ? "2" : "1.2"}
+                  r={isSelected ? "1.8" : "1"}
                   fill="#FFFFFF"
                 />
 
@@ -597,20 +583,20 @@ export const IndiaMarketsMap: React.FC<IndiaMarketsMapProps> = ({
                 {(isSelected || pin.isMega) && (
                   <g className="transition-all duration-300 pointer-events-none">
                     <rect
-                      x={x + 7}
-                      y={y - 12}
-                      width={pin.name.length * 6.2 + 10}
-                      height="17"
-                      rx="4"
+                      x={x + 6}
+                      y={y - 10}
+                      width={pin.name.length * 5.8 + 8}
+                      height="15"
+                      rx="3.5"
                       fill={isSelected ? "#153424" : "rgba(255, 255, 255, 0.95)"}
                       stroke={isSelected ? "#2E7D32" : "#D6DFD4"}
                       strokeWidth="0.8"
                     />
                     <text
-                      x={x + 12}
-                      y={y}
+                      x={x + 10}
+                      y={y + 0.5}
                       fill={isSelected ? "#FFFFFF" : "#153424"}
-                      fontSize="9"
+                      fontSize="8.5"
                       fontWeight="bold"
                       fontFamily="system-ui, sans-serif"
                     >
@@ -624,7 +610,7 @@ export const IndiaMarketsMap: React.FC<IndiaMarketsMapProps> = ({
         </svg>
 
         {/* Legend Overlay at Map Top-Right */}
-        <div className="absolute top-2 right-2 p-2 rounded-xl bg-white/85 backdrop-blur-xs border border-[#E6E1D7] text-[9px] font-mono text-stone-600 space-y-1 shadow-xs pointer-events-none">
+        <div className="absolute top-2 right-2 p-2 rounded-xl bg-white/90 backdrop-blur-xs border border-[#E6E1D7] text-[9px] font-mono text-stone-600 space-y-1 shadow-xs pointer-events-none">
           <div className="flex items-center gap-1.5">
             <span className="w-2 h-2 rounded-full bg-[#E8A238]"></span>
             <span>Mega Mandi</span>
