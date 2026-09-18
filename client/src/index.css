@@ -283,3 +283,35 @@ html, body {
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
 }
+
+/* Smooth Slide-Moving Animations (Ref: Pinterest 7yRLlPCqL) */
+@keyframes slideTrack {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.animate-slide-infinite {
+  display: flex;
+  width: max-content;
+  animation: slideTrack 35s linear infinite;
+  will-change: transform;
+}
+
+.animate-slide-infinite:hover {
+  animation-play-state: paused;
+}
+
+/* Horizontal slide scroll container */
+.slide-scroll-snap {
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+
+.slide-scroll-item {
+  scroll-snap-align: start;
+}

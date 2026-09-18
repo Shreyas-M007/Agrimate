@@ -43,14 +43,14 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
       <section className="bg-[#F4F8F5] border-b border-[#E2ECE3] py-12 sm:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="max-w-3xl space-y-4">
-            <span className="text-xs font-bold uppercase tracking-widest text-[#2E7D32] bg-white px-3 py-1 rounded-full border border-[#CCE0D0]">
-              Operational Suite & Tools
+            <span className="text-xs font-mono font-bold uppercase tracking-wider text-[#2E7D32] bg-white px-3 py-1 rounded-full border border-[#CCE0D0]">
+              Operational Tools
             </span>
             <h1 className="text-3xl sm:text-5xl font-black text-[#123826] font-['Syne',sans-serif] tracking-tight">
-              Enterprise Agronomy & Market Infrastructure
+              Market Logistics & Gate Infrastructure
             </h1>
             <p className="text-stone-600 text-base sm:text-lg leading-relaxed font-['Outfit',sans-serif]">
-              From soil-level moisture tracking to statutory APMC gate liquidation, AgriMate provides full-spectrum algorithmic and operational tools for India's agricultural supply chain.
+              Real-time Agmarknet auction tracking, vehicle-matched freight simulators, cold storage guidelines, and official gate slips for Indian farmers.
             </p>
           </div>
         </div>
