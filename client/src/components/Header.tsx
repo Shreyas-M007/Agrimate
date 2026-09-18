@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import type { Language, SyncStatusData, NavigationPage } from '../types';
 import { TRANSLATIONS } from '../i18n/translations';
 import { 
@@ -50,7 +50,20 @@ export const Header: React.FC<HeaderProps> = ({
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [searchModalOpen, setSearchModalOpen] = useState(false);
   const [headerSearchQuery, setHeaderSearchQuery] = useState('');
+  const [langDropdownOpen, setLangDropdownOpen] = useState(false);
+  const langDropdownRef = useRef<HTMLDivElement>(null);
   const t = TRANSLATIONS[language];
+
+  // Close language dropdown on outside click
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (langDropdownRef.current && !langDropdownRef.current.contains(e.target as Node)) {
+        setLangDropdownOpen(false);
+      }
+    };
+    if (langDropdownOpen) document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, [langDropdownOpen]);
 
   const navItems: { id: NavigationPage; label: string }[] = [
     { id: 'home', label: t.navHome },
@@ -207,21 +220,48 @@ const SEARCH_LABELS: Record<Language, string> = {
             )}
           </div>
 
-          {/* Language Switcher */}
-          <div className="flex items-center bg-white px-2.5 py-1 rounded-xl border border-[#CCE0D0] shadow-xs gap-1.5 notranslate" translate="no">
-            <Globe className="w-3.5 h-3.5 text-[#2E7D32]" />
-            <select
-              value={language}
-              onChange={(e) => onLanguageChange(e.target.value as Language)}
-              className="text-xs font-bold text-[#123826] bg-transparent outline-none cursor-pointer pr-1"
-              aria-label="Select Regional Language"
-            >
-              {LANGUAGES.map(lang => (
-                <option key={lang.code} value={lang.code} className="text-stone-800 font-semibold">
-                  {lang.label} ({lang.name})
-                </option>
-              ))}
-            </select>
+          {/* Language Switcher — custom dropdown, immune to Google Translate mutation */}
+          <div
+            ref={langDropdownRef}
+            className="relative flex items-center bg-white px-2.5 py-1 rounded-xl border border-[#CCE0D0] shadow-xs gap-1.5 notranslate cursor-pointer select-none"
+            translate="no"
+            onClick={() => setLangDropdownOpen(!langDropdownOpen)}
+            role="combobox"
+            aria-haspopup="listbox"
+            aria-expanded={langDropdownOpen}
+            aria-label="Select language"
+          >
+            <Globe className="w-3.5 h-3.5 text-[#2E7D32] shrink-0" />
+            <span className="text-xs font-bold text-[#123826] notranslate pr-1 whitespace-nowrap">
+              {LANGUAGES.find(l => l.code === language)?.label ?? 'English'} ({LANGUAGES.find(l => l.code === language)?.name ?? 'EN'})
+            </span>
+            <svg className={`w-3 h-3 text-stone-400 transition-transform shrink-0 ${langDropdownOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
+
+            {langDropdownOpen && (
+              <div
+                className="absolute right-0 top-full mt-1.5 w-48 bg-white rounded-xl border border-[#D5E7D8] shadow-xl z-50 py-1 max-h-72 overflow-y-auto notranslate"
+                translate="no"
+                role="listbox"
+                onClick={(e) => e.stopPropagation()}
+              >
+                {LANGUAGES.map(lang => (
+                  <button
+                    key={lang.code}
+                    role="option"
+                    aria-selected={language === lang.code}
+                    onClick={() => { onLanguageChange(lang.code); setLangDropdownOpen(false); }}
+                    className={`w-full text-left px-3 py-2 text-xs font-semibold transition-colors cursor-pointer notranslate ${
+                      language === lang.code
+                        ? 'bg-[#EBF5ED] text-[#123826] font-bold'
+                        : 'text-stone-700 hover:bg-[#F4F8F5]'
+                    }`}
+                    translate="no"
+                  >
+                    {lang.label} <span className="text-stone-400 font-normal">({lang.name})</span>
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Settings Button */}
@@ -266,24 +306,30 @@ const SEARCH_LABELS: Record<Language, string> = {
             ))}
           </div>
 
-          {/* Mobile Language Switcher */}
-          <div className="flex items-center justify-between p-2.5 rounded-xl bg-[#F4F8F5] border border-[#E2ECE3] notranslate" translate="no">
-            <div className="flex items-center gap-1.5 text-xs font-bold text-[#123826]">
+          {/* Mobile Language Switcher — custom dropdown */}
+          <div className="p-2.5 rounded-xl bg-[#F4F8F5] border border-[#E2ECE3] notranslate" translate="no">
+            <div className="flex items-center gap-1.5 text-xs font-bold text-[#123826] mb-2">
               <Globe className="w-3.5 h-3.5 text-[#2E7D32]" />
-              <span>Language:</span>
+              <span>Language</span>
             </div>
-            <select
-              value={language}
-              onChange={(e) => onLanguageChange(e.target.value as Language)}
-              className="text-xs font-bold text-[#123826] bg-white px-2.5 py-1.5 rounded-lg border border-[#CCE0D0] outline-none cursor-pointer shadow-2xs"
-            >
+            <div className="grid grid-cols-2 gap-1.5">
               {LANGUAGES.map(lang => (
-                <option key={lang.code} value={lang.code}>
-                  {lang.label} ({lang.name})
-                </option>
+                <button
+                  key={lang.code}
+                  onClick={() => { onLanguageChange(lang.code); setMobileMenuOpen(false); }}
+                  className={`text-left px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-colors cursor-pointer notranslate ${
+                    language === lang.code
+                      ? 'bg-[#123826] text-white'
+                      : 'bg-white text-stone-700 border border-[#E2ECE3] hover:bg-[#EBF5ED]'
+                  }`}
+                  translate="no"
+                >
+                  {lang.label} <span className={language === lang.code ? 'text-emerald-300' : 'text-stone-400'}>({lang.name})</span>
+                </button>
               ))}
-            </select>
+            </div>
           </div>
+
         </div>
       )}
 
