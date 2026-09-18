@@ -67,6 +67,19 @@ export const Header: React.FC<HeaderProps> = ({
     setMobileMenuOpen(false);
   };
 
+const SEARCH_LABELS: Record<Language, string> = {
+  en: 'Search',
+  hi: 'खोजें',
+  kn: 'ಹುಡುಕಿ',
+  te: 'శోధించండి',
+  ta: 'தேடு',
+  mr: 'शोधा',
+  bn: 'অনুসন্ধান',
+  gu: 'શોધો',
+  pa: 'ਖੋਜੋ',
+  ml: 'തിരയുക'
+};
+
   return (
     <header className="bg-white/95 backdrop-blur-md border-b border-[#E2ECE3] sticky top-0 z-50 shadow-[0_4px_20px_-4px_rgba(18,56,38,0.06)] print:hidden">
       {/* Main Brand & Multi-Page Navigation Bar */}
@@ -74,9 +87,9 @@ export const Header: React.FC<HeaderProps> = ({
         {/* Brand Logo & Name */}
         <div 
           onClick={() => handleNavClick('home')}
-          className="flex items-center gap-3 cursor-pointer group"
+          className="flex items-center gap-3 cursor-pointer group select-none"
         >
-          <div className="relative w-10 h-10 rounded-2xl bg-[#EBF5ED] border border-[#CCE0D0] flex items-center justify-center text-xl shadow-xs shrink-0 group-hover:scale-105 transition-transform">
+          <div className="relative w-10 h-10 rounded-2xl bg-[#EBF5ED] border border-[#CCE0D0] flex items-center justify-center text-xl shadow-xs shrink-0 group-hover:scale-105 transition-transform notranslate" translate="no">
             🌾
             <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-[#2E7D32] rounded-full border-2 border-white"></div>
           </div>
@@ -112,11 +125,14 @@ export const Header: React.FC<HeaderProps> = ({
           {/* Quick Search Button */}
           <button
             onClick={() => setSearchModalOpen(true)}
-            className="p-2 rounded-xl bg-white hover:bg-[#F2F8F4] text-[#123826] border border-[#CCE0D0] transition-colors cursor-pointer shadow-xs hidden sm:flex items-center gap-1.5 text-xs font-semibold"
-            title="Search Mandi Rates"
+            className="p-2 rounded-xl bg-white hover:bg-[#F2F8F4] text-[#123826] border border-[#CCE0D0] transition-colors cursor-pointer shadow-xs hidden sm:flex items-center gap-1.5 text-xs font-semibold notranslate"
+            translate="no"
+            title={SEARCH_LABELS[language] || 'Search'}
           >
             <Search className="w-3.5 h-3.5 text-[#2E7D32]" />
-            <span className="hidden md:inline">Search</span>
+            <span className="hidden md:inline notranslate" translate="no">
+              {SEARCH_LABELS[language] || 'Search'}
+            </span>
           </button>
 
           {/* Notifications Bell with unread counter (AgridFlow style) */}

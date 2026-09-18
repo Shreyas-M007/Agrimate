@@ -22,6 +22,7 @@ import {
   X,
   MapPin
 } from 'lucide-react';
+import { ContinentalMosaic } from '../components/ContinentalMosaic';
 
 interface HomePageProps {
   language: Language;
@@ -476,6 +477,12 @@ export const HomePage: React.FC<HomePageProps> = ({
 
         </div>
       </section>
+
+      {/* CONTINENTAL FARMERS GROUP ASYMMETRICAL MOSAIC GRID */}
+      <ContinentalMosaic
+        onNavigate={onNavigate}
+        onSelectCrop={onSelectCropAndNavigate}
+      />
 
       {/* SECTION 4: AGRIHUB FEATURED CROPS + "HEALTHY SOIL HEALTHY CROPS" CARD */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6">

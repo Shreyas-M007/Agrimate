@@ -11,6 +11,7 @@ import type {
 } from './types';
 import { TRANSLATIONS } from './i18n/translations';
 import { Header } from './components/Header';
+import { TopUtilityPanel } from './components/TopUtilityPanel';
 import { OfflineBanner } from './components/OfflineBanner';
 import { ExplainModal } from './components/ExplainModal';
 import { MandiSlipModal } from './components/MandiSlipModal';
@@ -327,6 +328,12 @@ export const App: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-[#FBFDF9] text-[#162E21] flex flex-col font-['Plus_Jakarta_Sans',sans-serif]">
+      {/* Continental Farmers Group Corporate Top Utility & Rates Panel */}
+      <TopUtilityPanel
+        onNavigate={navigateTo}
+        onSelectCrop={handleSelectCropAndNavigate}
+      />
+
       {/* Editorial Header with multi-page navigation, language switch & sync */}
       <Header
         language={language}
@@ -494,10 +501,10 @@ export const App: React.FC = () => {
             
             {/* Column 1: Brand & Identity */}
             <div className="lg:col-span-2 space-y-3">
-              <div className="flex items-center gap-2.5">
-                <span className="text-2xl">🌾</span>
-                <span className="font-black text-white text-xl font-['Syne',sans-serif]">AgriMate</span>
-                <span className="text-[10px] uppercase font-mono font-bold tracking-wider px-2 py-0.5 rounded-full bg-[#1B4D35] text-[#A5D6A7] border border-[#2E7D32]">
+              <div className="flex items-center gap-2.5 notranslate select-none" translate="no">
+                <span className="text-2xl notranslate" translate="no">🌾</span>
+                <span className="font-black text-white text-xl font-['Syne',sans-serif] notranslate" translate="no">AgriMate</span>
+                <span className="text-[10px] uppercase font-mono font-bold tracking-wider px-2 py-0.5 rounded-full bg-[#1B4D35] text-[#A5D6A7] border border-[#2E7D32] notranslate" translate="no">
                   Official Platform
                 </span>
               </div>
