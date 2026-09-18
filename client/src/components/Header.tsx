@@ -7,9 +7,7 @@ import {
   Menu, 
   X, 
   ArrowRight,
-  Bell,
   Search,
-  CheckCircle2,
   ChevronDown,
   Compass,
   LayoutDashboard,
@@ -55,7 +53,6 @@ export const Header: React.FC<HeaderProps> = ({
   onSearchAndNavigate
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [searchModalOpen, setSearchModalOpen] = useState(false);
   const [headerSearchQuery, setHeaderSearchQuery] = useState('');
   const [langDropdownOpen, setLangDropdownOpen] = useState(false);
@@ -102,24 +99,24 @@ export const Header: React.FC<HeaderProps> = ({
   };
 
   return (
-    <header className="bg-white/95 backdrop-blur-md border-b border-stone-200/80 sticky top-0 z-50 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.05)] print:hidden">
+    <header className="bg-[#F6F4EE]/90 backdrop-blur-md border-b border-[#E6E1D7] sticky top-0 z-50 print:hidden">
       {/* Main Brand & Multi-Page Navigation Bar */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-2.5 flex items-center justify-between gap-4">
-        {/* Brand Logo & Name (Clean Cultivo Style - No Cluttered Tagline) */}
+        {/* Brand Logo & Name (Minimalist Cultivo Style) */}
         <div 
           onClick={() => handleNavClick('home')}
           className="flex items-center gap-2.5 cursor-pointer group select-none shrink-0"
         >
-          <div className="w-9 h-9 rounded-full bg-[#153424] flex items-center justify-center text-white shadow-xs group-hover:scale-105 transition-transform">
-            <Sprout className="w-4.5 h-4.5 text-[#4ADE80]" />
+          <div className="w-8 h-8 rounded-full bg-[#153424] flex items-center justify-center text-white shadow-2xs group-hover:scale-105 transition-transform">
+            <Sprout className="w-4 h-4 text-[#4ADE80]" />
           </div>
-          <span className="text-xl sm:text-2xl font-black tracking-tight text-[#153424] font-['Syne',sans-serif] notranslate" translate="no">
+          <span className="text-xl font-bold tracking-tight text-[#153424] font-['Syne',sans-serif] notranslate" translate="no">
             AgriMate
           </span>
         </div>
 
-        {/* Center: Floating Dark Pill Capsule Navigation (Cultivo Reference) */}
-        <nav className="hidden lg:flex items-center gap-1 bg-[#181F1C] p-1.5 rounded-full border border-stone-800 shadow-md notranslate" translate="no">
+        {/* Center: Slim Floating Dark Pill Capsule (Cultivo Reference Photo 3) */}
+        <nav className="hidden lg:flex items-center gap-0.5 bg-[#181F1C] p-1 rounded-full border border-stone-800 shadow-sm notranslate" translate="no">
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = currentPage === item.id;
@@ -127,7 +124,7 @@ export const Header: React.FC<HeaderProps> = ({
               <button
                 key={item.id}
                 onClick={() => handleNavClick(item.id)}
-                className={`px-3.5 py-1.5 rounded-full text-xs transition-all duration-200 cursor-pointer flex items-center gap-1.5 select-none ${
+                className={`px-3 py-1.5 rounded-full text-xs transition-all duration-200 cursor-pointer flex items-center gap-1.5 select-none ${
                   isActive
                     ? 'bg-white text-[#153424] font-bold shadow-xs'
                     : 'text-stone-300 hover:text-white hover:bg-white/10 font-medium'
@@ -140,97 +137,25 @@ export const Header: React.FC<HeaderProps> = ({
           })}
         </nav>
 
-        {/* Action Controls & Mobile Hamburger (Cultivo Outlined Pill & Search) */}
-        <div className="flex items-center gap-2 relative shrink-0">
-          {/* Quick Search Button (Cultivo style text/icon link) */}
+        {/* Right Actions: Ultra-Clean Cultivo 1:1 Match (Photo 3) */}
+        <div className="flex items-center gap-3 relative shrink-0">
+          {/* Quick Search Link (Like Cultivo "Sign in" text action) */}
           <button
             onClick={() => setSearchModalOpen(true)}
-            className="p-2 sm:px-3 sm:py-1.5 rounded-full hover:bg-stone-100 text-stone-700 hover:text-[#153424] transition-colors cursor-pointer flex items-center gap-1.5 text-xs font-semibold notranslate"
+            className="text-xs font-semibold text-stone-700 hover:text-[#153424] transition-colors cursor-pointer flex items-center gap-1.5 notranslate py-1 px-1.5"
             translate="no"
             title={SEARCH_LABELS[language] || 'Search'}
           >
-            <Search className="w-4 h-4 text-stone-600" />
+            <Search className="w-3.5 h-3.5 text-stone-500" />
             <span className="hidden sm:inline notranslate" translate="no">
               {SEARCH_LABELS[language] || 'Search'}
             </span>
           </button>
 
-          {/* Notifications Bell with unread counter */}
-          <div className="relative">
-            <button
-              onClick={() => setNotificationsOpen(!notificationsOpen)}
-              className="relative p-2 rounded-full bg-white hover:bg-stone-100 text-[#153424] border border-stone-300 transition-colors cursor-pointer shadow-xs flex items-center justify-center"
-              title="Mandi Live Broadcast Alerts"
-              aria-label="Mandi Notifications"
-            >
-              <Bell className="w-4 h-4 text-[#153424]" />
-              <span className="absolute -top-1 -right-1 w-4 h-4 bg-[#E8A238] text-[#123826] text-[10px] font-black rounded-full flex items-center justify-center shadow-xs">
-                3
-              </span>
-            </button>
-
-            {/* Notification Dropdown */}
-            {notificationsOpen && (
-              <div className="absolute right-0 mt-2 w-80 sm:w-88 bg-white rounded-2xl shadow-xl border border-stone-200 p-3 z-50 animate-in fade-in zoom-in-95 duration-150">
-                <div className="flex items-center justify-between pb-2 border-b border-stone-100">
-                  <span className="text-xs font-bold text-[#153424] uppercase tracking-wider">
-                    APMC Live Feeds
-                  </span>
-                  <span className="text-[10px] text-[#2E7D32] font-semibold bg-[#EAEFE9] px-2 py-0.5 rounded-full border border-[#D6DFD4] flex items-center gap-1">
-                    <CheckCircle2 className="w-3 h-3" /> Real-Time
-                  </span>
-                </div>
-
-                <div className="py-2 space-y-2">
-                  <div 
-                    onClick={() => { handleNavClick('dashboard'); setNotificationsOpen(false); }}
-                    className="p-2.5 rounded-xl bg-stone-50 hover:bg-[#EAEFE9] transition-colors cursor-pointer border border-stone-200/80"
-                  >
-                    <div className="flex justify-between items-center text-xs font-bold text-[#153424]">
-                      <span className="flex items-center gap-1.5"><span className="notranslate" translate="no">🌽</span> Davanagere Mandi</span>
-                      <span className="text-emerald-700 font-mono">+4.2%</span>
-                    </div>
-                    <p className="text-[11px] text-stone-600 mt-0.5">Maize rate firm at ₹2,150/q with 3,400 bags arrived today.</p>
-                  </div>
-
-                  <div 
-                    onClick={() => { handleNavClick('dashboard'); setNotificationsOpen(false); }}
-                    className="p-2.5 rounded-xl bg-stone-50 hover:bg-[#EAEFE9] transition-colors cursor-pointer border border-stone-200/80"
-                  >
-                    <div className="flex justify-between items-center text-xs font-bold text-[#153424]">
-                      <span className="flex items-center gap-1.5"><span className="notranslate" translate="no">🍅</span> Kolar APMC</span>
-                      <span className="text-emerald-700 font-mono">+2.6%</span>
-                    </div>
-                    <p className="text-[11px] text-stone-600 mt-0.5">Tomato modal auction ₹1,850/q. High grade arrivals fetching ₹2,100.</p>
-                  </div>
-
-                  <div 
-                    onClick={() => { handleNavClick('dashboard'); setNotificationsOpen(false); }}
-                    className="p-2.5 rounded-xl bg-stone-50 hover:bg-[#EAEFE9] transition-colors cursor-pointer border border-stone-200/80"
-                  >
-                    <div className="flex justify-between items-center text-xs font-bold text-[#153424]">
-                      <span className="flex items-center gap-1.5"><span className="notranslate" translate="no">🧅</span> Lasalgaon Mandi</span>
-                      <span className="text-emerald-700 font-mono">+1.9%</span>
-                    </div>
-                    <p className="text-[11px] text-stone-600 mt-0.5">Onion trading stable at ₹1,650/q. Export inquiries active.</p>
-                  </div>
-                </div>
-
-                <button
-                  onClick={() => { handleNavClick('dashboard'); setNotificationsOpen(false); }}
-                  className="w-full py-2 rounded-xl bg-[#153424] text-white text-xs font-bold flex items-center justify-center gap-1.5 hover:bg-[#1f4a34] transition-colors cursor-pointer"
-                >
-                  <span>Open Full Dashboard Terminal</span>
-                  <ArrowRight className="w-3 h-3 text-[#E8A238]" />
-                </button>
-              </div>
-            )}
-          </div>
-
-          {/* Language Switcher — Rounded Pill (Cultivo pill style) */}
+          {/* Language Switcher — Sleek Text Dropdown */}
           <div
             ref={langDropdownRef}
-            className="relative flex items-center bg-white px-3 py-1.5 rounded-full border border-stone-300 hover:border-stone-400 shadow-xs gap-1.5 notranslate cursor-pointer select-none transition-colors"
+            className="relative flex items-center text-xs font-semibold text-stone-700 hover:text-[#153424] gap-1 notranslate cursor-pointer select-none transition-colors py-1 px-1.5"
             translate="no"
             onClick={() => setLangDropdownOpen(!langDropdownOpen)}
             role="combobox"
@@ -238,15 +163,15 @@ export const Header: React.FC<HeaderProps> = ({
             aria-expanded={langDropdownOpen}
             aria-label="Select language"
           >
-            <Globe className="w-3.5 h-3.5 text-[#2E7D32] shrink-0" />
-            <span className="text-xs font-bold text-[#153424] notranslate whitespace-nowrap">
+            <Globe className="w-3.5 h-3.5 text-stone-500 shrink-0" />
+            <span className="notranslate whitespace-nowrap">
               {LANGUAGES.find(l => l.code === language)?.label ?? 'English'} ({LANGUAGES.find(l => l.code === language)?.name ?? 'EN'})
             </span>
             <ChevronDown className={`w-3 h-3 text-stone-400 transition-transform shrink-0 ${langDropdownOpen ? 'rotate-180' : ''}`} />
 
             {langDropdownOpen && (
               <div
-                className="absolute right-0 top-full mt-1.5 w-48 bg-white rounded-2xl border border-stone-200 shadow-xl z-50 py-1.5 max-h-72 overflow-y-auto notranslate"
+                className="absolute right-0 top-full mt-2 w-48 bg-white rounded-2xl border border-[#E6E1D7] shadow-xl z-50 py-1.5 max-h-72 overflow-y-auto notranslate"
                 translate="no"
                 role="listbox"
                 onClick={(e) => e.stopPropagation()}
@@ -271,31 +196,19 @@ export const Header: React.FC<HeaderProps> = ({
             )}
           </div>
 
-          {/* Outlined Pill CTA Button (Cultivo "Sign up free" style) */}
+          {/* Outlined Pill CTA Button (Exact Cultivo "Sign up free" Style) */}
           <button
             onClick={() => handleNavClick('dashboard')}
-            className="hidden md:flex items-center gap-1.5 px-4 py-1.5 rounded-full border border-stone-800 hover:bg-[#153424] hover:text-white hover:border-[#153424] text-stone-900 text-xs font-bold transition-all shadow-xs cursor-pointer"
+            className="px-4 py-1.5 rounded-full border border-stone-800 hover:bg-[#153424] hover:text-white hover:border-[#153424] text-stone-900 text-xs font-bold transition-all shadow-2xs cursor-pointer flex items-center gap-1.5"
           >
             <span>Terminal</span>
             <ArrowRight className="w-3 h-3" />
           </button>
 
-          {/* Settings Button */}
-          {onOpenSettings && (
-            <button
-              onClick={onOpenSettings}
-              className="p-2 rounded-full bg-white hover:bg-stone-100 text-stone-700 border border-stone-300 transition-all cursor-pointer shadow-xs hidden sm:flex items-center justify-center"
-              title="Preferences & Data Sync"
-              aria-label="Settings"
-            >
-              <Settings className="w-4 h-4 text-[#123826]" />
-            </button>
-          )}
-
           {/* Mobile Menu Toggle Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden p-2 rounded-full border border-stone-300 bg-white text-[#123826] hover:bg-stone-100 transition-colors cursor-pointer"
+            className="lg:hidden p-1.5 rounded-full text-[#123826] hover:bg-stone-200/50 transition-colors cursor-pointer"
             aria-label="Toggle Navigation Menu"
           >
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -351,6 +264,16 @@ export const Header: React.FC<HeaderProps> = ({
             </div>
           </div>
 
+          {/* Mobile Settings Button */}
+          {onOpenSettings && (
+            <button
+              onClick={() => { onOpenSettings(); setMobileMenuOpen(false); }}
+              className="w-full p-2.5 rounded-xl bg-stone-50 hover:bg-stone-100 border border-stone-200 text-xs font-bold text-[#153424] flex items-center justify-center gap-2 cursor-pointer transition-colors"
+            >
+              <Settings className="w-4 h-4 text-[#153424]" />
+              <span>Preferences & Data Sync</span>
+            </button>
+          )}
         </div>
       )}
 

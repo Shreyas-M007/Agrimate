@@ -68,9 +68,9 @@ export const TRANSLATIONS = {
     navDashboard: "Dashboard",
     navAbout: "About Us",
     navServices: "Services",
-    navCrops: "Crop Directory",
-    navDispatch: "Dispatch Desk",
-    navContact: "Grower Support",
+    navCrops: "Crops",
+    navDispatch: "Dispatch",
+    navContact: "Contact",
     openDashboard: "Open Dashboard"
   },
   hi: {

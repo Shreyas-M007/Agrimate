@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { ArrowRight, MapPin, Filter } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import type { NavigationPage } from '../types';
 import { indiaMapData } from '../data/indiaMapData';
 import { VERIFIED_MANDI_PINS, type MandiPin } from '../data/allStateMarketsData';
@@ -18,7 +18,6 @@ export const IndiaMarketsMap: React.FC<IndiaMarketsMapProps> = ({
 }) => {
   const [selectedRegion, setSelectedRegion] = useState<'all' | 'north' | 'west' | 'south' | 'east' | 'central_ne'>('all');
   const [selectedStateId, setSelectedStateId] = useState<string>('all');
-  const [selectedCrop, setSelectedCrop] = useState<string>('all');
   const [activePin, setActivePin] = useState<MandiPin>(VERIFIED_MANDI_PINS[0]);
 
   // Exact geographic linear projection onto official SVG viewBox 0 0 612 696
@@ -42,31 +41,16 @@ export const IndiaMarketsMap: React.FC<IndiaMarketsMapProps> = ({
     return Array.from(map.values()).sort((a, b) => a.name.localeCompare(b.name));
   }, []);
 
-  // Distinct crops in the dataset
-  const availableCrops = useMemo(() => {
-    const crops = new Set<string>();
-    for (const p of VERIFIED_MANDI_PINS) {
-      const mainCrop = p.crop.split(' ')[0].replace(/[^a-zA-Z]/g, '');
-      if (mainCrop) crops.add(mainCrop);
-    }
-    return Array.from(crops).sort();
-  }, []);
-
-  // Filter pins based on Region, State, and Crop
+  // Filter pins based on Region and State
   const filteredPins = useMemo(() => {
     return VERIFIED_MANDI_PINS.filter((p) => {
       // Region filter
       if (selectedRegion !== 'all' && p.region !== selectedRegion) return false;
       // State filter
       if (selectedStateId !== 'all' && p.stateId !== selectedStateId) return false;
-      // Crop filter
-      if (selectedCrop !== 'all') {
-        const pinCrop = p.crop.toLowerCase();
-        if (!pinCrop.includes(selectedCrop.toLowerCase())) return false;
-      }
       return true;
     });
-  }, [selectedRegion, selectedStateId, selectedCrop]);
+  }, [selectedRegion, selectedStateId]);
 
   // Check if a state is part of the currently active filter
   const isStateHighlighted = (stateId: string) => {
@@ -109,8 +93,8 @@ export const IndiaMarketsMap: React.FC<IndiaMarketsMapProps> = ({
 
   return (
     <div className="relative rounded-3xl overflow-hidden border-2 border-[#E6E1D7] shadow-lg bg-gradient-to-b from-[#F6F4EE] via-[#F2EFE8] to-[#EAE6DD] flex flex-col justify-between p-4 sm:p-5 transition-all">
-      {/* Top Header & State/Crop Selectors */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pb-3 border-b border-[#E6E1D7]/80">
+      {/* Top Header */}
+      <div className="flex items-center justify-between gap-2.5 pb-2.5 border-b border-[#E6E1D7]/80">
         <h3 className="text-xs sm:text-sm font-black text-[#153424] font-['Syne',sans-serif] tracking-tight flex items-center gap-2">
           <span className="relative flex h-2.5 w-2.5">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#2E7D32] opacity-75"></span>
@@ -118,61 +102,6 @@ export const IndiaMarketsMap: React.FC<IndiaMarketsMapProps> = ({
           </span>
           <span>{filteredPins.length} Verified APMC Mandis • {activeStateName}</span>
         </h3>
-
-        {/* State & Crop Filter Dropdowns */}
-        <div className="flex items-center gap-1.5 notranslate" translate="no">
-          <label htmlFor="state-filter-select" className="sr-only">Filter by State</label>
-          <div className="relative flex items-center">
-            <MapPin className="w-3 h-3 text-[#2E7D32] absolute left-2 pointer-events-none" />
-            <select
-              id="state-filter-select"
-              value={selectedStateId}
-              onChange={(e) => {
-                const sId = e.target.value;
-                setSelectedStateId(sId);
-                if (sId !== 'all') {
-                  const firstInState = VERIFIED_MANDI_PINS.find(p => p.stateId === sId);
-                  if (firstInState) {
-                    setActivePin(firstInState);
-                    setSelectedRegion('all');
-                  }
-                }
-              }}
-              className="pl-6 pr-6 py-1 rounded-lg text-[11px] font-bold bg-white text-[#153424] border border-[#E6E1D7] shadow-2xs hover:border-[#153424] cursor-pointer focus:outline-hidden"
-            >
-              <option value="all">All States & UTs (32+)</option>
-              {availableStates.map(s => (
-                <option key={s.id} value={s.id}>
-                  {s.name} ({s.count})
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {/* Crop Filter Dropdown */}
-          <div className="relative flex items-center">
-            <Filter className="w-3 h-3 text-stone-500 absolute left-2 pointer-events-none" />
-            <select
-              value={selectedCrop}
-              onChange={(e) => {
-                const c = e.target.value;
-                setSelectedCrop(c);
-                if (c !== 'all') {
-                  const match = filteredPins.find(p => p.crop.toLowerCase().includes(c.toLowerCase()));
-                  if (match) setActivePin(match);
-                }
-              }}
-              className="pl-6 pr-5 py-1 rounded-lg text-[11px] font-bold bg-white text-[#153424] border border-[#E6E1D7] shadow-2xs hover:border-[#153424] cursor-pointer focus:outline-hidden"
-            >
-              <option value="all">All Crops</option>
-              {availableCrops.map(c => (
-                <option key={c} value={c}>
-                  {c}
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
       </div>
 
       {/* Region Filter Chips */}
