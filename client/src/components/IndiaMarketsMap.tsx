@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowRight, ShieldCheck } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import type { NavigationPage } from '../types';
 import { indiaMapData } from '../data/indiaMapData';
 
@@ -424,27 +424,15 @@ export const IndiaMarketsMap: React.FC<IndiaMarketsMapProps> = ({
 
   return (
     <div className="relative rounded-3xl overflow-hidden border-2 border-[#E6E1D7] shadow-lg bg-gradient-to-b from-[#F6F4EE] via-[#F2EFE8] to-[#EAE6DD] flex flex-col justify-between p-4 sm:p-5 transition-all">
-      {/* Top Header & Live Telemetry Badge */}
-      <div className="flex items-center justify-between gap-2 pb-3 border-b border-[#E6E1D7]/80">
-        <div className="space-y-0.5">
-          <div className="flex items-center gap-1.5">
-            <span className="relative flex h-2.5 w-2.5">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#2E7D32] opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#2E7D32]"></span>
-            </span>
-            <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-[#2E7D32]">
-              Official National Mandi Grid
-            </span>
-          </div>
-          <h3 className="text-xs sm:text-sm font-black text-[#153424] font-['Syne',sans-serif] tracking-tight">
-            20 Verified APMC Mandis
-          </h3>
-        </div>
-
-        <div className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#EAEFE9] border border-[#D6DFD4] text-[10px] font-mono font-bold text-[#153424]">
-          <ShieldCheck className="w-3 h-3 text-[#2E7D32]" />
-          <span>Agmarknet Live</span>
-        </div>
+      {/* Top Header */}
+      <div className="flex items-center justify-between gap-2 pb-2.5 border-b border-[#E6E1D7]/80">
+        <h3 className="text-xs sm:text-sm font-black text-[#153424] font-['Syne',sans-serif] tracking-tight flex items-center gap-2">
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#2E7D32] opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-[#2E7D32]"></span>
+          </span>
+          <span>20 Verified APMC Mandis</span>
+        </h3>
       </div>
 
       {/* Region Filter Chips */}
