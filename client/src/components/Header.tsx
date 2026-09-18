@@ -81,7 +81,7 @@ export const Header: React.FC<HeaderProps> = ({
             <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-[#2E7D32] rounded-full border-2 border-white"></div>
           </div>
           <div>
-            <span className="text-xl sm:text-2xl font-black tracking-tight text-[#123826] font-['Syne',sans-serif] block">
+            <span className="text-xl sm:text-2xl font-black tracking-tight text-[#123826] font-['Syne',sans-serif] block notranslate" translate="no">
               AgriMate
             </span>
             <p className="text-stone-600 text-[11px] font-medium hidden sm:block">
@@ -91,7 +91,7 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
 
         {/* Desktop Multi-Page Navigation Links */}
-        <nav className="hidden lg:flex items-center gap-1 bg-[#F4F8F5] p-1 rounded-2xl border border-[#E2ECE3]">
+        <nav className="hidden lg:flex items-center gap-1 bg-[#F4F8F5] p-1 rounded-2xl border border-[#E2ECE3] notranslate" translate="no">
           {navItems.map((item) => (
             <button
               key={item.id}
@@ -192,7 +192,7 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
 
           {/* Language Switcher */}
-          <div className="flex items-center bg-white px-2.5 py-1 rounded-xl border border-[#CCE0D0] shadow-xs gap-1.5">
+          <div className="flex items-center bg-white px-2.5 py-1 rounded-xl border border-[#CCE0D0] shadow-xs gap-1.5 notranslate" translate="no">
             <Globe className="w-3.5 h-3.5 text-[#2E7D32]" />
             <select
               value={language}
@@ -234,7 +234,7 @@ export const Header: React.FC<HeaderProps> = ({
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
         <div className="lg:hidden border-t border-[#E2ECE3] bg-white px-4 py-4 space-y-3 shadow-lg animate-in slide-in-from-top duration-200">
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-2 gap-2 notranslate" translate="no">
             {navItems.map((item) => (
               <button
                 key={item.id}
@@ -251,7 +251,7 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
 
           {/* Mobile Language Switcher */}
-          <div className="flex items-center justify-between p-2.5 rounded-xl bg-[#F4F8F5] border border-[#E2ECE3]">
+          <div className="flex items-center justify-between p-2.5 rounded-xl bg-[#F4F8F5] border border-[#E2ECE3] notranslate" translate="no">
             <div className="flex items-center gap-1.5 text-xs font-bold text-[#123826]">
               <Globe className="w-3.5 h-3.5 text-[#2E7D32]" />
               <span>Language:</span>

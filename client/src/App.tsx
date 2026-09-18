@@ -107,6 +107,15 @@ export const App: React.FC = () => {
         setSiteLanguage(language);
       }, 100);
       return () => clearTimeout(timer);
+    } else {
+      try {
+        const hostname = window.location.hostname;
+        document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+        document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${hostname};`;
+        document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.${hostname};`;
+      } catch {
+        // silent
+      }
     }
   }, [currentPage, language]);
 

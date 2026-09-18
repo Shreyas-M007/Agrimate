@@ -89,7 +89,7 @@ export function setSiteLanguage(targetLang: Language): void {
 
       const combo = document.querySelector<HTMLSelectElement>('.goog-te-combo');
       if (combo) {
-        combo.value = 'en';
+        combo.value = ''; // Empty string restores original English in Google Translate
         combo.dispatchEvent(new Event('change'));
       }
       cleanGoogleTranslateBanner();
@@ -107,9 +107,14 @@ export function setSiteLanguage(targetLang: Language): void {
       cleanGoogleTranslateBanner();
       const combo = document.querySelector<HTMLSelectElement>('.goog-te-combo');
       if (combo) {
-        combo.value = googleLang;
+        // Reset to base first to avoid translation cascades (e.g. Kannada -> Hindi)
+        combo.value = '';
         combo.dispatchEvent(new Event('change'));
-        cleanGoogleTranslateBanner();
+        setTimeout(() => {
+          combo.value = googleLang;
+          combo.dispatchEvent(new Event('change'));
+          cleanGoogleTranslateBanner();
+        }, 30);
         return true;
       }
       return false;

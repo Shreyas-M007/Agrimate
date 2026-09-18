@@ -117,7 +117,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
               <Globe className="w-3.5 h-3.5 text-[#2E7D32]" />
               <span>Preferred Dialect / Language</span>
             </label>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 font-mono text-xs">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 font-mono text-xs notranslate" translate="no">
               {[
                 { id: 'en', label: 'English (Default)' },
                 { id: 'hi', label: 'हिन्दी (Hindi)' },
