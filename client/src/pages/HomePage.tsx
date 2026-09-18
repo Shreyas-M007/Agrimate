@@ -36,14 +36,20 @@ export const HomePage: React.FC<HomePageProps> = ({
   const [searchQuery, setSearchQuery] = useState('');
   const [showSuggestions, setShowSuggestions] = useState(false);
 
-  // Quick live mandi ticker data (AgriHub & VerdaAgro fusion)
+  // Quick live mandi ticker data (Pan-India APMC coverage)
   const liveTickers = [
     { crop: 'Maize', mandi: 'Davanagere APMC', state: 'Karnataka', modal: '₹2,150', unit: 'q', change: '+4.2%', trend: 'up', icon: '🌽' },
     { crop: 'Tomato', mandi: 'Ballari APMC', state: 'Karnataka', modal: '₹1,850', unit: 'q', change: '+2.6%', trend: 'up', icon: '🍅' },
     { crop: 'Onion', mandi: 'Lasalgaon APMC', state: 'Maharashtra', modal: '₹2,100', unit: 'q', change: '+1.9%', trend: 'up', icon: '🧅' },
-    { crop: 'Paddy / Rice', mandi: 'Sindhanur APMC', state: 'Karnataka', modal: '₹2,450', unit: 'q', change: '+3.1%', trend: 'up', icon: '🍚' },
+    { crop: 'Cumin', mandi: 'Unjha APMC', state: 'Gujarat', modal: '₹28,500', unit: 'q', change: '+4.8%', trend: 'up', icon: '🌿' },
+    { crop: 'Mustard', mandi: 'Kota APMC', state: 'Rajasthan', modal: '₹5,450', unit: 'q', change: '+2.1%', trend: 'up', icon: '🌼' },
+    { crop: 'Wheat', mandi: 'Khanna APMC', state: 'Punjab', modal: '₹2,275', unit: 'q', change: '+1.1%', trend: 'up', icon: '🌾' },
+    { crop: 'Potato', mandi: 'Agra APMC', state: 'Uttar Pradesh', modal: '₹1,480', unit: 'q', change: '-0.5%', trend: 'stable', icon: '🥔' },
     { crop: 'Green Chilli', mandi: 'Guntur APMC', state: 'Andhra Pradesh', modal: '₹3,400', unit: 'q', change: '+5.2%', trend: 'up', icon: '🌶️' },
-    { crop: 'Potato', mandi: 'Hassan APMC', state: 'Karnataka', modal: '₹1,600', unit: 'q', change: '+0.8%', trend: 'stable', icon: '🥔' },
+    { crop: 'Soybean', mandi: 'Indore APMC', state: 'Madhya Pradesh', modal: '₹4,600', unit: 'q', change: '+1.8%', trend: 'up', icon: '🌱' },
+    { crop: 'Paddy / Rice', mandi: 'Burdwan APMC', state: 'West Bengal', modal: '₹2,550', unit: 'q', change: '+1.8%', trend: 'up', icon: '🍚' },
+    { crop: 'Apple', mandi: 'Sopore Mandi', state: 'Jammu and Kashmir', modal: '₹5,200', unit: 'q', change: '+3.6%', trend: 'up', icon: '🍎' },
+    { crop: 'Turmeric', mandi: 'Nizamabad APMC', state: 'Telangana', modal: '₹12,400', unit: 'q', change: '+4.1%', trend: 'up', icon: '🌿' },
   ];
 
   const cropList = [
@@ -63,13 +69,17 @@ export const HomePage: React.FC<HomePageProps> = ({
     { name: 'Ballari', apmc: 'Ballari APMC', state: 'Karnataka', topCrop: 'Tomato & Chilli' },
     { name: 'Kolar', apmc: 'Kolar APMC', state: 'Karnataka', topCrop: 'Tomato & Veg' },
     { name: 'Lasalgaon', apmc: 'Lasalgaon APMC', state: 'Maharashtra', topCrop: 'Onion' },
-    { name: 'Davanagere', apmc: 'Davanagere APMC', state: 'Karnataka', topCrop: 'Maize' },
+    { name: 'Unjha', apmc: 'Unjha APMC', state: 'Gujarat', topCrop: 'Cumin & Spices' },
+    { name: 'Kota', apmc: 'Kota APMC', state: 'Rajasthan', topCrop: 'Mustard & Soybean' },
+    { name: 'Khanna', apmc: 'Khanna APMC', state: 'Punjab', topCrop: 'Wheat & Grain' },
     { name: 'Azadpur', apmc: 'Azadpur Mandi', state: 'Delhi', topCrop: 'All Produce' },
     { name: 'Guntur', apmc: 'Guntur APMC', state: 'Andhra Pradesh', topCrop: 'Red Chilli' },
-    { name: 'Hubballi', apmc: 'Hubballi APMC', state: 'Karnataka', topCrop: 'Cotton & Pulses' },
-    { name: 'Belagavi', apmc: 'Belagavi APMC', state: 'Karnataka', topCrop: 'Vegetables' },
-    { name: 'Mysuru', apmc: 'Mysuru APMC', state: 'Karnataka', topCrop: 'Paddy & Veg' },
-    { name: 'Vashi', apmc: 'Vashi APMC', state: 'Maharashtra', topCrop: 'Grain & Spices' },
+    { name: 'Indore', apmc: 'Indore APMC', state: 'Madhya Pradesh', topCrop: 'Soybean & Wheat' },
+    { name: 'Kolkata', apmc: 'Koley APMC', state: 'West Bengal', topCrop: 'Potato & Rice' },
+    { name: 'Gulabbagh', apmc: 'Gulabbagh APMC', state: 'Bihar', topCrop: 'Maize' },
+    { name: 'Chennai', apmc: 'Koyambedu APMC', state: 'Tamil Nadu', topCrop: 'Vegetables' },
+    { name: 'Kochi', apmc: 'Kochi APMC', state: 'Kerala', topCrop: 'Coconut & Spices' },
+    { name: 'Sopore', apmc: 'Sopore Fruit Mandi', state: 'Jammu and Kashmir', topCrop: 'Apple' },
   ];
 
   const filteredCrops = searchQuery.trim() === ''

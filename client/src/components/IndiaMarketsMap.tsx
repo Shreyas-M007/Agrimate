@@ -1,385 +1,11 @@
-import React, { useState } from 'react';
-import { ArrowRight } from 'lucide-react';
+import React, { useState, useMemo } from 'react';
+import { ArrowRight, MapPin, Filter } from 'lucide-react';
 import type { NavigationPage } from '../types';
 import { indiaMapData } from '../data/indiaMapData';
+import { VERIFIED_MANDI_PINS, type MandiPin } from '../data/allStateMarketsData';
 
-export interface MandiPin {
-  id: string;
-  name: string;
-  fullName: string;
-  district: string;
-  state: string;
-  stateId: string;
-  region: 'karnataka' | 'maharashtra' | 'ap_ts' | 'north';
-  lat: number;
-  lon: number;
-  crop: string;
-  cropIcon: string;
-  modalPrice: string;
-  change: string;
-  arrivals: string;
-  type: string;
-  isMega?: boolean;
-}
-
-export const VERIFIED_MANDI_PINS: MandiPin[] = [
-  // Karnataka (10)
-  {
-    id: "MKT-KA-001",
-    name: "Ballari APMC",
-    fullName: "Ballari Wholesale APMC Yard",
-    district: "Ballari",
-    state: "Karnataka",
-    stateId: "ka",
-    region: "karnataka",
-    lat: 15.1394,
-    lon: 76.9214,
-    crop: "Tomato Hybrid",
-    cropIcon: "🍅",
-    modalPrice: "₹1,850/q",
-    change: "+2.6%",
-    arrivals: "140 qtls",
-    type: "Primary Yard"
-  },
-  {
-    id: "MKT-KA-002",
-    name: "Kudligi APMC",
-    fullName: "Kudligi APMC Sub-Yard",
-    district: "Ballari",
-    state: "Karnataka",
-    stateId: "ka",
-    region: "karnataka",
-    lat: 14.9011,
-    lon: 76.3872,
-    crop: "Groundnut",
-    cropIcon: "🥜",
-    modalPrice: "₹5,800/q",
-    change: "+1.2%",
-    arrivals: "75 qtls",
-    type: "Sub-Yard"
-  },
-  {
-    id: "MKT-KA-003",
-    name: "Hospet APMC",
-    fullName: "Hospet APMC Yard",
-    district: "Ballari",
-    state: "Karnataka",
-    stateId: "ka",
-    region: "karnataka",
-    lat: 15.2689,
-    lon: 76.3909,
-    crop: "Maize",
-    cropIcon: "🌽",
-    modalPrice: "₹2,180/q",
-    change: "+0.8%",
-    arrivals: "190 qtls",
-    type: "Regional Yard"
-  },
-  {
-    id: "MKT-KA-004",
-    name: "Kolar APMC",
-    fullName: "Kolar APMC (Asia's 2nd Largest Tomato Market)",
-    district: "Kolar",
-    state: "Karnataka",
-    stateId: "ka",
-    region: "karnataka",
-    lat: 13.1367,
-    lon: 78.1291,
-    crop: "Tomato",
-    cropIcon: "🍅",
-    modalPrice: "₹2,200/q",
-    change: "+3.8%",
-    arrivals: "850 qtls",
-    type: "Mega Mandi",
-    isMega: true
-  },
-  {
-    id: "MKT-KA-005",
-    name: "Chintamani APMC",
-    fullName: "Chintamani APMC Yard",
-    district: "Chikkaballapur",
-    state: "Karnataka",
-    stateId: "ka",
-    region: "karnataka",
-    lat: 13.4007,
-    lon: 78.0566,
-    crop: "Tomato Sona",
-    cropIcon: "🍅",
-    modalPrice: "₹2,100/q",
-    change: "+1.4%",
-    arrivals: "320 qtls",
-    type: "Sub-Yard"
-  },
-  {
-    id: "MKT-KA-006",
-    name: "Bangalore APMC",
-    fullName: "Bangalore Yeshwanthpur APMC Yard",
-    district: "Bangalore Urban",
-    state: "Karnataka",
-    stateId: "ka",
-    region: "karnataka",
-    lat: 13.0280,
-    lon: 77.5409,
-    crop: "Potato / Onion",
-    cropIcon: "🥔",
-    modalPrice: "₹2,350/q",
-    change: "+1.5%",
-    arrivals: "1,200 qtls",
-    type: "Apex Terminal",
-    isMega: true
-  },
-  {
-    id: "MKT-KA-007",
-    name: "Belagavi APMC",
-    fullName: "Belagavi APMC Market",
-    district: "Belagavi",
-    state: "Karnataka",
-    stateId: "ka",
-    region: "karnataka",
-    lat: 15.8497,
-    lon: 74.4977,
-    crop: "Vegetables",
-    cropIcon: "🥬",
-    modalPrice: "₹1,950/q",
-    change: "+0.9%",
-    arrivals: "410 qtls",
-    type: "Regional Mandi"
-  },
-  {
-    id: "MKT-KA-008",
-    name: "Mysuru APMC",
-    fullName: "Mysuru Bandipalya APMC Yard",
-    district: "Mysuru",
-    state: "Karnataka",
-    stateId: "ka",
-    region: "karnataka",
-    lat: 12.2782,
-    lon: 76.6747,
-    crop: "Paddy / Rice",
-    cropIcon: "🍚",
-    modalPrice: "₹2,450/q",
-    change: "+2.1%",
-    arrivals: "530 qtls",
-    type: "Terminal Yard"
-  },
-  {
-    id: "MKT-KA-009",
-    name: "Davanagere APMC",
-    fullName: "Davanagere APMC Market",
-    district: "Davanagere",
-    state: "Karnataka",
-    stateId: "ka",
-    region: "karnataka",
-    lat: 14.4644,
-    lon: 75.9218,
-    crop: "Maize Commercial",
-    cropIcon: "🌽",
-    modalPrice: "₹2,150/q",
-    change: "+4.2%",
-    arrivals: "670 qtls",
-    type: "Grain Hub",
-    isMega: true
-  },
-  {
-    id: "MKT-KA-010",
-    name: "Hubballi APMC",
-    fullName: "Hubballi Amaragol APMC Yard",
-    district: "Dharwad",
-    state: "Karnataka",
-    stateId: "ka",
-    region: "karnataka",
-    lat: 15.3949,
-    lon: 75.1240,
-    crop: "Cotton Medium",
-    cropIcon: "☁️",
-    modalPrice: "₹7,200/q",
-    change: "+1.4%",
-    arrivals: "390 qtls",
-    type: "Cotton Terminal"
-  },
-
-  // Maharashtra (4)
-  {
-    id: "MKT-MH-001",
-    name: "Lasalgaon APMC",
-    fullName: "Lasalgaon APMC (Asia's Largest Onion Market)",
-    district: "Nashik",
-    state: "Maharashtra",
-    stateId: "mh",
-    region: "maharashtra",
-    lat: 20.1472,
-    lon: 74.2255,
-    crop: "Onion Red",
-    cropIcon: "🧅",
-    modalPrice: "₹2,100/q",
-    change: "+1.9%",
-    arrivals: "2,400 qtls",
-    type: "Mega Mandi",
-    isMega: true
-  },
-  {
-    id: "MKT-MH-002",
-    name: "Nashik APMC",
-    fullName: "Nashik APMC Yard",
-    district: "Nashik",
-    state: "Maharashtra",
-    stateId: "mh",
-    region: "maharashtra",
-    lat: 19.9975,
-    lon: 73.7898,
-    crop: "Tomato Local",
-    cropIcon: "🍅",
-    modalPrice: "₹1,920/q",
-    change: "-1.1%",
-    arrivals: "610 qtls",
-    type: "Regional Mandi"
-  },
-  {
-    id: "MKT-MH-003",
-    name: "Pimpalgaon APMC",
-    fullName: "Pimpalgaon Baswant APMC",
-    district: "Nashik",
-    state: "Maharashtra",
-    stateId: "mh",
-    region: "maharashtra",
-    lat: 20.1697,
-    lon: 73.9858,
-    crop: "Tomato / Grapes",
-    cropIcon: "🍇",
-    modalPrice: "₹2,050/q",
-    change: "+3.2%",
-    arrivals: "780 qtls",
-    type: "Horticulture Hub"
-  },
-  {
-    id: "MKT-MH-004",
-    name: "Pune APMC",
-    fullName: "Pune Gultekdi Market Yard",
-    district: "Pune",
-    state: "Maharashtra",
-    stateId: "mh",
-    region: "maharashtra",
-    lat: 18.4967,
-    lon: 73.8647,
-    crop: "Paddy & Vegetables",
-    cropIcon: "🍚",
-    modalPrice: "₹2,300/q",
-    change: "+0.5%",
-    arrivals: "1,500 qtls",
-    type: "Apex Terminal",
-    isMega: true
-  },
-
-  // Andhra Pradesh & Telangana (3)
-  {
-    id: "MKT-AP-001",
-    name: "Guntur APMC",
-    fullName: "Guntur APMC (Asia's Largest Chilli Market)",
-    district: "Guntur",
-    state: "Andhra Pradesh",
-    stateId: "ap",
-    region: "ap_ts",
-    lat: 16.3067,
-    lon: 80.4365,
-    crop: "Green / Red Chilli",
-    cropIcon: "🌶️",
-    modalPrice: "₹3,400/q",
-    change: "+5.2%",
-    arrivals: "1,800 qtls",
-    type: "Mega Mandi",
-    isMega: true
-  },
-  {
-    id: "MKT-AP-002",
-    name: "Kurnool APMC",
-    fullName: "Kurnool APMC Market Yard",
-    district: "Kurnool",
-    state: "Andhra Pradesh",
-    stateId: "ap",
-    region: "ap_ts",
-    lat: 15.8281,
-    lon: 78.0373,
-    crop: "Groundnut Pods",
-    cropIcon: "🥜",
-    modalPrice: "₹5,650/q",
-    change: "+0.7%",
-    arrivals: "440 qtls",
-    type: "Oilseeds Yard"
-  },
-  {
-    id: "MKT-TS-001",
-    name: "Warangal APMC",
-    fullName: "Warangal Enumamula APMC Yard",
-    district: "Warangal",
-    state: "Telangana",
-    stateId: "tg",
-    region: "ap_ts",
-    lat: 17.9689,
-    lon: 79.5941,
-    crop: "Cotton / Chilli",
-    cropIcon: "☁️",
-    modalPrice: "₹7,150/q",
-    change: "+2.4%",
-    arrivals: "920 qtls",
-    type: "Apex Mandi",
-    isMega: true
-  },
-
-  // North & Central India (3)
-  {
-    id: "MKT-PB-001",
-    name: "Khanna APMC",
-    fullName: "Khanna APMC (Asia's Largest Grain Market)",
-    district: "Ludhiana",
-    state: "Punjab",
-    stateId: "pb",
-    region: "north",
-    lat: 30.7071,
-    lon: 76.2167,
-    crop: "Wheat Sharbati",
-    cropIcon: "🌾",
-    modalPrice: "₹2,275/q",
-    change: "+1.1%",
-    arrivals: "3,100 qtls",
-    type: "Mega Mandi",
-    isMega: true
-  },
-  {
-    id: "MKT-UP-001",
-    name: "Agra APMC",
-    fullName: "Agra APMC Market Yard",
-    district: "Agra",
-    state: "Uttar Pradesh",
-    stateId: "up",
-    region: "north",
-    lat: 27.1767,
-    lon: 78.0081,
-    crop: "Potato Kufri",
-    cropIcon: "🥔",
-    modalPrice: "₹1,480/q",
-    change: "-0.5%",
-    arrivals: "1,100 qtls",
-    type: "Potato Belt Hub"
-  },
-  {
-    id: "MKT-MP-001",
-    name: "Indore APMC",
-    fullName: "Indore APMC Yard",
-    district: "Indore",
-    state: "Madhya Pradesh",
-    stateId: "mp",
-    region: "north",
-    lat: 22.7196,
-    lon: 75.8577,
-    crop: "Soybean / Wheat",
-    cropIcon: "🌱",
-    modalPrice: "₹4,600/q",
-    change: "+1.8%",
-    arrivals: "890 qtls",
-    type: "Central Hub",
-    isMega: true
-  }
-];
+export type { MandiPin };
+export { VERIFIED_MANDI_PINS };
 
 interface IndiaMarketsMapProps {
   onNavigate?: (page: NavigationPage) => void;
@@ -390,7 +16,9 @@ export const IndiaMarketsMap: React.FC<IndiaMarketsMapProps> = ({
   onNavigate,
   onSearchAndNavigate
 }) => {
-  const [selectedRegion, setSelectedRegion] = useState<'all' | 'karnataka' | 'maharashtra' | 'ap_ts' | 'north'>('all');
+  const [selectedRegion, setSelectedRegion] = useState<'all' | 'north' | 'west' | 'south' | 'east' | 'central_ne'>('all');
+  const [selectedStateId, setSelectedStateId] = useState<string>('all');
+  const [selectedCrop, setSelectedCrop] = useState<string>('all');
   const [activePin, setActivePin] = useState<MandiPin>(VERIFIED_MANDI_PINS[0]);
 
   // Exact geographic linear projection onto official SVG viewBox 0 0 612 696
@@ -400,60 +28,174 @@ export const IndiaMarketsMap: React.FC<IndiaMarketsMapProps> = ({
     return { x, y };
   };
 
-  // Check if a state is part of the currently active region filter
+  // Distinct states in the dataset
+  const availableStates = useMemo(() => {
+    const map = new Map<string, { id: string; name: string; count: number }>();
+    for (const p of VERIFIED_MANDI_PINS) {
+      const existing = map.get(p.stateId);
+      if (existing) {
+        existing.count++;
+      } else {
+        map.set(p.stateId, { id: p.stateId, name: p.state, count: 1 });
+      }
+    }
+    return Array.from(map.values()).sort((a, b) => a.name.localeCompare(b.name));
+  }, []);
+
+  // Distinct crops in the dataset
+  const availableCrops = useMemo(() => {
+    const crops = new Set<string>();
+    for (const p of VERIFIED_MANDI_PINS) {
+      const mainCrop = p.crop.split(' ')[0].replace(/[^a-zA-Z]/g, '');
+      if (mainCrop) crops.add(mainCrop);
+    }
+    return Array.from(crops).sort();
+  }, []);
+
+  // Filter pins based on Region, State, and Crop
+  const filteredPins = useMemo(() => {
+    return VERIFIED_MANDI_PINS.filter((p) => {
+      // Region filter
+      if (selectedRegion !== 'all' && p.region !== selectedRegion) return false;
+      // State filter
+      if (selectedStateId !== 'all' && p.stateId !== selectedStateId) return false;
+      // Crop filter
+      if (selectedCrop !== 'all') {
+        const pinCrop = p.crop.toLowerCase();
+        if (!pinCrop.includes(selectedCrop.toLowerCase())) return false;
+      }
+      return true;
+    });
+  }, [selectedRegion, selectedStateId, selectedCrop]);
+
+  // Check if a state is part of the currently active filter
   const isStateHighlighted = (stateId: string) => {
+    if (selectedStateId !== 'all') {
+      return stateId === selectedStateId;
+    }
     if (selectedRegion === 'all') return true;
-    if (selectedRegion === 'karnataka') return stateId === 'ka';
-    if (selectedRegion === 'maharashtra') return stateId === 'mh';
-    if (selectedRegion === 'ap_ts') return stateId === 'ap' || stateId === 'tg';
-    if (selectedRegion === 'north') return stateId === 'pb' || stateId === 'up' || stateId === 'mp' || stateId === 'dl' || stateId === 'hr';
+    if (selectedRegion === 'north') {
+      return ['pb', 'hr', 'dl', 'up', 'hp', 'jk', 'ut', 'ch'].includes(stateId);
+    }
+    if (selectedRegion === 'west') {
+      return ['mh', 'gj', 'rj', 'ga', 'dn', 'dd'].includes(stateId);
+    }
+    if (selectedRegion === 'south') {
+      return ['ka', 'ap', 'tg', 'tn', 'kl', 'py'].includes(stateId);
+    }
+    if (selectedRegion === 'east') {
+      return ['wb', 'br', 'or', 'jh'].includes(stateId);
+    }
+    if (selectedRegion === 'central_ne') {
+      return ['mp', 'ct', 'as', 'ml', 'tr', 'mn', 'nl', 'mz', 'ar', 'sk'].includes(stateId);
+    }
     return false;
   };
 
-  const filteredPins = selectedRegion === 'all'
-    ? VERIFIED_MANDI_PINS
-    : VERIFIED_MANDI_PINS.filter(p => p.region === selectedRegion);
-
   const handleInspectTerminal = (pin: MandiPin) => {
     if (onSearchAndNavigate) {
-      onSearchAndNavigate(pin.crop.split(' ')[0], pin.name);
+      const cleanCrop = pin.crop.split(' ')[0];
+      onSearchAndNavigate(cleanCrop, pin.name);
     } else if (onNavigate) {
       onNavigate('dashboard');
     }
   };
 
+  const activeStateName = selectedStateId !== 'all'
+    ? availableStates.find(s => s.id === selectedStateId)?.name || 'State'
+    : selectedRegion !== 'all'
+      ? selectedRegion.toUpperCase().replace('_', ' & ')
+      : 'All India';
+
   return (
     <div className="relative rounded-3xl overflow-hidden border-2 border-[#E6E1D7] shadow-lg bg-gradient-to-b from-[#F6F4EE] via-[#F2EFE8] to-[#EAE6DD] flex flex-col justify-between p-4 sm:p-5 transition-all">
-      {/* Top Header */}
-      <div className="flex items-center justify-between gap-2 pb-2.5 border-b border-[#E6E1D7]/80">
+      {/* Top Header & State/Crop Selectors */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pb-3 border-b border-[#E6E1D7]/80">
         <h3 className="text-xs sm:text-sm font-black text-[#153424] font-['Syne',sans-serif] tracking-tight flex items-center gap-2">
-          <span className="relative flex h-2 w-2">
+          <span className="relative flex h-2.5 w-2.5">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#2E7D32] opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-[#2E7D32]"></span>
+            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#2E7D32]"></span>
           </span>
-          <span>20 Verified APMC Mandis</span>
+          <span>{filteredPins.length} Verified APMC Mandis • {activeStateName}</span>
         </h3>
+
+        {/* State & Crop Filter Dropdowns */}
+        <div className="flex items-center gap-1.5 notranslate" translate="no">
+          <label htmlFor="state-filter-select" className="sr-only">Filter by State</label>
+          <div className="relative flex items-center">
+            <MapPin className="w-3 h-3 text-[#2E7D32] absolute left-2 pointer-events-none" />
+            <select
+              id="state-filter-select"
+              value={selectedStateId}
+              onChange={(e) => {
+                const sId = e.target.value;
+                setSelectedStateId(sId);
+                if (sId !== 'all') {
+                  const firstInState = VERIFIED_MANDI_PINS.find(p => p.stateId === sId);
+                  if (firstInState) {
+                    setActivePin(firstInState);
+                    setSelectedRegion('all');
+                  }
+                }
+              }}
+              className="pl-6 pr-6 py-1 rounded-lg text-[11px] font-bold bg-white text-[#153424] border border-[#E6E1D7] shadow-2xs hover:border-[#153424] cursor-pointer focus:outline-hidden"
+            >
+              <option value="all">All States & UTs (32+)</option>
+              {availableStates.map(s => (
+                <option key={s.id} value={s.id}>
+                  {s.name} ({s.count})
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Crop Filter Dropdown */}
+          <div className="relative flex items-center">
+            <Filter className="w-3 h-3 text-stone-500 absolute left-2 pointer-events-none" />
+            <select
+              value={selectedCrop}
+              onChange={(e) => {
+                const c = e.target.value;
+                setSelectedCrop(c);
+                if (c !== 'all') {
+                  const match = filteredPins.find(p => p.crop.toLowerCase().includes(c.toLowerCase()));
+                  if (match) setActivePin(match);
+                }
+              }}
+              className="pl-6 pr-5 py-1 rounded-lg text-[11px] font-bold bg-white text-[#153424] border border-[#E6E1D7] shadow-2xs hover:border-[#153424] cursor-pointer focus:outline-hidden"
+            >
+              <option value="all">All Crops</option>
+              {availableCrops.map(c => (
+                <option key={c} value={c}>
+                  {c}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
       </div>
 
       {/* Region Filter Chips */}
       <div className="pt-2.5 pb-1 flex items-center gap-1.5 overflow-x-auto no-scrollbar notranslate" translate="no">
         {[
-          { id: 'all', label: 'All India (20)' },
-          { id: 'karnataka', label: 'Karnataka (10)' },
-          { id: 'maharashtra', label: 'Maharashtra (4)' },
-          { id: 'ap_ts', label: 'AP & TS (3)' },
-          { id: 'north', label: 'North & MP (3)' },
+          { id: 'all', label: `All India (${VERIFIED_MANDI_PINS.length})` },
+          { id: 'south', label: 'South' },
+          { id: 'west', label: 'West' },
+          { id: 'north', label: 'North' },
+          { id: 'east', label: 'East' },
+          { id: 'central_ne', label: 'Central & NE' },
         ].map((tab) => (
           <button
             key={tab.id}
             onClick={() => {
               const r = tab.id as any;
               setSelectedRegion(r);
+              setSelectedStateId('all');
               const firstInRegion = VERIFIED_MANDI_PINS.find(p => r === 'all' || p.region === r);
               if (firstInRegion) setActivePin(firstInRegion);
             }}
             className={`px-2.5 py-1 rounded-lg text-[10px] font-bold tracking-tight whitespace-nowrap transition-all cursor-pointer ${
-              selectedRegion === tab.id
+              selectedRegion === tab.id && selectedStateId === 'all'
                 ? 'bg-[#153424] text-white shadow-xs'
                 : 'bg-white/80 hover:bg-white text-stone-600 border border-[#E6E1D7]'
             }`}
@@ -464,10 +206,10 @@ export const IndiaMarketsMap: React.FC<IndiaMarketsMapProps> = ({
       </div>
 
       {/* Official India Map SVG Canvas */}
-      <div className="relative w-full h-80 sm:h-96 my-2 flex items-center justify-center select-none overflow-hidden">
+      <div className="relative w-full h-84 sm:h-96 my-2 flex items-center justify-center select-none overflow-hidden">
         <svg
           viewBox={indiaMapData.viewBox || "0 0 612 696"}
-          className="w-full h-full max-h-[360px] drop-shadow-sm transition-transform duration-300"
+          className="w-full h-full max-h-[380px] drop-shadow-sm transition-transform duration-300"
         >
           <defs>
             <radialGradient id="pinPulseGrad">
@@ -481,6 +223,7 @@ export const IndiaMarketsMap: React.FC<IndiaMarketsMapProps> = ({
             {indiaMapData.locations.map((loc) => {
               const highlighted = isStateHighlighted(loc.id);
               const hasActiveMandi = activePin.stateId === loc.id;
+              const isDirectlySelectedState = selectedStateId === loc.id;
 
               return (
                 <path
@@ -488,25 +231,29 @@ export const IndiaMarketsMap: React.FC<IndiaMarketsMapProps> = ({
                   id={loc.id}
                   d={loc.path}
                   fill={
-                    hasActiveMandi 
+                    isDirectlySelectedState || hasActiveMandi
                       ? "#DDEEE0" 
                       : highlighted 
                         ? "#F1ECE3" 
                         : "#E9E3D8"
                   }
                   stroke={
-                    hasActiveMandi 
+                    isDirectlySelectedState || hasActiveMandi 
                       ? "#2E7D32" 
                       : highlighted 
                         ? "#D0C4B2" 
                         : "#DED6CA"
                   }
-                  strokeWidth={hasActiveMandi ? "1.4" : highlighted ? "0.9" : "0.6"}
+                  strokeWidth={isDirectlySelectedState || hasActiveMandi ? "1.4" : highlighted ? "0.9" : "0.5"}
                   strokeLinejoin="round"
                   className="transition-all duration-300 hover:fill-[#E5DFD4] cursor-pointer"
                   onClick={() => {
                     const matchMandi = VERIFIED_MANDI_PINS.find(p => p.stateId === loc.id);
-                    if (matchMandi) setActivePin(matchMandi);
+                    if (matchMandi) {
+                      setActivePin(matchMandi);
+                      setSelectedStateId(loc.id);
+                      setSelectedRegion('all');
+                    }
                   }}
                 >
                   <title>{loc.name}</title>
@@ -542,7 +289,7 @@ export const IndiaMarketsMap: React.FC<IndiaMarketsMapProps> = ({
                 <circle
                   cx={x}
                   cy={y}
-                  r={isSelected ? "8.5" : pin.isMega ? "6.5" : "5"}
+                  r={isSelected ? "8.5" : pin.isMega ? "6.5" : "4.5"}
                   fill={isSelected ? "#2E7D32" : pin.isMega ? "#E8A238" : "#153424"}
                   fillOpacity={isSelected ? "0.3" : "0.2"}
                   className="transition-all duration-300"
@@ -552,10 +299,10 @@ export const IndiaMarketsMap: React.FC<IndiaMarketsMapProps> = ({
                 <circle
                   cx={x}
                   cy={y}
-                  r={isSelected ? "5" : pin.isMega ? "4" : "3"}
+                  r={isSelected ? "5" : pin.isMega ? "3.8" : "2.8"}
                   fill={isSelected ? "#2E7D32" : pin.isMega ? "#E8A238" : "#153424"}
                   stroke="#FFFFFF"
-                  strokeWidth={isSelected ? "1.8" : "1"}
+                  strokeWidth={isSelected ? "1.8" : "0.9"}
                   className="transition-all duration-300 group-hover/pin:scale-125"
                 />
 
@@ -563,27 +310,27 @@ export const IndiaMarketsMap: React.FC<IndiaMarketsMapProps> = ({
                 <circle
                   cx={x}
                   cy={y}
-                  r={isSelected ? "1.8" : "1"}
+                  r={isSelected ? "1.8" : "0.9"}
                   fill="#FFFFFF"
                 />
 
-                {/* Clean Label for Mega Mandis or Selected Pin */}
-                {(isSelected || pin.isMega) && (
+                {/* Clean Label for Selected Pin */}
+                {isSelected && (
                   <g className="transition-all duration-300 pointer-events-none">
                     <rect
                       x={x + 6}
                       y={y - 10}
-                      width={pin.name.length * 5.8 + 8}
+                      width={pin.name.length * 6 + 10}
                       height="15"
                       rx="3.5"
-                      fill={isSelected ? "#153424" : "rgba(255, 255, 255, 0.95)"}
-                      stroke={isSelected ? "#2E7D32" : "#D6DFD4"}
+                      fill="#153424"
+                      stroke="#2E7D32"
                       strokeWidth="0.8"
                     />
                     <text
                       x={x + 10}
                       y={y + 0.5}
-                      fill={isSelected ? "#FFFFFF" : "#153424"}
+                      fill="#FFFFFF"
                       fontSize="8.5"
                       fontWeight="bold"
                       fontFamily="system-ui, sans-serif"

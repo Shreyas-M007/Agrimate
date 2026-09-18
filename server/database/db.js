@@ -124,15 +124,17 @@ export async function initDb() {
   await run(`CREATE INDEX IF NOT EXISTS idx_records_market_history ON price_records (commodity_id, market_id, arrival_date);`);
   await run(`CREATE INDEX IF NOT EXISTS idx_markets_location ON markets (district, state);`);
 
-  // Check if initial seeding is needed
+  // Check if initial seeding or market update is needed
   const recordCount = await get("SELECT COUNT(*) as cnt FROM price_records;");
-  if (recordCount.cnt === 0) {
-    console.log("🌾 Seeding initial verified dataset into SQLite database...");
-    const jsonPath = path.join(__dirname, '../data/verified_markets.json');
-    if (fs.existsSync(jsonPath)) {
-      const data = JSON.parse(fs.readFileSync(jsonPath, 'utf-8'));
+  const marketCount = await get("SELECT COUNT(*) as cnt FROM markets;");
+  const jsonPath = path.join(__dirname, '../data/verified_markets.json');
 
-      // Seed markets
+  if (fs.existsSync(jsonPath)) {
+    const data = JSON.parse(fs.readFileSync(jsonPath, 'utf-8'));
+    if (marketCount.cnt < data.markets.length || recordCount.cnt === 0) {
+      console.log(`🌾 Syncing ${data.markets.length} verified pan-India markets into SQLite...`);
+
+      // Seed/update markets
       for (const m of data.markets) {
         await run(`
           INSERT OR REPLACE INTO markets (market_id, market_name, district, state, latitude, longitude, pin)
@@ -151,7 +153,7 @@ export async function initDb() {
       // Bulk insert price records in chunks using a transaction
       await run("BEGIN TRANSACTION;");
       const stmt = db.prepare(`
-        INSERT INTO price_records (
+        INSERT OR REPLACE INTO price_records (
           record_id, market_id, commodity_id, variety, grade, arrival_date,
           min_price, modal_price, max_price, arrival_quantity, unit,
           source, source_timestamp, is_today

@@ -104,7 +104,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
               AgriMate Terminal Workstation
             </h2>
             <p className="text-sm sm:text-base text-stone-600 font-normal leading-relaxed max-w-xl">
-              Compare verified wholesale mandi prices across 20 APMC hubs, calculate realistic transport logistics, and receive clear selling advisory in your regional language.
+              Compare verified wholesale mandi prices across 85+ APMC hubs in all 36 Indian States & UTs, calculate realistic transport logistics, and receive clear selling advisory in your regional language.
             </p>
 
             {/* Quick Action Navigation Strip */}
@@ -128,7 +128,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
               <div className="bg-white p-3.5 rounded-2xl border border-[#E6E1D7] shadow-xs hover-slide-up animate-slide-up stagger-1">
                 <span className="text-[11px] text-stone-600 font-medium block">Active Markets</span>
-                <span className="text-[#153424] font-black text-lg sm:text-xl">20 Mandis</span>
+                <span className="text-[#153424] font-black text-lg sm:text-xl">85+ Mandis</span>
               </div>
               <div className="bg-white p-3.5 rounded-2xl border border-[#E6E1D7] shadow-xs hover-slide-up animate-slide-up stagger-2">
                 <span className="text-[11px] text-stone-600 font-medium block">Key Crops</span>
@@ -250,12 +250,16 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
               Quick Mandis:
             </span>
             {[
-              { name: 'Kolar', label: 'Kolar APMC' },
-              { name: 'Ballari', label: 'Ballari APMC' },
-              { name: 'Lasalgaon', label: 'Lasalgaon APMC' },
-              { name: 'Davanagere', label: 'Davanagere APMC' },
-              { name: 'Azadpur', label: 'Azadpur Delhi' },
-              { name: 'Guntur', label: 'Guntur APMC' }
+              { name: 'Kolar', label: 'Kolar (KA)' },
+              { name: 'Ballari', label: 'Ballari (KA)' },
+              { name: 'Lasalgaon', label: 'Lasalgaon (MH)' },
+              { name: 'Azadpur', label: 'Azadpur (DL)' },
+              { name: 'Unjha', label: 'Unjha (GJ)' },
+              { name: 'Kota', label: 'Kota (RJ)' },
+              { name: 'Khanna', label: 'Khanna (PB)' },
+              { name: 'Guntur', label: 'Guntur (AP)' },
+              { name: 'Kolkata', label: 'Kolkata (WB)' },
+              { name: 'Indore', label: 'Indore (MP)' }
             ].map((m) => (
               <button
                 key={m.name}

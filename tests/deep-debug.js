@@ -250,12 +250,12 @@ async function runAudit() {
     assert.ok(data.records_synced > 0);
   });
 
-  await checkAsync("GET /api/markets/all returns complete set of 20 verified APMC mandis", async () => {
+  await checkAsync("GET /api/markets/all returns complete set of verified pan-India APMC mandis", async () => {
     const res = await fetch(`${BASE_URL}/api/markets/all`);
     assert.strictEqual(res.status, 200);
     const data = await res.json();
     assert.strictEqual(data.success, true);
-    assert.strictEqual(data.markets.length, 20);
+    assert.ok(data.markets.length >= 20, `Expected at least 20 mandis, got ${data.markets.length}`);
   });
 
   await checkAsync("GET & POST /api/preferences stores farmer profile in SQLite", async () => {

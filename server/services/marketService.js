@@ -120,6 +120,7 @@ export function formatDataFreshness(timestampIso) {
 
 // Known coordinates for Indian districts/towns for distance estimation when GPS is not provided
 const DISTRICT_COORDS = {
+  // Karnataka
   "ballari": { lat: 15.1394, lon: 76.9214 },
   "bellary": { lat: 15.1394, lon: 76.9214 },
   "kolar": { lat: 13.1367, lon: 78.1291 },
@@ -133,16 +134,120 @@ const DISTRICT_COORDS = {
   "davanagere": { lat: 14.4644, lon: 75.9218 },
   "dharwad": { lat: 15.4589, lon: 75.0078 },
   "hubli": { lat: 15.3647, lon: 75.1240 },
+  "hubballi": { lat: 15.3647, lon: 75.1240 },
+  "hospet": { lat: 15.2689, lon: 76.3909 },
+  "kudligi": { lat: 14.9011, lon: 76.3872 },
+  "raichur": { lat: 16.2120, lon: 77.3439 },
+  "shimoga": { lat: 13.9299, lon: 75.5681 },
+
+  // Maharashtra
   "nashik": { lat: 19.9975, lon: 73.7898 },
   "nasik": { lat: 19.9975, lon: 73.7898 },
+  "lasalgaon": { lat: 20.1472, lon: 74.2255 },
+  "pimpalgaon": { lat: 20.1697, lon: 73.9858 },
   "pune": { lat: 18.5204, lon: 73.8567 },
+  "mumbai": { lat: 19.0760, lon: 72.8777 },
+  "vashi": { lat: 19.0760, lon: 73.0033 },
+  "nagpur": { lat: 21.1458, lon: 79.0882 },
+  "kolhapur": { lat: 16.7050, lon: 74.2433 },
+  "jalgaon": { lat: 21.0077, lon: 75.5626 },
+
+  // Gujarat
+  "unjha": { lat: 23.8033, lon: 72.3924 },
+  "mehsana": { lat: 23.5880, lon: 72.3693 },
+  "rajkot": { lat: 22.3039, lon: 70.8022 },
+  "gondal": { lat: 21.9619, lon: 70.7923 },
+  "surat": { lat: 21.1702, lon: 72.8311 },
+  "ahmedabad": { lat: 23.0225, lon: 72.5714 },
+
+  // Rajasthan
+  "kota": { lat: 25.1768, lon: 75.8362 },
+  "jaipur": { lat: 26.9124, lon: 75.7873 },
+  "jodhpur": { lat: 26.2389, lon: 73.0243 },
+  "ganganagar": { lat: 29.9038, lon: 73.8772 },
+  "alwar": { lat: 27.5530, lon: 76.6346 },
+
+  // Punjab & Haryana & Chandigarh
+  "khanna": { lat: 30.7071, lon: 76.2167 },
+  "ludhiana": { lat: 30.9010, lon: 75.8573 },
+  "jalandhar": { lat: 31.3260, lon: 75.5762 },
+  "amritsar": { lat: 31.6340, lon: 74.8723 },
+  "karnal": { lat: 29.6857, lon: 76.9905 },
+  "sirsa": { lat: 29.5320, lon: 75.0318 },
+  "ambala": { lat: 30.3782, lon: 76.7767 },
+  "hisar": { lat: 29.1492, lon: 75.7217 },
+  "chandigarh": { lat: 30.7333, lon: 76.7794 },
+
+  // Delhi
+  "delhi": { lat: 28.7041, lon: 77.1025 },
+  "azadpur": { lat: 28.7159, lon: 77.1770 },
+  "ghazipur": { lat: 28.6258, lon: 77.3298 },
+
+  // Uttar Pradesh
+  "agra": { lat: 27.1767, lon: 78.0081 },
+  "kanpur": { lat: 26.4499, lon: 80.3319 },
+  "lucknow": { lat: 26.8467, lon: 80.9462 },
+  "varanasi": { lat: 25.3176, lon: 82.9739 },
+  "meerut": { lat: 28.9845, lon: 77.7064 },
+  "bareilly": { lat: 28.3670, lon: 79.4304 },
+
+  // Madhya Pradesh
+  "indore": { lat: 22.7196, lon: 75.8577 },
+  "neemuch": { lat: 24.4647, lon: 74.8694 },
+  "mandsaur": { lat: 24.0732, lon: 75.0682 },
+  "bhopal": { lat: 23.2599, lon: 77.4126 },
+  "ujjain": { lat: 23.1765, lon: 75.7885 },
+
+  // Andhra Pradesh & Telangana
   "guntur": { lat: 16.3067, lon: 80.4365 },
   "kurnool": { lat: 15.8281, lon: 78.0373 },
+  "vijayawada": { lat: 16.5062, lon: 80.6480 },
+  "madanapalle": { lat: 13.5560, lon: 78.5010 },
   "warangal": { lat: 17.9689, lon: 79.5941 },
-  "agra": { lat: 27.1767, lon: 78.0081 },
-  "ludhiana": { lat: 30.9010, lon: 75.8573 },
-  "karnal": { lat: 29.6857, lon: 76.9905 },
-  "indore": { lat: 22.7196, lon: 75.8577 }
+  "hyderabad": { lat: 17.3850, lon: 78.4867 },
+  "bowenpally": { lat: 17.4700, lon: 78.4900 },
+  "nizamabad": { lat: 18.6725, lon: 78.0941 },
+
+  // Tamil Nadu & Kerala & Puducherry
+  "chennai": { lat: 13.0827, lon: 80.2707 },
+  "koyambedu": { lat: 13.0694, lon: 80.1948 },
+  "coimbatore": { lat: 11.0168, lon: 76.9558 },
+  "erode": { lat: 11.3410, lon: 77.7172 },
+  "madurai": { lat: 9.9252, lon: 78.1198 },
+  "kochi": { lat: 9.9312, lon: 76.2673 },
+  "wayanad": { lat: 11.6050, lon: 76.0830 },
+  "puducherry": { lat: 11.9416, lon: 79.8083 },
+
+  // Eastern India
+  "kolkata": { lat: 22.5726, lon: 88.3639 },
+  "siliguri": { lat: 26.7271, lon: 88.3953 },
+  "burdwan": { lat: 23.2324, lon: 87.8615 },
+  "purnea": { lat: 25.7771, lon: 87.4753 },
+  "gulabbagh": { lat: 25.7771, lon: 87.4753 },
+  "patna": { lat: 25.5941, lon: 85.1376 },
+  "muzaffarpur": { lat: 26.1209, lon: 85.3647 },
+  "bhubaneswar": { lat: 20.2961, lon: 85.8245 },
+  "bargarh": { lat: 21.3323, lon: 83.6214 },
+  "ranchi": { lat: 23.3441, lon: 85.3096 },
+  "raipur": { lat: 21.2514, lon: 81.6296 },
+
+  // Northeast & Hilly States
+  "guwahati": { lat: 26.1445, lon: 91.7362 },
+  "shimla": { lat: 31.1048, lon: 77.1734 },
+  "solan": { lat: 30.9045, lon: 77.0967 },
+  "sopore": { lat: 34.2980, lon: 74.4710 },
+  "srinagar": { lat: 34.0837, lon: 74.7973 },
+  "haldwani": { lat: 29.2183, lon: 79.5130 },
+  "dehradun": { lat: 30.3165, lon: 78.0322 },
+  "panaji": { lat: 15.4909, lon: 73.8278 },
+  "goa": { lat: 15.4909, lon: 73.8278 },
+  "gangtok": { lat: 27.3389, lon: 88.6065 },
+  "shillong": { lat: 25.5788, lon: 91.8933 },
+  "agartala": { lat: 23.8315, lon: 91.2868 },
+  "imphal": { lat: 24.8170, lon: 93.9368 },
+  "dimapur": { lat: 25.9090, lon: 93.7270 },
+  "aizawl": { lat: 23.7271, lon: 92.7176 },
+  "naharlagun": { lat: 27.1060, lon: 93.6930 }
 };
 
 export function getCommodities() {
