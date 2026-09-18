@@ -187,6 +187,15 @@ export function generateDynamicMarketSearchResult({
 
   let userLat = lat ? Number(lat) : null;
   let userLon = lon ? Number(lon) : null;
+
+  // Extract GPS coordinates if present in targetLocation
+  const gpsMatch = targetLocation.match(/GPS\s*\(\s*([\d.-]+)\s*,\s*([\d.-]+)\s*\)/i) ||
+                   targetLocation.match(/([\d.]+)\s*,\s*([\d.]+)/);
+  if (gpsMatch && (!userLat || !userLon)) {
+    userLat = parseFloat(gpsMatch[1]);
+    userLon = parseFloat(gpsMatch[2]);
+  }
+
   if ((!userLat || !userLon) && targetLocation) {
     const locClean = targetLocation.toLowerCase();
     for (const [key, coords] of Object.entries(DISTRICT_COORDS)) {
@@ -198,14 +207,48 @@ export function generateDynamicMarketSearchResult({
     }
   }
 
-  const cleanLocName = targetLocation.replace(/\b(karnataka|maharashtra|andhra pradesh|telangana|tamil nadu|punjab|haryana|gujarat|delhi|india)\b/gi, '').trim().replace(/,\s*$/, '') || targetLocation;
+  let cleanLocName = targetLocation
+    .replace(/GPS\s*\([^)]*\)/gi, '')
+    .replace(/\b(karnataka|maharashtra|andhra pradesh|telangana|tamil nadu|punjab|haryana|gujarat|delhi|india)\b/gi, '')
+    .trim()
+    .replace(/^[,\s-]+|[,\s-]+$/g, '');
+
+  let stateName = "Karnataka";
+
+  // If cleanLocName is empty or still contains GPS/coordinates, resolve to closest known district
+  if (!cleanLocName || /gps|\(|\)|\d+\.\d+/i.test(cleanLocName)) {
+    let closestName = "Bengaluru";
+    let closestState = "Karnataka";
+    let closestDist = Infinity;
+    if (userLat && userLon) {
+      for (const mkt of cachedMarkets) {
+        if (mkt.lat && mkt.lon) {
+          const d = calculateDistanceKm(userLat, userLon, mkt.lat, mkt.lon);
+          if (d < closestDist) {
+            closestDist = d;
+            closestName = mkt.district || mkt.market_name.replace(/APMC.*$/i, '').trim();
+            closestState = mkt.state || "Karnataka";
+          }
+        }
+      }
+      for (const [key, coords] of Object.entries(DISTRICT_COORDS)) {
+        const d = calculateDistanceKm(userLat, userLon, coords.lat, coords.lon);
+        if (d < closestDist) {
+          closestDist = d;
+          closestName = key.charAt(0).toUpperCase() + key.slice(1);
+        }
+      }
+    }
+    cleanLocName = closestName;
+    stateName = closestState;
+  }
 
   const mandiQuotes = [
     {
       id: `MKT_${cleanLocName.toUpperCase().replace(/[^A-Z0-9]/g, '_')}_APMC`,
       name: `${cleanLocName} Wholesale APMC Yard`,
       district: cleanLocName,
-      state: "Agricultural Produce Market Committee",
+      state: stateName,
       priceOffset: 120,
       baseDist: 14,
       lat: (userLat || 15.1394) + 0.08,
@@ -215,17 +258,17 @@ export function generateDynamicMarketSearchResult({
       id: `MKT_${cleanLocName.toUpperCase().replace(/[^A-Z0-9]/g, '_')}_REGIONAL`,
       name: `${cleanLocName} Regional Terminal Mandi`,
       district: cleanLocName,
-      state: "Agricultural Produce Market Committee",
+      state: stateName,
       priceOffset: -75,
       baseDist: 29,
       lat: (userLat || 15.1394) - 0.15,
       lon: (userLon || 76.9214) - 0.12
     },
     {
-      id: `MKT_COMMERCIAL_HUB`,
-      name: `State Apex Agricultural Terminal`,
-      district: "Central Yard",
-      state: "State Marketing Board",
+      id: `MKT_${cleanLocName.toUpperCase().replace(/[^A-Z0-9]/g, '_')}_APEX`,
+      name: `${cleanLocName} Apex Agricultural Terminal`,
+      district: cleanLocName,
+      state: stateName,
       priceOffset: 190,
       baseDist: 65,
       lat: (userLat || 15.1394) + 0.45,
@@ -368,12 +411,19 @@ export function searchMarkets({
   let userLon = lon ? Number(lon) : null;
 
   if ((!userLat || !userLon) && location) {
-    const locClean = location.trim().toLowerCase();
-    for (const [key, coords] of Object.entries(DISTRICT_COORDS)) {
-      if (locClean.includes(key)) {
-        userLat = coords.lat;
-        userLon = coords.lon;
-        break;
+    const gpsMatch = location.match(/GPS\s*\(\s*([\d.-]+)\s*,\s*([\d.-]+)\s*\)/i) ||
+                     location.match(/([\d.]+)\s*,\s*([\d.]+)/);
+    if (gpsMatch) {
+      userLat = parseFloat(gpsMatch[1]);
+      userLon = parseFloat(gpsMatch[2]);
+    } else {
+      const locClean = location.trim().toLowerCase();
+      for (const [key, coords] of Object.entries(DISTRICT_COORDS)) {
+        if (locClean.includes(key)) {
+          userLat = coords.lat;
+          userLon = coords.lon;
+          break;
+        }
       }
     }
   }

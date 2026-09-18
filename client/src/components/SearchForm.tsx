@@ -102,6 +102,41 @@ export const SearchForm: React.FC<SearchFormProps> = ({
     normalizedInTonnes = numQty / 10;
   }
 
+const KNOWN_DISTRICTS = [
+  { name: 'Bengaluru, Karnataka', lat: 12.9716, lon: 77.5946 },
+  { name: 'Ballari, Karnataka', lat: 15.1394, lon: 76.9214 },
+  { name: 'Kolar, Karnataka', lat: 13.1367, lon: 78.1291 },
+  { name: 'Chikkaballapur, Karnataka', lat: 13.4355, lon: 77.7315 },
+  { name: 'Mysuru, Karnataka', lat: 12.2958, lon: 76.6394 },
+  { name: 'Belagavi, Karnataka', lat: 15.8497, lon: 74.4977 },
+  { name: 'Davanagere, Karnataka', lat: 14.4644, lon: 75.9218 },
+  { name: 'Hubballi, Karnataka', lat: 15.3647, lon: 75.1240 },
+  { name: 'Hassan, Karnataka', lat: 13.0033, lon: 76.1004 },
+  { name: 'Shivamogga, Karnataka', lat: 13.9299, lon: 75.5681 },
+  { name: 'Pune, Maharashtra', lat: 18.5204, lon: 73.8567 },
+  { name: 'Nashik, Maharashtra', lat: 19.9975, lon: 73.7898 },
+  { name: 'Guntur, Andhra Pradesh', lat: 16.3067, lon: 80.4365 },
+  { name: 'Kurnool, Andhra Pradesh', lat: 15.8281, lon: 78.0373 },
+  { name: 'Hyderabad, Telangana', lat: 17.3850, lon: 78.4867 },
+  { name: 'Azadpur, Delhi', lat: 28.7041, lon: 77.1025 },
+  { name: 'Ludhiana, Punjab', lat: 30.9010, lon: 75.8573 },
+  { name: 'Agra, Uttar Pradesh', lat: 27.1767, lon: 78.0081 },
+  { name: 'Indore, Madhya Pradesh', lat: 22.7196, lon: 75.8577 }
+];
+
+function getNearestDistrictName(lat: number, lon: number): string {
+  let closest = KNOWN_DISTRICTS[0].name;
+  let minDist = Infinity;
+  for (const d of KNOWN_DISTRICTS) {
+    const dist = Math.hypot(lat - d.lat, lon - d.lon);
+    if (dist < minDist) {
+      minDist = dist;
+      closest = d.name;
+    }
+  }
+  return closest;
+}
+
   const handleGpsClick = () => {
     if (!navigator.geolocation) {
       alert("Geolocation is not supported by your browser.");
@@ -117,7 +152,9 @@ export const SearchForm: React.FC<SearchFormProps> = ({
         setGpsCoords(coords);
         setGpsActive(true);
         setLocating(false);
-        onLocationChange(`GPS (${coords.lat.toFixed(3)}, ${coords.lon.toFixed(3)})`);
+        // Map raw GPS coordinates to the human-readable district/city name
+        const resolvedPlace = getNearestDistrictName(coords.lat, coords.lon);
+        onLocationChange(resolvedPlace);
       },
       (error) => {
         setLocating(false);
