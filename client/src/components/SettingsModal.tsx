@@ -211,11 +211,19 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                   <ShieldCheck className="w-3.5 h-3.5 text-[#2E7D32]" />
                   <span>Market Feed Source:</span>
                 </span>
-                <span className="text-stone-900 font-semibold">Agmarknet / DMI</span>
+                <span className="text-stone-900 font-semibold">Agmarknet / DMI Live</span>
               </div>
               <div className="flex items-center justify-between text-stone-700">
-                <span>Storage Status:</span>
-                <span className="text-[#123826] font-bold">Cloud & Offline Synced</span>
+                <span>Cloud Database:</span>
+                <span className="text-[#123826] font-bold">AWS DynamoDB (4 Tables)</span>
+              </div>
+              <div className="flex items-center justify-between text-stone-700">
+                <span>Edge Engine:</span>
+                <span className="text-[#2E7D32] font-semibold">Local SQLite (0% Firebase)</span>
+              </div>
+              <div className="flex items-center justify-between text-stone-700">
+                <span>AI Layer:</span>
+                <span className="text-stone-900 font-semibold">Amazon Bedrock (Claude 3)</span>
               </div>
               <div className="flex items-center justify-between text-stone-700">
                 <span>Verified APMC Records:</span>

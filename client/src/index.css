@@ -44,24 +44,37 @@
   }
 }
 
-/* Seamless Google Website Auto-Translator Integration */
-.goog-te-banner-frame.skiptranslate,
+/* Seamless Google Website Auto-Translator Integration - Complete Banner Suppression */
 .goog-te-banner-frame,
-iframe.goog-te-banner-frame {
-  display: none !important;
-  visibility: hidden !important;
-  height: 0 !important;
-}
-
-body {
-  top: 0px !important;
-  position: static !important;
-}
-
+.goog-te-banner-frame.skiptranslate,
+iframe.goog-te-banner-frame,
+iframe.skiptranslate,
+iframe[class*="goog"],
+iframe[class*="VIpgJd"],
+iframe[id*=":1.container"],
+iframe[id*=":2.container"],
+.VIpgJd-ZVi9od-OR9Pa-bKo6Fe,
+.VIpgJd-ZVi9od-aZ2wEe-wOHMy,
+.VIpgJd-ZVi9od-xl07Ob-OEVmcd,
 #goog-gt-tt,
+#goog-gt-vt,
 .goog-tooltip,
 .goog-te-balloon-frame {
   display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  width: 0 !important;
+  opacity: 0 !important;
+  max-height: 0 !important;
+  pointer-events: none !important;
+  border: none !important;
+}
+
+html, body {
+  top: 0px !important;
+  position: static !important;
+  margin-top: 0px !important;
+  padding-top: 0px !important;
 }
 
 .goog-text-highlight {
