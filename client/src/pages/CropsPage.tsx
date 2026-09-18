@@ -274,13 +274,13 @@ export const CropsPage: React.FC<CropsPageProps> = ({
   return (
     <div className="space-y-12 sm:space-y-16 pb-16">
       {/* Crops Page Header */}
-      <section className="bg-[#F4F8F5] border-b border-[#E2ECE3] py-12 sm:py-16">
+      <section className="bg-[#ECE8DE]/60 border-b border-[#E6E1D7] py-12 sm:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="max-w-3xl space-y-4">
-            <span className="text-xs font-bold uppercase tracking-widest text-[#2E7D32] bg-white px-3 py-1 rounded-full border border-[#CCE0D0]">
+            <span className="text-xs font-bold uppercase tracking-widest text-[#2E7D32] bg-white px-3 py-1 rounded-full border border-[#E6E1D7]">
               Agricultural Produce Directory
             </span>
-            <h1 className="text-3xl sm:text-5xl font-black text-[#123826] font-['Syne',sans-serif] tracking-tight">
+            <h1 className="text-3xl sm:text-5xl font-black text-[#153424] font-['Syne',sans-serif] tracking-tight">
               Commodity Portfolio & Agronomic Standards
             </h1>
             <p className="text-stone-600 text-base sm:text-lg leading-relaxed font-['Outfit',sans-serif]">
@@ -292,7 +292,7 @@ export const CropsPage: React.FC<CropsPageProps> = ({
 
       {/* Filter and Search Bar */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="bg-white p-4 sm:p-6 rounded-2xl border border-[#E2ECE3] shadow-xs flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+        <div className="bg-white p-4 sm:p-6 rounded-2xl border border-[#E6E1D7] shadow-xs flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
           {/* Category Tabs */}
           <div className="flex flex-wrap items-center gap-2">
             {categories.map((cat) => (
@@ -301,8 +301,8 @@ export const CropsPage: React.FC<CropsPageProps> = ({
                 onClick={() => setSelectedCategory(cat)}
                 className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                   selectedCategory === cat
-                    ? 'bg-[#123826] text-white shadow-xs'
-                    : 'bg-[#F2F8F4] text-stone-700 hover:bg-[#E2ECE3]'
+                    ? 'bg-[#153424] text-white shadow-xs'
+                    : 'bg-[#F6F4EE] text-stone-700 hover:bg-[#ECE8DE]'
                 }`}
               >
                 {cat}
@@ -318,7 +318,7 @@ export const CropsPage: React.FC<CropsPageProps> = ({
               placeholder="Search crop, variety or language..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-9 pr-4 py-2 rounded-xl text-xs border border-[#E2ECE3] focus:border-[#2E7D32] focus:ring-1 focus:ring-[#2E7D32] outline-none"
+              className="w-full pl-9 pr-4 py-2 rounded-xl text-xs border border-[#E6E1D7] focus:border-[#2E7D32] focus:ring-1 focus:ring-[#2E7D32] outline-none bg-white text-[#153424]"
             />
           </div>
         </div>
@@ -330,15 +330,15 @@ export const CropsPage: React.FC<CropsPageProps> = ({
           {filteredCrops.map((crop) => (
             <div 
               key={crop.id}
-              className="bg-white rounded-2xl border border-[#E2ECE3] hover:border-[#CCE0D0] hover:shadow-lg transition-all p-6 space-y-4 flex flex-col justify-between"
+              className="bg-white rounded-2xl border border-[#E6E1D7] hover:border-[#2E7D32] hover:shadow-lg transition-all p-6 space-y-4 flex flex-col justify-between"
             >
               <div className="space-y-4">
                 {/* Header */}
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-3">
-                    <span className="text-3xl p-2 rounded-xl bg-[#F2F8F4] notranslate" translate="no">{crop.icon}</span>
+                    <span className="text-3xl p-2 rounded-xl bg-[#FAF8F5] notranslate" translate="no">{crop.icon}</span>
                     <div>
-                      <h3 className="text-xl font-black text-[#123826] font-['Syne',sans-serif]">
+                      <h3 className="text-xl font-black text-[#153424] font-['Syne',sans-serif]">
                         {crop.name}
                       </h3>
                       <p className="text-xs text-stone-600 font-medium">
@@ -346,16 +346,16 @@ export const CropsPage: React.FC<CropsPageProps> = ({
                       </p>
                     </div>
                   </div>
-                  <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-[#EBF5ED] text-[#2E7D32] border border-[#CCE0D0]">
+                  <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-[#EAEFE9] text-[#2E7D32] border border-[#D6DFD4]">
                     {crop.category}
                   </span>
                 </div>
 
                 {/* Modal Rate & Season */}
-                <div className="grid grid-cols-2 gap-2 pt-2 border-t border-[#E2ECE3] text-xs">
+                <div className="grid grid-cols-2 gap-2 pt-2 border-t border-[#E6E1D7] text-xs">
                   <div>
                     <span className="text-stone-600 text-[11px] block font-medium">Prevailing Band</span>
-                    <span className="font-bold text-[#123826] font-mono">{crop.modalRange}</span>
+                    <span className="font-bold text-[#153424] font-mono">{crop.modalRange}</span>
                   </div>
                   <div>
                     <span className="text-stone-600 text-[11px] block font-medium">Harvest Window</span>
@@ -368,7 +368,7 @@ export const CropsPage: React.FC<CropsPageProps> = ({
                   <span className="text-stone-600 text-[11px] block font-bold uppercase tracking-wider mb-1">Key Varieties</span>
                   <div className="flex flex-wrap gap-1.5">
                     {crop.varieties.map((v, i) => (
-                      <span key={i} className="text-[11px] px-2 py-0.5 rounded-md bg-[#FAFBF9] border border-[#E2ECE3] text-stone-700">
+                      <span key={i} className="text-[11px] px-2 py-0.5 rounded-md bg-[#FAF8F5] border border-[#E6E1D7] text-stone-700">
                         {v}
                       </span>
                     ))}
@@ -380,7 +380,7 @@ export const CropsPage: React.FC<CropsPageProps> = ({
                   <span className="text-stone-600 text-[11px] block font-bold uppercase tracking-wider mb-1">Major APMC Hubs</span>
                   <div className="flex flex-wrap gap-1.5">
                     {crop.majorMandis.map((m, i) => (
-                      <span key={i} className="text-[11px] px-2 py-0.5 rounded-md bg-[#F2F8F4] text-[#123826] font-medium">
+                      <span key={i} className="text-[11px] px-2 py-0.5 rounded-md bg-[#FAF8F5] text-[#153424] border border-[#E6E1D7]/60 font-medium">
                         {m}
                       </span>
                     ))}
@@ -388,7 +388,7 @@ export const CropsPage: React.FC<CropsPageProps> = ({
                 </div>
 
                 {/* Storage & Moisture */}
-                <div className="bg-[#FAFBF9] p-3 rounded-xl border border-[#E2ECE3] text-[11px] space-y-1 text-stone-600">
+                <div className="bg-[#FAF8F5] p-3 rounded-xl border border-[#E6E1D7] text-[11px] space-y-1 text-stone-600">
                   <p><strong className="text-stone-700">Quality:</strong> {crop.moistureThreshold}</p>
                   <p><strong className="text-stone-700">Storage:</strong> {crop.storageAdvice}</p>
                 </div>
@@ -397,7 +397,7 @@ export const CropsPage: React.FC<CropsPageProps> = ({
               {/* Action Button */}
               <button
                 onClick={() => onSelectCropAndNavigate(crop.name)}
-                className="w-full mt-4 py-2.5 rounded-xl bg-[#123826] hover:bg-[#2E7D32] text-white font-bold text-xs flex items-center justify-center gap-2 transition-colors cursor-pointer shadow-xs"
+                className="w-full mt-4 py-2.5 rounded-xl bg-[#153424] hover:bg-[#2E7D32] text-white font-bold text-xs flex items-center justify-center gap-2 transition-colors cursor-pointer shadow-xs"
               >
                 <span>Analyze {crop.name} in Terminal</span>
                 <ChevronRight className="w-4 h-4 text-[#E8A238]" />

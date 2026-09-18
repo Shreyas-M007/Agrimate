@@ -144,14 +144,14 @@ export const HomePage: React.FC<HomePageProps> = ({
   return (
     <div className="space-y-12 sm:space-y-16 pb-16">
       {/* SECTION 1: HERO & LIVE SEARCH */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-[#F2F8F4] via-white to-[#FBFDF9] pt-8 sm:pt-14 pb-10 sm:pb-14 border-b border-[#E2ECE3]">
+      <section className="relative overflow-hidden bg-gradient-to-b from-[#ECE8DE]/80 via-[#F6F4EE] to-[#F6F4EE] pt-8 sm:pt-14 pb-10 sm:pb-14 border-b border-[#E6E1D7]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 space-y-8">
           
           {/* Universal Search Bar with Live Autocomplete */}
           <div className="max-w-3xl mx-auto relative z-30">
             <form onSubmit={handleSearchSubmit} className="relative">
-              <div className="bg-white p-2 sm:p-2.5 pl-4 rounded-full border-2 border-[#CCE0D0] focus-within:border-[#2E7D32] shadow-sm hover:shadow-md transition-all flex items-center gap-2 sm:gap-3">
-                <div className="w-10 h-10 rounded-full bg-[#EBF5ED] flex items-center justify-center text-[#2E7D32] shrink-0">
+              <div className="bg-white p-2 sm:p-2.5 pl-4 rounded-full border border-[#E6E1D7] focus-within:border-[#2E7D32] shadow-sm hover:shadow-md transition-all flex items-center gap-2 sm:gap-3">
+                <div className="w-10 h-10 rounded-full bg-[#EAEFE9] flex items-center justify-center text-[#2E7D32] shrink-0">
                   <Search className="w-5 h-5" />
                 </div>
                 <input
@@ -163,7 +163,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                   }}
                   onFocus={() => setShowSuggestions(true)}
                   placeholder="Search crop (Tomato, Onion, Maize...) or APMC Mandi (Ballari, Lasalgaon, Kolar)..."
-                  className="text-xs sm:text-sm text-[#123826] font-semibold flex-1 bg-transparent outline-none placeholder:text-stone-400 placeholder:font-normal"
+                  className="text-xs sm:text-sm text-[#153424] font-semibold flex-1 bg-transparent outline-none placeholder:text-stone-400 placeholder:font-normal"
                 />
                 {searchQuery && (
                   <button
@@ -180,7 +180,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                 )}
                 <button
                   type="submit"
-                  className="px-5 sm:px-6 py-2.5 rounded-full bg-[#123826] hover:bg-[#2E7D32] text-white text-xs sm:text-sm font-bold transition-all cursor-pointer shrink-0 shadow-xs flex items-center gap-1.5"
+                  className="px-5 sm:px-6 py-2.5 rounded-full bg-[#153424] hover:bg-[#2E7D32] text-white text-xs sm:text-sm font-bold transition-all cursor-pointer shrink-0 shadow-xs flex items-center gap-1.5"
                 >
                   <span>Search Rates</span>
                   <ArrowRight className="w-4 h-4 text-[#E8A238]" />
@@ -189,9 +189,9 @@ export const HomePage: React.FC<HomePageProps> = ({
 
               {/* Autocomplete Suggestions Dropdown */}
               {showSuggestions && (
-                <div className="absolute left-0 right-0 top-full mt-2 bg-white rounded-3xl shadow-2xl border border-[#D5E7D8] p-4 z-50 animate-in fade-in zoom-in-95 duration-150">
-                  <div className="flex items-center justify-between pb-2.5 border-b border-[#F0F5F1] text-xs">
-                    <span className="font-bold text-[#123826] uppercase tracking-wider text-[11px]">
+                <div className="absolute left-0 right-0 top-full mt-2 bg-white rounded-3xl shadow-2xl border border-[#E6E1D7] p-4 z-50 animate-in fade-in zoom-in-95 duration-150">
+                  <div className="flex items-center justify-between pb-2.5 border-b border-[#ECE8DE] text-xs">
+                    <span className="font-bold text-[#153424] uppercase tracking-wider text-[11px]">
                       {searchQuery.trim() ? 'Matching Results' : 'Trending Searches Across Mandis'}
                     </span>
                     <button
@@ -281,11 +281,11 @@ export const HomePage: React.FC<HomePageProps> = ({
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             {/* Left Column: Editorial Headline & Actions */}
             <div className="lg:col-span-7 space-y-5">
-              <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-[#123826] tracking-tight font-['Syne',sans-serif] leading-[1.14]">
+              <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-[#153424] tracking-tight font-['Syne',sans-serif] leading-[1.14]">
                 Precision Mandi Intelligence for <span className="text-[#2E7D32] italic">Indian Agriculture</span>
               </h1>
 
-              <p className="text-stone-600 text-sm sm:text-base leading-relaxed max-w-xl">
+              <p className="text-stone-600 text-sm sm:text-base leading-relaxed max-w-xl font-['Outfit',sans-serif]">
                 Official Agmarknet wholesale auction rates, freight estimators, and statutory digital gate passes across 20+ verified mandis.
               </p>
 
@@ -293,7 +293,7 @@ export const HomePage: React.FC<HomePageProps> = ({
               <div className="flex flex-wrap items-center gap-3 pt-1">
                 <button
                   onClick={() => onNavigate('dashboard')}
-                  className="px-6 py-3.5 rounded-2xl bg-[#123826] hover:bg-[#1a4a34] text-white font-bold text-xs sm:text-sm flex items-center gap-2 shadow-md hover:shadow-lg transition-all cursor-pointer"
+                  className="px-6 py-3.5 rounded-2xl bg-[#153424] hover:bg-[#1f4a34] text-white font-bold text-xs sm:text-sm flex items-center gap-2 shadow-md hover:shadow-lg transition-all cursor-pointer"
                 >
                   <span>Open Terminal</span>
                   <ArrowRight className="w-4 h-4 text-[#E8A238]" />
@@ -301,7 +301,7 @@ export const HomePage: React.FC<HomePageProps> = ({
 
                 <button
                   onClick={() => onNavigate('dispatch')}
-                  className="px-5 py-3.5 rounded-2xl bg-[#EBF5ED] hover:bg-[#d8eedc] text-[#123826] font-bold text-xs sm:text-sm flex items-center gap-2 border border-[#CCE0D0] transition-all cursor-pointer"
+                  className="px-5 py-3.5 rounded-2xl bg-[#EAEFE9] hover:bg-[#dbe4da] text-[#153424] font-bold text-xs sm:text-sm flex items-center gap-2 border border-[#D6DFD4] transition-all cursor-pointer"
                 >
                   <FileText className="w-4 h-4 text-[#2E7D32]" />
                   <span>Gate Slip Station</span>
@@ -309,15 +309,15 @@ export const HomePage: React.FC<HomePageProps> = ({
 
                 <button
                   onClick={() => onNavigate('services')}
-                  className="px-5 py-3.5 rounded-2xl bg-white hover:bg-[#F2F8F4] text-[#123826] font-semibold text-xs sm:text-sm border border-[#CCE0D0] flex items-center gap-2 transition-all cursor-pointer"
+                  className="px-5 py-3.5 rounded-2xl bg-white hover:bg-[#F2EFE8] text-[#153424] font-semibold text-xs sm:text-sm border border-[#E6E1D7] flex items-center gap-2 transition-all cursor-pointer"
                 >
-                  <Play className="w-3.5 h-3.5 fill-[#123826] text-[#123826]" />
+                  <Play className="w-3.5 h-3.5 fill-[#153424] text-[#153424]" />
                   <span>Interactive Tools</span>
                 </button>
               </div>
 
               {/* Trust Badges */}
-              <div className="pt-3 border-t border-[#E2ECE3] flex flex-wrap items-center gap-4 text-xs text-stone-600">
+              <div className="pt-3 border-t border-[#E6E1D7] flex flex-wrap items-center gap-4 text-xs text-stone-600">
                 <div className="flex items-center gap-1.5 font-medium">
                   <ShieldCheck className="w-4 h-4 text-[#2E7D32]" />
                   <span>100% Agmarknet APMC Data</span>
@@ -335,7 +335,7 @@ export const HomePage: React.FC<HomePageProps> = ({
 
             {/* Right Column: Hero Visual Card */}
             <div className="lg:col-span-5">
-              <div className="relative rounded-3xl overflow-hidden border-2 border-[#CCE0D0] shadow-lg bg-stone-100 group">
+              <div className="relative rounded-3xl overflow-hidden border-2 border-[#E6E1D7] shadow-lg bg-stone-100 group">
                 <img 
                   src="/farmer_tablet_field.jpg" 
                   alt="Farmer Inspecting Digital Mandi Intelligence" 
@@ -349,12 +349,12 @@ export const HomePage: React.FC<HomePageProps> = ({
                     <span className="text-[10px] uppercase font-mono font-bold tracking-wider text-[#2E7D32] block">
                       Live Mandi Stream
                     </span>
-                    <strong className="text-xs sm:text-sm text-[#123826] block">
+                    <strong className="text-xs sm:text-sm text-[#153424] block">
                       Ballari APMC • Tomato Hybrid
                     </strong>
                   </div>
                   <div className="text-right">
-                    <span className="text-base sm:text-lg font-black font-mono text-[#123826] block">₹1,850/q</span>
+                    <span className="text-base sm:text-lg font-black font-mono text-[#153424] block">₹1,850/q</span>
                     <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded font-mono">+2.6% Modal</span>
                   </div>
                 </div>
@@ -366,9 +366,9 @@ export const HomePage: React.FC<HomePageProps> = ({
       </section>
 
       {/* SECTION 2: SMOOTH SLIDE-MOVING MARQUEE TICKER (Ref: Pinterest 7yRLlPCqL) */}
-      <section className="bg-[#F6FAF7] border-y border-[#E2ECE3] py-3.5 overflow-hidden">
+      <section className="bg-[#ECE8DE]/60 border-y border-[#E6E1D7] py-3.5 overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 mb-2 flex items-center justify-between">
-          <div className="flex items-center gap-2 text-xs font-bold text-[#123826]">
+          <div className="flex items-center gap-2 text-xs font-bold text-[#153424]">
             <span className="w-2 h-2 rounded-full bg-[#2E7D32] animate-pulse"></span>
             <span className="uppercase tracking-wider text-[11px] font-mono">Live APMC Rate Stream</span>
           </div>
@@ -386,16 +386,16 @@ export const HomePage: React.FC<HomePageProps> = ({
                   if (onSelectCropAndNavigate) onSelectCropAndNavigate(item.crop);
                   else onNavigate('dashboard');
                 }}
-                className="inline-flex items-center gap-3 px-4 py-2 rounded-xl bg-white border border-[#D8E6DA] hover:border-[#2E7D32] shadow-xs hover:shadow-sm transition-all cursor-pointer shrink-0"
+                className="inline-flex items-center gap-3 px-4 py-2 rounded-xl bg-white border border-[#E6E1D7] hover:border-[#2E7D32] shadow-xs hover:shadow-sm transition-all cursor-pointer shrink-0"
               >
                 <span className="text-xl notranslate" translate="no">{item.icon}</span>
                 <div className="flex flex-col">
-                  <span className="text-xs font-bold text-[#123826] flex items-center gap-1.5">
+                  <span className="text-xs font-bold text-[#153424] flex items-center gap-1.5">
                     <span>{item.crop}</span>
                     <span className="text-[10px] text-stone-400 font-normal">({item.mandi})</span>
                   </span>
                   <div className="flex items-center gap-2 text-xs">
-                    <span className="font-mono font-black text-[#123826]">{item.modal}</span>
+                    <span className="font-mono font-black text-[#153424]">{item.modal}</span>
                     <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-1.5 rounded font-mono">
                       {item.change}
                     </span>
@@ -420,7 +420,7 @@ export const HomePage: React.FC<HomePageProps> = ({
             <span className="text-[11px] uppercase font-mono font-bold tracking-wider text-[#2E7D32] block mb-1">
               Benchmark Commodities
             </span>
-            <h2 className="text-2xl sm:text-3xl font-black text-[#123826] font-['Syne',sans-serif]">
+            <h2 className="text-2xl sm:text-3xl font-black text-[#153424] font-['Syne',sans-serif]">
               Popular Crops & Prevailing APMC Rates
             </h2>
           </div>
@@ -429,14 +429,14 @@ export const HomePage: React.FC<HomePageProps> = ({
           <div className="flex items-center gap-2">
             <button
               onClick={slideLeft}
-              className="w-10 h-10 rounded-full border border-[#CCE0D0] bg-white hover:bg-[#EBF5ED] text-[#123826] flex items-center justify-center transition-colors cursor-pointer shadow-xs"
+              className="w-10 h-10 rounded-full border border-[#E6E1D7] bg-white hover:bg-[#EAEFE9] text-[#153424] flex items-center justify-center transition-colors cursor-pointer shadow-xs"
               aria-label="Slide left"
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
             <button
               onClick={slideRight}
-              className="w-10 h-10 rounded-full border border-[#CCE0D0] bg-white hover:bg-[#EBF5ED] text-[#123826] flex items-center justify-center transition-colors cursor-pointer shadow-xs"
+              className="w-10 h-10 rounded-full border border-[#E6E1D7] bg-white hover:bg-[#EAEFE9] text-[#153424] flex items-center justify-center transition-colors cursor-pointer shadow-xs"
               aria-label="Slide right"
             >
               <ChevronRight className="w-5 h-5" />
@@ -456,11 +456,11 @@ export const HomePage: React.FC<HomePageProps> = ({
                 if (onSelectCropAndNavigate) onSelectCropAndNavigate(c.name);
                 else onNavigate('dashboard');
               }}
-              className="slide-scroll-item min-w-[280px] sm:min-w-[320px] max-w-[320px] bg-white p-5 rounded-2xl border border-[#E2ECE3] hover:border-[#2E7D32] hover:shadow-md transition-all cursor-pointer flex flex-col justify-between space-y-4"
+              className="slide-scroll-item min-w-[280px] sm:min-w-[320px] max-w-[320px] bg-white p-5 rounded-2xl border border-[#E6E1D7] hover:border-[#2E7D32] hover:shadow-md transition-all cursor-pointer flex flex-col justify-between space-y-4"
             >
               <div className="space-y-3">
                 <div className="flex items-start justify-between">
-                  <div className="w-12 h-12 rounded-xl bg-[#F4F8F5] flex items-center justify-center text-3xl notranslate" translate="no">
+                  <div className="w-12 h-12 rounded-xl bg-[#FAF8F5] flex items-center justify-center text-3xl notranslate" translate="no">
                     {c.icon}
                   </div>
                   <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full font-mono">
@@ -469,14 +469,14 @@ export const HomePage: React.FC<HomePageProps> = ({
                 </div>
 
                 <div>
-                  <h3 className="text-base font-bold text-[#123826]">{c.name}</h3>
+                  <h3 className="text-base font-bold text-[#153424]">{c.name}</h3>
                   <p className="text-xs text-stone-500">{c.mandi}</p>
                   <p className="text-[11px] text-stone-400 mt-1">{c.note}</p>
                 </div>
               </div>
 
-              <div className="pt-3 border-t border-[#E2ECE3] flex items-center justify-between">
-                <span className="font-mono font-black text-base text-[#123826]">{c.modal} <span className="text-xs font-normal text-stone-500">/{c.unit}</span></span>
+              <div className="pt-3 border-t border-[#ECE8DE] flex items-center justify-between">
+                <span className="font-mono font-black text-base text-[#153424]">{c.modal} <span className="text-xs font-normal text-stone-500">/{c.unit}</span></span>
                 <span className="text-xs font-bold text-[#2E7D32] flex items-center gap-1 hover:underline">
                   <span>Analyze</span>
                   <ArrowRight className="w-3.5 h-3.5" />
@@ -490,42 +490,42 @@ export const HomePage: React.FC<HomePageProps> = ({
       {/* SECTION 5: FOUR ECOSYSTEM PILLARS (Clean, Minimalist Layout) */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="text-center max-w-2xl mx-auto space-y-2 mb-8">
-          <span className="text-[11px] uppercase font-mono font-bold tracking-wider text-[#2E7D32] bg-[#EBF5ED] px-3 py-1 rounded-full border border-[#CCE0D0]">
+          <span className="text-[11px] uppercase font-mono font-bold tracking-wider text-[#2E7D32] bg-[#EAEFE9] px-3 py-1 rounded-full border border-[#D6DFD4]">
             Core Principles
           </span>
-          <h2 className="text-2xl sm:text-3xl font-black text-[#123826] font-['Syne',sans-serif]">
+          <h2 className="text-2xl sm:text-3xl font-black text-[#153424] font-['Syne',sans-serif]">
             Four Pillars of AgriMate Ecosystem
           </h2>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
-          <div className="bg-white p-6 rounded-2xl border border-[#E2ECE3] shadow-xs space-y-2.5">
-            <div className="w-10 h-10 rounded-xl bg-[#EBF5ED] text-[#2E7D32] flex items-center justify-center text-lg notranslate" translate="no">🌱</div>
-            <h3 className="text-base font-bold text-[#123826]">Soil Stewardship</h3>
+          <div className="bg-white p-6 rounded-2xl border border-[#E6E1D7] shadow-xs space-y-2.5">
+            <div className="w-10 h-10 rounded-xl bg-[#EAEFE9] text-[#2E7D32] flex items-center justify-center text-lg notranslate" translate="no">🌱</div>
+            <h3 className="text-base font-bold text-[#153424]">Soil Stewardship</h3>
             <p className="text-stone-600 text-xs leading-relaxed">
               Regenerative crop management and moisture indexing reducing input overheads.
             </p>
           </div>
 
-          <div className="bg-white p-6 rounded-2xl border border-[#E2ECE3] shadow-xs space-y-2.5">
+          <div className="bg-white p-6 rounded-2xl border border-[#E6E1D7] shadow-xs space-y-2.5">
             <div className="w-10 h-10 rounded-xl bg-[#FFF8E7] text-[#E8A238] flex items-center justify-center text-lg notranslate" translate="no">⚖️</div>
-            <h3 className="text-base font-bold text-[#123826]">Price Transparency</h3>
+            <h3 className="text-base font-bold text-[#153424]">Price Transparency</h3>
             <p className="text-stone-600 text-xs leading-relaxed">
               Real-time Agmarknet modal bids, spreads, and arrivals with zero algorithmic speculation.
             </p>
           </div>
 
-          <div className="bg-white p-6 rounded-2xl border border-[#E2ECE3] shadow-xs space-y-2.5">
-            <div className="w-10 h-10 rounded-xl bg-[#EBF5ED] text-[#2E7D32] flex items-center justify-center text-lg notranslate" translate="no">🚛</div>
-            <h3 className="text-base font-bold text-[#123826]">Freight Optimization</h3>
+          <div className="bg-white p-6 rounded-2xl border border-[#E6E1D7] shadow-xs space-y-2.5">
+            <div className="w-10 h-10 rounded-xl bg-[#EAEFE9] text-[#2E7D32] flex items-center justify-center text-lg notranslate" translate="no">🚛</div>
+            <h3 className="text-base font-bold text-[#153424]">Freight Optimization</h3>
             <p className="text-stone-600 text-xs leading-relaxed">
               Vehicle-matched haulage calculation across Tata Ace and 6-Wheelers to avoid transport loss.
             </p>
           </div>
 
-          <div className="bg-white p-6 rounded-2xl border border-[#E2ECE3] shadow-xs space-y-2.5">
+          <div className="bg-white p-6 rounded-2xl border border-[#E6E1D7] shadow-xs space-y-2.5">
             <div className="w-10 h-10 rounded-xl bg-[#FFF8E7] text-[#E8A238] flex items-center justify-center text-lg notranslate" translate="no">🤝</div>
-            <h3 className="text-base font-bold text-[#123826]">Fair Direct Settlement</h3>
+            <h3 className="text-base font-bold text-[#153424]">Fair Direct Settlement</h3>
             <p className="text-stone-600 text-xs leading-relaxed">
               Digital gate passes and certified weighbridge verification under APMC Act 2026.
             </p>
@@ -535,7 +535,7 @@ export const HomePage: React.FC<HomePageProps> = ({
 
       {/* SECTION 6: MANDI PRICE ALERTS (Concise CTA) */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="bg-gradient-to-r from-[#123826] via-[#1a4a34] to-[#123826] text-white p-8 sm:p-10 rounded-3xl shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
+        <div className="bg-gradient-to-r from-[#153424] via-[#1c4430] to-[#153424] text-white p-8 sm:p-10 rounded-3xl shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="space-y-1.5 max-w-xl">
             <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#E8A238] bg-white/10 px-2.5 py-0.5 rounded-full border border-white/20">
               Daily Agmarknet Dispatches
@@ -563,11 +563,11 @@ export const HomePage: React.FC<HomePageProps> = ({
                   placeholder="Enter mobile number"
                   value={alertPhone}
                   onChange={(e) => setAlertPhone(e.target.value)}
-                  className="px-3.5 py-2.5 rounded-xl bg-white text-[#123826] text-xs font-medium outline-none flex-1 placeholder:text-stone-400"
+                  className="px-3.5 py-2.5 rounded-xl bg-white text-[#153424] text-xs font-medium outline-none flex-1 placeholder:text-stone-400"
                 />
                 <button
                   type="submit"
-                  className="px-4 py-2.5 rounded-xl bg-[#E8A238] hover:bg-[#d4912e] text-[#123826] font-bold text-xs flex items-center justify-center gap-1.5 transition-colors cursor-pointer shrink-0"
+                  className="px-4 py-2.5 rounded-xl bg-[#E8A238] hover:bg-[#d4912e] text-[#153424] font-bold text-xs flex items-center justify-center gap-1.5 transition-colors cursor-pointer shrink-0"
                 >
                   <Send className="w-3.5 h-3.5" />
                   <span>Subscribe</span>

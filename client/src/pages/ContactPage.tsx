@@ -113,13 +113,13 @@ export const ContactPage: React.FC<ContactPageProps> = () => {
   return (
     <div className="space-y-16 sm:space-y-20 pb-16">
       {/* Contact Page Header */}
-      <section className="bg-[#F4F8F5] border-b border-[#E2ECE3] py-12 sm:py-16">
+      <section className="bg-[#ECE8DE]/60 border-b border-[#E6E1D7] py-12 sm:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="max-w-3xl space-y-4">
-            <span className="text-xs font-bold uppercase tracking-widest text-[#2E7D32] bg-white px-3 py-1 rounded-full border border-[#CCE0D0]">
+            <span className="text-xs font-bold uppercase tracking-widest text-[#2E7D32] bg-white px-3 py-1 rounded-full border border-[#E6E1D7]">
               Grower Support & APMC Helpdesk
             </span>
-            <h1 className="text-3xl sm:text-5xl font-black text-[#123826] font-['Syne',sans-serif] tracking-tight">
+            <h1 className="text-3xl sm:text-5xl font-black text-[#153424] font-['Syne',sans-serif] tracking-tight">
               We Are Here for Every Farmer in the Field
             </h1>
             <p className="text-stone-600 text-base sm:text-lg leading-relaxed font-['Outfit',sans-serif]">
@@ -131,7 +131,7 @@ export const ContactPage: React.FC<ContactPageProps> = () => {
 
       {/* Emergency Helpline Banner */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="bg-[#123826] text-white p-8 sm:p-10 rounded-3xl shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
+        <div className="bg-[#153424] text-white p-8 sm:p-10 rounded-3xl shadow-xl flex flex-col md:flex-row items-center justify-between gap-6 border border-[#1f4a34]">
           <div className="space-y-2">
             <div className="flex items-center gap-2 text-xs font-bold text-[#E8A238] uppercase tracking-wider">
               <PhoneCall className="w-4 h-4 animate-bounce" />
@@ -147,7 +147,7 @@ export const ContactPage: React.FC<ContactPageProps> = () => {
           <div className="flex flex-wrap items-center gap-3">
             <a
               href="tel:18001801551"
-              className="px-6 py-3 rounded-xl bg-[#E8A238] hover:bg-[#d4912e] text-[#123826] font-black text-sm transition-all shadow-md"
+              className="px-6 py-3 rounded-xl bg-[#E8A238] hover:bg-[#d4912e] text-[#153424] font-black text-sm transition-all shadow-md"
             >
               Call Helpline Now
             </a>
@@ -169,10 +169,10 @@ export const ContactPage: React.FC<ContactPageProps> = () => {
       {/* APMC Field Offices Directory */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="text-center max-w-2xl mx-auto mb-10 space-y-2">
-          <span className="text-xs font-bold uppercase tracking-widest text-[#2E7D32] bg-[#EBF5ED] px-3 py-1 rounded-full border border-[#CCE0D0]">
+          <span className="text-xs font-bold uppercase tracking-widest text-[#2E7D32] bg-[#EAEFE9] px-3 py-1 rounded-full border border-[#D6DFD4]">
             Regional Verification Network
           </span>
-          <h2 className="text-2xl sm:text-3xl font-black text-[#123826] font-['Syne',sans-serif]">
+          <h2 className="text-2xl sm:text-3xl font-black text-[#153424] font-['Syne',sans-serif]">
             APMC Mandi Yard Field Stations
           </h2>
           <p className="text-stone-600 text-sm">
@@ -182,10 +182,10 @@ export const ContactPage: React.FC<ContactPageProps> = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {APMC_OFFICES.map((office, idx) => (
-            <div key={idx} className="bg-white p-6 rounded-2xl border border-[#E2ECE3] shadow-xs space-y-3">
+            <div key={idx} className="bg-white p-6 rounded-2xl border border-[#E6E1D7] shadow-xs space-y-3">
               <div className="flex items-center justify-between">
-                <h3 className="font-bold text-[#123826] text-base">{office.name}</h3>
-                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#EBF5ED] text-[#2E7D32]">
+                <h3 className="font-bold text-[#153424] text-base">{office.name}</h3>
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#EAEFE9] text-[#2E7D32]">
                   Active Yard
                 </span>
               </div>
@@ -205,7 +205,7 @@ export const ContactPage: React.FC<ContactPageProps> = () => {
                 </p>
               </div>
 
-              <div className="pt-2 border-t border-[#E2ECE3] text-[11px] text-stone-600">
+              <div className="pt-2 border-t border-[#E6E1D7] text-[11px] text-stone-600">
                 <span className="font-medium text-stone-700">Primary Commodities:</span> {office.crops}
               </div>
             </div>
@@ -221,7 +221,7 @@ export const ContactPage: React.FC<ContactPageProps> = () => {
           <div className="lg:col-span-7 space-y-4">
             <div className="space-y-1 mb-4">
               <span className="text-xs font-bold uppercase tracking-wider text-[#2E7D32]">Knowledge Base</span>
-              <h3 className="text-2xl font-black text-[#123826] font-['Syne',sans-serif]">
+              <h3 className="text-2xl font-black text-[#153424] font-['Syne',sans-serif]">
                 Frequently Asked Agronomic Questions
               </h3>
             </div>
@@ -230,11 +230,11 @@ export const ContactPage: React.FC<ContactPageProps> = () => {
               {FAQ_LIST.map((item, i) => (
                 <div 
                   key={i} 
-                  className="bg-white rounded-2xl border border-[#E2ECE3] overflow-hidden transition-all"
+                  className="bg-white rounded-2xl border border-[#E6E1D7] overflow-hidden transition-all shadow-xs"
                 >
                   <button
                     onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                    className="w-full p-4 text-left flex items-center justify-between gap-4 font-bold text-[#123826] text-sm cursor-pointer hover:bg-[#FAFBF9]"
+                    className="w-full p-4 text-left flex items-center justify-between gap-4 font-bold text-[#153424] text-sm cursor-pointer hover:bg-[#FAF8F5]"
                   >
                     <span>{item.q}</span>
                     {openFaq === i ? (
@@ -244,7 +244,7 @@ export const ContactPage: React.FC<ContactPageProps> = () => {
                     )}
                   </button>
                   {openFaq === i && (
-                    <div className="px-4 pb-4 text-xs text-stone-600 leading-relaxed border-t border-[#E2ECE3] pt-3 bg-[#FAFBF9]">
+                    <div className="px-4 pb-4 text-xs text-stone-600 leading-relaxed border-t border-[#E6E1D7] pt-3 bg-[#FAF8F5]">
                       {item.a}
                     </div>
                   )}
@@ -254,9 +254,9 @@ export const ContactPage: React.FC<ContactPageProps> = () => {
           </div>
 
           {/* Grievance & Support Form */}
-          <div className="lg:col-span-5 bg-white p-6 sm:p-8 rounded-3xl border border-[#E2ECE3] shadow-xs space-y-5">
+          <div className="lg:col-span-5 bg-white p-6 sm:p-8 rounded-3xl border border-[#E6E1D7] shadow-xs space-y-5">
             <div className="space-y-1">
-              <h3 className="text-lg font-bold text-[#123826] flex items-center gap-2">
+              <h3 className="text-lg font-bold text-[#153424] flex items-center gap-2">
                 <HelpCircle className="w-5 h-5 text-[#2E7D32]" />
                 <span>Submit Grievance / Query</span>
               </h3>
@@ -266,9 +266,9 @@ export const ContactPage: React.FC<ContactPageProps> = () => {
             </div>
 
             {submitted ? (
-              <div className="p-6 rounded-2xl bg-[#EBF5ED] border border-[#CCE0D0] text-center space-y-2">
+              <div className="p-6 rounded-2xl bg-[#EAEFE9] border border-[#D6DFD4] text-center space-y-2">
                 <CheckCircle2 className="w-10 h-10 text-[#2E7D32] mx-auto" />
-                <h4 className="font-bold text-[#123826]">Grievance Registered Successfully</h4>
+                <h4 className="font-bold text-[#153424]">Grievance Registered Successfully</h4>
                 <p className="text-xs text-stone-600">
                   Ticket generated. A field officer will contact your mobile within 2 business hours.
                 </p>
@@ -282,7 +282,7 @@ export const ContactPage: React.FC<ContactPageProps> = () => {
                     required
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full px-3 py-2 text-xs rounded-xl border border-[#E2ECE3] focus:border-[#2E7D32] outline-none"
+                    className="w-full px-3 py-2 text-xs rounded-xl border border-[#E6E1D7] focus:border-[#2E7D32] outline-none bg-white text-[#153424]"
                     placeholder="e.g. Ramesh Patil"
                   />
                 </div>
@@ -294,7 +294,7 @@ export const ContactPage: React.FC<ContactPageProps> = () => {
                     required
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    className="w-full px-3 py-2 text-xs rounded-xl border border-[#E2ECE3] focus:border-[#2E7D32] outline-none"
+                    className="w-full px-3 py-2 text-xs rounded-xl border border-[#E6E1D7] focus:border-[#2E7D32] outline-none bg-white text-[#153424]"
                     placeholder="e.g. 9845012345"
                   />
                 </div>
@@ -305,7 +305,7 @@ export const ContactPage: React.FC<ContactPageProps> = () => {
                     <select
                       value={formData.mandi}
                       onChange={(e) => setFormData({ ...formData, mandi: e.target.value })}
-                      className="w-full px-2 py-2 text-xs rounded-xl border border-[#E2ECE3] focus:border-[#2E7D32] outline-none bg-white"
+                      className="w-full px-2 py-2 text-xs rounded-xl border border-[#E6E1D7] focus:border-[#2E7D32] outline-none bg-white text-[#153424]"
                     >
                       <option value="Ballari APMC">Ballari APMC</option>
                       <option value="Kolar APMC">Kolar APMC</option>
@@ -320,7 +320,7 @@ export const ContactPage: React.FC<ContactPageProps> = () => {
                     <select
                       value={formData.category}
                       onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                      className="w-full px-2 py-2 text-xs rounded-xl border border-[#E2ECE3] focus:border-[#2E7D32] outline-none bg-white"
+                      className="w-full px-2 py-2 text-xs rounded-xl border border-[#E6E1D7] focus:border-[#2E7D32] outline-none bg-white text-[#153424]"
                     >
                       <option value="Price Discrepancy">Price Discrepancy</option>
                       <option value="Weighment Dispute">Weighment Dispute</option>
@@ -337,14 +337,14 @@ export const ContactPage: React.FC<ContactPageProps> = () => {
                     required
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    className="w-full px-3 py-2 text-xs rounded-xl border border-[#E2ECE3] focus:border-[#2E7D32] outline-none"
+                    className="w-full px-3 py-2 text-xs rounded-xl border border-[#E6E1D7] focus:border-[#2E7D32] outline-none bg-white text-[#153424]"
                     placeholder="Explain the dispute, commission agent name, or auction yard discrepancy..."
                   ></textarea>
                 </div>
 
                 <button
                   type="submit"
-                  className="w-full py-2.5 rounded-xl bg-[#123826] hover:bg-[#2E7D32] text-white font-bold text-xs flex items-center justify-center gap-2 transition-colors cursor-pointer shadow-xs"
+                  className="w-full py-2.5 rounded-xl bg-[#153424] hover:bg-[#2E7D32] text-white font-bold text-xs flex items-center justify-center gap-2 transition-colors cursor-pointer shadow-xs"
                 >
                   <Send className="w-3.5 h-3.5" />
                   <span>Transmit to APMC Field Desk</span>

@@ -331,7 +331,7 @@ export const App: React.FC = () => {
     (unit === 'kg' ? quantity / 100 : (unit === 'tonne' ? quantity * 10 : quantity));
 
   return (
-    <div className="min-h-screen bg-[#FBFDF9] text-[#162E21] flex flex-col font-['Plus_Jakarta_Sans',sans-serif]">
+    <div className="min-h-screen bg-[#F6F4EE] text-[#153424] flex flex-col font-['Plus_Jakarta_Sans',sans-serif]">
       {/* Editorial Header with multi-page navigation, language switch & sync */}
       <Header
         language={language}
@@ -348,7 +348,7 @@ export const App: React.FC = () => {
 
       {/* Live Sync Notification Toast */}
       {syncToast && (
-        <div className="bg-[#123826] text-white font-semibold text-xs sm:text-sm px-4 py-2.5 text-center flex items-center justify-center gap-2 shadow-sm animate-in fade-in font-mono">
+        <div className="bg-[#153424] text-white font-semibold text-xs sm:text-sm px-4 py-2.5 text-center flex items-center justify-center gap-2 shadow-sm animate-in fade-in font-mono">
           <CheckCircle2 className="w-4 h-4 text-[#4CAF50] shrink-0" />
           <span>{syncToast}</span>
         </div>
@@ -362,8 +362,8 @@ export const App: React.FC = () => {
         onRefresh={() => handleSearch()}
       />
 
-      {/* Main Page Content Router */}
-      <main className="flex-1 w-full">
+      {/* Main Page Content Router with Smooth Slide Transition */}
+      <main key={currentPage} className="flex-1 w-full animate-slide-up">
         {currentPage === 'home' && (
           <HomePage
             language={language}
@@ -450,7 +450,7 @@ export const App: React.FC = () => {
         <button
           type="button"
           onClick={() => setExplanationTerm('modal_price')}
-          className="bg-[#123826] hover:bg-[#1B4D35] text-white font-bold px-4 py-2.5 rounded-full shadow-lg border border-[#3FA744]/40 flex items-center gap-2 transition-all hover:scale-105 cursor-pointer text-xs sm:text-sm"
+          className="bg-[#153424] hover:bg-[#1f4a34] text-white font-bold px-4 py-2.5 rounded-full shadow-lg border border-[#3FA744]/40 flex items-center gap-2 transition-all hover:scale-105 cursor-pointer text-xs sm:text-sm"
         >
           <BookOpen className="w-4 h-4 text-[#A5D6A7]" />
           <span>{t.educationalModalTitle}</span>
@@ -493,9 +493,9 @@ export const App: React.FC = () => {
       />
 
       {/* Rich Multi-Column VerdaAgro Forest Green Footer */}
-      <footer className="bg-[#123826] text-stone-300 text-xs py-14 border-t border-[#1B4D35] mt-auto print:hidden">
+      <footer className="bg-[#153424] text-stone-300 text-xs py-14 border-t border-[#1f4a34] mt-auto print:hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 pb-10 border-b border-[#1B4D35]">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 pb-10 border-b border-[#1f4a34]">
             
             {/* Column 1: Brand & Identity */}
             <div className="lg:col-span-2 space-y-3">

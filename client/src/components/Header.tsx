@@ -94,7 +94,7 @@ const SEARCH_LABELS: Record<Language, string> = {
 };
 
   return (
-    <header className="bg-white/95 backdrop-blur-md border-b border-[#E2ECE3] sticky top-0 z-50 shadow-[0_4px_20px_-4px_rgba(18,56,38,0.06)] print:hidden">
+    <header className="bg-[#F6F4EE]/95 backdrop-blur-md border-b border-[#E6E1D7] sticky top-0 z-50 shadow-[0_4px_20px_-4px_rgba(21,52,36,0.04)] print:hidden">
       {/* Main Brand & Multi-Page Navigation Bar */}
       <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
         {/* Brand Logo & Name */}
@@ -102,12 +102,12 @@ const SEARCH_LABELS: Record<Language, string> = {
           onClick={() => handleNavClick('home')}
           className="flex items-center gap-3 cursor-pointer group select-none"
         >
-          <div className="relative w-10 h-10 rounded-2xl bg-[#EBF5ED] border border-[#CCE0D0] flex items-center justify-center text-xl shadow-xs shrink-0 group-hover:scale-105 transition-transform notranslate" translate="no">
+          <div className="relative w-10 h-10 rounded-2xl bg-[#EAEFE9] border border-[#D6DFD4] flex items-center justify-center text-xl shadow-xs shrink-0 group-hover:scale-105 transition-transform notranslate" translate="no">
             🌾
             <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-[#2E7D32] rounded-full border-2 border-white"></div>
           </div>
           <div>
-            <span className="text-xl sm:text-2xl font-black tracking-tight text-[#123826] font-['Syne',sans-serif] block notranslate" translate="no">
+            <span className="text-xl sm:text-2xl font-black tracking-tight text-[#153424] font-['Syne',sans-serif] block notranslate" translate="no">
               AgriMate
             </span>
             <p className="text-stone-600 text-[11px] font-medium hidden sm:block">
@@ -117,15 +117,15 @@ const SEARCH_LABELS: Record<Language, string> = {
         </div>
 
         {/* Desktop Multi-Page Navigation Links */}
-        <nav className="hidden lg:flex items-center gap-1 bg-[#F4F8F5] p-1 rounded-2xl border border-[#E2ECE3] notranslate" translate="no">
+        <nav className="hidden lg:flex items-center gap-1 bg-[#ECE8DE] p-1 rounded-2xl border border-[#E0DBD0] notranslate" translate="no">
           {navItems.map((item) => (
             <button
               key={item.id}
               onClick={() => handleNavClick(item.id)}
               className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                 currentPage === item.id
-                  ? 'bg-[#123826] text-white shadow-xs'
-                  : 'text-stone-600 hover:text-[#123826] hover:bg-white/60'
+                  ? 'bg-[#153424] text-white shadow-xs'
+                  : 'text-stone-700 hover:text-[#153424] hover:bg-white/70'
               }`}
             >
               {item.label}
@@ -138,7 +138,7 @@ const SEARCH_LABELS: Record<Language, string> = {
           {/* Quick Search Button */}
           <button
             onClick={() => setSearchModalOpen(true)}
-            className="p-2 rounded-xl bg-white hover:bg-[#F2F8F4] text-[#123826] border border-[#CCE0D0] transition-colors cursor-pointer shadow-xs hidden sm:flex items-center gap-1.5 text-xs font-semibold notranslate"
+            className="p-2 rounded-xl bg-white hover:bg-[#F2EFE8] text-[#153424] border border-[#E6E1D7] transition-colors cursor-pointer shadow-xs hidden sm:flex items-center gap-1.5 text-xs font-semibold notranslate"
             translate="no"
             title={SEARCH_LABELS[language] || 'Search'}
           >
@@ -152,11 +152,11 @@ const SEARCH_LABELS: Record<Language, string> = {
           <div className="relative">
             <button
               onClick={() => setNotificationsOpen(!notificationsOpen)}
-              className="relative p-2 rounded-xl bg-white hover:bg-[#F2F8F4] text-[#123826] border border-[#CCE0D0] transition-colors cursor-pointer shadow-xs"
+              className="relative p-2 rounded-xl bg-white hover:bg-[#F2EFE8] text-[#153424] border border-[#E6E1D7] transition-colors cursor-pointer shadow-xs"
               title="Mandi Live Broadcast Alerts"
               aria-label="Mandi Notifications"
             >
-              <Bell className="w-4 h-4 text-[#123826]" />
+              <Bell className="w-4 h-4 text-[#153424]" />
               <span className="absolute -top-1 -right-1 w-4 h-4 bg-[#E8A238] text-[#123826] text-[10px] font-black rounded-full flex items-center justify-center shadow-xs">
                 3
               </span>
@@ -164,12 +164,12 @@ const SEARCH_LABELS: Record<Language, string> = {
 
             {/* Notification Dropdown */}
             {notificationsOpen && (
-              <div className="absolute right-0 mt-2 w-80 sm:w-88 bg-white rounded-2xl shadow-xl border border-[#D5E7D8] p-3 z-50 animate-in fade-in zoom-in-95 duration-150">
-                <div className="flex items-center justify-between pb-2 border-b border-[#E2ECE3]">
-                  <span className="text-xs font-bold text-[#123826] uppercase tracking-wider">
+              <div className="absolute right-0 mt-2 w-80 sm:w-88 bg-white rounded-2xl shadow-xl border border-[#E6E1D7] p-3 z-50 animate-in fade-in zoom-in-95 duration-150">
+                <div className="flex items-center justify-between pb-2 border-b border-[#ECE8DE]">
+                  <span className="text-xs font-bold text-[#153424] uppercase tracking-wider">
                     APMC Live Feeds
                   </span>
-                  <span className="text-[10px] text-[#2E7D32] font-semibold bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100 flex items-center gap-1">
+                  <span className="text-[10px] text-[#2E7D32] font-semibold bg-[#EAEFE9] px-2 py-0.5 rounded-full border border-[#D6DFD4] flex items-center gap-1">
                     <CheckCircle2 className="w-3 h-3" /> Real-Time
                   </span>
                 </div>
@@ -177,9 +177,9 @@ const SEARCH_LABELS: Record<Language, string> = {
                 <div className="py-2 space-y-2">
                   <div 
                     onClick={() => { handleNavClick('dashboard'); setNotificationsOpen(false); }}
-                    className="p-2.5 rounded-xl bg-[#F7FBF8] hover:bg-[#EBF5ED] transition-colors cursor-pointer border border-[#E2ECE3]"
+                    className="p-2.5 rounded-xl bg-[#FAF8F5] hover:bg-[#EAEFE9] transition-colors cursor-pointer border border-[#E6E1D7]"
                   >
-                    <div className="flex justify-between items-center text-xs font-bold text-[#123826]">
+                    <div className="flex justify-between items-center text-xs font-bold text-[#153424]">
                       <span className="flex items-center gap-1.5"><span className="notranslate" translate="no">🌽</span> Davanagere Mandi</span>
                       <span className="text-emerald-700 font-mono">+4.2%</span>
                     </div>
@@ -188,9 +188,9 @@ const SEARCH_LABELS: Record<Language, string> = {
 
                   <div 
                     onClick={() => { handleNavClick('dashboard'); setNotificationsOpen(false); }}
-                    className="p-2.5 rounded-xl bg-[#F7FBF8] hover:bg-[#EBF5ED] transition-colors cursor-pointer border border-[#E2ECE3]"
+                    className="p-2.5 rounded-xl bg-[#FAF8F5] hover:bg-[#EAEFE9] transition-colors cursor-pointer border border-[#E6E1D7]"
                   >
-                    <div className="flex justify-between items-center text-xs font-bold text-[#123826]">
+                    <div className="flex justify-between items-center text-xs font-bold text-[#153424]">
                       <span className="flex items-center gap-1.5"><span className="notranslate" translate="no">🍅</span> Kolar APMC</span>
                       <span className="text-emerald-700 font-mono">+2.6%</span>
                     </div>
@@ -199,9 +199,9 @@ const SEARCH_LABELS: Record<Language, string> = {
 
                   <div 
                     onClick={() => { handleNavClick('dashboard'); setNotificationsOpen(false); }}
-                    className="p-2.5 rounded-xl bg-[#F7FBF8] hover:bg-[#EBF5ED] transition-colors cursor-pointer border border-[#E2ECE3]"
+                    className="p-2.5 rounded-xl bg-[#FAF8F5] hover:bg-[#EAEFE9] transition-colors cursor-pointer border border-[#E6E1D7]"
                   >
-                    <div className="flex justify-between items-center text-xs font-bold text-[#123826]">
+                    <div className="flex justify-between items-center text-xs font-bold text-[#153424]">
                       <span className="flex items-center gap-1.5"><span className="notranslate" translate="no">🧅</span> Lasalgaon Mandi</span>
                       <span className="text-emerald-700 font-mono">+1.9%</span>
                     </div>
@@ -211,7 +211,7 @@ const SEARCH_LABELS: Record<Language, string> = {
 
                 <button
                   onClick={() => { handleNavClick('dashboard'); setNotificationsOpen(false); }}
-                  className="w-full py-2 rounded-xl bg-[#123826] text-white text-xs font-bold flex items-center justify-center gap-1.5 hover:bg-[#1a4a34] transition-colors cursor-pointer"
+                  className="w-full py-2 rounded-xl bg-[#153424] text-white text-xs font-bold flex items-center justify-center gap-1.5 hover:bg-[#1f4a34] transition-colors cursor-pointer"
                 >
                   <span>Open Full Dashboard Terminal</span>
                   <ArrowRight className="w-3 h-3 text-[#E8A238]" />
@@ -223,7 +223,7 @@ const SEARCH_LABELS: Record<Language, string> = {
           {/* Language Switcher — custom dropdown, immune to Google Translate mutation */}
           <div
             ref={langDropdownRef}
-            className="relative flex items-center bg-white px-2.5 py-1 rounded-xl border border-[#CCE0D0] shadow-xs gap-1.5 notranslate cursor-pointer select-none"
+            className="relative flex items-center bg-white px-2.5 py-1 rounded-xl border border-[#E6E1D7] shadow-xs gap-1.5 notranslate cursor-pointer select-none"
             translate="no"
             onClick={() => setLangDropdownOpen(!langDropdownOpen)}
             role="combobox"
@@ -232,14 +232,14 @@ const SEARCH_LABELS: Record<Language, string> = {
             aria-label="Select language"
           >
             <Globe className="w-3.5 h-3.5 text-[#2E7D32] shrink-0" />
-            <span className="text-xs font-bold text-[#123826] notranslate pr-1 whitespace-nowrap">
+            <span className="text-xs font-bold text-[#153424] notranslate pr-1 whitespace-nowrap">
               {LANGUAGES.find(l => l.code === language)?.label ?? 'English'} ({LANGUAGES.find(l => l.code === language)?.name ?? 'EN'})
             </span>
             <svg className={`w-3 h-3 text-stone-400 transition-transform shrink-0 ${langDropdownOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
 
             {langDropdownOpen && (
               <div
-                className="absolute right-0 top-full mt-1.5 w-48 bg-white rounded-xl border border-[#D5E7D8] shadow-xl z-50 py-1 max-h-72 overflow-y-auto notranslate"
+                className="absolute right-0 top-full mt-1.5 w-48 bg-white rounded-xl border border-[#E6E1D7] shadow-xl z-50 py-1 max-h-72 overflow-y-auto notranslate"
                 translate="no"
                 role="listbox"
                 onClick={(e) => e.stopPropagation()}

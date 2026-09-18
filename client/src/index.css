@@ -25,15 +25,15 @@
   --color-harvest-600: #D97706;
   --color-harvest-50: #FEF8ED;
 
-  --color-cream-bg: #FBFDF9;
+  --color-cream-bg: #F6F4EE;
   --color-cream-card: #FFFFFF;
-  --color-cream-border: #E2ECE3;
+  --color-cream-border: #E6E1D7;
 }
 
 @layer base {
   body {
-    background-color: #FBFDF9;
-    color: #162E21;
+    background-color: #F6F4EE;
+    color: #153424;
     font-family: var(--font-sans);
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   }
@@ -86,46 +86,46 @@ html, body {
   display: none !important;
 }
 
-/* AgriMate Card & Container System */
+/* AgriMate Card & Container System (Cultivo & GardenGlory organic warmth) */
 .agrimate-card,
 .verda-card {
   background: #FFFFFF;
-  border: 1px solid #E2ECE3;
-  box-shadow: 0 4px 20px -2px rgba(18, 56, 38, 0.05), 0 2px 6px -1px rgba(18, 56, 38, 0.03);
+  border: 1px solid #E6E1D7;
+  box-shadow: 0 4px 18px -2px rgba(21, 52, 36, 0.04), 0 2px 6px -1px rgba(21, 52, 36, 0.02);
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .agrimate-card:hover,
 .verda-card:hover {
-  border-color: #C3D9C6;
-  box-shadow: 0 12px 30px -4px rgba(18, 56, 38, 0.08), 0 4px 10px -2px rgba(18, 56, 38, 0.04);
+  border-color: #CBD5C8;
+  box-shadow: 0 12px 30px -4px rgba(21, 52, 36, 0.07), 0 4px 10px -2px rgba(21, 52, 36, 0.03);
 }
 
 .agrimate-card-elevated,
 .verda-card-elevated {
   background: #FFFFFF;
-  border: 1px solid #D1E3D4;
-  box-shadow: 0 16px 36px -6px rgba(18, 56, 38, 0.09), 0 6px 16px -2px rgba(18, 56, 38, 0.05);
+  border: 1px solid #E6E1D7;
+  box-shadow: 0 16px 36px -6px rgba(21, 52, 36, 0.08), 0 6px 16px -2px rgba(21, 52, 36, 0.04);
 }
 
 .agrimate-card-sage,
 .verda-card-sage {
-  background: #F4F8F5;
-  border: 1px solid #E0ECE2;
+  background: #ECE8DE;
+  border: 1px solid #E0DBD0;
 }
 
 .agrimate-badge,
 .verda-badge {
-  background: #EBF5ED;
-  color: #123826;
-  border: 1px solid #D5E7D8;
+  background: #EAEFE9;
+  color: #153424;
+  border: 1px solid #D6DFD4;
 }
 
 /* Backward compatibility classes mapped to AgriMate light styling */
 .glass-panel {
   background: #FFFFFF;
-  border: 1px solid #E2ECE3;
-  box-shadow: 0 6px 24px -2px rgba(18, 56, 38, 0.06);
+  border: 1px solid #E6E1D7;
+  box-shadow: 0 6px 24px -2px rgba(21, 52, 36, 0.04);
 }
 
 .glass-panel-elevated {
@@ -314,4 +314,35 @@ html, body {
 
 .slide-scroll-item {
   scroll-snap-align: start;
+}
+
+/* Page slide-up transition (Ref: Pinterest 7yRLlPCqL) */
+@keyframes slideUpFade {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-up {
+  animation: slideUpFade 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes slideRightFade {
+  from {
+    opacity: 0;
+    transform: translateX(-16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-slide-right {
+  animation: slideRightFade 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }

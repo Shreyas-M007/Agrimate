@@ -40,13 +40,13 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
   return (
     <div className="space-y-16 sm:space-y-20 pb-16">
       {/* Services Page Header */}
-      <section className="bg-[#F4F8F5] border-b border-[#E2ECE3] py-12 sm:py-16">
+      <section className="bg-[#ECE8DE]/60 border-b border-[#E6E1D7] py-12 sm:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="max-w-3xl space-y-4">
-            <span className="text-xs font-mono font-bold uppercase tracking-wider text-[#2E7D32] bg-white px-3 py-1 rounded-full border border-[#CCE0D0]">
+            <span className="text-xs font-mono font-bold uppercase tracking-wider text-[#2E7D32] bg-white px-3 py-1 rounded-full border border-[#E6E1D7]">
               Operational Tools
             </span>
-            <h1 className="text-3xl sm:text-5xl font-black text-[#123826] font-['Syne',sans-serif] tracking-tight">
+            <h1 className="text-3xl sm:text-5xl font-black text-[#153424] font-['Syne',sans-serif] tracking-tight">
               Market Logistics & Gate Infrastructure
             </h1>
             <p className="text-stone-600 text-base sm:text-lg leading-relaxed font-['Outfit',sans-serif]">
@@ -59,13 +59,13 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
       {/* Deep Dive into 6 Services */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 space-y-16">
         {/* Service 1: APMC Price Discovery Engine */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center bg-white p-8 rounded-3xl border border-[#E2ECE3] shadow-xs">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center bg-white p-8 rounded-3xl border border-[#E6E1D7] shadow-xs">
           <div className="lg:col-span-7 space-y-4">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#EBF5ED] text-[#2E7D32] text-xs font-bold">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#EAEFE9] text-[#2E7D32] text-xs font-bold">
               <TrendingUp className="w-4 h-4" />
               <span>Service 01 • Market Discovery</span>
             </div>
-            <h2 className="text-2xl sm:text-3xl font-black text-[#123826] font-['Syne',sans-serif]">
+            <h2 className="text-2xl sm:text-3xl font-black text-[#153424] font-['Syne',sans-serif]">
               APMC Price Discovery Engine
             </h2>
             <p className="text-stone-600 text-sm sm:text-base leading-relaxed">
@@ -92,26 +92,26 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
             <div className="pt-3">
               <button
                 onClick={() => onNavigate('dashboard')}
-                className="px-5 py-2.5 rounded-xl bg-[#123826] hover:bg-[#2E7D32] text-white font-bold text-xs sm:text-sm flex items-center gap-2 transition-all cursor-pointer"
+                className="px-5 py-2.5 rounded-xl bg-[#153424] hover:bg-[#2E7D32] text-white font-bold text-xs sm:text-sm flex items-center gap-2 transition-all cursor-pointer shadow-xs"
               >
                 <span>Launch Search in Terminal</span>
                 <ArrowRight className="w-4 h-4 text-[#E8A238]" />
               </button>
             </div>
           </div>
-          <div className="lg:col-span-5 bg-[#FAFBF9] p-6 rounded-2xl border border-[#E2ECE3] space-y-3">
+          <div className="lg:col-span-5 bg-[#FAF8F5] p-6 rounded-2xl border border-[#E6E1D7] space-y-3">
             <h4 className="text-xs font-bold uppercase tracking-wider text-stone-600">Sample Agmarknet Matrix</h4>
             <div className="space-y-2 text-xs font-mono">
-              <div className="flex justify-between p-2.5 rounded-lg bg-white border border-[#E2ECE3]">
-                <span className="font-sans font-bold text-[#123826]">Ballari APMC (Tomato)</span>
+              <div className="flex justify-between p-2.5 rounded-lg bg-white border border-[#E6E1D7]">
+                <span className="font-sans font-bold text-[#153424]">Ballari APMC (Tomato)</span>
                 <span className="font-bold text-[#2E7D32]">₹1,850/q</span>
               </div>
-              <div className="flex justify-between p-2.5 rounded-lg bg-white border border-[#E2ECE3]">
-                <span className="font-sans font-bold text-[#123826]">Kolar APMC (Tomato)</span>
+              <div className="flex justify-between p-2.5 rounded-lg bg-white border border-[#E6E1D7]">
+                <span className="font-sans font-bold text-[#153424]">Kolar APMC (Tomato)</span>
                 <span className="font-bold text-[#2E7D32]">₹1,920/q</span>
               </div>
-              <div className="flex justify-between p-2.5 rounded-lg bg-white border border-[#E2ECE3]">
-                <span className="font-sans font-bold text-[#123826]">Lasalgaon APMC (Onion)</span>
+              <div className="flex justify-between p-2.5 rounded-lg bg-white border border-[#E6E1D7]">
+                <span className="font-sans font-bold text-[#153424]">Lasalgaon APMC (Onion)</span>
                 <span className="font-bold text-[#2E7D32]">₹2,100/q</span>
               </div>
             </div>
@@ -119,13 +119,13 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
         </div>
 
         {/* Service 2: Interactive Freight & Haulage Simulator */}
-        <div className="bg-[#FAFBF9] p-8 rounded-3xl border border-[#E2ECE3] space-y-8">
+        <div className="bg-[#ECE8DE]/40 p-8 rounded-3xl border border-[#E6E1D7] space-y-8">
           <div className="max-w-2xl space-y-3">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FFF8E7] text-[#E8A238] text-xs font-bold">
               <Truck className="w-4 h-4" />
               <span>Service 02 • Logistics Intelligence</span>
             </div>
-            <h2 className="text-2xl sm:text-3xl font-black text-[#123826] font-['Syne',sans-serif]">
+            <h2 className="text-2xl sm:text-3xl font-black text-[#153424] font-['Syne',sans-serif]">
               Interactive Haulage & Net-Freight Simulator
             </h2>
             <p className="text-stone-600 text-sm sm:text-base">
@@ -133,11 +133,11 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center bg-white p-6 rounded-2xl border border-[#E2ECE3]">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center bg-white p-6 rounded-2xl border border-[#E6E1D7]">
             {/* Controls */}
             <div className="lg:col-span-7 space-y-5">
               <div>
-                <label className="text-xs font-bold text-[#123826] uppercase tracking-wider block mb-2">
+                <label className="text-xs font-bold text-[#153424] uppercase tracking-wider block mb-2">
                   Select Vehicle Type
                 </label>
                 <div className="grid grid-cols-2 gap-2.5">
@@ -147,8 +147,8 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
                       onClick={() => setVehicle(v)}
                       className={`p-3 text-left rounded-xl border transition-all cursor-pointer ${
                         vehicle === v
-                          ? 'border-[#2E7D32] bg-[#EBF5ED] text-[#123826] font-bold shadow-xs'
-                          : 'border-[#E2ECE3] hover:bg-stone-50 text-stone-700 font-medium'
+                          ? 'border-[#2E7D32] bg-[#EAEFE9] text-[#153424] font-bold shadow-xs'
+                          : 'border-[#E6E1D7] hover:bg-[#FAF8F5] text-stone-700 font-medium'
                       }`}
                     >
                       <p className="text-xs font-bold">{vehicleRates[v].name}</p>
@@ -160,7 +160,7 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <div className="flex justify-between text-xs font-bold text-[#123826] mb-1">
+                  <div className="flex justify-between text-xs font-bold text-[#153424] mb-1">
                     <span>Mandi Distance (km)</span>
                     <span className="font-mono text-[#2E7D32]">{distanceKm} km</span>
                   </div>
@@ -176,7 +176,7 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
                 </div>
 
                 <div>
-                  <div className="flex justify-between text-xs font-bold text-[#123826] mb-1">
+                  <div className="flex justify-between text-xs font-bold text-[#153424] mb-1">
                     <span>Consignment Load (Quintals)</span>
                     <span className="font-mono text-[#2E7D32]">{loadQuintals} q</span>
                   </div>
@@ -194,21 +194,21 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
             </div>
 
             {/* Freight Output Card */}
-            <div className="lg:col-span-5 bg-[#F4F8F5] p-6 rounded-2xl border border-[#CCE0D0] space-y-4">
+            <div className="lg:col-span-5 bg-[#FAF8F5] p-6 rounded-2xl border border-[#E6E1D7] space-y-4">
               <h4 className="text-xs font-bold uppercase tracking-wider text-stone-600">Simulated Transport Cost</h4>
               
               <div className="space-y-2 text-xs">
                 <div className="flex justify-between text-stone-600">
                   <span>Base Haulage & Fuel ({distanceKm} km)</span>
-                  <span className="font-mono font-bold text-[#123826]">₹{estimatedFuelTransport}</span>
+                  <span className="font-mono font-bold text-[#153424]">₹{estimatedFuelTransport}</span>
                 </div>
                 <div className="flex justify-between text-stone-600">
                   <span>Hamali & Unloading ({loadQuintals} q)</span>
-                  <span className="font-mono font-bold text-[#123826]">₹{estimatedLoading}</span>
+                  <span className="font-mono font-bold text-[#153424]">₹{estimatedLoading}</span>
                 </div>
-                <div className="pt-2 border-t border-[#CCE0D0] flex justify-between items-baseline">
-                  <span className="font-bold text-[#123826] text-sm">Total Logistics Cost</span>
-                  <span className="text-2xl font-black text-[#123826] font-mono">₹{totalFreight.toLocaleString('en-IN')}</span>
+                <div className="pt-2 border-t border-[#E6E1D7] flex justify-between items-baseline">
+                  <span className="font-bold text-[#153424] text-sm">Total Logistics Cost</span>
+                  <span className="text-2xl font-black text-[#153424] font-mono">₹{totalFreight.toLocaleString('en-IN')}</span>
                 </div>
                 <div className="flex justify-between text-xs text-[#2E7D32] font-semibold pt-1">
                   <span>Deduction per quintal:</span>
@@ -218,7 +218,7 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
 
               <button
                 onClick={() => onNavigate('dashboard')}
-                className="w-full py-2.5 rounded-xl bg-[#123826] hover:bg-[#2E7D32] text-white text-xs font-bold transition-all cursor-pointer shadow-xs text-center"
+                className="w-full py-2.5 rounded-xl bg-[#153424] hover:bg-[#2E7D32] text-white text-xs font-bold transition-all cursor-pointer shadow-xs text-center"
               >
                 Apply to Live Market Net Return
               </button>
@@ -227,33 +227,33 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
         </div>
 
         {/* Service 3: Digital Mandi Gate Pass & Consignment Desk */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center bg-white p-8 rounded-3xl border border-[#E2ECE3] shadow-xs">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center bg-white p-8 rounded-3xl border border-[#E6E1D7] shadow-xs">
           <div className="lg:col-span-7 space-y-4">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#EBF5ED] text-[#2E7D32] text-xs font-bold">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#EAEFE9] text-[#2E7D32] text-xs font-bold">
               <FileText className="w-4 h-4" />
               <span>Service 03 • Statutory Documentation</span>
             </div>
-            <h2 className="text-2xl sm:text-3xl font-black text-[#123826] font-['Syne',sans-serif]">
+            <h2 className="text-2xl sm:text-3xl font-black text-[#153424] font-['Syne',sans-serif]">
               Digital Mandi Gate Pass & Receipt Desk
             </h2>
             <p className="text-stone-600 text-sm sm:text-base leading-relaxed">
-              Generate standardized statutory gate slips before departing the farm. Formatted in accordance with APMC Act 2026 regulations to lock in consignment weights, crate counts, and vehicle registration numbers.
+              Generate standardized statutory gate slips before departing the farm. Formatted in accordance with APMC Act regulations to lock in consignment weights, crate counts, and vehicle registration numbers.
             </p>
             <div className="pt-2 flex flex-wrap items-center gap-3">
               <button
                 onClick={() => onNavigate('dispatch')}
-                className="px-5 py-2.5 rounded-xl bg-[#2E7D32] hover:bg-[#123826] text-white font-bold text-xs sm:text-sm flex items-center gap-2 transition-all cursor-pointer"
+                className="px-5 py-2.5 rounded-xl bg-[#2E7D32] hover:bg-[#153424] text-white font-bold text-xs sm:text-sm flex items-center gap-2 transition-all cursor-pointer shadow-xs"
               >
                 <span>Open Dispatch Workstation</span>
                 <ChevronRight className="w-4 h-4" />
               </button>
             </div>
           </div>
-          <div className="lg:col-span-5 bg-[#F9FBF9] p-6 rounded-2xl border border-[#CCE0D0] text-center space-y-3">
-            <div className="w-14 h-14 mx-auto rounded-2xl bg-[#EBF5ED] flex items-center justify-center text-3xl notranslate" translate="no">
+          <div className="lg:col-span-5 bg-[#FAF8F5] p-6 rounded-2xl border border-[#E6E1D7] text-center space-y-3">
+            <div className="w-14 h-14 mx-auto rounded-2xl bg-[#EAEFE9] flex items-center justify-center text-3xl notranslate" translate="no">
               📄
             </div>
-            <p className="font-bold text-[#123826] text-sm">Official Consignment Entry Pass</p>
+            <p className="font-bold text-[#153424] text-sm">Official Consignment Entry Pass</p>
             <p className="text-stone-600 text-xs leading-relaxed">
               Equipped with reference QR codes, weighbridge timestamps, and statutory cess guarantees.
             </p>
@@ -261,33 +261,33 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
         </div>
 
         {/* Service 4: Cold Chain & Warehousing Network */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center bg-white p-8 rounded-3xl border border-[#E2ECE3] shadow-xs">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center bg-white p-8 rounded-3xl border border-[#E6E1D7] shadow-xs">
           <div className="lg:col-span-7 space-y-4">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FFF8E7] text-[#E8A238] text-xs font-bold">
               <ThermometerSnowflake className="w-4 h-4" />
               <span>Service 04 • Post-Harvest Infrastructure</span>
             </div>
-            <h2 className="text-2xl sm:text-3xl font-black text-[#123826] font-['Syne',sans-serif]">
+            <h2 className="text-2xl sm:text-3xl font-black text-[#153424] font-['Syne',sans-serif]">
               Cold Chain & Staging Warehouses
             </h2>
             <p className="text-stone-600 text-sm sm:text-base leading-relaxed">
-              Protect perishable solanaceous crops from distress selling. When terminal mandis crash due to temporary supply glut, our staging protocols allow farmers to hold produce under 10-12°C controlled atmosphere until prices recover.
+              Protect perishable solanaceous crops from distress selling. When terminal mandis crash due to temporary supply glut, our staging protocols allow farmers to hold produce under controlled atmosphere until prices recover.
             </p>
             <div className="grid grid-cols-2 gap-3 text-xs text-stone-700">
-              <div className="p-3 bg-[#FAFBF9] rounded-xl border border-[#E2ECE3]">
-                <p className="font-bold text-[#123826]">Tomatoes & Peppers</p>
+              <div className="p-3 bg-[#FAF8F5] rounded-xl border border-[#E6E1D7]">
+                <p className="font-bold text-[#153424]">Tomatoes & Peppers</p>
                 <p className="text-stone-600 mt-0.5">10-12°C • 90-95% RH • 14 days holding</p>
               </div>
-              <div className="p-3 bg-[#FAFBF9] rounded-xl border border-[#E2ECE3]">
-                <p className="font-bold text-[#123826]">Onions & Tubers</p>
+              <div className="p-3 bg-[#FAF8F5] rounded-xl border border-[#E6E1D7]">
+                <p className="font-bold text-[#153424]">Onions & Tubers</p>
                 <p className="text-stone-600 mt-0.5">0-2°C • 65-70% RH • 120 days holding</p>
               </div>
             </div>
           </div>
           <div className="lg:col-span-5">
-            <div className="rounded-2xl overflow-hidden border border-[#E2ECE3] bg-stone-100 p-6 text-center space-y-3">
+            <div className="rounded-2xl overflow-hidden border border-[#E6E1D7] bg-stone-100 p-6 text-center space-y-3">
               <p className="text-3xl notranslate" translate="no">❄️</p>
-              <h4 className="font-bold text-[#123826] text-base">Distress Sale Prevention</h4>
+              <h4 className="font-bold text-[#153424] text-base">Distress Sale Prevention</h4>
               <p className="text-stone-600 text-xs">
                 Avoid selling tomatoes at ₹5/kg during peak afternoon arrivals. Hold overnight for morning auction peaks at ₹18-22/kg.
               </p>
@@ -298,11 +298,11 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
         {/* Service 5 & 6: AI Advisory + 11-Step Protocol */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Service 5 */}
-          <div className="bg-white p-7 rounded-3xl border border-[#E2ECE3] shadow-xs space-y-4">
-            <div className="w-12 h-12 rounded-xl bg-[#EBF5ED] text-[#2E7D32] flex items-center justify-center text-xl">
+          <div className="bg-white p-7 rounded-3xl border border-[#E6E1D7] shadow-xs space-y-4">
+            <div className="w-12 h-12 rounded-xl bg-[#EAEFE9] text-[#2E7D32] flex items-center justify-center text-xl">
               <Cpu className="w-6 h-6" />
             </div>
-            <h3 className="text-xl font-bold text-[#123826]">Trilingual Voice & Advisory</h3>
+            <h3 className="text-xl font-bold text-[#153424]">Trilingual Voice & Advisory</h3>
             <p className="text-stone-600 text-sm leading-relaxed">
               Instant speech query and audio readouts in English, Hindi, and Kannada. Powered by browser Web Speech API with strictly grounded Agmarknet market data.
             </p>
@@ -315,11 +315,11 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
           </div>
 
           {/* Service 6 */}
-          <div className="bg-white p-7 rounded-3xl border border-[#E2ECE3] shadow-xs space-y-4">
+          <div className="bg-white p-7 rounded-3xl border border-[#E6E1D7] shadow-xs space-y-4">
             <div className="w-12 h-12 rounded-xl bg-[#FFF8E7] text-[#E8A238] flex items-center justify-center text-xl">
               <CheckCircle2 className="w-6 h-6" />
             </div>
-            <h3 className="text-xl font-bold text-[#123826]">Statutory 11-Step Selling Protocol</h3>
+            <h3 className="text-xl font-bold text-[#153424]">Statutory 11-Step Selling Protocol</h3>
             <p className="text-stone-600 text-sm leading-relaxed">
               Step-by-step checklist covering pre-sorting, vehicle departure, tare weight verification, auction lot bidding, and official receipt collection.
             </p>

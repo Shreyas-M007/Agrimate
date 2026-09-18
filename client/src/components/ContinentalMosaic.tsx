@@ -12,23 +12,23 @@ export const ContinentalMosaic: React.FC<ContinentalMosaicProps> = ({
   onSelectCrop
 }) => {
   return (
-    <section className="py-12 bg-[#F6FAF7] border-y border-[#E2ECE3] relative overflow-hidden">
+    <section className="py-12 bg-[#ECE8DE]/60 border-y border-[#E6E1D7] relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 space-y-8">
-        {/* Section Header: Corporate Editorial Style (Continental Farmers Group aesthetic) */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-[#D8E6DA] pb-6">
+        {/* Section Header: Corporate Editorial Style (Cultivo & Continental aesthetic) */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-[#E6E1D7] pb-6">
           <div className="space-y-2">
             <div className="flex items-center gap-2">
               <span className="h-2 w-2 rounded-full bg-[#2E7D32]"></span>
               <span className="text-[11px] font-mono uppercase font-bold tracking-widest text-[#2E7D32]">
-                Continental Agricultural Operations
+                Agricultural Operations & Intelligence
               </span>
             </div>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#123826] tracking-tight font-['Syne',sans-serif]">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#153424] tracking-tight font-['Syne',sans-serif]">
               Cultivating Integrity Across the Agro Supply Chain
             </h2>
           </div>
           <p className="text-stone-600 text-xs sm:text-sm max-w-md font-['Outfit',sans-serif] leading-relaxed">
-            Uniting wholesale terminal auctions, statutory grower protection, digital dispatch vouchers, and agronomy intelligence into one enterprise ecosystem.
+            Uniting wholesale terminal auctions, statutory grower protection, digital dispatch vouchers, and agronomy intelligence.
           </p>
         </div>
 
@@ -188,14 +188,14 @@ export const ContinentalMosaic: React.FC<ContinentalMosaicProps> = ({
           </div>
         </div>
 
-        {/* Corporate Trust Banner (Continental Farmers Group style bottom strip) */}
-        <div className="rounded-2xl bg-white border border-[#D8E6DA] p-4 sm:p-5 flex flex-wrap items-center justify-between gap-4 shadow-xs">
+        {/* Corporate Trust Banner (Clean organic bottom strip) */}
+        <div className="rounded-2xl bg-white border border-[#E6E1D7] p-4 sm:p-5 flex flex-wrap items-center justify-between gap-4 shadow-xs">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-[#EBF5ED] text-[#2E7D32] flex items-center justify-center shrink-0">
+            <div className="w-10 h-10 rounded-xl bg-[#EAEFE9] text-[#2E7D32] flex items-center justify-center shrink-0">
               <Layers className="w-5 h-5" />
             </div>
             <div>
-              <h4 className="text-xs sm:text-sm font-bold text-[#123826]">
+              <h4 className="text-xs sm:text-sm font-bold text-[#153424]">
                 Apex Wholesale Agmarknet Integration
               </h4>
               <p className="text-[11px] text-stone-500">
@@ -212,7 +212,7 @@ export const ContinentalMosaic: React.FC<ContinentalMosaicProps> = ({
                   if (onSelectCrop) onSelectCrop(crop);
                   onNavigate('dashboard');
                 }}
-                className="px-3 py-1 rounded-lg bg-[#F4F8F5] hover:bg-[#EBF5ED] text-[#123826] border border-[#CCE0D0] text-xs font-semibold transition-colors cursor-pointer"
+                className="px-3 py-1 rounded-lg bg-[#F6F4EE] hover:bg-[#ECE8DE] text-[#153424] border border-[#E6E1D7] text-xs font-semibold transition-colors cursor-pointer"
               >
                 {crop}
               </button>

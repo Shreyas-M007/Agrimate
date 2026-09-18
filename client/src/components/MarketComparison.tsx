@@ -103,11 +103,11 @@ export const MarketComparison: React.FC<MarketComparisonProps> = ({
   return (
     <section className="space-y-4">
       {/* Section Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#E2ECE3] pb-3.5">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#E6E1D7] pb-3.5">
         <div>
-          <h2 className="text-xl sm:text-2xl font-black text-[#123826] flex items-center gap-2.5 font-['Syne',sans-serif]">
+          <h2 className="text-xl sm:text-2xl font-black text-[#153424] flex items-center gap-2.5 font-['Syne',sans-serif]">
             <span>{t.marketComparisonTitle}</span>
-            <span className="text-xs font-mono font-bold bg-[#EBF5ED] text-[#123826] border border-[#CCE0D0] px-2.5 py-0.5 rounded-full">
+            <span className="text-xs font-mono font-bold bg-[#EAEFE9] text-[#153424] border border-[#D6DFD4] px-2.5 py-0.5 rounded-full">
               {processedMarkets.length} of {markets.length} Mandis
             </span>
           </h2>
@@ -117,7 +117,7 @@ export const MarketComparison: React.FC<MarketComparisonProps> = ({
         </div>
 
         {/* PRD Principle Notice */}
-        <div className="flex items-center gap-1.5 text-xs font-mono text-stone-600 bg-[#F4F8F5] px-3 py-1.5 rounded-lg border border-[#E2ECE3] self-start sm:self-auto">
+        <div className="flex items-center gap-1.5 text-xs font-mono text-stone-600 bg-[#FAF8F5] px-3 py-1.5 rounded-lg border border-[#E6E1D7] self-start sm:self-auto">
           <Info className="w-3.5 h-3.5 text-[#2E7D32] shrink-0" />
           <span>Verified APMC Rates • Sorted by Distance & Arrivals</span>
         </div>
@@ -126,22 +126,22 @@ export const MarketComparison: React.FC<MarketComparisonProps> = ({
       {/* Aggregate Stats Matrix */}
       {stats && (
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-          <div className="verda-card p-3 rounded-xl border border-[#E2ECE3]">
+          <div className="bg-white p-3 rounded-xl border border-[#E6E1D7] shadow-xs">
             <span className="text-[10px] font-mono uppercase tracking-wider text-stone-500 block">Floor Price</span>
             <strong className="text-base text-stone-800 font-mono tnum">₹{stats.minPrice.toLocaleString('en-IN')}/q</strong>
           </div>
-          <div className="verda-card p-3 rounded-xl border border-[#A5D6A7] bg-[#F4F8F5]">
-            <span className="text-[10px] font-mono uppercase tracking-wider text-[#123826] font-bold block flex items-center gap-1">
+          <div className="bg-white p-3 rounded-xl border border-[#E6E1D7] shadow-xs">
+            <span className="text-[10px] font-mono uppercase tracking-wider text-[#153424] font-bold block flex items-center gap-1">
               <TrendingUp className="w-3 h-3 text-[#2E7D32]" />
               Ceiling Modal Price
             </span>
-            <strong className="text-base text-[#123826] font-mono font-black tnum">₹{stats.maxPrice.toLocaleString('en-IN')}/q</strong>
+            <strong className="text-base text-[#153424] font-mono font-black tnum">₹{stats.maxPrice.toLocaleString('en-IN')}/q</strong>
           </div>
-          <div className="verda-card p-3 rounded-xl border border-[#E2ECE3]">
+          <div className="bg-white p-3 rounded-xl border border-[#E6E1D7] shadow-xs">
             <span className="text-[10px] font-mono uppercase tracking-wider text-stone-500 block">Regional Average</span>
             <strong className="text-base text-stone-800 font-mono tnum">₹{stats.avgPrice.toLocaleString('en-IN')}/q</strong>
           </div>
-          <div className="verda-card p-3 rounded-xl border border-amber-200 bg-amber-50/50">
+          <div className="bg-white p-3 rounded-xl border border-amber-200/80 bg-amber-50/40 shadow-xs">
             <span className="text-[10px] font-mono uppercase tracking-wider text-amber-800 font-bold block flex items-center gap-1">
               <BarChart2 className="w-3 h-3 text-amber-700" />
               Total Recorded Arrivals
@@ -152,16 +152,16 @@ export const MarketComparison: React.FC<MarketComparisonProps> = ({
       )}
 
       {/* Interactive Toolbar */}
-      <div className="verda-card p-3.5 rounded-xl border border-[#E2ECE3] flex flex-wrap items-center justify-between gap-3 text-xs">
+      <div className="bg-white p-3.5 rounded-xl border border-[#E6E1D7] flex flex-wrap items-center justify-between gap-3 text-xs shadow-xs">
         <div className="flex flex-wrap items-center gap-2">
           {/* State Filter */}
-          <div className="flex items-center gap-1.5 bg-[#F4F8F5] px-2.5 py-1.5 rounded-lg border border-[#CCE0D0] font-mono">
+          <div className="flex items-center gap-1.5 bg-[#FAF8F5] px-2.5 py-1.5 rounded-lg border border-[#E6E1D7] font-mono">
             <Filter className="w-3.5 h-3.5 text-stone-500" />
             <span className="text-stone-600 hidden sm:inline font-medium">State:</span>
             <select
               value={selectedState}
               onChange={(e) => setSelectedState(e.target.value)}
-              className="bg-transparent text-[#123826] font-semibold cursor-pointer focus:outline-none"
+              className="bg-transparent text-[#153424] font-semibold cursor-pointer focus:outline-none"
             >
               <option value="all" className="bg-white text-stone-900">All States</option>
               {availableStates.map(st => (
@@ -171,12 +171,12 @@ export const MarketComparison: React.FC<MarketComparisonProps> = ({
           </div>
 
           {/* Distance Radius Filter */}
-          <div className="flex items-center gap-1.5 bg-[#F4F8F5] px-2.5 py-1.5 rounded-lg border border-[#CCE0D0] font-mono">
+          <div className="flex items-center gap-1.5 bg-[#FAF8F5] px-2.5 py-1.5 rounded-lg border border-[#E6E1D7] font-mono">
             <span className="text-stone-600 font-medium">Radius:</span>
             <select
               value={maxDistance}
               onChange={(e) => setMaxDistance(Number(e.target.value))}
-              className="bg-transparent text-[#123826] font-semibold cursor-pointer focus:outline-none"
+              className="bg-transparent text-[#153424] font-semibold cursor-pointer focus:outline-none"
             >
               <option value={0} className="bg-white text-stone-900">Any Distance</option>
               <option value={50} className="bg-white text-stone-900">&lt; 50 km</option>
@@ -186,13 +186,13 @@ export const MarketComparison: React.FC<MarketComparisonProps> = ({
           </div>
 
           {/* Sort By */}
-          <div className="flex items-center gap-1.5 bg-[#F4F8F5] px-2.5 py-1.5 rounded-lg border border-[#CCE0D0] font-mono">
+          <div className="flex items-center gap-1.5 bg-[#FAF8F5] px-2.5 py-1.5 rounded-lg border border-[#E6E1D7] font-mono">
             <ArrowUpDown className="w-3.5 h-3.5 text-stone-500" />
             <span className="text-stone-600 hidden sm:inline font-medium">Sort:</span>
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="bg-transparent text-[#123826] font-semibold cursor-pointer focus:outline-none"
+              className="bg-transparent text-[#153424] font-semibold cursor-pointer focus:outline-none"
             >
               <option value="distance" className="bg-white text-stone-900">Nearest Distance</option>
               <option value="price_desc" className="bg-white text-stone-900">Highest Modal Price</option>
@@ -206,7 +206,7 @@ export const MarketComparison: React.FC<MarketComparisonProps> = ({
           {(selectedState !== 'all' || maxDistance > 0 || searchQuery.trim() || sortBy !== 'distance') && (
             <button
               onClick={handleResetFilters}
-              className="flex items-center gap-1 px-2.5 py-1.5 text-stone-600 hover:text-[#123826] font-mono rounded-lg hover:bg-[#EBF5ED] transition-colors cursor-pointer"
+              className="flex items-center gap-1 px-2.5 py-1.5 text-stone-600 hover:text-[#153424] font-mono rounded-lg hover:bg-[#ECE8DE] transition-colors cursor-pointer"
             >
               <RotateCcw className="w-3 h-3" />
               <span>Reset</span>

@@ -92,15 +92,15 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
   return (
     <div className="space-y-8 pb-16">
       {/* Terminal Title & Overview Hero */}
-      <div className="verda-card rounded-3xl p-6 sm:p-10 border border-[#E2ECE3] relative overflow-hidden bg-gradient-to-br from-white via-[#F7FBF8] to-[#EBF5ED] print-hide-on-checklist">
+      <div className="rounded-3xl p-6 sm:p-10 border border-[#E6E1D7] relative overflow-hidden bg-gradient-to-br from-white via-[#FAF8F5] to-[#ECE8DE]/70 print-hide-on-checklist shadow-xs">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           {/* Left Content Column */}
           <div className="lg:col-span-7 space-y-4">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#EBF5ED] border border-[#CCE0D0] text-xs font-semibold text-[#123826]">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#EAEFE9] border border-[#D6DFD4] text-xs font-semibold text-[#153424]">
               <ShieldCheck className="w-4 h-4 text-[#2E7D32]" />
               <span>100% Official APMC Rates • Zero Speculation</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#123826] font-['Syne',sans-serif] tracking-tight leading-[1.15]">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#153424] font-['Syne',sans-serif] tracking-tight leading-[1.15]">
               AgriMate Terminal Workstation
             </h2>
             <p className="text-sm sm:text-base text-stone-600 font-normal leading-relaxed max-w-xl">
@@ -111,14 +111,14 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
             <div className="flex flex-wrap items-center gap-3 pt-1">
               <button
                 onClick={() => onNavigate('dispatch')}
-                className="px-4 py-2 rounded-xl bg-white hover:bg-[#F2F8F4] text-[#123826] text-xs font-bold border border-[#CCE0D0] flex items-center gap-2 shadow-xs transition-colors cursor-pointer"
+                className="px-4 py-2 rounded-xl bg-white hover:bg-[#ECE8DE] text-[#153424] text-xs font-bold border border-[#E6E1D7] flex items-center gap-2 shadow-xs transition-colors cursor-pointer"
               >
                 <FileText className="w-3.5 h-3.5 text-[#2E7D32]" />
                 <span>Go to Dispatch Desk</span>
               </button>
               <button
                 onClick={() => onNavigate('crops')}
-                className="px-4 py-2 rounded-xl bg-white hover:bg-[#F2F8F4] text-[#123826] text-xs font-bold border border-[#CCE0D0] flex items-center gap-2 shadow-xs transition-colors cursor-pointer"
+                className="px-4 py-2 rounded-xl bg-white hover:bg-[#ECE8DE] text-[#153424] text-xs font-bold border border-[#E6E1D7] flex items-center gap-2 shadow-xs transition-colors cursor-pointer"
               >
                 <span>Browse 10 Standard Crops</span>
               </button>
@@ -126,19 +126,19 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
 
             {/* Agricultural Key Stat Tiles */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
-              <div className="bg-white p-3.5 rounded-2xl border border-[#E2ECE3] shadow-xs">
+              <div className="bg-white p-3.5 rounded-2xl border border-[#E6E1D7] shadow-xs">
                 <span className="text-[11px] text-stone-600 font-medium block">Active Markets</span>
-                <span className="text-[#123826] font-black text-lg sm:text-xl">20 Mandis</span>
+                <span className="text-[#153424] font-black text-lg sm:text-xl">20 Mandis</span>
               </div>
-              <div className="bg-white p-3.5 rounded-2xl border border-[#E2ECE3] shadow-xs">
+              <div className="bg-white p-3.5 rounded-2xl border border-[#E6E1D7] shadow-xs">
                 <span className="text-[11px] text-stone-600 font-medium block">Key Crops</span>
-                <span className="text-[#123826] font-black text-lg sm:text-xl">10 Crops</span>
+                <span className="text-[#153424] font-black text-lg sm:text-xl">10 Crops</span>
               </div>
-              <div className="bg-white p-3.5 rounded-2xl border border-[#E2ECE3] shadow-xs">
+              <div className="bg-white p-3.5 rounded-2xl border border-[#E6E1D7] shadow-xs">
                 <span className="text-[11px] text-stone-600 font-medium block">Top Spread</span>
                 <span className="text-[#D97706] font-black text-lg sm:text-xl">₹1,400/q</span>
               </div>
-              <div className="bg-white p-3.5 rounded-2xl border border-[#E2ECE3] shadow-xs">
+              <div className="bg-white p-3.5 rounded-2xl border border-[#E6E1D7] shadow-xs">
                 <span className="text-[11px] text-stone-600 font-medium block">Sync Status</span>
                 <span className="text-[#2E7D32] font-black text-lg sm:text-xl">Daily Live</span>
               </div>
@@ -147,7 +147,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
 
           {/* Right Photography Column */}
           <div className="lg:col-span-5 relative">
-            <div className="relative rounded-2xl overflow-hidden shadow-lg border border-[#D5E7D8] aspect-[4/3] group">
+            <div className="relative rounded-2xl overflow-hidden shadow-lg border border-[#E6E1D7] aspect-[4/3] group">
               <img 
                 src="/verda_agro_hero.jpg" 
                 alt="AgriMate Agriculture Fields and Crops" 
@@ -156,13 +156,13 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
               <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
               
               {/* Floating Farm Card */}
-              <div className="absolute bottom-3 left-3 right-3 bg-white/95 backdrop-blur-md p-3.5 rounded-xl border border-white/80 shadow-md flex items-center justify-between">
+              <div className="absolute bottom-3 left-3 right-3 bg-white/95 backdrop-blur-md p-3.5 rounded-xl border border-[#E6E1D7] shadow-md flex items-center justify-between">
                 <div>
                   <span className="text-[10px] font-bold text-[#2E7D32] uppercase tracking-wider block">Featured Market Rate</span>
-                  <strong className="text-sm text-[#123826]">Ballari APMC • Tomato Hybrid</strong>
+                  <strong className="text-sm text-[#153424]">Ballari APMC • Tomato Hybrid</strong>
                 </div>
                 <div className="text-right font-mono">
-                  <span className="text-base font-black text-[#123826]">₹2,200</span>
+                  <span className="text-base font-black text-[#153424]">₹2,200</span>
                   <span className="text-xs text-stone-600">/q</span>
                 </div>
               </div>
@@ -172,18 +172,18 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
       </div>
 
       {/* AGRIDFLOW SATELLITE & MICROCLIMATE TELEMETRY BAR */}
-      <div className="bg-white rounded-2xl border border-[#E2ECE3] p-4 sm:p-5 shadow-xs space-y-4 print-hide-on-checklist">
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#F0F5F1] pb-3">
+      <div className="bg-white rounded-2xl border border-[#E6E1D7] p-4 sm:p-5 shadow-xs space-y-4 print-hide-on-checklist">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#E6E1D7]/60 pb-3">
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-[#2E7D32] animate-pulse"></span>
-            <span className="text-xs font-bold text-[#123826] uppercase tracking-wider">
-              AgridFlow Field Telemetry & Mandi Microclimate
+            <span className="text-xs font-bold text-[#153424] uppercase tracking-wider">
+              Field Telemetry & Mandi Microclimate
             </span>
             <span className="text-[10px] text-stone-500 font-mono hidden sm:inline">
               (Live sensor feed: {location || 'Karnataka APMC Cluster'})
             </span>
           </div>
-          <div className="flex items-center gap-2 text-xs font-bold text-[#2E7D32] bg-[#EBF5ED] px-2.5 py-1 rounded-full border border-[#D5E7D8]">
+          <div className="flex items-center gap-2 text-xs font-bold text-[#2E7D32] bg-[#EAEFE9] px-2.5 py-1 rounded-full border border-[#D6DFD4]">
             <Sprout className="w-3.5 h-3.5" />
             <span>Optimal Soil Vigor (NDVI 0.76)</span>
           </div>
@@ -191,59 +191,59 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
 
         {/* 5 Telemetry Metrics */}
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
-          <div className="bg-[#F7FBF8] p-3 rounded-xl border border-[#E2ECE3] flex items-center gap-3">
+          <div className="bg-[#FAF8F5] p-3 rounded-xl border border-[#E6E1D7] flex items-center gap-3">
             <div className="w-8 h-8 rounded-lg bg-emerald-100/60 text-[#2E7D32] flex items-center justify-center shrink-0">
               <ThermometerSnowflake className="w-4 h-4" />
             </div>
             <div>
               <span className="text-[10px] text-stone-500 block font-medium">Ambient Temp</span>
-              <strong className="text-xs sm:text-sm font-black text-[#123826]">28.4°C</strong>
+              <strong className="text-xs sm:text-sm font-black text-[#153424]">28.4°C</strong>
             </div>
           </div>
 
-          <div className="bg-[#F7FBF8] p-3 rounded-xl border border-[#E2ECE3] flex items-center gap-3">
+          <div className="bg-[#FAF8F5] p-3 rounded-xl border border-[#E6E1D7] flex items-center gap-3">
             <div className="w-8 h-8 rounded-lg bg-blue-100/60 text-blue-700 flex items-center justify-center shrink-0">
               <Droplets className="w-4 h-4" />
             </div>
             <div>
               <span className="text-[10px] text-stone-500 block font-medium">Soil Moisture</span>
-              <strong className="text-xs sm:text-sm font-black text-[#123826]">44% VWC</strong>
+              <strong className="text-xs sm:text-sm font-black text-[#153424]">44% VWC</strong>
             </div>
           </div>
 
-          <div className="bg-[#F7FBF8] p-3 rounded-xl border border-[#E2ECE3] flex items-center gap-3">
+          <div className="bg-[#FAF8F5] p-3 rounded-xl border border-[#E6E1D7] flex items-center gap-3">
             <div className="w-8 h-8 rounded-lg bg-teal-100/60 text-teal-700 flex items-center justify-center shrink-0">
               <Wind className="w-4 h-4" />
             </div>
             <div>
               <span className="text-[10px] text-stone-500 block font-medium">Field Wind</span>
-              <strong className="text-xs sm:text-sm font-black text-[#123826]">9.8 km/h</strong>
+              <strong className="text-xs sm:text-sm font-black text-[#153424]">9.8 km/h</strong>
             </div>
           </div>
 
-          <div className="bg-[#F7FBF8] p-3 rounded-xl border border-[#E2ECE3] flex items-center gap-3">
+          <div className="bg-[#FAF8F5] p-3 rounded-xl border border-[#E6E1D7] flex items-center gap-3">
             <div className="w-8 h-8 rounded-lg bg-amber-100/60 text-amber-700 flex items-center justify-center shrink-0">
               <Sun className="w-4 h-4" />
             </div>
             <div>
               <span className="text-[10px] text-stone-500 block font-medium">Solar Radiation</span>
-              <strong className="text-xs sm:text-sm font-black text-[#123826]">7.2 kWh/m²</strong>
+              <strong className="text-xs sm:text-sm font-black text-[#153424]">7.2 kWh/m²</strong>
             </div>
           </div>
 
-          <div className="bg-[#F7FBF8] p-3 rounded-xl border border-[#E2ECE3] flex items-center gap-3 col-span-2 sm:col-span-1">
+          <div className="bg-[#FAF8F5] p-3 rounded-xl border border-[#E6E1D7] flex items-center gap-3 col-span-2 sm:col-span-1">
             <div className="w-8 h-8 rounded-lg bg-lime-100/60 text-lime-800 flex items-center justify-center shrink-0">
               <Sprout className="w-4 h-4" />
             </div>
             <div>
               <span className="text-[10px] text-stone-500 block font-medium">Arrival Velocity</span>
-              <strong className="text-xs sm:text-sm font-black text-[#123826]">+12% Peak</strong>
+              <strong className="text-xs sm:text-sm font-black text-[#153424]">+12% Peak</strong>
             </div>
           </div>
         </div>
 
-        {/* Quick-Preset Chips for Mandis & Commodities (AgridFlow / AgriHub UX) */}
-        <div className="pt-1 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs border-t border-[#F0F5F1]">
+        {/* Quick-Preset Chips for Mandis & Commodities */}
+        <div className="pt-1 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs border-t border-[#E6E1D7]/60">
           <div className="flex flex-wrap items-center gap-1.5">
             <span className="text-stone-500 font-semibold flex items-center gap-1 mr-1">
               <MapPin className="w-3 h-3 text-[#2E7D32]" />
@@ -263,8 +263,8 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
                 onClick={() => setLocation(m.name)}
                 className={`px-2.5 py-1 rounded-lg text-[11px] font-bold transition-all cursor-pointer border ${
                   location.toLowerCase().includes(m.name.toLowerCase())
-                    ? 'bg-[#123826] text-white border-[#123826]'
-                    : 'bg-stone-50 hover:bg-[#EBF5ED] text-stone-700 border-stone-200'
+                    ? 'bg-[#153424] text-white border-[#153424]'
+                    : 'bg-[#F6F4EE] hover:bg-[#ECE8DE] text-stone-700 border-[#E6E1D7]'
                 }`}
               >
                 {m.label}
@@ -281,8 +281,8 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
                 onClick={() => setCrop(c)}
                 className={`px-2 py-0.5 rounded-lg text-[11px] font-bold transition-all cursor-pointer border ${
                   crop.toLowerCase() === c.toLowerCase()
-                    ? 'bg-[#E8A238] text-[#123826] border-[#E8A238]'
-                    : 'bg-stone-50 hover:bg-[#FFF8E7] text-stone-700 border-stone-200'
+                    ? 'bg-[#E8A238] text-[#153424] border-[#E8A238]'
+                    : 'bg-[#F6F4EE] hover:bg-[#ECE8DE] text-stone-700 border-[#E6E1D7]'
                 }`}
               >
                 {c}
@@ -301,8 +301,8 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
             onClick={() => setActiveTab('form')}
             className={`px-5 py-2.5 text-xs font-bold rounded-2xl border transition-all cursor-pointer ${
               activeTab === 'form'
-                ? 'bg-[#123826] text-white border-[#123826] shadow-sm'
-                : 'bg-white text-stone-600 border-[#E2ECE3] hover:border-[#CCE0D0] hover:text-[#123826]'
+                ? 'bg-[#153424] text-white border-[#153424] shadow-xs'
+                : 'bg-white text-stone-600 border-[#E6E1D7] hover:border-stone-400 hover:text-[#153424]'
             }`}
           >
             {t.searchTabForm}
@@ -312,8 +312,8 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
             onClick={() => setActiveTab('nlp')}
             className={`px-5 py-2.5 text-xs font-bold rounded-2xl border transition-all cursor-pointer flex items-center gap-1.5 ${
               activeTab === 'nlp'
-                ? 'bg-[#123826] text-white border-[#123826] shadow-sm'
-                : 'bg-white text-stone-600 border-[#E2ECE3] hover:border-[#CCE0D0] hover:text-[#123826]'
+                ? 'bg-[#153424] text-white border-[#153424] shadow-xs'
+                : 'bg-white text-stone-600 border-[#E6E1D7] hover:border-stone-400 hover:text-[#153424]'
             }`}
           >
             <Sparkles className="w-3.5 h-3.5 text-[#2E7D32]" />
@@ -380,19 +380,19 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
 
           {/* Selected Market Deep-Dive Section */}
           {selectedMarket && (
-            <div className="space-y-8 pt-4 border-t border-[#E2ECE3]">
+            <div className="space-y-8 pt-4 border-t border-[#E6E1D7]">
               <div className="space-y-8 print-hide-on-checklist">
-                <div className="verda-card p-5 rounded-3xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 border border-[#CCE0D0] shadow-sm">
+                <div className="bg-white p-5 rounded-3xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 border border-[#E6E1D7] shadow-xs">
                   <div>
                     <span className="text-[11px] uppercase tracking-wider text-[#2E7D32] font-bold">
                       Selected Mandi Overview
                     </span>
-                    <h3 className="text-xl sm:text-2xl font-bold text-[#123826] font-['Syne',sans-serif]">
+                    <h3 className="text-xl sm:text-2xl font-bold text-[#153424] font-['Syne',sans-serif]">
                       {selectedMarket.market_name} ({selectedMarket.district})
                     </h3>
                   </div>
-                  <div className="text-xs bg-[#F4F8F5] px-4 py-2.5 rounded-2xl border border-[#CCE0D0] self-start sm:self-auto font-mono">
-                    Modal Rate: <strong className="text-[#123826] text-base tnum font-black">₹{selectedMarket.modal_price}/quintal</strong>
+                  <div className="text-xs bg-[#FAF8F5] px-4 py-2.5 rounded-2xl border border-[#E6E1D7] self-start sm:self-auto font-mono">
+                    Modal Rate: <strong className="text-[#153424] text-base tnum font-black">₹{selectedMarket.modal_price}/quintal</strong>
                   </div>
                 </div>
 
