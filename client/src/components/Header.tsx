@@ -9,7 +9,15 @@ import {
   ArrowRight,
   Bell,
   Search,
-  CheckCircle2
+  CheckCircle2,
+  ChevronDown,
+  Compass,
+  LayoutDashboard,
+  Info,
+  Sparkles,
+  Sprout,
+  Truck,
+  Headphones
 } from 'lucide-react';
 
 interface HeaderProps {
@@ -65,14 +73,14 @@ export const Header: React.FC<HeaderProps> = ({
     return () => document.removeEventListener('mousedown', handler);
   }, [langDropdownOpen]);
 
-  const navItems: { id: NavigationPage; label: string }[] = [
-    { id: 'home', label: t.navHome },
-    { id: 'dashboard', label: t.navDashboard },
-    { id: 'about', label: t.navAbout },
-    { id: 'services', label: t.navServices },
-    { id: 'crops', label: t.navCrops },
-    { id: 'dispatch', label: t.navDispatch },
-    { id: 'contact', label: t.navContact },
+  const navItems: { id: NavigationPage; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
+    { id: 'home', label: t.navHome, icon: Compass },
+    { id: 'dashboard', label: t.navDashboard, icon: LayoutDashboard },
+    { id: 'about', label: t.navAbout, icon: Info },
+    { id: 'services', label: t.navServices, icon: Sparkles },
+    { id: 'crops', label: t.navCrops, icon: Sprout },
+    { id: 'dispatch', label: t.navDispatch, icon: Truck },
+    { id: 'contact', label: t.navContact, icon: Headphones },
   ];
 
   const handleNavClick = (pageId: NavigationPage) => {
@@ -80,79 +88,78 @@ export const Header: React.FC<HeaderProps> = ({
     setMobileMenuOpen(false);
   };
 
-const SEARCH_LABELS: Record<Language, string> = {
-  en: 'Search',
-  hi: 'खोजें',
-  kn: 'ಹುಡುಕಿ',
-  te: 'శోధించండి',
-  ta: 'தேடு',
-  mr: 'शोधा',
-  bn: 'অনুসন্ধান',
-  gu: 'શોધો',
-  pa: 'ਖੋਜੋ',
-  ml: 'തിരയുക'
-};
+  const SEARCH_LABELS: Record<Language, string> = {
+    en: 'Search',
+    hi: 'खोजें',
+    kn: 'ಹುಡುಕಿ',
+    te: 'శోధించండి',
+    ta: 'தேடு',
+    mr: 'शोधा',
+    bn: 'অনুসন্ধান',
+    gu: 'શોધો',
+    pa: 'ਖੋਜੋ',
+    ml: 'തിരയുക'
+  };
 
   return (
-    <header className="bg-[#F6F4EE]/95 backdrop-blur-md border-b border-[#E6E1D7] sticky top-0 z-50 shadow-[0_4px_20px_-4px_rgba(21,52,36,0.04)] print:hidden">
+    <header className="bg-white/95 backdrop-blur-md border-b border-stone-200/80 sticky top-0 z-50 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.05)] print:hidden">
       {/* Main Brand & Multi-Page Navigation Bar */}
-      <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
-        {/* Brand Logo & Name */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-2.5 flex items-center justify-between gap-4">
+        {/* Brand Logo & Name (Clean Cultivo Style - No Cluttered Tagline) */}
         <div 
           onClick={() => handleNavClick('home')}
-          className="flex items-center gap-3 cursor-pointer group select-none"
+          className="flex items-center gap-2.5 cursor-pointer group select-none shrink-0"
         >
-          <div className="relative w-10 h-10 rounded-2xl bg-[#EAEFE9] border border-[#D6DFD4] flex items-center justify-center text-xl shadow-xs shrink-0 group-hover:scale-105 transition-transform notranslate" translate="no">
-            🌾
-            <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-[#2E7D32] rounded-full border-2 border-white"></div>
+          <div className="w-9 h-9 rounded-full bg-[#153424] flex items-center justify-center text-white shadow-xs group-hover:scale-105 transition-transform">
+            <Sprout className="w-4.5 h-4.5 text-[#4ADE80]" />
           </div>
-          <div>
-            <span className="text-xl sm:text-2xl font-black tracking-tight text-[#153424] font-['Syne',sans-serif] block notranslate" translate="no">
-              AgriMate
-            </span>
-            <p className="text-stone-600 text-[11px] font-medium hidden sm:block">
-              {t.appTagline}
-            </p>
-          </div>
+          <span className="text-xl sm:text-2xl font-black tracking-tight text-[#153424] font-['Syne',sans-serif] notranslate" translate="no">
+            AgriMate
+          </span>
         </div>
 
-        {/* Desktop Multi-Page Navigation Links */}
-        <nav className="hidden lg:flex items-center gap-1 bg-[#ECE8DE] p-1 rounded-2xl border border-[#E0DBD0] notranslate" translate="no">
-          {navItems.map((item) => (
-            <button
-              key={item.id}
-              onClick={() => handleNavClick(item.id)}
-              className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all duration-200 cursor-pointer slide-indicator hover-slide-scale ${
-                currentPage === item.id
-                  ? 'bg-[#153424] text-white shadow-xs'
-                  : 'text-stone-700 hover:text-[#153424] hover:bg-white/70'
-              }`}
-            >
-              {item.label}
-            </button>
-          ))}
+        {/* Center: Floating Dark Pill Capsule Navigation (Cultivo Reference) */}
+        <nav className="hidden lg:flex items-center gap-1 bg-[#181F1C] p-1.5 rounded-full border border-stone-800 shadow-md notranslate" translate="no">
+          {navItems.map((item) => {
+            const Icon = item.icon;
+            const isActive = currentPage === item.id;
+            return (
+              <button
+                key={item.id}
+                onClick={() => handleNavClick(item.id)}
+                className={`px-3.5 py-1.5 rounded-full text-xs transition-all duration-200 cursor-pointer flex items-center gap-1.5 select-none ${
+                  isActive
+                    ? 'bg-white text-[#153424] font-bold shadow-xs'
+                    : 'text-stone-300 hover:text-white hover:bg-white/10 font-medium'
+                }`}
+              >
+                {isActive && <Icon className="w-3.5 h-3.5 text-[#153424] shrink-0" />}
+                <span>{item.label}</span>
+              </button>
+            );
+          })}
         </nav>
 
-        {/* Action Button & Mobile Hamburger */}
-        <div className="flex items-center gap-2 relative">
-          {/* Quick Search Button */}
+        {/* Action Controls & Mobile Hamburger (Cultivo Outlined Pill & Search) */}
+        <div className="flex items-center gap-2 relative shrink-0">
+          {/* Quick Search Button (Cultivo style text/icon link) */}
           <button
             onClick={() => setSearchModalOpen(true)}
-            className="p-2 rounded-xl bg-white hover:bg-[#F2EFE8] text-[#153424] border border-[#E6E1D7] transition-colors cursor-pointer shadow-xs hidden sm:flex items-center gap-1.5 text-xs font-semibold notranslate"
+            className="p-2 sm:px-3 sm:py-1.5 rounded-full hover:bg-stone-100 text-stone-700 hover:text-[#153424] transition-colors cursor-pointer flex items-center gap-1.5 text-xs font-semibold notranslate"
             translate="no"
             title={SEARCH_LABELS[language] || 'Search'}
           >
-            <Search className="w-3.5 h-3.5 text-[#2E7D32]" />
-            <span className="hidden md:inline notranslate" translate="no">
+            <Search className="w-4 h-4 text-stone-600" />
+            <span className="hidden sm:inline notranslate" translate="no">
               {SEARCH_LABELS[language] || 'Search'}
             </span>
           </button>
 
-          {/* Notifications Bell with unread counter (AgridFlow style) */}
+          {/* Notifications Bell with unread counter */}
           <div className="relative">
             <button
               onClick={() => setNotificationsOpen(!notificationsOpen)}
-              className="relative p-2 rounded-xl bg-white hover:bg-[#F2EFE8] text-[#153424] border border-[#E6E1D7] transition-colors cursor-pointer shadow-xs"
+              className="relative p-2 rounded-full bg-white hover:bg-stone-100 text-[#153424] border border-stone-300 transition-colors cursor-pointer shadow-xs flex items-center justify-center"
               title="Mandi Live Broadcast Alerts"
               aria-label="Mandi Notifications"
             >
@@ -164,8 +171,8 @@ const SEARCH_LABELS: Record<Language, string> = {
 
             {/* Notification Dropdown */}
             {notificationsOpen && (
-              <div className="absolute right-0 mt-2 w-80 sm:w-88 bg-white rounded-2xl shadow-xl border border-[#E6E1D7] p-3 z-50 animate-in fade-in zoom-in-95 duration-150">
-                <div className="flex items-center justify-between pb-2 border-b border-[#ECE8DE]">
+              <div className="absolute right-0 mt-2 w-80 sm:w-88 bg-white rounded-2xl shadow-xl border border-stone-200 p-3 z-50 animate-in fade-in zoom-in-95 duration-150">
+                <div className="flex items-center justify-between pb-2 border-b border-stone-100">
                   <span className="text-xs font-bold text-[#153424] uppercase tracking-wider">
                     APMC Live Feeds
                   </span>
@@ -177,7 +184,7 @@ const SEARCH_LABELS: Record<Language, string> = {
                 <div className="py-2 space-y-2">
                   <div 
                     onClick={() => { handleNavClick('dashboard'); setNotificationsOpen(false); }}
-                    className="p-2.5 rounded-xl bg-[#FAF8F5] hover:bg-[#EAEFE9] transition-colors cursor-pointer border border-[#E6E1D7]"
+                    className="p-2.5 rounded-xl bg-stone-50 hover:bg-[#EAEFE9] transition-colors cursor-pointer border border-stone-200/80"
                   >
                     <div className="flex justify-between items-center text-xs font-bold text-[#153424]">
                       <span className="flex items-center gap-1.5"><span className="notranslate" translate="no">🌽</span> Davanagere Mandi</span>
@@ -188,7 +195,7 @@ const SEARCH_LABELS: Record<Language, string> = {
 
                   <div 
                     onClick={() => { handleNavClick('dashboard'); setNotificationsOpen(false); }}
-                    className="p-2.5 rounded-xl bg-[#FAF8F5] hover:bg-[#EAEFE9] transition-colors cursor-pointer border border-[#E6E1D7]"
+                    className="p-2.5 rounded-xl bg-stone-50 hover:bg-[#EAEFE9] transition-colors cursor-pointer border border-stone-200/80"
                   >
                     <div className="flex justify-between items-center text-xs font-bold text-[#153424]">
                       <span className="flex items-center gap-1.5"><span className="notranslate" translate="no">🍅</span> Kolar APMC</span>
@@ -199,7 +206,7 @@ const SEARCH_LABELS: Record<Language, string> = {
 
                   <div 
                     onClick={() => { handleNavClick('dashboard'); setNotificationsOpen(false); }}
-                    className="p-2.5 rounded-xl bg-[#FAF8F5] hover:bg-[#EAEFE9] transition-colors cursor-pointer border border-[#E6E1D7]"
+                    className="p-2.5 rounded-xl bg-stone-50 hover:bg-[#EAEFE9] transition-colors cursor-pointer border border-stone-200/80"
                   >
                     <div className="flex justify-between items-center text-xs font-bold text-[#153424]">
                       <span className="flex items-center gap-1.5"><span className="notranslate" translate="no">🧅</span> Lasalgaon Mandi</span>
@@ -220,10 +227,10 @@ const SEARCH_LABELS: Record<Language, string> = {
             )}
           </div>
 
-          {/* Language Switcher — custom dropdown, immune to Google Translate mutation */}
+          {/* Language Switcher — Rounded Pill (Cultivo pill style) */}
           <div
             ref={langDropdownRef}
-            className="relative flex items-center bg-white px-2.5 py-1 rounded-xl border border-[#E6E1D7] shadow-xs gap-1.5 notranslate cursor-pointer select-none"
+            className="relative flex items-center bg-white px-3 py-1.5 rounded-full border border-stone-300 hover:border-stone-400 shadow-xs gap-1.5 notranslate cursor-pointer select-none transition-colors"
             translate="no"
             onClick={() => setLangDropdownOpen(!langDropdownOpen)}
             role="combobox"
@@ -232,14 +239,14 @@ const SEARCH_LABELS: Record<Language, string> = {
             aria-label="Select language"
           >
             <Globe className="w-3.5 h-3.5 text-[#2E7D32] shrink-0" />
-            <span className="text-xs font-bold text-[#153424] notranslate pr-1 whitespace-nowrap">
+            <span className="text-xs font-bold text-[#153424] notranslate whitespace-nowrap">
               {LANGUAGES.find(l => l.code === language)?.label ?? 'English'} ({LANGUAGES.find(l => l.code === language)?.name ?? 'EN'})
             </span>
-            <svg className={`w-3 h-3 text-stone-400 transition-transform shrink-0 ${langDropdownOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
+            <ChevronDown className={`w-3 h-3 text-stone-400 transition-transform shrink-0 ${langDropdownOpen ? 'rotate-180' : ''}`} />
 
             {langDropdownOpen && (
               <div
-                className="absolute right-0 top-full mt-1.5 w-48 bg-white rounded-xl border border-[#E6E1D7] shadow-xl z-50 py-1 max-h-72 overflow-y-auto notranslate"
+                className="absolute right-0 top-full mt-1.5 w-48 bg-white rounded-2xl border border-stone-200 shadow-xl z-50 py-1.5 max-h-72 overflow-y-auto notranslate"
                 translate="no"
                 role="listbox"
                 onClick={(e) => e.stopPropagation()}
@@ -250,7 +257,7 @@ const SEARCH_LABELS: Record<Language, string> = {
                     role="option"
                     aria-selected={language === lang.code}
                     onClick={() => { onLanguageChange(lang.code); setLangDropdownOpen(false); }}
-                    className={`w-full text-left px-3 py-2 text-xs font-semibold transition-colors cursor-pointer notranslate ${
+                    className={`w-full text-left px-3.5 py-2 text-xs font-semibold transition-colors cursor-pointer notranslate ${
                       language === lang.code
                         ? 'bg-[#EBF5ED] text-[#123826] font-bold'
                         : 'text-stone-700 hover:bg-[#F4F8F5]'
@@ -264,11 +271,20 @@ const SEARCH_LABELS: Record<Language, string> = {
             )}
           </div>
 
+          {/* Outlined Pill CTA Button (Cultivo "Sign up free" style) */}
+          <button
+            onClick={() => handleNavClick('dashboard')}
+            className="hidden md:flex items-center gap-1.5 px-4 py-1.5 rounded-full border border-stone-800 hover:bg-[#153424] hover:text-white hover:border-[#153424] text-stone-900 text-xs font-bold transition-all shadow-xs cursor-pointer"
+          >
+            <span>Terminal</span>
+            <ArrowRight className="w-3 h-3" />
+          </button>
+
           {/* Settings Button */}
           {onOpenSettings && (
             <button
               onClick={onOpenSettings}
-              className="p-2 rounded-xl bg-white hover:bg-[#F2F8F4] text-stone-700 border border-[#CCE0D0] transition-all cursor-pointer shadow-xs hidden sm:flex items-center justify-center"
+              className="p-2 rounded-full bg-white hover:bg-stone-100 text-stone-700 border border-stone-300 transition-all cursor-pointer shadow-xs hidden sm:flex items-center justify-center"
               title="Preferences & Data Sync"
               aria-label="Settings"
             >
@@ -279,7 +295,7 @@ const SEARCH_LABELS: Record<Language, string> = {
           {/* Mobile Menu Toggle Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden p-2 rounded-xl border border-[#CCE0D0] bg-white text-[#123826] hover:bg-[#F2F8F4] transition-colors cursor-pointer"
+            className="lg:hidden p-2 rounded-full border border-stone-300 bg-white text-[#123826] hover:bg-stone-100 transition-colors cursor-pointer"
             aria-label="Toggle Navigation Menu"
           >
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -289,25 +305,30 @@ const SEARCH_LABELS: Record<Language, string> = {
 
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="lg:hidden border-t border-[#E6E1D7] bg-[#F6F4EE] px-4 py-4 space-y-3 shadow-lg animate-slide-down">
+        <div className="lg:hidden border-t border-stone-200 bg-white px-4 py-4 space-y-3 shadow-lg animate-slide-down">
           <div className="grid grid-cols-2 gap-2 notranslate" translate="no">
-            {navItems.map((item, idx) => (
-              <button
-                key={item.id}
-                onClick={() => handleNavClick(item.id)}
-                className={`w-full p-2.5 rounded-xl text-xs font-bold text-left transition-all duration-200 cursor-pointer hover-slide-right animate-slide-up stagger-${idx + 1} ${
-                  currentPage === item.id
-                    ? 'bg-[#153424] text-white shadow-xs'
-                    : 'bg-white text-stone-700 hover:bg-[#ECE8DE] border border-[#E6E1D7]'
-                }`}
-              >
-                {item.label}
-              </button>
-            ))}
+            {navItems.map((item) => {
+              const Icon = item.icon;
+              const isActive = currentPage === item.id;
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => handleNavClick(item.id)}
+                  className={`w-full p-2.5 rounded-xl text-xs font-bold text-left transition-all duration-200 cursor-pointer flex items-center gap-2 ${
+                    isActive
+                      ? 'bg-[#153424] text-white shadow-xs'
+                      : 'bg-stone-50 text-stone-700 hover:bg-stone-100 border border-stone-200'
+                  }`}
+                >
+                  <Icon className={`w-4 h-4 ${isActive ? 'text-white' : 'text-stone-500'}`} />
+                  <span>{item.label}</span>
+                </button>
+              );
+            })}
           </div>
 
-          {/* Mobile Language Switcher — custom dropdown */}
-          <div className="p-2.5 rounded-xl bg-[#F4F8F5] border border-[#E2ECE3] notranslate" translate="no">
+          {/* Mobile Language Switcher */}
+          <div className="p-2.5 rounded-xl bg-stone-50 border border-stone-200 notranslate" translate="no">
             <div className="flex items-center gap-1.5 text-xs font-bold text-[#123826] mb-2">
               <Globe className="w-3.5 h-3.5 text-[#2E7D32]" />
               <span>Language</span>
