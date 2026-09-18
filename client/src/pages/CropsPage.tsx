@@ -327,10 +327,10 @@ export const CropsPage: React.FC<CropsPageProps> = ({
       {/* Crops Cards Grid */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredCrops.map((crop) => (
+          {filteredCrops.map((crop, idx) => (
             <div 
               key={crop.id}
-              className="bg-white rounded-2xl border border-[#E6E1D7] hover:border-[#2E7D32] hover:shadow-lg transition-all p-6 space-y-4 flex flex-col justify-between"
+              className={`bg-white rounded-2xl border border-[#E6E1D7] hover:border-[#2E7D32] hover:shadow-lg transition-all p-6 space-y-4 flex flex-col justify-between animate-slide-up stagger-${Math.min(idx + 1, 8)} hover-slide-up`}
             >
               <div className="space-y-4">
                 {/* Header */}

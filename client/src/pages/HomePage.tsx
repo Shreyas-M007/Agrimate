@@ -16,6 +16,7 @@ import {
   MapPin 
 } from 'lucide-react';
 import { ContinentalMosaic } from '../components/ContinentalMosaic';
+import { IndiaMarketsMap } from '../components/IndiaMarketsMap';
 
 interface HomePageProps {
   language: Language;
@@ -333,32 +334,12 @@ export const HomePage: React.FC<HomePageProps> = ({
               </div>
             </div>
 
-            {/* Right Column: Hero Visual Card */}
-            <div className="lg:col-span-5">
-              <div className="relative rounded-3xl overflow-hidden border-2 border-[#E6E1D7] shadow-lg bg-stone-100 group">
-                <img 
-                  src="/farmer_tablet_field.jpg" 
-                  alt="Farmer Inspecting Digital Mandi Intelligence" 
-                  className="w-full h-72 sm:h-80 object-cover group-hover:scale-103 transition-transform duration-700"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0A1F14]/80 via-transparent to-transparent"></div>
-                
-                {/* Overlay Card Details */}
-                <div className="absolute bottom-4 left-4 right-4 p-4 rounded-2xl bg-white/90 backdrop-blur-md border border-white/40 flex items-center justify-between">
-                  <div className="space-y-0.5">
-                    <span className="text-[10px] uppercase font-mono font-bold tracking-wider text-[#2E7D32] block">
-                      Live Mandi Stream
-                    </span>
-                    <strong className="text-xs sm:text-sm text-[#153424] block">
-                      Ballari APMC • Tomato Hybrid
-                    </strong>
-                  </div>
-                  <div className="text-right">
-                    <span className="text-base sm:text-lg font-black font-mono text-[#153424] block">₹1,850/q</span>
-                    <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded font-mono">+2.6% Modal</span>
-                  </div>
-                </div>
-              </div>
+            {/* Right Column: Interactive National APMC Mandi Grid Map */}
+            <div className="lg:col-span-5 animate-slide-up">
+              <IndiaMarketsMap 
+                onNavigate={onNavigate} 
+                onSearchAndNavigate={onSearchAndNavigate} 
+              />
             </div>
           </div>
 

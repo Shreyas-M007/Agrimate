@@ -227,18 +227,22 @@ export const MarketComparison: React.FC<MarketComparisonProps> = ({
         </div>
       </div>
 
-      {/* Grid of market cards */}
+      {/* Grid of market cards with staggered slide-up animations */}
       {processedMarkets.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {processedMarkets.map((market) => (
-            <MarketCard
+          {processedMarkets.map((market, idx) => (
+            <div
               key={market.market_id}
-              market={market}
-              language={language}
-              isSelected={selectedMarket?.market_id === market.market_id}
-              onSelect={onSelectMarket}
-              onExplainTerm={onExplainTerm}
-            />
+              className={`animate-slide-up stagger-${Math.min(idx + 1, 8)} hover-slide-up`}
+            >
+              <MarketCard
+                market={market}
+                language={language}
+                isSelected={selectedMarket?.market_id === market.market_id}
+                onSelect={onSelectMarket}
+                onExplainTerm={onExplainTerm}
+              />
+            </div>
           ))}
         </div>
       ) : (

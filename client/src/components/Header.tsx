@@ -122,7 +122,7 @@ const SEARCH_LABELS: Record<Language, string> = {
             <button
               key={item.id}
               onClick={() => handleNavClick(item.id)}
-              className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+              className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all duration-200 cursor-pointer slide-indicator hover-slide-scale ${
                 currentPage === item.id
                   ? 'bg-[#153424] text-white shadow-xs'
                   : 'text-stone-700 hover:text-[#153424] hover:bg-white/70'
@@ -289,16 +289,16 @@ const SEARCH_LABELS: Record<Language, string> = {
 
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="lg:hidden border-t border-[#E2ECE3] bg-white px-4 py-4 space-y-3 shadow-lg animate-in slide-in-from-top duration-200">
+        <div className="lg:hidden border-t border-[#E6E1D7] bg-[#F6F4EE] px-4 py-4 space-y-3 shadow-lg animate-slide-down">
           <div className="grid grid-cols-2 gap-2 notranslate" translate="no">
-            {navItems.map((item) => (
+            {navItems.map((item, idx) => (
               <button
                 key={item.id}
                 onClick={() => handleNavClick(item.id)}
-                className={`w-full p-2.5 rounded-xl text-xs font-bold text-left transition-all cursor-pointer ${
+                className={`w-full p-2.5 rounded-xl text-xs font-bold text-left transition-all duration-200 cursor-pointer hover-slide-right animate-slide-up stagger-${idx + 1} ${
                   currentPage === item.id
-                    ? 'bg-[#123826] text-white shadow-xs'
-                    : 'bg-[#F4F8F5] text-stone-700 hover:bg-[#E2ECE3]'
+                    ? 'bg-[#153424] text-white shadow-xs'
+                    : 'bg-white text-stone-700 hover:bg-[#ECE8DE] border border-[#E6E1D7]'
                 }`}
               >
                 {item.label}

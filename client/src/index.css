@@ -316,11 +316,11 @@ html, body {
   scroll-snap-align: start;
 }
 
-/* Page slide-up transition (Ref: Pinterest 7yRLlPCqL) */
+/* Directional Slide Keyframes */
 @keyframes slideUpFade {
   from {
     opacity: 0;
-    transform: translateY(14px);
+    transform: translateY(16px);
   }
   to {
     opacity: 1;
@@ -328,14 +328,21 @@ html, body {
   }
 }
 
-.animate-slide-up {
-  animation: slideUpFade 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+@keyframes slideDownFade {
+  from {
+    opacity: 0;
+    transform: translateY(-16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes slideRightFade {
   from {
     opacity: 0;
-    transform: translateX(-16px);
+    transform: translateX(-20px);
   }
   to {
     opacity: 1;
@@ -343,6 +350,82 @@ html, body {
   }
 }
 
-.animate-slide-right {
-  animation: slideRightFade 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+@keyframes slideLeftFade {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
+
+@keyframes slideScaleFade {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Slide Utility Classes */
+.animate-slide-up {
+  animation: slideUpFade 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-slide-down {
+  animation: slideDownFade 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-slide-right {
+  animation: slideRightFade 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-slide-left {
+  animation: slideLeftFade 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-slide-scale {
+  animation: slideScaleFade 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Stagger Utilities for Lists, Grids, and Card Sequences */
+.stagger-1 { animation-delay: 40ms; }
+.stagger-2 { animation-delay: 80ms; }
+.stagger-3 { animation-delay: 120ms; }
+.stagger-4 { animation-delay: 160ms; }
+.stagger-5 { animation-delay: 200ms; }
+.stagger-6 { animation-delay: 240ms; }
+.stagger-7 { animation-delay: 280ms; }
+.stagger-8 { animation-delay: 320ms; }
+
+/* Interactive Hover Slide Micro-Interactions */
+.hover-slide-up {
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s ease;
+}
+.hover-slide-up:hover {
+  transform: translateY(-4px);
+}
+
+.hover-slide-right {
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.hover-slide-right:hover {
+  transform: translateX(4px);
+}
+
+.hover-slide-scale {
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s ease;
+}
+.hover-slide-scale:hover {
+  transform: translateY(-2px) scale(1.015);
+}
+
+.slide-indicator {
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+

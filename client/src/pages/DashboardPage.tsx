@@ -126,19 +126,19 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
 
             {/* Agricultural Key Stat Tiles */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
-              <div className="bg-white p-3.5 rounded-2xl border border-[#E6E1D7] shadow-xs">
+              <div className="bg-white p-3.5 rounded-2xl border border-[#E6E1D7] shadow-xs hover-slide-up animate-slide-up stagger-1">
                 <span className="text-[11px] text-stone-600 font-medium block">Active Markets</span>
                 <span className="text-[#153424] font-black text-lg sm:text-xl">20 Mandis</span>
               </div>
-              <div className="bg-white p-3.5 rounded-2xl border border-[#E6E1D7] shadow-xs">
+              <div className="bg-white p-3.5 rounded-2xl border border-[#E6E1D7] shadow-xs hover-slide-up animate-slide-up stagger-2">
                 <span className="text-[11px] text-stone-600 font-medium block">Key Crops</span>
                 <span className="text-[#153424] font-black text-lg sm:text-xl">10 Crops</span>
               </div>
-              <div className="bg-white p-3.5 rounded-2xl border border-[#E6E1D7] shadow-xs">
+              <div className="bg-white p-3.5 rounded-2xl border border-[#E6E1D7] shadow-xs hover-slide-up animate-slide-up stagger-3">
                 <span className="text-[11px] text-stone-600 font-medium block">Top Spread</span>
                 <span className="text-[#D97706] font-black text-lg sm:text-xl">₹1,400/q</span>
               </div>
-              <div className="bg-white p-3.5 rounded-2xl border border-[#E6E1D7] shadow-xs">
+              <div className="bg-white p-3.5 rounded-2xl border border-[#E6E1D7] shadow-xs hover-slide-up animate-slide-up stagger-4">
                 <span className="text-[11px] text-stone-600 font-medium block">Sync Status</span>
                 <span className="text-[#2E7D32] font-black text-lg sm:text-xl">Daily Live</span>
               </div>
@@ -191,7 +191,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
 
         {/* 5 Telemetry Metrics */}
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
-          <div className="bg-[#FAF8F5] p-3 rounded-xl border border-[#E6E1D7] flex items-center gap-3">
+          <div className="bg-[#FAF8F5] p-3 rounded-xl border border-[#E6E1D7] flex items-center gap-3 hover-slide-scale animate-slide-up stagger-1">
             <div className="w-8 h-8 rounded-lg bg-emerald-100/60 text-[#2E7D32] flex items-center justify-center shrink-0">
               <ThermometerSnowflake className="w-4 h-4" />
             </div>
@@ -201,7 +201,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
             </div>
           </div>
 
-          <div className="bg-[#FAF8F5] p-3 rounded-xl border border-[#E6E1D7] flex items-center gap-3">
+          <div className="bg-[#FAF8F5] p-3 rounded-xl border border-[#E6E1D7] flex items-center gap-3 hover-slide-scale animate-slide-up stagger-2">
             <div className="w-8 h-8 rounded-lg bg-blue-100/60 text-blue-700 flex items-center justify-center shrink-0">
               <Droplets className="w-4 h-4" />
             </div>
@@ -211,7 +211,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
             </div>
           </div>
 
-          <div className="bg-[#FAF8F5] p-3 rounded-xl border border-[#E6E1D7] flex items-center gap-3">
+          <div className="bg-[#FAF8F5] p-3 rounded-xl border border-[#E6E1D7] flex items-center gap-3 hover-slide-scale animate-slide-up stagger-3">
             <div className="w-8 h-8 rounded-lg bg-teal-100/60 text-teal-700 flex items-center justify-center shrink-0">
               <Wind className="w-4 h-4" />
             </div>
@@ -221,7 +221,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
             </div>
           </div>
 
-          <div className="bg-[#FAF8F5] p-3 rounded-xl border border-[#E6E1D7] flex items-center gap-3">
+          <div className="bg-[#FAF8F5] p-3 rounded-xl border border-[#E6E1D7] flex items-center gap-3 hover-slide-scale animate-slide-up stagger-4">
             <div className="w-8 h-8 rounded-lg bg-amber-100/60 text-amber-700 flex items-center justify-center shrink-0">
               <Sun className="w-4 h-4" />
             </div>
@@ -231,7 +231,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
             </div>
           </div>
 
-          <div className="bg-[#FAF8F5] p-3 rounded-xl border border-[#E6E1D7] flex items-center gap-3 col-span-2 sm:col-span-1">
+          <div className="bg-[#FAF8F5] p-3 rounded-xl border border-[#E6E1D7] flex items-center gap-3 col-span-2 sm:col-span-1 hover-slide-scale animate-slide-up stagger-5">
             <div className="w-8 h-8 rounded-lg bg-lime-100/60 text-lime-800 flex items-center justify-center shrink-0">
               <Sprout className="w-4 h-4" />
             </div>
