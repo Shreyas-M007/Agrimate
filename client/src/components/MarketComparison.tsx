@@ -1,8 +1,60 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import type { MarketItem, Language } from '../types';
 import { TRANSLATIONS } from '../i18n/translations';
 import { MarketCard } from './MarketCard';
-import { Info, Filter, ArrowUpDown, Search, RotateCcw, TrendingUp, BarChart2 } from 'lucide-react';
+import { 
+  Info, 
+  Filter, 
+  ArrowUpDown, 
+  Search, 
+  RotateCcw, 
+  TrendingUp, 
+  BarChart2,
+  ChevronDown,
+  ChevronUp
+} from 'lucide-react';
+
+const INITIAL_BATCH_SIZE = 6;
+const BATCH_INCREMENT = 6;
+
+const SHOW_MORE_LABELS: Record<Language, string> = {
+  en: 'Show More Mandis',
+  hi: 'और मंडियां देखें',
+  kn: 'ಇನ್ನಷ್ಟು ಮಂಡಿಗಳನ್ನು ತೋರಿಸಿ',
+  te: 'మరిన్ని మార్కెట్లను చూపించు',
+  ta: 'மேலும் சந்தைகளைக் காட்டு',
+  mr: 'आणखी मंड्या दाखवा',
+  bn: 'আরও মান্ডি দেখুন',
+  gu: 'વધુ મંડીઓ જુઓ',
+  pa: 'ਹੋਰ ਮੰਡੀਆਂ ਵੇਖੋ',
+  ml: 'കൂടുതൽ മണ്ടികൾ കാണിക്കുക'
+};
+
+const SHOW_LESS_LABELS: Record<Language, string> = {
+  en: 'Show Less',
+  hi: 'कम देखें',
+  kn: 'ಕಡಿಮೆ ತೋರಿಸಿ',
+  te: 'తక్కువ చూపించు',
+  ta: 'குறைவாகக் காட்டு',
+  mr: 'कमी दाखवा',
+  bn: 'কম দেখুন',
+  gu: 'ઓછું જુઓ',
+  pa: 'ਘੱਟ ਵੇਖੋ',
+  ml: 'കുറച്ച് കാണിക്കുക'
+};
+
+const SHOW_ALL_LABELS: Record<Language, string> = {
+  en: 'Show All',
+  hi: 'सभी देखें',
+  kn: 'ಎಲ್ಲವನ್ನೂ ತೋರಿಸಿ',
+  te: 'అన్నీ చూపించు',
+  ta: 'அனைத்தையும் காட்டு',
+  mr: 'सर्व दाखवा',
+  bn: 'সব দেখুন',
+  gu: 'બધા જુઓ',
+  pa: 'ਸਾਰੇ ਵੇਖੋ',
+  ml: 'എല്ലാം കാണിക്കുക'
+};
 
 interface MarketComparisonProps {
   markets: MarketItem[];
@@ -26,6 +78,7 @@ export const MarketComparison: React.FC<MarketComparisonProps> = ({
   const [maxDistance, setMaxDistance] = useState<number>(0); // 0 = all
   const [sortBy, setSortBy] = useState<string>('distance');
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [visibleCount, setVisibleCount] = useState<number>(INITIAL_BATCH_SIZE);
 
   // Extract unique states
   const availableStates = useMemo(() => {
@@ -77,6 +130,25 @@ export const MarketComparison: React.FC<MarketComparisonProps> = ({
     return result;
   }, [markets, selectedState, maxDistance, searchQuery, sortBy]);
 
+  // Reset visibleCount whenever filters change
+  useEffect(() => {
+    setVisibleCount(INITIAL_BATCH_SIZE);
+  }, [selectedState, maxDistance, sortBy, searchQuery]);
+
+  // If selectedMarket is set and outside the current visible slice, auto-expand to include it
+  useEffect(() => {
+    if (selectedMarket) {
+      const idx = processedMarkets.findIndex(m => m.market_id === selectedMarket.market_id);
+      if (idx >= visibleCount) {
+        setVisibleCount(Math.ceil((idx + 1) / BATCH_INCREMENT) * BATCH_INCREMENT);
+      }
+    }
+  }, [selectedMarket, processedMarkets, visibleCount]);
+
+  const visibleMarkets = useMemo(() => {
+    return processedMarkets.slice(0, visibleCount);
+  }, [processedMarkets, visibleCount]);
+
   // Aggregate Market Stats
   const stats = useMemo(() => {
     if (markets.length === 0) return null;
@@ -94,6 +166,7 @@ export const MarketComparison: React.FC<MarketComparisonProps> = ({
     setMaxDistance(0);
     setSortBy('distance');
     setSearchQuery('');
+    setVisibleCount(INITIAL_BATCH_SIZE);
   };
 
   if (markets.length === 0) {
@@ -229,21 +302,81 @@ export const MarketComparison: React.FC<MarketComparisonProps> = ({
 
       {/* Grid of market cards with staggered slide-up animations */}
       {processedMarkets.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {processedMarkets.map((market, idx) => (
-            <div
-              key={market.market_id}
-              className={`animate-slide-up stagger-${Math.min(idx + 1, 8)} hover-slide-up`}
-            >
-              <MarketCard
-                market={market}
-                language={language}
-                isSelected={selectedMarket?.market_id === market.market_id}
-                onSelect={onSelectMarket}
-                onExplainTerm={onExplainTerm}
-              />
+        <div className="space-y-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {visibleMarkets.map((market, idx) => (
+              <div
+                key={market.market_id}
+                className={`animate-slide-up stagger-${Math.min((idx % 6) + 1, 6)} hover-slide-up`}
+              >
+                <MarketCard
+                  market={market}
+                  language={language}
+                  isSelected={selectedMarket?.market_id === market.market_id}
+                  onSelect={onSelectMarket}
+                  onExplainTerm={onExplainTerm}
+                />
+              </div>
+            ))}
+          </div>
+
+          {/* Show More / Show Less Pagination Bar */}
+          {processedMarkets.length > INITIAL_BATCH_SIZE && (
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-4 border-t border-[#E6E1D7] bg-[#FAF8F5] p-4 rounded-2xl shadow-2xs">
+              <div className="text-xs text-stone-600 font-mono flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-[#2E7D32]"></span>
+                <span>
+                  Showing <strong className="text-[#153424] font-bold">{Math.min(visibleCount, processedMarkets.length)}</strong> of{' '}
+                  <strong className="text-[#153424] font-bold">{processedMarkets.length}</strong> APMC Mandis
+                </span>
+                {visibleCount < processedMarkets.length && (
+                  <span className="text-[11px] text-stone-500 hidden sm:inline">
+                    ({processedMarkets.length - visibleCount} more available)
+                  </span>
+                )}
+              </div>
+
+              <div className="flex items-center gap-2">
+                {visibleCount < processedMarkets.length ? (
+                  <>
+                    <button
+                      type="button"
+                      onClick={() => setVisibleCount(prev => Math.min(prev + BATCH_INCREMENT, processedMarkets.length))}
+                      className="px-4 py-2 rounded-xl bg-[#153424] hover:bg-[#1f4a34] text-white text-xs font-bold transition-all shadow-xs flex items-center gap-1.5 cursor-pointer"
+                    >
+                      <span>{SHOW_MORE_LABELS[language] || 'Show More Mandis'}</span>
+                      <span className="text-emerald-300 font-mono text-[11px]">
+                        (+{Math.min(BATCH_INCREMENT, processedMarkets.length - visibleCount)})
+                      </span>
+                      <ChevronDown className="w-3.5 h-3.5 text-emerald-300" />
+                    </button>
+
+                    {processedMarkets.length - visibleCount > BATCH_INCREMENT && (
+                      <button
+                        type="button"
+                        onClick={() => setVisibleCount(processedMarkets.length)}
+                        className="px-3.5 py-2 rounded-xl bg-white hover:bg-stone-100 text-stone-700 hover:text-[#153424] border border-[#E6E1D7] text-xs font-bold transition-all cursor-pointer shadow-2xs"
+                      >
+                        <span>{SHOW_ALL_LABELS[language] || 'Show All'}</span>
+                        <span className="text-stone-500 font-mono text-[11px] ml-1">({processedMarkets.length})</span>
+                      </button>
+                    )}
+                  </>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setVisibleCount(INITIAL_BATCH_SIZE);
+                    }}
+                    className="px-4 py-2 rounded-xl bg-white hover:bg-stone-100 text-stone-800 border border-[#E6E1D7] text-xs font-bold transition-all shadow-xs flex items-center gap-1.5 cursor-pointer"
+                  >
+                    <span>{SHOW_LESS_LABELS[language] || 'Show Less'}</span>
+                    <ChevronUp className="w-3.5 h-3.5 text-stone-600" />
+                  </button>
+                )}
+              </div>
             </div>
-          ))}
+          )}
         </div>
       ) : (
         <div className="verda-card rounded-2xl border border-[#E2ECE3] p-8 text-center space-y-3">
