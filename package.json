@@ -7,7 +7,7 @@
   "scripts": {
     "dev:server": "cd server && npm run dev",
     "dev:client": "cd client && npm run dev",
-    "test": "node tests/run-checks.js"
+    "test": "node tests/run-checks.js && node tests/bharat-build.test.js && node tests/test-aws.js && node tests/deep-debug.js"
   },
   "keywords": ["agriculture", "mandimate", "apmc", "agmarknet", "farmer", "ai"]
 }

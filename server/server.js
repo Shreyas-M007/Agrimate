@@ -24,6 +24,11 @@ app.use((req, res, next) => {
   next();
 });
 
+// Root health endpoint
+app.get('/health', (req, res) => {
+  res.json({ status: "healthy", timestamp: new Date().toISOString() });
+});
+
 // Mount MandiMate API routes
 app.use('/api', apiRouter);
 

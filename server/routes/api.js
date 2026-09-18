@@ -12,11 +12,13 @@ import {
   generateMarketExplanation, 
   TERMINOLOGY_EXPLANATIONS 
 } from '../services/aiService.js';
-import { explainMarketWithBedrock, getBedrockConfig } from '../services/bedrockService.js';
+import { explainMarketWithBedrock, getBedrockConfig, explainTerm } from '../services/bedrockService.js';
 import { getDynamoConfig } from '../services/dynamoService.js';
 import { getSellingChecklist } from '../services/checklistService.js';
 import { parseNaturalLanguageQuery } from '../services/nlpService.js';
 import { syncMarketData, getSyncStatus } from '../services/syncService.js';
+import { ValidationService } from '../services/validationService.js';
+import { processAndIngestRecords, fetchLiveMandiData } from '../services/agmarknetLiveService.js';
 import db from '../database/db.js';
 
 const router = express.Router();
@@ -86,17 +88,22 @@ router.get('/markets', async (req, res) => {
   } = req.query;
   const targetLocation = location || district || '';
 
-  // Input validation
+  // Input validation with ValidationService
   const numQuantity = Number(quantity);
-  if (isNaN(numQuantity) || numQuantity <= 0) {
+  const validation = ValidationService.validateSearchInput({ crop: crop || '', quantity: numQuantity, unit });
+  if (!validation.valid || isNaN(numQuantity) || numQuantity <= 0) {
     return res.status(400).json({
       success: false,
-      error: "Quantity must be a positive number greater than zero.",
-      code: "INVALID_QUANTITY"
+      error: {
+        code: "INVALID_INPUT",
+        message: validation.errors[0] || "Quantity must be a positive number greater than zero."
+      },
+      code: "INVALID_QUANTITY",
+      errors: validation.errors
     });
   }
 
-  const result = searchMarkets({
+  let result = searchMarkets({
     crop,
     location: targetLocation,
     quantity: numQuantity,
@@ -107,6 +114,28 @@ router.get('/markets', async (req, res) => {
     maxDistanceKm,
     sortBy
   });
+
+  // On-demand live Agmarknet fetch if crop is missing or unsupported locally
+  if (!result.success && result.code === 'UNSUPPORTED_CROP' && crop) {
+    try {
+      const liveRecords = await fetchLiveMandiData(crop, targetLocation);
+      if (liveRecords && liveRecords.length > 0) {
+        result = searchMarkets({
+          crop,
+          location: targetLocation,
+          quantity: numQuantity,
+          unit,
+          lat,
+          lon,
+          filterState,
+          maxDistanceKm,
+          sortBy
+        });
+      }
+    } catch {
+      // Graceful fallback
+    }
+  }
 
   if (!result.success) {
     return res.status(400).json(result);
@@ -127,10 +156,16 @@ router.get('/prices', (req, res) => {
     return res.status(400).json({ success: false, error: "Crop parameter is required." });
   }
   const result = searchMarkets({ crop, quantity: 1 });
-  if (market_id && result.markets) {
-    result.markets = result.markets.filter(m => m.market_id === market_id);
+  let markets = result.markets || [];
+  if (market_id && markets) {
+    markets = markets.filter(m => m.market_id === market_id);
   }
-  res.json(result);
+  res.json({
+    success: true,
+    data: markets,
+    markets,
+    ...result
+  });
 });
 
 // GET /api/trends
@@ -140,14 +175,34 @@ router.get('/trends', (req, res) => {
   if (!result.success) {
     return res.status(400).json(result);
   }
-  res.json(result);
+  res.json({
+    success: true,
+    data: result,
+    ...result
+  });
 });
 
 // POST /api/explain - PRD Section 14, 18, 19.1 Amazon Bedrock Explanation Layer
 router.post('/explain', async (req, res) => {
-  const { market, trend, language = 'en', quantityQuintals = 0 } = req.body;
+  const { market, trend, language = 'en', quantityQuintals = 0, type, term, context_price } = req.body;
+
+  // Support term explanation requests (PRD Sec 14 & 34)
+  if (type === 'term' || term) {
+    const termRes = await explainTerm({
+      term: term || 'modal_price',
+      contextPrice: context_price,
+      language
+    });
+    return res.json({
+      success: true,
+      data: termRes,
+      explanation: termRes.explanation,
+      ...termRes
+    });
+  }
+
   if (!market) {
-    return res.status(400).json({ success: false, error: "Market data object is required." });
+    return res.status(400).json({ success: false, error: "Market data object or term parameter is required." });
   }
   try {
     const explanation = await explainMarketWithBedrock({
@@ -156,7 +211,7 @@ router.post('/explain', async (req, res) => {
       language,
       quantityQuintals: Number(quantityQuintals) || 0
     });
-    res.json({ success: true, explanation });
+    res.json({ success: true, data: explanation, explanation });
   } catch (err) {
     // Graceful fallback to deterministic generator
     const explanation = generateMarketExplanation({
@@ -165,7 +220,7 @@ router.post('/explain', async (req, res) => {
       language,
       quantityQuintals: Number(quantityQuintals) || 0
     });
-    res.json({ success: true, explanation });
+    res.json({ success: true, data: explanation, explanation });
   }
 });
 
@@ -189,14 +244,51 @@ router.get('/explain-term/:term', (req, res) => {
 
 // POST /api/checklist
 router.post('/checklist', (req, res) => {
-  const { crop = "produce", marketName = "APMC Mandi", quantityQuintals = 0, language = 'en' } = req.body;
+  const crop = req.body.crop || "produce";
+  const marketName = req.body.market_name || req.body.marketName || "APMC Mandi";
+  const unit = req.body.unit || "quintal";
+  let qQuintals = Number(req.body.quantityQuintals);
+  if (isNaN(qQuintals) || qQuintals === 0) {
+    const rawQ = Number(req.body.quantity) || 0;
+    qQuintals = unit === 'kg' ? rawQ / 100 : (unit === 'tonne' ? rawQ * 10 : rawQ);
+  }
   const checklist = getSellingChecklist({
     crop,
     marketName,
-    quantityQuintals: Number(quantityQuintals) || 0,
-    language
+    quantityQuintals: qQuintals,
+    language: req.body.language || 'en'
   });
-  res.json({ success: true, checklist });
+  const steps = checklist.steps || (Array.isArray(checklist) ? checklist : []);
+  res.json({
+    success: true,
+    data: { checklist: steps, ...checklist },
+    checklist: checklist
+  });
+});
+
+// POST /api/ingest - PRD Section 22: Live Data Ingestion Pipeline
+router.post('/ingest', async (req, res) => {
+  try {
+    const rawRecords = req.body.records || (Array.isArray(req.body) ? req.body : [req.body]);
+    if (!Array.isArray(rawRecords) || rawRecords.length === 0) {
+      return res.status(400).json({
+        success: false,
+        error: "Records array is required for ingestion."
+      });
+    }
+
+    const result = await processAndIngestRecords(rawRecords);
+    res.json({
+      success: true,
+      data: result,
+      ...result
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      error: `Data ingestion failed: ${err.message}`
+    });
+  }
 });
 
 // POST /api/parse-query

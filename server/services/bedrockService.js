@@ -21,6 +21,15 @@ function getBedrockClient() {
   return bedrockClient;
 }
 
+function withTimeout(promise, timeoutMs = 800) {
+  return Promise.race([
+    promise,
+    new Promise((_, reject) =>
+      setTimeout(() => reject(new Error(`Bedrock request timed out after ${timeoutMs}ms`)), timeoutMs)
+    )
+  ]);
+}
+
 export function isBedrockConfigured() {
   return Boolean(
     (process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_ACCESS_KEY) ||
@@ -36,6 +45,132 @@ export function getBedrockConfig() {
     isConfigured: isBedrockConfigured(),
     groundingRule: "Deterministic Ground Truth from Agmarknet / APMC. Zero numerical hallucination."
   };
+}
+
+/**
+ * Explain agricultural terminology in simple farmer terms (EN, HI, KN).
+ */
+export async function explainTerm({ term, contextPrice, language = 'en' }) {
+  const cleanTerm = (term || 'modal_price').toLowerCase().trim();
+  const lang = ['hi', 'kn', 'en'].includes(language) ? language : 'en';
+
+  const getFallback = () => {
+    const priceText = contextPrice ? ` ₹${contextPrice}/quintal.` : '.';
+    if (lang === 'hi') {
+      switch (cleanTerm) {
+        case 'modal_price':
+          return `मॉडल भाव (Modal Price) वह सबसे आम भाव है जिस पर आज मंडी में अधिकतर उपज बिकी है। वर्तमान में यह${priceText}`;
+        case 'min_price':
+        case 'minimum_price':
+          return `न्यूनतम भाव (Minimum Price) वह सबसे कम दाम है जिस पर आज मंडी में सबसे निम्न गुणवत्ता की उपज बिकी है।`;
+        case 'max_price':
+        case 'maximum_price':
+          return `अधिकतम भाव (Maximum Price) वह सबसे ऊंचा दाम है जो आज बेहतरीन गुणवत्ता वाली फसल के लिए मिला है।`;
+        case 'market_arrival':
+        case 'arrival_quantity':
+          return `मंडी आवक (Market Arrival) का मतलब है कि आज मंडी में किसानों द्वारा कुल कितनी फसल बेचने के लिए लाई गई है।`;
+        case 'gross_value':
+          return `अनुमानित कुल मूल्य (Gross Value) आपकी उपज की मात्रा को मॉडल भाव से गुणा करके निकाला गया अनुमानित मूल्य है।`;
+        default:
+          return `यह एक कृषि मंडी शब्दावली है।`;
+      }
+    } else if (lang === 'kn') {
+      switch (cleanTerm) {
+        case 'modal_price':
+          return `ಮಾದರಿ ಬೆಲೆ (Modal Price) ಎಂದರೆ ಇಂದು ಮಾರುಕಟ್ಟೆಯಲ್ಲಿ ಹೆಚ್ಚಿನ ಪ್ರಮಾಣದ ಬೆಳೆ ಮಾರಾಟವಾದ ಸಾಮಾನ್ಯ ದರ. ಪ್ರಸ್ತುತ ಬೆಲೆ${priceText}`;
+        case 'min_price':
+        case 'minimum_price':
+          return `ಕನಿಷ್ಠ ಬೆಲೆ (Minimum Price) ಎಂದರೆ ಇಂದು ಮಾರುಕಟ್ಟೆಯಲ್ಲಿ ವರದಿಯಾದ ಅತ್ಯಂತ ಕಡಿಮೆ ದರ.`;
+        case 'max_price':
+        case 'maximum_price':
+          return `ಗರಿಷ್ಠ ಬೆಲೆ (Maximum Price) ಎಂದರೆ ಉತ್ತಮ ಗುಣಮಟ್ಟದ ಬೆಳೆಗೆ ದೊರೆತ ಅತ್ಯಂತ ಹೆಚ್ಚಿನ ದರ.`;
+        case 'market_arrival':
+        case 'arrival_quantity':
+          return `ಮಾರುಕಟ್ಟೆ ಆವಕ (Market Arrival) ಎಂದರೆ ಇಂದು ಮಾರುಕಟ್ಟೆಗೆ ರೈತರು ತಂದಿರುವ ಒಟ್ಟು ಉತ್ಪನ್ನದ ಪ್ರಮಾಣ.`;
+        case 'gross_value':
+          return `ಒಟ್ಟು ಅಂದಾಜು ಮೌಲ್ಯ (Gross Value) ಎಂದರೆ ನಿಮ್ಮ ಬೆಳೆಯ ಪ್ರಮಾಣ ಮತ್ತು ಮಾದರಿ ಬೆಲೆಯನ್ನು ಗುಣಿಸಿದಾಗ ಸಿಗುವ ಒಟ್ಟು ಮೌಲ್ಯ.`;
+        default:
+          return `ಇದು ಕೃಷಿ ಮಾರುಕಟ್ಟೆ ಪದವಾಗಿದೆ.`;
+      }
+    } else {
+      switch (cleanTerm) {
+        case 'modal_price':
+          return `Modal Price is the most frequent transaction price at which the majority of produce traded today${priceText}`;
+        case 'min_price':
+        case 'minimum_price':
+          return `Minimum Price is the lowest transaction price recorded today in the APMC mandi for lower-grade lots.`;
+        case 'max_price':
+        case 'maximum_price':
+          return `Maximum Price is the highest transaction price achieved today in the APMC mandi for premium-grade produce.`;
+        case 'market_arrival':
+        case 'arrival_quantity':
+          return `Market Arrival is the total physical volume of produce that arrived in the market yard today.`;
+        case 'gross_value':
+          return `Estimated Gross Value is the total estimated revenue before logistics and APMC market cess deductions.`;
+        default:
+          return `Standard APMC agricultural market trading parameter.`;
+      }
+    }
+  };
+
+  const fallbackText = getFallback();
+  if (!isBedrockConfigured()) {
+    return {
+      term: cleanTerm,
+      explanation: fallbackText,
+      language: lang,
+      source: "Deterministic Local Edge / Offline"
+    };
+  }
+
+  try {
+    const client = getBedrockClient();
+    const prompt = `Explain the agricultural market term "${cleanTerm}" to a small farmer in India. Keep it simple in 2 short sentences. ${contextPrice ? `Context price: ₹${contextPrice}/quintal.` : ''} Language: ${lang === 'hi' ? 'Hindi' : (lang === 'kn' ? 'Kannada' : 'English')}`;
+
+    let payload;
+    if (DEFAULT_MODEL_ID.includes("claude")) {
+      payload = {
+        anthropic_version: "bedrock-2023-05-31",
+        max_tokens: 300,
+        temperature: 0.1,
+        messages: [{ role: "user", content: prompt }]
+      };
+    } else {
+      payload = {
+        inputText: prompt,
+        textGenerationConfig: { maxTokenCount: 300, temperature: 0.1 }
+      };
+    }
+
+    const command = new InvokeModelCommand({
+      modelId: DEFAULT_MODEL_ID,
+      contentType: "application/json",
+      accept: "application/json",
+      body: JSON.stringify(payload)
+    });
+
+    const response = await withTimeout(client.send(command), 800);
+    const decoded = JSON.parse(new TextDecoder().decode(response.body));
+    let text = "";
+    if (decoded.content && decoded.content[0]?.text) {
+      text = decoded.content[0].text.trim();
+    } else if (decoded.results && decoded.results[0]?.outputText) {
+      text = decoded.results[0].outputText.trim();
+    }
+    return {
+      term: cleanTerm,
+      explanation: text || fallbackText,
+      language: lang,
+      source: "Amazon Bedrock (Live Runtime)"
+    };
+  } catch (err) {
+    return {
+      term: cleanTerm,
+      explanation: fallbackText,
+      language: lang,
+      source: "Amazon Bedrock (Grounded Fallback)"
+    };
+  }
 }
 
 /**
@@ -111,7 +246,7 @@ Format response strictly as JSON with keys:
       body: JSON.stringify(payload)
     });
 
-    const response = await client.send(command);
+    const response = await withTimeout(client.send(command), 800);
     const decoded = JSON.parse(new TextDecoder().decode(response.body));
 
     let parsedText = "";

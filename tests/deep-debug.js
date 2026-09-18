@@ -2,6 +2,7 @@ import assert from 'assert';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { spawn } from 'child_process';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -38,11 +39,37 @@ async function checkAsync(title, fn) {
 }
 
 async function runAudit() {
-  // 1. DATASET INTEGRITY CHECK
-  const dataPath = path.join(__dirname, '../server/data/verified_markets.json');
-  check("Data file exists and is valid JSON", () => {
-    assert.ok(fs.existsSync(dataPath), "verified_markets.json must exist");
-  });
+  let serverProcess = null;
+  try {
+    const ping = await fetch(`${BASE_URL}/api/health`, { signal: AbortSignal.timeout(500) }).catch(() => null);
+    if (!ping || !ping.ok) {
+      console.log("🌾 Starting AgriMate test server on port 5001...");
+      serverProcess = spawn(process.execPath, ['server/server.js'], {
+        cwd: path.join(__dirname, '..'),
+        env: { ...process.env, PORT: '5001' },
+        stdio: 'ignore'
+      });
+      for (let i = 0; i < 40; i++) {
+        await new Promise(r => setTimeout(r, 100));
+        try {
+          const testPing = await fetch(`${BASE_URL}/api/health`, { signal: AbortSignal.timeout(200) });
+          if (testPing.ok) {
+            console.log("🌾 AgriMate test server ready.\n");
+            break;
+          }
+        } catch {}
+      }
+    }
+  } catch (err) {
+    console.warn("Server check notice:", err.message);
+  }
+
+  try {
+    // 1. DATASET INTEGRITY CHECK
+    const dataPath = path.join(__dirname, '../server/data/verified_markets.json');
+    check("Data file exists and is valid JSON", () => {
+      assert.ok(fs.existsSync(dataPath), "verified_markets.json must exist");
+    });
 
   const dataset = JSON.parse(fs.readFileSync(dataPath, 'utf-8'));
 
@@ -290,6 +317,11 @@ async function runAudit() {
   console.log("\n==================================================");
   console.log(`AUDIT COMPLETE: ${passed} passed, ${issues.length} issues found.`);
   console.log("==================================================");
+  } finally {
+    if (serverProcess) {
+      serverProcess.kill();
+    }
+  }
 
   if (issues.length > 0) {
     process.exit(1);

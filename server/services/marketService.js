@@ -266,6 +266,7 @@ export function searchMarkets({
       source_timestamp: record.source_timestamp,
       freshness: formatDataFreshness(record.source_timestamp),
       distance_km: distanceKm,
+      normalized_quantity_quintals: normQuantity,
       estimated_gross_value: estimatedGrossValue,
       calculator_formula: normQuantity > 0 
         ? `${normQuantity} quintals × ₹${record.modal_price.toLocaleString('en-IN')}` 
@@ -323,7 +324,8 @@ export function searchMarkets({
       resolved_lon: userLon
     },
     disclaimer: "Estimated gross value is based on the verified reported modal price, not guaranteed earnings. Prices fluctuate based on quality and arrival timings.",
-    markets: enrichedMarkets
+    markets: enrichedMarkets,
+    data: enrichedMarkets
   };
 }
 
