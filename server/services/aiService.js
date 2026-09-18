@@ -98,20 +98,20 @@ export const TERMINOLOGY_EXPLANATIONS = {
 };
 
 const CROP_LOCAL_NAMES = {
-  "tomato": { hi: "टमाटर", kn: "ಟೊಮೆಟೊ" },
-  "onion": { hi: "प्याज", kn: "ಈರುಳ್ಳಿ" },
-  "potato": { hi: "आलू", kn: "ಆಲೂಗಡ್ಡೆ" },
-  "groundnut": { hi: "मूंगफली", kn: "ಕಡಲೆಕಾಯಿ" },
-  "maize": { hi: "मक्का", kn: "ಮೆಕ್ಕೆಜೋಳ" },
-  "paddy": { hi: "धान", kn: "ಭತ್ತ" },
-  "wheat": { hi: "गेहूं", kn: "ಗೋಧಿ" },
-  "cotton": { hi: "कपास", kn: "ಹತ್ತಿ" },
-  "chilli": { hi: "मिर्च", kn: "ಮೆಣಸಿನಕಾಯಿ" }
+  "tomato": { hi: "टमाटर", kn: "ಟೊಮೆಟೊ", te: "టమోటా", ta: "தக்காளி", mr: "टोमॅटो", bn: "টমেটো", gu: "ટામેટા", pa: "ਟਮਾਟਰ", ml: "തക്കാളി" },
+  "onion": { hi: "प्याज", kn: "ಈರುಳ್ಳಿ", te: "ఉల్లిపాయ", ta: "வெங்காயம்", mr: "कांदा", bn: "পেঁয়াজ", gu: "ડુંગળી", pa: "ਪਿਆਜ਼", ml: "സവാള" },
+  "potato": { hi: "आलू", kn: "ಆಲೂಗಡ್ಡೆ", te: "బంగాళాదుంప", ta: "உருளைக்கிழங்கு", mr: "बटाटा", bn: "আলু", gu: "બટાટા", pa: "ਆਲੂ", ml: "ഉരുളക്കിഴങ്ങ്" },
+  "groundnut": { hi: "मूंगफली", kn: "ಕಡಲೆಕಾಯಿ", te: "వేరుశెనగ", ta: "வேர்க்கடலை", mr: "भुईमूग", bn: "চিনাবাদাম", gu: "મગફળી", pa: "ਮੂੰਗਫਲੀ", ml: "നിലക്കടല" },
+  "maize": { hi: "मक्का", kn: "ಮೆಕ್ಕೆಜೋಳ", te: "మొక్కజొన్న", ta: "மக்காச்சோளம்", mr: "मका", bn: "ভুট্টা", gu: "મકાઈ", pa: "ਮੱਕੀ", ml: "ചോളം" },
+  "paddy": { hi: "धान", kn: "ಭತ್ತ", te: "వరి", ta: "நெல்", mr: "भात", bn: "ধান", gu: "ડાંગર", pa: "ਝੋਨਾ", ml: "നെല്ല്" },
+  "wheat": { hi: "गेहूं", kn: "ಗೋಧಿ", te: "గోధుమలు", ta: "கோதுமை", mr: "गहू", bn: "গম", gu: "ઘઉં", pa: "ਕਣਕ", ml: "ഗോതമ്പ്" },
+  "cotton": { hi: "कपास", kn: "ಹತ್ತಿ", te: "ప్రత్తి", ta: "பருத்தி", mr: "कापूस", bn: "তুলা", gu: "કપાસ", pa: "ਨਰਮਾ", ml: "പരുത്തി" },
+  "chilli": { hi: "मिर्च", kn: "ಮೆಣಸಿನಕಾಯಿ", te: "మిరపకాయ", ta: "மிளகாய்", mr: "मिरची", bn: "লঙ্কা", gu: "મરચાં", pa: "ਮਿਰਚ", ml: "മുളക്" }
 };
 
 // Bedrock-style narrative explanation generator based strictly on retrieved verified facts
 export function generateMarketExplanation({ market, trend, language = 'en', quantityQuintals = 0 }) {
-  const lang = (language === 'hi' || language === 'kn') ? language : 'en';
+  const lang = ['hi', 'kn', 'te', 'ta', 'mr', 'bn', 'gu', 'pa', 'ml', 'en'].includes(language) ? language : 'en';
 
   const rawCrop = (market.commodity_name || "produce").toLowerCase();
   const localizedCrop = (CROP_LOCAL_NAMES[rawCrop] && CROP_LOCAL_NAMES[rawCrop][lang]) 
@@ -182,6 +182,167 @@ export function generateMarketExplanation({ market, trend, language = 'en', quan
       estimatedValueNote: valueNote,
       advice: `ನಿಮ್ಮ ಬೆಳೆ ಮಧ್ಯಮದಿಂದ ಉತ್ತಮ ಗುಣಮಟ್ಟದಲ್ಲಿದ್ದರೆ ಮಾದರಿ ಬೆಲೆ (₹${modalPrice}) ಸಿಗುವ ನಿರೀಕ್ಷೆ ಇರುತ್ತದೆ. ಮಂಡಿಗೆ ಹೊರಡುವ ಮುನ್ನ ಸಾಗಾಣಿಕೆ ಮತ್ತು ಕಮಿಷನ್ ಶುಲ್ಕಗಳನ್ನು ಮುಂಚಿತವಾಗಿ ಖಚಿತಪಡಿಸಿಕೊಳ್ಳಿ.`,
       verifiedNotice: `ಈ ಮಾಹಿತಿಯು ಅಧಿಕೃತ ಸರ್ಕಾರಿ ಮೂಲದಿಂದ (${market.source}) ಪರಿಶೀಲಿಸಲ್ಪಟ್ಟಿದೆ.`
+    };
+  }
+
+  if (lang === 'te') {
+    let trendNarrative = trendDir === "increasing"
+      ? `గత ${trend?.period_days || 7} రోజులలో ధరలు ${trendPercent}% పెరిగాయి (↑). మార్కెట్లో డిమాండ్ బలంగా ఉంది.`
+      : trendDir === "decreasing"
+      ? `గత ${trend?.period_days || 7} రోజులలో ధరలు ${Math.abs(trendPercent)}% తగ్గాయి (↓). పంట రాక పెరిగింది.`
+      : `గత ${trend?.period_days || 7} రోజులలో ధరలు స్థిరంగా ఉన్నాయి (→).`;
+
+    const valueNote = grossEstimated 
+      ? `మీ ${quantityQuintals} క్వింటాళ్లకు మోడల్ ధర ప్రకారం అంచనా మొత్తం విలువ ₹${grossEstimated.toLocaleString('en-IN')} అవుతుంది (గ్యారంటీ ఆదాయం కాదు).`
+      : "";
+
+    return {
+      language: 'te',
+      title: `${marketName} లో ${cropName} మార్కెట్ విశ్లేషణ`,
+      summary: `ఈరోజు ${marketName} లో ${cropName} మోడల్ ధర క్వింటాల్‌కు ₹${modalPrice.toLocaleString('en-IN')} గా నమోదైంది (${freshness}).`,
+      priceDetails: `కనిష్ట ధర ₹${minPrice.toLocaleString('en-IN')}, గరిష్ట ధర ₹${maxPrice.toLocaleString('en-IN')} (వ్యత్యాసం ₹${spread}). నేటి మొత్తం రాక సుమారు ${arrivalQty} క్వింటాళ్లు.`,
+      trendExplanation: trendNarrative,
+      estimatedValueNote: valueNote,
+      advice: `మీ పంట మంచి నాణ్యత కలిగి ఉంటే మోడల్ ధర లేదా అంతకంటే ఎక్కువ ధర లభించే అవకాశం ఉంది. బయలుదేరే ముందు రవాణా మరియు హమాలీ ఖర్చులను లెక్కించండి.`,
+      verifiedNotice: `ఈ సమాచారం ప్రభుత్వ అధికారిక మూలం (${market.source}) నుండి ధృవీకరించబడింది.`
+    };
+  }
+
+  if (lang === 'ta') {
+    let trendNarrative = trendDir === "increasing"
+      ? `கடந்த ${trend?.period_days || 7} நாட்களில் விலை ${trendPercent}% அதிகரித்துள்ளது (↑). தேவை அதிகமாக உள்ளது.`
+      : trendDir === "decreasing"
+      ? `கடந்த ${trend?.period_days || 7} நாட்களில் விலை ${Math.abs(trendPercent)}% குறைந்துள்ளது (↓). வரத்து அதிகரித்துள்ளது.`
+      : `கடந்த ${trend?.period_days || 7} நாட்களில் விலை சீராக உள்ளது (→).`;
+
+    const valueNote = grossEstimated 
+      ? `உங்கள் ${quantityQuintals} குவிண்டாலுக்கு மாதிரி விலையின்படி கணக்கிடப்பட்ட மதிப்பு ₹${grossEstimated.toLocaleString('en-IN')} (உத்தரவாத வருமானம் அல்ல).`
+      : "";
+
+    return {
+      language: 'ta',
+      title: `${marketName} சந்தையில் ${cropName} பகுப்பாய்வு`,
+      summary: `இன்று ${marketName} சந்தையில் ${cropName} மாதிரி விலை குவிண்டாலுக்கு ₹${modalPrice.toLocaleString('en-IN')} என பதிவாகியுள்ளது (${freshness}).`,
+      priceDetails: `குறைந்தபட்ச விலை ₹${minPrice.toLocaleString('en-IN')}, அதிகபட்ச விலை ₹${maxPrice.toLocaleString('en-IN')} (வித்தியாசம் ₹${spread}). இன்றைய மொத்த வரத்து சுமார் ${arrivalQty} குவிண்டால்.`,
+      trendExplanation: trendNarrative,
+      estimatedValueNote: valueNote,
+      advice: `உங்கள் விளைபொருள் நல்ல தரமாக இருந்தால் மாதிரி விலை அல்லது அதற்கு மேல் கிடைக்க வாய்ப்புள்ளது. கொண்டு செல்வதற்கு முன் வண்டி வாடகை விவரங்களை உறுதி செய்யவும்.`,
+      verifiedNotice: `இந்த தகவல் அதிகாரப்பூர்வ அரசு விவசாய தரவுகளிலிருந்து (${market.source}) பெறப்பட்டது.`
+    };
+  }
+
+  if (lang === 'mr') {
+    let trendNarrative = trendDir === "increasing"
+      ? `गेल्या ${trend?.period_days || 7} दिवसांत भाव ${trendPercent}% वाढले आहेत (↑). बाजारात मागणी चांगली आहे.`
+      : trendDir === "decreasing"
+      ? `गेल्या ${trend?.period_days || 7} दिवसांत भाव ${Math.abs(trendPercent)}% घसरले आहेत (↓). आवक जास्त आहे.`
+      : `गेल्या ${trend?.period_days || 7} दिवसांत भाव स्थिर राहिले आहेत (→).`;
+
+    const valueNote = grossEstimated 
+      ? `तुमच्या ${quantityQuintals} क्विंटलसाठी मॉडेल भावानुसार अंदाजे मूल्य ₹${grossEstimated.toLocaleString('en-IN')} होते (हमी उत्पन्न नाही).`
+      : "";
+
+    return {
+      language: 'mr',
+      title: `${marketName} बाजार समितीत ${cropName} बाजार विश्लेषण`,
+      summary: `आज ${marketName} मध्ये ${cropName} चा मुख्य मॉडेल भाव ₹${modalPrice.toLocaleString('en-IN')}/क्विंटल नोंदवला गेला आहे (${freshness}).`,
+      priceDetails: `किमान भाव ₹${minPrice.toLocaleString('en-IN')} आणि कमाल भाव ₹${maxPrice.toLocaleString('en-IN')} राहिला (फरक ₹${spread}). आजची एकूण आवक सुमारे ${arrivalQty} क्विंटल झाली.`,
+      trendExplanation: trendNarrative,
+      estimatedValueNote: valueNote,
+      advice: `मालाची प्रतवारी उत्तम असल्यास मॉडेल भावापेक्षा चांगला दर मिळू शकतो. बाजारात जाण्यापूर्वी वाहतूक व हमालीचा खर्च नक्की करा.`,
+      verifiedNotice: `ही माहिती अधिकृत कृषी उत्पन्न बाजार समिती स्रोताकडून (${market.source}) सत्यापित आहे.`
+    };
+  }
+
+  if (lang === 'bn') {
+    let trendNarrative = trendDir === "increasing"
+      ? `গত ${trend?.period_days || 7} দিনে দর ${trendPercent}% বৃদ্ধি পেয়েছে (↑)। বাজারে চাহিদা ভালো।`
+      : trendDir === "decreasing"
+      ? `গত ${trend?.period_days || 7} দিনে দর ${Math.abs(trendPercent)}% হ্রাস পেয়েছে (↓)। আমদানি বেশি।`
+      : `গত ${trend?.period_days || 7} দিনে দর স্থিতিশীল রয়েছে (→)।`;
+
+    const valueNote = grossEstimated 
+      ? `আপনার ${quantityQuintals} কুইন্টালের জন্য আনুমানিক মূল্য ₹${grossEstimated.toLocaleString('en-IN')} (নিশ্চিত আয় নয়)।`
+      : "";
+
+    return {
+      language: 'bn',
+      title: `${marketName} বাজারে ${cropName} এর দর বিশ্লেষণ`,
+      summary: `আজ ${marketName} বাজারে ${cropName} এর গড় মডেল দর কুইন্টাল প্রতি ₹${modalPrice.toLocaleString('en-IN')} নথিভুক্ত হয়েছে (${freshness})।`,
+      priceDetails: `সর্বনিম্ন দর ₹${minPrice.toLocaleString('en-IN')} এবং সর্বোচ্চ দর ₹${maxPrice.toLocaleString('en-IN')} (পার্থক্য ₹${spread})। আজকের মোট আমদানি প্রায় ${arrivalQty} কুইন্টাল।`,
+      trendExplanation: trendNarrative,
+      estimatedValueNote: valueNote,
+      advice: `ফসল ভালোভাবে বাছাই করা থাকলে মডেল দর বা তার বেশি পাওয়ার সম্ভাবনা থাকে। গাড়ি ভাড়া ও লেবার খরচ আগে ঠিক করে নিন।`,
+      verifiedNotice: `এই তথ্য সরকারি কৃষি বাজার রেকর্ড (${market.source}) থেকে সংগৃহীত ও যাচাইকৃত।`
+    };
+  }
+
+  if (lang === 'gu') {
+    let trendNarrative = trendDir === "increasing"
+      ? `છેલ્લા ${trend?.period_days || 7} દિવસોમાં ભાવ ${trendPercent}% વધ્યો છે (↑). માંગ મજબૂત છે.`
+      : trendDir === "decreasing"
+      ? `છેલ્લા ${trend?.period_days || 7} દિવસોમાં ભાવ ${Math.abs(trendPercent)}% ઘટ્યો છે (↓). આવક વધી છે.`
+      : `છેલ્લા ${trend?.period_days || 7} દિવસોમાં ભાવ સ્થિર રહ્યો છે (→).`;
+
+    const valueNote = grossEstimated 
+      ? `તમારા ${quantityQuintals} ક્વિન્ટલ માટે મોડલ ભાવ મુજબ અંદાજિત રકમ ₹${grossEstimated.toLocaleString('en-IN')} થાય છે (ગેરંટી આવક નથી).`
+      : "";
+
+    return {
+      language: 'gu',
+      title: `${marketName} માર્કેટ યાર્ડમાં ${cropName} ભાવ વિશ્લેષણ`,
+      summary: `આજે ${marketName} માં ${cropName} નો સરેરાશ મોડલ ભાવ ₹${modalPrice.toLocaleString('en-IN')}/ક્વિન્ટલ નોંધાયો છે (${freshness}).`,
+      priceDetails: `ન્યૂનતમ ભાવ ₹${minPrice.toLocaleString('en-IN')} અને મહત્તમ ભાવ ₹${maxPrice.toLocaleString('en-IN')} રહ્યો (તફાવત ₹${spread}). આજના દિવસની કુલ આવક લગભગ ${arrivalQty} ક્વિન્ટલ રહી.`,
+      trendExplanation: trendNarrative,
+      estimatedValueNote: valueNote,
+      advice: `જો તમારી ઉપજ સારી ગુણવત્તાવાળી હશે તો મોડલ ભાવ અથવા તેનાથી વધુ મળવાની શક્યતા છે. યાર્ડમાં જતા પહેલા વાહન ભાડું નક્કી કરી લો.`,
+      verifiedNotice: `આ માહિતી સત્તાવાર સરકારી સ્ત્રોત (${market.source}) પરથી ચકાસાયેલ છે.`
+    };
+  }
+
+  if (lang === 'pa') {
+    let trendNarrative = trendDir === "increasing"
+      ? `ਪਿਛਲੇ ${trend?.period_days || 7} ਦਿਨਾਂ ਵਿੱਚ ਭਾਅ ${trendPercent}% ਵਧੇ ਹਨ (↑)। ਮੰਗ ਵਧੀਆ ਹੈ।`
+      : trendDir === "decreasing"
+      ? `ਪਿਛਲੇ ${trend?.period_days || 7} ਦਿਨਾਂ ਵਿੱਚ ਭਾਅ ${Math.abs(trendPercent)}% ਘਟੇ ਹਨ (↓)। ਆਮਦ ਵਧਣ ਕਾਰਨ ਨਰਮੀ ਹੈ।`
+      : `ਪਿਛਲੇ ${trend?.period_days || 7} ਦਿਨਾਂ ਵਿੱਚ ਭਾਅ ਸਥਿਰ ਰਹੇ ਹਨ (→)।`;
+
+    const valueNote = grossEstimated 
+      ? `ਤੁਹਾਡੀ ${quantityQuintals} ਕੁਇੰਟਲ ਫਸਲ ਦੀ ਅਨੁਮਾਨਿਤ ਕੁੱਲ ਕੀਮਤ ₹${grossEstimated.toLocaleString('en-IN')} ਬਣਦੀ ਹੈ (ਗਰੰਟੀਸ਼ੁਦਾ ਆਮਦਨ ਨਹੀਂ)।`
+      : "";
+
+    return {
+      language: 'pa',
+      title: `${marketName} ਵਿੱਚ ${cropName} ਮੰਡੀ ਭਾਅ ਵਿਸ਼ਲੇਸ਼ਣ`,
+      summary: `ਅੱਜ ${marketName} ਵਿਖੇ ${cropName} ਦਾ ਮੁੱਖ ਮਾਡਲ ਭਾਅ ₹${modalPrice.toLocaleString('en-IN')}/ਕੁਇੰਟਲ ਦਰਜ ਹੋਇਆ ਹੈ (${freshness})।`,
+      priceDetails: `ਘੱਟੋ-ਘੱਟ ਭਾਅ ₹${minPrice.toLocaleString('en-IN')} ਅਤੇ ਵੱਧ ਤੋਂ ਵੱਧ ਭਾਅ ₹${maxPrice.toLocaleString('en-IN')} ਰਿਹਾ (ਅੰਤਰ ₹${spread})। ਅੱਜ ਕੁੱਲ ਆਮਦ ਲਗਭਗ ${arrivalQty} ਕੁਇੰਟਲ ਰਹੀ।`,
+      trendExplanation: trendNarrative,
+      estimatedValueNote: valueNote,
+      advice: `ਜੇਕਰ ਤੁਹਾਡੀ ਫਸਲ ਸਾਫ਼ ਤੇ ਸੁੱਕੀ ਹੈ ਤਾਂ ਮਾਡਲ ਭਾਅ ਜਾਂ ਉਸ ਤੋਂ ਉੱਪਰ ਮਿਲਣ ਦੀ ਉਮੀਦ ਹੈ। ਮੰਡੀ ਜਾਣ ਤੋਂ ਪਹਿਲਾਂ ਕਿਰਾਇਆ ਪੱਕਾ ਕਰ ਲਵੋ।`,
+      verifiedNotice: `ਇਹ ਜਾਣਕਾਰੀ ਸਰਕਾਰੀ ਖੇਤੀਬਾੜੀ ਮੰਡੀ ਸਰੋਤਾਂ (${market.source}) ਤੋਂ ਤਸਦੀਕ ਕੀਤੀ ਗਈ ਹੈ।`
+    };
+  }
+
+  if (lang === 'ml') {
+    let trendNarrative = trendDir === "increasing"
+      ? `കഴിഞ്ഞ ${trend?.period_days || 7} ദിവസങ്ങളിൽ വില ${trendPercent}% കൂടി (↑). മികച്ച ഡിമാൻഡ് ഉണ്ട്.`
+      : trendDir === "decreasing"
+      ? `കഴിഞ്ഞ ${trend?.period_days || 7} ദിവസങ്ങളിൽ വില ${Math.abs(trendPercent)}% കുറഞ്ഞു (↓). വരവ് കൂടിയതിനാലാണിത്.`
+      : `കഴിഞ്ഞ ${trend?.period_days || 7} ദിവസങ്ങളിൽ വില മാറ്റമില്ലാതെ തുടർന്നു (→).`;
+
+    const valueNote = grossEstimated 
+      ? `നിങ്ങളുടെ ${quantityQuintals} ക്വിന്റൽ വിളയ്ക്ക് കണക്കാക്കിയ ഏകദേശ മൂല്യം ₹${grossEstimated.toLocaleString('en-IN')} ആണ് (ഉറപ്പായ വരുമാനമല്ല).`
+      : "";
+
+    return {
+      language: 'ml',
+      title: `${marketName} വിപണിയിൽ ${cropName} വിപണി വിശകലനം`,
+      summary: `ഇന്ന് ${marketName} വിപണിയിൽ ${cropName} പ്രധാന മോഡൽ വില ക്വിന്റലിന് ₹${modalPrice.toLocaleString('en-IN')} ആയി രേഖപ്പെടുത്തി (${freshness}).`,
+      priceDetails: `കുറഞ്ഞ വില ₹${minPrice.toLocaleString('en-IN')}, കൂടിയ വില ₹${maxPrice.toLocaleString('en-IN')} (വ്യത്യാസം ₹${spread}). ഇന്നത്തെ ആകെ വരവ് ഏകദേശം ${arrivalQty} ക്വിന്റൽ ആണ്.`,
+      trendExplanation: trendNarrative,
+      estimatedValueNote: valueNote,
+      advice: `നല്ല ഗുണനിലവാരമുള്ള വിളയാണെങ്കിൽ മോഡൽ നിരക്കോ അതിൽ കൂടുതലോ ലഭിക്കാൻ സാധ്യതയുണ്ട്. വാടകയും കയറ്റിറക്ക് കൂലിയും മുൻകൂട്ടി ഉറപ്പാക്കുക.`,
+      verifiedNotice: `ഈ വിവരങ്ങൾ ഔദ്യോഗിക കാർഷിക ഡാറ്റയിൽ (${market.source}) നിന്ന് സ്ഥിരീകരിച്ചതാണ്.`
     };
   }
 

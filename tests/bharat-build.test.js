@@ -204,6 +204,55 @@ async function runAllTests() {
     assert.ok(dynamo.tables.priceRecords);
   });
 
+  // 11. Pan-India Universal Dynamic Search (Custom crops without static JSON)
+  await test("Universal Search Engine: Pan-India dynamic generation for arbitrary crops", async () => {
+    const { generateDynamicMarketSearchResult } = await import('../server/services/marketService.js');
+    const customResult = generateDynamicMarketSearchResult({
+      crop: "Dragonfruit",
+      location: "Ballari",
+      quantity: 500,
+      unit: "kg"
+    });
+
+    assert.strictEqual(customResult.success, true);
+    assert.strictEqual(customResult.verified, true);
+    assert.strictEqual(customResult.dynamic, true);
+    assert.strictEqual(customResult.commodity.name, "Dragonfruit");
+    assert.strictEqual(customResult.normalized_quantity.in_quintals, 5);
+    assert.ok(customResult.markets.length >= 2, "Should return at least 2 comparison markets");
+    assert.ok(customResult.markets[0].modal_price >= 1500, "Should generate realistic modal price");
+    assert.strictEqual(customResult.markets[0].estimated_gross_value, 5 * customResult.markets[0].modal_price);
+  });
+
+  // 12. 10 Indian Languages Checklist Support
+  await test("Checklist Service: supports all 10 Indian languages", async () => {
+    const { getSellingChecklist } = await import('../server/services/checklistService.js');
+    const languages = ['en', 'hi', 'kn', 'te', 'ta', 'mr', 'bn', 'gu', 'pa', 'ml'];
+    for (const lang of languages) {
+      const checklist = getSellingChecklist({
+        crop: "Tomato",
+        marketName: "Ballari APMC",
+        quantityQuintals: 5,
+        language: lang
+      });
+      assert.strictEqual(checklist.language, lang, `Language must match ${lang}`);
+      assert.strictEqual(checklist.steps.length, 11, `Must have 11 steps for ${lang}`);
+      assert.ok(checklist.title.length > 0, `Title must be present for ${lang}`);
+      assert.ok(checklist.steps[0].category.length > 0, `Category must be translated for ${lang}`);
+    }
+  });
+
+  // 13. Multilingual Term Explanations (10 Languages)
+  await test("Multilingual Bedrock Explanations: all 10 languages supported", async () => {
+    const languages = ['en', 'hi', 'kn', 'te', 'ta', 'mr', 'bn', 'gu', 'pa', 'ml'];
+    for (const lang of languages) {
+      const res = await explainTerm({ term: 'modal_price', contextPrice: 2200, language: lang });
+      assert.strictEqual(res.term, 'modal_price');
+      assert.strictEqual(res.language, lang);
+      assert.ok(res.explanation.length > 10, `Explanation must be generated for ${lang}`);
+    }
+  });
+
   console.log(`\n==================================================`);
   console.log(`🎉 ${passed}/${total} Bharat Builds tests PASSED successfully!`);
   console.log(`==================================================\n`);

@@ -25,6 +25,19 @@ interface HeaderProps {
   onSearchAndNavigate?: (crop?: string, location?: string) => void;
 }
 
+const LANGUAGES: { code: Language; label: string; name: string }[] = [
+  { code: 'en', label: 'English', name: 'EN' },
+  { code: 'hi', label: 'हिन्दी', name: 'HI' },
+  { code: 'kn', label: 'ಕನ್ನಡ', name: 'KN' },
+  { code: 'te', label: 'తెలుగు', name: 'TE' },
+  { code: 'ta', label: 'தமிழ்', name: 'TA' },
+  { code: 'mr', label: 'मराठी', name: 'MR' },
+  { code: 'bn', label: 'বাংলা', name: 'BN' },
+  { code: 'gu', label: 'ગુજરાતી', name: 'GU' },
+  { code: 'pa', label: 'ਪੰਜਾਬੀ', name: 'PA' },
+  { code: 'ml', label: 'മലയാളം', name: 'ML' }
+];
+
 export const Header: React.FC<HeaderProps> = ({
   language,
   onLanguageChange,
@@ -179,38 +192,20 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
 
           {/* Language Switcher */}
-          <div className="hidden sm:flex items-center bg-white p-0.5 rounded-xl border border-[#CCE0D0] shadow-xs">
-            <Globe className="w-3.5 h-3.5 ml-2 mr-1 text-stone-500" />
-            <button
-              onClick={() => onLanguageChange('en')}
-              className={`px-2 py-1 text-xs font-semibold rounded-lg transition-all cursor-pointer ${
-                language === 'en' 
-                  ? 'bg-[#123826] text-white shadow-xs font-bold' 
-                  : 'text-stone-600 hover:text-stone-900'
-              }`}
+          <div className="flex items-center bg-white px-2.5 py-1 rounded-xl border border-[#CCE0D0] shadow-xs gap-1.5">
+            <Globe className="w-3.5 h-3.5 text-[#2E7D32]" />
+            <select
+              value={language}
+              onChange={(e) => onLanguageChange(e.target.value as Language)}
+              className="text-xs font-bold text-[#123826] bg-transparent outline-none cursor-pointer pr-1"
+              aria-label="Select Regional Language"
             >
-              EN
-            </button>
-            <button
-              onClick={() => onLanguageChange('hi')}
-              className={`px-2 py-1 text-xs font-semibold rounded-lg transition-all cursor-pointer ${
-                language === 'hi' 
-                  ? 'bg-[#123826] text-white shadow-xs font-bold' 
-                  : 'text-stone-600 hover:text-stone-900'
-              }`}
-            >
-              हिन्दी
-            </button>
-            <button
-              onClick={() => onLanguageChange('kn')}
-              className={`px-2 py-1 text-xs font-semibold rounded-lg transition-all cursor-pointer ${
-                language === 'kn' 
-                  ? 'bg-[#123826] text-white shadow-xs font-bold' 
-                  : 'text-stone-600 hover:text-stone-900'
-              }`}
-            >
-              ಕನ್ನಡ
-            </button>
+              {LANGUAGES.map(lang => (
+                <option key={lang.code} value={lang.code} className="text-stone-800 font-semibold">
+                  {lang.label} ({lang.name})
+                </option>
+              ))}
+            </select>
           </div>
 
           {/* Settings Button */}
@@ -256,37 +251,22 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
 
           {/* Mobile Language Switcher */}
-          <div className="flex items-center justify-between p-2 rounded-xl bg-[#F4F8F5] border border-[#E2ECE3]">
+          <div className="flex items-center justify-between p-2.5 rounded-xl bg-[#F4F8F5] border border-[#E2ECE3]">
             <div className="flex items-center gap-1.5 text-xs font-bold text-[#123826]">
-              <Globe className="w-3.5 h-3.5 text-stone-500" />
+              <Globe className="w-3.5 h-3.5 text-[#2E7D32]" />
               <span>Language:</span>
             </div>
-            <div className="flex items-center gap-1">
-              <button
-                onClick={() => onLanguageChange('en')}
-                className={`px-2.5 py-1 text-xs font-bold rounded-lg transition-all ${
-                  language === 'en' ? 'bg-[#123826] text-white' : 'text-stone-600'
-                }`}
-              >
-                EN
-              </button>
-              <button
-                onClick={() => onLanguageChange('hi')}
-                className={`px-2.5 py-1 text-xs font-bold rounded-lg transition-all ${
-                  language === 'hi' ? 'bg-[#123826] text-white' : 'text-stone-600'
-                }`}
-              >
-                हिन्दी
-              </button>
-              <button
-                onClick={() => onLanguageChange('kn')}
-                className={`px-2.5 py-1 text-xs font-bold rounded-lg transition-all ${
-                  language === 'kn' ? 'bg-[#123826] text-white' : 'text-stone-600'
-                }`}
-              >
-                ಕನ್ನಡ
-              </button>
-            </div>
+            <select
+              value={language}
+              onChange={(e) => onLanguageChange(e.target.value as Language)}
+              className="text-xs font-bold text-[#123826] bg-white px-2.5 py-1.5 rounded-lg border border-[#CCE0D0] outline-none cursor-pointer shadow-2xs"
+            >
+              {LANGUAGES.map(lang => (
+                <option key={lang.code} value={lang.code}>
+                  {lang.label} ({lang.name})
+                </option>
+              ))}
+            </select>
           </div>
         </div>
       )}

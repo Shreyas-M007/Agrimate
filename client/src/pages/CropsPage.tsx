@@ -17,7 +17,7 @@ interface CropDetail {
   name: string;
   hindiName: string;
   kannadaName: string;
-  category: 'Solanaceous' | 'Alliums & Tubers' | 'Grains & Pulses' | 'Cash Crops' | 'Oilseeds';
+  category: 'Solanaceous' | 'Alliums & Tubers' | 'Grains & Pulses' | 'Cash Crops' | 'Oilseeds' | 'Spices & Plantation' | 'Fruits & Exotic';
   icon: string;
   varieties: string[];
   modalRange: string;
@@ -69,6 +69,90 @@ const CROP_DATABASE: CropDetail[] = [
     majorMandis: ['Hassan (KA)', 'Agra (UP)', 'Farrukhabad (UP)', 'Kolar (KA)'],
     storageAdvice: 'Cold storage at 3-4°C with CIPC sprout suppression for table stock.',
     moistureThreshold: 'Tough skin setting, no greening or tuber moth damage'
+  },
+  {
+    id: 'turmeric',
+    name: 'Turmeric',
+    hindiName: 'हल्दी',
+    kannadaName: 'ಅರಿಶಿನ',
+    category: 'Spices & Plantation',
+    icon: '🌿',
+    varieties: ['Salem', 'Prathibha', 'Rajapore', 'Waigaon'],
+    modalRange: '₹9,800 - ₹14,500 / q',
+    peakSeason: 'Feb - May',
+    majorMandis: ['Nizamabad (TS)', 'Sangli (MH)', 'Erode (TN)', 'Chamarajanagar (KA)'],
+    storageAdvice: 'Boil, dry, and polish before storage. Keep in dry, dark warehouses.',
+    moistureThreshold: 'Curcumin content > 3.5%, moisture strictly below 10%'
+  },
+  {
+    id: 'ginger',
+    name: 'Ginger',
+    hindiName: 'अदरक',
+    kannadaName: 'ಶುಂಠಿ',
+    category: 'Spices & Plantation',
+    icon: '🫚',
+    varieties: ['Rio-de-Janeiro', 'Varada', 'Mahim', 'Nadia'],
+    modalRange: '₹4,500 - ₹8,200 / q',
+    peakSeason: 'Nov - Feb',
+    majorMandis: ['Shimoga (KA)', 'Wayanad (KL)', 'Raipur (CG)', 'Kozhikode (KL)'],
+    storageAdvice: 'Store in pit cellars with clean sand layering or cold storage at 12°C.',
+    moistureThreshold: 'Plump rhizomes, free from soft rot and soil dirt'
+  },
+  {
+    id: 'garlic',
+    name: 'Garlic',
+    hindiName: 'लहसुन',
+    kannadaName: 'ಬೆಳ್ಳುಳ್ಳಿ',
+    category: 'Alliums & Tubers',
+    icon: '🧄',
+    varieties: ['G-282', 'Yamuna Safed', 'Ooty-1', 'Bhima Omkar'],
+    modalRange: '₹7,500 - ₹16,000 / q',
+    peakSeason: 'Jan - Apr',
+    majorMandis: ['Mandsaur (MP)', 'Neemuch (MP)', 'Kota (RJ)', 'Jamnagar (GJ)'],
+    storageAdvice: 'Hang in braids in well-aerated sheds. Avoid humid airtight containers.',
+    moistureThreshold: 'Compact papery cloves, moisture < 65% in fresh cured bulbs'
+  },
+  {
+    id: 'cardamom',
+    name: 'Cardamom (Small)',
+    hindiName: 'छोटी इलायची',
+    kannadaName: 'ಏಲಕ್ಕಿ',
+    category: 'Spices & Plantation',
+    icon: '🌱',
+    varieties: ['Malabar', 'Mysore', 'Vazhukka'],
+    modalRange: '₹1,40,000 - ₹2,10,000 / q',
+    peakSeason: 'Aug - Jan',
+    majorMandis: ['Bodinayakanur (TN)', 'Vandanmedu (KL)', 'Sakleshpur (KA)'],
+    storageAdvice: 'Store cured green pods in black polythene lined airtight containers at 10-12% moisture.',
+    moistureThreshold: 'Retention of vibrant parrot green color, capsule diameter > 7mm'
+  },
+  {
+    id: 'dragonfruit',
+    name: 'Dragonfruit (Pitaya)',
+    hindiName: 'ड्रैगन फ्रूट / कमलम',
+    kannadaName: 'ಡ್ರ್ಯಾಗನ್ ಹಣ್ಣು',
+    category: 'Fruits & Exotic',
+    icon: '🐉',
+    varieties: ['Red Flesh (C规范)', 'White Flesh', 'Royal Red'],
+    modalRange: '₹12,000 - ₹22,000 / q',
+    peakSeason: 'Jun - Nov',
+    majorMandis: ['Kolar (KA)', 'Surat (GJ)', 'Vashi APMC (MH)', 'Azadpur (DL)'],
+    storageAdvice: 'Pre-cool to 10°C immediately after harvest. Shelf life 14 days at 7-10°C.',
+    moistureThreshold: 'Glossy bracts, harvested at 80% color break for long transit'
+  },
+  {
+    id: 'saffron',
+    name: 'Saffron (Kesar)',
+    hindiName: 'केसर',
+    kannadaName: 'ಕೇಸರಿ',
+    category: 'Spices & Plantation',
+    icon: '🌸',
+    varieties: ['Mongra', 'Lacha', 'Guchhi'],
+    modalRange: '₹1,80,000 - ₹2,60,000 / kg',
+    peakSeason: 'Oct - Nov',
+    majorMandis: ['Pampore IIKSTC (JK)', 'Srinagar (JK)', 'Khari Baoli (DL)'],
+    storageAdvice: 'Pack in hermetically sealed glass jars away from direct UV light.',
+    moistureThreshold: 'Crocin color value > 220, moisture below 8%'
   },
   {
     id: 'chilli',
@@ -176,7 +260,7 @@ export const CropsPage: React.FC<CropsPageProps> = ({
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [searchQuery, setSearchQuery] = useState<string>('');
 
-  const categories = ['All', 'Solanaceous', 'Alliums & Tubers', 'Grains & Pulses', 'Cash Crops', 'Oilseeds'];
+  const categories = ['All', 'Solanaceous', 'Alliums & Tubers', 'Grains & Pulses', 'Cash Crops', 'Oilseeds', 'Spices & Plantation', 'Fruits & Exotic'];
 
   const filteredCrops = CROP_DATABASE.filter(crop => {
     const matchesCat = selectedCategory === 'All' || crop.category === selectedCategory;

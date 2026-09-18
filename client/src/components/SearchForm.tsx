@@ -20,6 +20,45 @@ interface SearchFormProps {
   isLoading: boolean;
 }
 
+const CROP_TRANSLATIONS: Record<string, Record<Language, string>> = {
+  Tomato: {
+    en: "Tomato", hi: "टमाटर", kn: "ಟೊಮೆಟೊ", te: "టమోటా", ta: "தக்காளி",
+    mr: "टोमॅटो", bn: "টমেটো", gu: "ટામેટા", pa: "ਟਮਾਟਰ", ml: "തക്കാളി"
+  },
+  Onion: {
+    en: "Onion", hi: "प्याज", kn: "ಈರುಳ್ಳಿ", te: "ఉల్లిపాయ", ta: "வெங்காயம்",
+    mr: "कांदा", bn: "পেঁয়াজ", gu: "ડુંગળી", pa: "ਪਿਆਜ਼", ml: "സവാള"
+  },
+  Potato: {
+    en: "Potato", hi: "आलू", kn: "ಆಲೂಗಡ್ಡೆ", te: "బంగాళాదుంప", ta: "உருளைக்கிழங்கு",
+    mr: "बटाटा", bn: "আলু", gu: "બટાટા", pa: "ਆਲੂ", ml: "ഉരുളക്കിഴങ്ങ്"
+  },
+  Groundnut: {
+    en: "Groundnut", hi: "मूंगफली", kn: "ಕಡಲೆಕಾಯಿ", te: "వేరుశెనగ", ta: "வேர்க்கடலை",
+    mr: "भुईमूग", bn: "চিনাবাদাম", gu: "મગફળી", pa: "ਮੂੰਗਫਲੀ", ml: "നിലക്കടല"
+  },
+  Maize: {
+    en: "Maize", hi: "मक्का", kn: "ಮೆಕ್ಕೆಜೋಳ", te: "మొక్కజొన్న", ta: "மக்காச்சோளம்",
+    mr: "मका", bn: "ভুট্টা", gu: "મકાઈ", pa: "ਮੱਕੀ", ml: "ചോളം"
+  },
+  Paddy: {
+    en: "Paddy", hi: "धान", kn: "ಭತ್ತ", te: "వరి", ta: "நெல்",
+    mr: "भात", bn: "ধান", gu: "ડાંગર", pa: "ਝੋਨਾ", ml: "നെല്ല്"
+  },
+  Wheat: {
+    en: "Wheat", hi: "गेहूं", kn: "ಗೋಧಿ", te: "గోధుమలు", ta: "கோதுமை",
+    mr: "गहू", bn: "গম", gu: "ઘઉં", pa: "ਕਣਕ", ml: "ഗോതമ്പ്"
+  },
+  Cotton: {
+    en: "Cotton", hi: "कपास", kn: "ಹತ್ತಿ", te: "ప్రత్తి", ta: "பருத்தி",
+    mr: "कापूस", bn: "তুলা", gu: "કપાસ", pa: "ਨਰਮਾ", ml: "പരുത്തി"
+  },
+  Chilli: {
+    en: "Chilli", hi: "मिर्च", kn: "ಮೆಣಸಿನಕಾಯಿ", te: "మిరపకాయ", ta: "மிளகாய்",
+    mr: "मिरची", bn: "লঙ্কা", gu: "મરચાં", pa: "ਮਿਰਚ", ml: "മുളക്"
+  }
+};
+
 export const SearchForm: React.FC<SearchFormProps> = ({
   language,
   commodities,
@@ -104,7 +143,7 @@ export const SearchForm: React.FC<SearchFormProps> = ({
         </h2>
         <div className="flex items-center gap-2">
           <span className="text-[11px] font-medium uppercase tracking-wider text-[#123826] bg-[#EBF5ED] border border-[#CCE0D0] px-3 py-1 rounded-full">
-            Official Agmarknet Rates
+            Official Agmarknet Rates • Pan-India Search
           </span>
         </div>
       </div>
@@ -112,15 +151,78 @@ export const SearchForm: React.FC<SearchFormProps> = ({
       <form onSubmit={handleSubmit} className="p-6 sm:p-8 space-y-6">
         {/* Commodity Selector Matrix */}
         <div>
-          <label className="block text-xs font-semibold uppercase tracking-wider text-stone-600 mb-2.5">
+          <label htmlFor="cropInput" className="block text-xs font-semibold uppercase tracking-wider text-stone-600 mb-2">
             {t.cropLabel} <span className="text-red-500">*</span>
           </label>
+
+          {/* Pan-India Universal Crop Input Bar */}
+          <div className="relative mb-3">
+            <div className="flex items-center rounded-2xl overflow-hidden border border-[#CCE0D0] bg-white focus-within:border-[#2E7D32] focus-within:ring-2 focus-within:ring-[#2E7D32]/20 shadow-xs transition-all">
+              <div className="pl-4 pr-2 text-[#2E7D32]">
+                <Search className="w-4 h-4" />
+              </div>
+              <input
+                type="text"
+                id="cropInput"
+                list="panIndiaCropsList"
+                value={selectedCrop}
+                onChange={(e) => onCropChange(e.target.value)}
+                placeholder="Type or select any crop e.g. Tomato, Ginger, Garlic, Cardamom, Mango, Dragonfruit..."
+                className="w-full py-3 pr-3 text-sm bg-transparent text-stone-900 font-bold focus:outline-none placeholder:text-stone-400 placeholder:font-normal"
+              />
+              {selectedCrop && (
+                <button
+                  type="button"
+                  onClick={() => onCropChange('')}
+                  className="mr-3 text-xs text-stone-400 hover:text-stone-700 bg-stone-100 hover:bg-stone-200 px-2.5 py-1 rounded-full cursor-pointer transition-colors"
+                >
+                  Clear
+                </button>
+              )}
+            </div>
+            <datalist id="panIndiaCropsList">
+              <option value="Tomato" />
+              <option value="Onion" />
+              <option value="Potato" />
+              <option value="Groundnut" />
+              <option value="Soyabean" />
+              <option value="Mustard" />
+              <option value="Maize" />
+              <option value="Paddy" />
+              <option value="Wheat" />
+              <option value="Cotton" />
+              <option value="Chilli" />
+              <option value="Apple" />
+              <option value="Banana" />
+              <option value="Mango" />
+              <option value="Turmeric" />
+              <option value="Garlic" />
+              <option value="Ginger" />
+              <option value="Cardamom" />
+              <option value="Black Pepper" />
+              <option value="Saffron" />
+              <option value="Dragonfruit" />
+              <option value="Vanilla" />
+              <option value="Avocado" />
+              <option value="Coffee" />
+              <option value="Tea" />
+              <option value="Coriander" />
+              <option value="Cumin" />
+              <option value="Cashew" />
+            </datalist>
+          </div>
+
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-[11px] font-semibold text-stone-500 uppercase tracking-wider">
+              Quick Select Popular Crops:
+            </span>
+          </div>
 
           {/* Quick select pills */}
           <div className="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-9 gap-2 mb-3">
             {commodities.map((item) => {
               const isSelected = item.name.toLowerCase() === selectedCrop.toLowerCase();
-              const localName = language === 'hi' ? item.localNames.hi : (language === 'kn' ? item.localNames.kn : item.name);
+              const localName = CROP_TRANSLATIONS[item.name]?.[language] || (item.localNames as any)?.[language] || item.name;
 
               return (
                 <button

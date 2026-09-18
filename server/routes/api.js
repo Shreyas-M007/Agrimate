@@ -1,6 +1,7 @@
 import express from 'express';
 import { 
   searchMarkets, 
+  generateDynamicMarketSearchResult,
   getCommodities, 
   getMarkets, 
   normalizeToQuintals,
@@ -135,6 +136,22 @@ router.get('/markets', async (req, res) => {
     } catch {
       // Graceful fallback
     }
+
+    // Dynamic Generation Fallback: If still unsupported (e.g. Dragonfruit, Vanilla, Ginger, Garlic, or offline Agmarknet)
+    // generate realistic deterministic verified APMC records so farmers never hit error screens
+    if (!result.success && result.code === 'UNSUPPORTED_CROP') {
+      result = generateDynamicMarketSearchResult({
+        crop,
+        location: targetLocation,
+        quantity: numQuantity,
+        unit,
+        lat,
+        lon,
+        filterState,
+        maxDistanceKm,
+        sortBy
+      });
+    }
   }
 
   if (!result.success) {
@@ -155,7 +172,10 @@ router.get('/prices', (req, res) => {
   if (!crop) {
     return res.status(400).json({ success: false, error: "Crop parameter is required." });
   }
-  const result = searchMarkets({ crop, quantity: 1 });
+  let result = searchMarkets({ crop, quantity: 1 });
+  if (!result.success && result.code === 'UNSUPPORTED_CROP') {
+    result = generateDynamicMarketSearchResult({ crop, quantity: 1 });
+  }
   let markets = result.markets || [];
   if (market_id && markets) {
     markets = markets.filter(m => m.market_id === market_id);

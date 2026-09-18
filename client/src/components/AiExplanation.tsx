@@ -78,13 +78,19 @@ export const AiExplanation: React.FC<AiExplanationProps> = ({
     const fullText = `${explanation.title}. ${explanation.summary} ${explanation.priceDetails} ${explanation.trendExplanation} ${explanation.advice}`;
     const utterance = new SpeechSynthesisUtterance(fullText);
 
-    if (language === 'hi') {
-      utterance.lang = 'hi-IN';
-    } else if (language === 'kn') {
-      utterance.lang = 'kn-IN';
-    } else {
-      utterance.lang = 'en-IN';
-    }
+    const langCodeMap: Record<Language, string> = {
+      en: 'en-IN',
+      hi: 'hi-IN',
+      kn: 'kn-IN',
+      te: 'te-IN',
+      ta: 'ta-IN',
+      mr: 'mr-IN',
+      bn: 'bn-IN',
+      gu: 'gu-IN',
+      pa: 'pa-IN',
+      ml: 'ml-IN'
+    };
+    utterance.lang = langCodeMap[language] || 'en-IN';
     utterance.rate = 0.92;
 
     utterance.onstart = () => setIsSpeaking(true);
@@ -109,13 +115,39 @@ export const AiExplanation: React.FC<AiExplanationProps> = ({
     window.open(url, '_blank');
   };
 
+  const languageDisplayNames: Record<Language, string> = {
+    en: "English",
+    hi: "हिन्दी",
+    kn: "ಕನ್ನಡ",
+    te: "తెలుగు",
+    ta: "தமிழ்",
+    mr: "मराठी",
+    bn: "বাংলা",
+    gu: "ગુજરાતી",
+    pa: "ਪੰਜਾਬੀ",
+    ml: "മലയാളം"
+  };
+
+  const listenButtonLabels: Record<Language, string> = {
+    en: "Listen Voice",
+    hi: "आवाज़ में सुनें",
+    kn: "ಧ್ವನಿ ಕೇಳಿ",
+    te: "వాయిస్ వినండి",
+    ta: "குரல் கேளுங்கள்",
+    mr: "आवाज ऐका",
+    bn: "ভয়েস শুনুন",
+    gu: "અવાજ સાંભળો",
+    pa: "ਆਵਾਜ਼ ਸੁਣੋ",
+    ml: "ശബ്ദം കേൾക്കൂ"
+  };
+
   if (loading) {
     return (
       <div className="verda-card rounded-3xl p-6 border border-[#CCE0D0] animate-pulse">
         <div className="flex items-center gap-3">
           <div className="w-5 h-5 border-2 border-[#2E7D32] border-t-transparent rounded-full animate-spin" />
           <span className="text-sm font-medium text-[#123826]">
-            Generating market analysis in {language === 'hi' ? 'हिन्दी' : (language === 'kn' ? 'ಕನ್ನಡ' : 'English')}...
+            Generating market analysis in {languageDisplayNames[language]}...
           </span>
         </div>
       </div>
@@ -157,10 +189,10 @@ export const AiExplanation: React.FC<AiExplanationProps> = ({
                 ? 'bg-amber-500 text-white animate-bounce shadow-md' 
                 : 'bg-[#2E7D32] hover:bg-[#1B5E20] text-white shadow-sm hover:shadow-md'
             }`}
-            title={isSpeaking ? "Stop Voice Narration" : "Listen in Selected Language"}
+            title={isSpeaking ? "Stop Voice Narration" : `Listen in ${languageDisplayNames[language]}`}
           >
             {isSpeaking ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
-            <span>{isSpeaking ? "Speaking..." : (language === 'kn' ? "ಧ್ವನಿ ಕೇಳಿ" : (language === 'hi' ? "आवाज़ में सुनें" : "Listen Voice"))}</span>
+            <span>{isSpeaking ? "Speaking..." : listenButtonLabels[language]}</span>
           </button>
 
           {/* Copy Button */}

@@ -1,4 +1,4 @@
-export type Language = 'en' | 'hi' | 'kn';
+export type Language = 'en' | 'hi' | 'kn' | 'te' | 'ta' | 'mr' | 'bn' | 'gu' | 'pa' | 'ml';
 
 export type CropUnit = 'kg' | 'quintal' | 'tonne';
 

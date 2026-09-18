@@ -52,7 +52,7 @@ export function getBedrockConfig() {
  */
 export async function explainTerm({ term, contextPrice, language = 'en' }) {
   const cleanTerm = (term || 'modal_price').toLowerCase().trim();
-  const lang = ['hi', 'kn', 'en'].includes(language) ? language : 'en';
+  const lang = ['hi', 'kn', 'te', 'ta', 'mr', 'bn', 'gu', 'pa', 'ml', 'en'].includes(language) ? language : 'en';
 
   const getFallback = () => {
     const priceText = contextPrice ? ` ₹${contextPrice}/quintal.` : '.';
@@ -91,6 +91,132 @@ export async function explainTerm({ term, contextPrice, language = 'en' }) {
           return `ಒಟ್ಟು ಅಂದಾಜು ಮೌಲ್ಯ (Gross Value) ಎಂದರೆ ನಿಮ್ಮ ಬೆಳೆಯ ಪ್ರಮಾಣ ಮತ್ತು ಮಾದರಿ ಬೆಲೆಯನ್ನು ಗುಣಿಸಿದಾಗ ಸಿಗುವ ಒಟ್ಟು ಮೌಲ್ಯ.`;
         default:
           return `ಇದು ಕೃಷಿ ಮಾರುಕಟ್ಟೆ ಪದವಾಗಿದೆ.`;
+      }
+    } else if (lang === 'te') {
+      switch (cleanTerm) {
+        case 'modal_price':
+          return `మోడల్ ధర (Modal Price) అంటే నేడు మార్కెట్‌లో అత్యధిక పంట విక్రయించబడిన సాధారణ రేటు.${priceText}`;
+        case 'min_price':
+        case 'minimum_price':
+          return `కనిష్ట ధర (Minimum Price) అంటే నేడు మార్కెట్‌లో తక్కువ గ్రేడ్ పంటకు నమోదైన అత్యల్ప రేటు.`;
+        case 'max_price':
+        case 'maximum_price':
+          return `గరిష్ట ధర (Maximum Price) అంటే నేడు ప్రీమియం నాణ్యత కలిగిన పంటకు లభించిన అత్యధిక రేటు.`;
+        case 'market_arrival':
+        case 'arrival_quantity':
+          return `మార్కెట్ రాక (Market Arrival) అంటే నేడు రైతులు మార్కెట్‌కు తీసుకువచ్చిన పంట మొత్తం పరిమాణం.`;
+        case 'gross_value':
+          return `అంచనా మొత్తం విలువ (Gross Value) అంటే పంట పరిమాణం మరియు మోడల్ ధరను గుణించగా వచ్చే విలువ.`;
+        default:
+          return `ఇది వ్యవసాయ మార్కెట్ పదం.`;
+      }
+    } else if (lang === 'ta') {
+      switch (cleanTerm) {
+        case 'modal_price':
+          return `மாதிரி விலை (Modal Price) என்பது இன்று சந்தையில் பெரும்பாலான பயிர்கள் விற்கப்பட்ட சராசரி பொதுவான விலையாகும்.${priceText}`;
+        case 'min_price':
+        case 'minimum_price':
+          return `குறைந்தபட்ச விலை (Minimum Price) என்பது தரம் குறைந்த பயிருக்கு இன்று சந்தையில் பதிவான மிகக் குறைந்த விலையாகும்.`;
+        case 'max_price':
+        case 'maximum_price':
+          return `அதிகபட்ச விலை (Maximum Price) என்பது சிறந்த தரம் கொண்ட பயிருக்கு இன்று கிடைத்த மிக உயர்ந்த விலையாகும்.`;
+        case 'market_arrival':
+        case 'arrival_quantity':
+          return `சந்தை வரத்து (Market Arrival) என்பது இன்று விவசாயிகள் சந்தைக்கு கொண்டு வந்த மொத்த விளைபொருளின் அளவாகும்.`;
+        case 'gross_value':
+          return `மதிப்பிடப்பட்ட மொத்த மதிப்பு (Gross Value) என்பது பயிர் அளவையும் மாதிரி விலையையும் பெருக்கி கணக்கிடப்படும் தொகையாகும்.`;
+        default:
+          return `இது ஒரு விவசாய சந்தை சொல்.`;
+      }
+    } else if (lang === 'mr') {
+      switch (cleanTerm) {
+        case 'modal_price':
+          return `मॉडेल भाव (Modal Price) म्हणजे आज बाजारात ज्या दराने जास्तीत जास्त शेतमालाची खरेदी-विक्री झाली तो सामान्य दर.${priceText}`;
+        case 'min_price':
+        case 'minimum_price':
+          return `किमान भाव (Minimum Price) म्हणजे आज बाजार समितीत कमी दर्जाच्या मालासाठी मिळालेला सर्वात कमी दर.`;
+        case 'max_price':
+        case 'maximum_price':
+          return `कमाल भाव (Maximum Price) म्हणजे उत्कृष्ट ग्रेड-ए मालासाठी मिळालेला आजचा सर्वोच्च दर.`;
+        case 'market_arrival':
+        case 'arrival_quantity':
+          return `बाजार आवक (Market Arrival) म्हणजे आज शेतकऱ्यांनी विक्रीसाठी बाजारात आणलेला एकूण शेतमाल.`;
+        case 'gross_value':
+          return `अंदाजे एकूण मूल्य (Gross Value) म्हणजे मालाचे प्रमाण आणि मॉडेल भाव यांचा गुणाकार करून काढलेली अंदाजे रक्कम.`;
+        default:
+          return `हे कृषी उत्पन्न बाजार शब्दावलीतील पद आहे.`;
+      }
+    } else if (lang === 'bn') {
+      switch (cleanTerm) {
+        case 'modal_price':
+          return `মডেল মূল্য (Modal Price) হলো আজকের বাজারে যে মূল্যে সবচেয়ে বেশি পরিমাণ ফসল কেনাবেচা হয়েছে.${priceText}`;
+        case 'min_price':
+        case 'minimum_price':
+          return `সর্বনিম্ন দর (Minimum Price) হলো আজকের বাজারে নিম্ন মানের ফসলের জন্য নথিভুক্ত সবচেয়ে কম দর.`;
+        case 'max_price':
+        case 'maximum_price':
+          return `সর্বোচ্চ দর (Maximum Price) হলো সেরা মানের ফসলের জন্য আজকের বাজারে প্রাপ্ত সর্বোচ্চ দর.`;
+        case 'market_arrival':
+        case 'arrival_quantity':
+          return `বাজার আমদানি (Market Arrival) হলো কৃষকদের দ্বারা আজ বাজারে আনা মোট ফসলের পরিমাণ.`;
+        case 'gross_value':
+          return `আনুমানিক মোট মূল্য (Gross Value) হলো ফসলের পরিমাণকে মডেল দর দিয়ে গুণ করে হিসাব করা মূল্য.`;
+        default:
+          return `এটি কৃষি বাজার সম্পর্কিত পরিভাষা।`;
+      }
+    } else if (lang === 'gu') {
+      switch (cleanTerm) {
+        case 'modal_price':
+          return `મોડલ ભાવ (Modal Price) એ સરેરાશ બજાર ભાવ છે જેના પર આજે યાર્ડમાં મોટાભાગનો પાક વેચાયો છે.${priceText}`;
+        case 'min_price':
+        case 'minimum_price':
+          return `ન્યૂનતમ ભાવ (Minimum Price) એ આજે યાર્ડમાં નબળા માલ માટે નોંધાયેલો સૌથી નીચો ભાવ છે.`;
+        case 'max_price':
+        case 'maximum_price':
+          return `મહત્તમ ભાવ (Maximum Price) એ શ્રેષ્ઠ ગુણવત્તાવાળા પાક માટે મળેલ સૌથી ઊંચો ભાવ છે.`;
+        case 'market_arrival':
+        case 'arrival_quantity':
+          return `બજાર આવક (Market Arrival) એટલે આજે ખેડૂતો દ્વારા માર્કેટ યાર્ડમાં લાવવામાં આવેલ પાકનો કુલ જथ્થો.`;
+        case 'gross_value':
+          return `અંદાજિત કુલ મૂલ્ય (Gross Value) એટલે પાકનો જથ્થો અને મોડલ ભાવનો ગુણાકાર કરીને અંદાજવામાં આવેલી રકમ.`;
+        default:
+          return `આ કૃષિ બજાર પારિભાષિક શબ્દ છે.`;
+      }
+    } else if (lang === 'pa') {
+      switch (cleanTerm) {
+        case 'modal_price':
+          return `ਮਾਡਲ ਭਾਅ (Modal Price) ਉਹ ਆਮ ਭਾਅ ਹੈ ਜਿਸ 'ਤੇ ਅੱਜ ਮੰਡੀ ਵਿੱਚ ਬਹੁਤੀ ਫਸਲ ਵਿਕੀ ਹੈ।${priceText}`;
+        case 'min_price':
+        case 'minimum_price':
+          return `ਘੱਟੋ-ਘੱਟ ਭਾਅ (Minimum Price) ਅੱਜ ਮੰਡੀ ਵਿੱਚ ਦਰਜ ਸਭ ਤੋਂ ਘੱਟ ਰੇਟ ਹੈ।`;
+        case 'max_price':
+        case 'maximum_price':
+          return `ਵੱਧ ਤੋਂ ਵੱਧ ਭਾਅ (Maximum Price) ਵਧੀਆ ਕੁਆਲਿਟੀ ਦੀ ਫਸਲ ਲਈ ਮਿਲਿਆ ਸਭ ਤੋਂ ਉੱਚਾ ਭਾਅ ਹੈ।`;
+        case 'market_arrival':
+        case 'arrival_quantity':
+          return `ਮੰਡੀ ਆਮਦ (Market Arrival) ਦਾ ਮਤਲਬ ਹੈ ਅੱਜ ਮੰਡੀ ਵਿੱਚ ਕਿਸਾਨਾਂ ਵੱਲੋਂ ਲਿਆਂਦੀ ਗਈ ਕੁੱਲ ਫਸਲ।`;
+        case 'gross_value':
+          return `ਅਨੁਮਾਨਿਤ ਕੁੱਲ ਕੀਮਤ (Gross Value) ਫਸਲ ਦੀ ਮਾਤਰਾ ਅਤੇ ਮਾਡਲ ਭਾਅ ਨੂੰ ਗੁਣਾ ਕਰਕੇ ਕੱਢਿਆ ਗਿਆ ਮੁੱਲ ਹੈ।`;
+        default:
+          return `ਇਹ ਖੇਤੀਬਾੜੀ ਮੰਡੀ ਸ਼ਬਦਾਵਲੀ ਹੈ।`;
+      }
+    } else if (lang === 'ml') {
+      switch (cleanTerm) {
+        case 'modal_price':
+          return `മോഡൽ വില (Modal Price) എന്നാൽ ഇന്ന് വിപണിയിൽ ഭൂരിഭാഗം വിളയും വിറ്റഴിക്കപ്പെട്ട സാധാരണ വിലയാണ്.${priceText}`;
+        case 'min_price':
+        case 'minimum_price':
+          return `കുറഞ്ഞ വില (Minimum Price) എന്നാൽ ഇന്ന് വിപണിയിൽ രേഖപ്പെടുത്തിയ ഏറ്റവും കുറഞ്ഞ നിരക്കാണ്.`;
+        case 'max_price':
+        case 'maximum_price':
+          return `കൂടിയ വില (Maximum Price) എന്നാൽ മികച്ച ഗുണനിലവാരമുള്ള വിളയ്ക്ക് ലഭിച്ച ഏറ്റവും ഉയർന്ന നിരക്കാണ്.`;
+        case 'market_arrival':
+        case 'arrival_quantity':
+          return `വിപണി വരവ് (Market Arrival) എന്നാൽ കർഷകർ ഇന്ന് വിപണിയിലേക്ക് കൊണ്ടുവന്ന ആകെ വിളയുടെ അളവാണ്.`;
+        case 'gross_value':
+          return `ഏകദേശ മൊത്തം മൂല്യം (Gross Value) എന്നാൽ വിളയുടെ അളവും മോഡൽ വിലയും ഗുണിച്ചുണ്ടാക്കുന്ന തുകയാണ്.`;
+        default:
+          return `ഇത് ഒരു കാർഷിക വിപണി പദമാണ്.`;
       }
     } else {
       switch (cleanTerm) {
