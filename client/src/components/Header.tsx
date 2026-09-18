@@ -101,22 +101,22 @@ export const Header: React.FC<HeaderProps> = ({
   return (
     <header className="bg-[#F6F4EE]/90 backdrop-blur-md border-b border-[#E6E1D7] sticky top-0 z-50 print:hidden">
       {/* Main Brand & Multi-Page Navigation Bar */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-3.5 flex items-center justify-between gap-4 relative">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3.5 sm:py-4 flex items-center justify-between gap-4 relative">
         {/* Brand Logo & Name (Minimalist Cultivo Style) */}
         <div 
           onClick={() => handleNavClick('home')}
           className="flex items-center gap-2.5 cursor-pointer group select-none shrink-0"
         >
-          <div className="w-8 h-8 rounded-full bg-[#153424] flex items-center justify-center text-white shadow-2xs group-hover:scale-105 transition-transform">
-            <Sprout className="w-4 h-4 text-[#4ADE80]" />
+          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#153424] flex items-center justify-center text-white shadow-2xs group-hover:scale-105 transition-transform">
+            <Sprout className="w-5 h-5 text-[#4ADE80]" />
           </div>
-          <span className="text-xl font-bold tracking-tight text-[#153424] font-['Syne',sans-serif] notranslate" translate="no">
+          <span className="text-xl sm:text-2xl font-bold tracking-tight text-[#153424] font-['Syne',sans-serif] notranslate" translate="no">
             AgriMate
           </span>
         </div>
 
         {/* Center: Slim Floating Dark Pill Capsule - Centered to align with search below */}
-        <nav className="hidden lg:flex items-center gap-0.5 bg-[#181F1C] p-1 rounded-full border border-stone-800 shadow-sm notranslate absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2" translate="no">
+        <nav className="hidden lg:flex items-center gap-1 bg-[#181F1C] p-1.5 rounded-full border border-stone-800 shadow-md notranslate absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2" translate="no">
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = currentPage === item.id;
@@ -124,13 +124,13 @@ export const Header: React.FC<HeaderProps> = ({
               <button
                 key={item.id}
                 onClick={() => handleNavClick(item.id)}
-                className={`px-3 py-1.5 rounded-full text-xs transition-all duration-200 cursor-pointer flex items-center gap-1.5 select-none ${
+                className={`px-3.5 sm:px-4 py-2 rounded-full text-xs sm:text-[13px] transition-all duration-200 cursor-pointer flex items-center gap-2 select-none ${
                   isActive
                     ? 'bg-white text-[#153424] font-bold shadow-xs'
                     : 'text-stone-300 hover:text-white hover:bg-white/10 font-medium'
                 }`}
               >
-                {isActive && <Icon className="w-3.5 h-3.5 text-[#153424] shrink-0" />}
+                {isActive && <Icon className="w-4 h-4 text-[#153424] shrink-0" />}
                 <span>{item.label}</span>
               </button>
             );
@@ -142,11 +142,11 @@ export const Header: React.FC<HeaderProps> = ({
           {/* Quick Search Link */}
           <button
             onClick={() => setSearchModalOpen(true)}
-            className="text-xs font-semibold text-stone-700 hover:text-[#153424] transition-colors cursor-pointer flex items-center gap-1.5 notranslate py-1 px-1.5"
+            className="text-xs sm:text-[13px] font-semibold text-stone-700 hover:text-[#153424] transition-colors cursor-pointer flex items-center gap-1.5 notranslate py-1.5 px-2.5 rounded-full hover:bg-stone-200/40"
             translate="no"
             title={SEARCH_LABELS[language] || 'Search'}
           >
-            <Search className="w-3.5 h-3.5 text-stone-500" />
+            <Search className="w-4 h-4 text-stone-500" />
             <span className="hidden sm:inline notranslate" translate="no">
               {SEARCH_LABELS[language] || 'Search'}
             </span>
@@ -155,7 +155,7 @@ export const Header: React.FC<HeaderProps> = ({
           {/* Language Switcher — Sleek Text Dropdown */}
           <div
             ref={langDropdownRef}
-            className="relative flex items-center text-xs font-semibold text-stone-700 hover:text-[#153424] gap-1 notranslate cursor-pointer select-none transition-colors py-1 px-1.5"
+            className="relative flex items-center text-xs sm:text-[13px] font-semibold text-stone-700 hover:text-[#153424] gap-1.5 notranslate cursor-pointer select-none transition-colors py-1.5 px-2.5 rounded-full hover:bg-stone-200/40"
             translate="no"
             onClick={() => setLangDropdownOpen(!langDropdownOpen)}
             role="combobox"
@@ -163,11 +163,11 @@ export const Header: React.FC<HeaderProps> = ({
             aria-expanded={langDropdownOpen}
             aria-label="Select language"
           >
-            <Globe className="w-3.5 h-3.5 text-stone-500 shrink-0" />
+            <Globe className="w-4 h-4 text-stone-500 shrink-0" />
             <span className="notranslate whitespace-nowrap">
               {LANGUAGES.find(l => l.code === language)?.label ?? 'English'} ({LANGUAGES.find(l => l.code === language)?.name ?? 'EN'})
             </span>
-            <ChevronDown className={`w-3 h-3 text-stone-400 transition-transform shrink-0 ${langDropdownOpen ? 'rotate-180' : ''}`} />
+            <ChevronDown className={`w-3.5 h-3.5 text-stone-400 transition-transform shrink-0 ${langDropdownOpen ? 'rotate-180' : ''}`} />
 
             {langDropdownOpen && (
               <div
