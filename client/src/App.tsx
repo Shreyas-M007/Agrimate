@@ -573,13 +573,6 @@ export const App: React.FC = () => {
             <div>
               © 2026 AgriMate. Built for Indian Agriculture. All data grounded in official APMC Agmarknet reporting.
             </div>
-            <div className="flex items-center gap-4">
-              <span>0% AI Hallucination Guarantee</span>
-              <span>•</span>
-              <span>SQLite Edge Resilient</span>
-              <span>•</span>
-              <span>APMC Act 2026</span>
-            </div>
           </div>
         </div>
       </footer>
