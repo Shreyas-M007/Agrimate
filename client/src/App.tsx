@@ -9,7 +9,7 @@ import type {
   PriceTrend,
   NavigationPage
 } from './types';
-import { TRANSLATIONS } from './i18n/translations';
+
 import { Header } from './components/Header';
 import { OfflineBanner } from './components/OfflineBanner';
 import { ExplainModal } from './components/ExplainModal';
@@ -27,7 +27,7 @@ import {
   getCachedSearchResult 
 } from './utils/storage';
 import { setSiteLanguage, clearAllTranslateCookies } from './utils/translator';
-import { BookOpen, CheckCircle2, ShieldCheck } from 'lucide-react';
+import { CheckCircle2, ShieldCheck } from 'lucide-react';
 
 export const App: React.FC = () => {
   // English is ALWAYS default on initial load / refresh per user instruction
@@ -70,8 +70,6 @@ export const App: React.FC = () => {
   const [isSyncing, setIsSyncing] = useState<boolean>(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false);
   const [syncToast, setSyncToast] = useState<string | null>(null);
-
-  const t = TRANSLATIONS[language];
 
   // Initialize page routing from pathname
   useEffect(() => {
@@ -418,6 +416,7 @@ export const App: React.FC = () => {
           <ServicesPage
             language={language}
             onNavigate={navigateTo}
+            onOpenTerminologyGuide={(term) => setExplanationTerm(term || 'modal_price')}
           />
         )}
 
@@ -445,17 +444,7 @@ export const App: React.FC = () => {
         )}
       </main>
 
-      {/* Floating Educational Terminology Guide Button */}
-      <div className="fixed bottom-5 right-5 z-40 print:hidden">
-        <button
-          type="button"
-          onClick={() => setExplanationTerm('modal_price')}
-          className="bg-[#153424] hover:bg-[#1f4a34] text-white font-bold px-4 py-2.5 rounded-full shadow-lg border border-[#3FA744]/40 flex items-center gap-2 transition-all hover:scale-105 cursor-pointer text-xs sm:text-sm"
-        >
-          <BookOpen className="w-4 h-4 text-[#A5D6A7]" />
-          <span>{t.educationalModalTitle}</span>
-        </button>
-      </div>
+
 
       {/* Farmer Preferences & Profile Modal */}
       <SettingsModal

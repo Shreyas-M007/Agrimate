@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import type { Language, NavigationPage } from '../types';
+import { TRANSLATIONS } from '../i18n/translations';
 import { 
   TrendingUp, 
   Truck, 
@@ -8,16 +9,20 @@ import {
   Cpu, 
   CheckCircle2, 
   ArrowRight, 
-  ChevronRight
+  ChevronRight,
+  BookOpen
 } from 'lucide-react';
 
 interface ServicesPageProps {
   language: Language;
   onNavigate: (page: NavigationPage) => void;
+  onOpenTerminologyGuide?: (term?: string) => void;
 }
 
 export const ServicesPage: React.FC<ServicesPageProps> = ({
-  onNavigate
+  language,
+  onNavigate,
+  onOpenTerminologyGuide
 }) => {
   // Interactive mini freight calculator state
   const [vehicle, setVehicle] = useState<'ace' | 'pickup' | 'truck' | 'tractor'>('pickup');
@@ -328,6 +333,37 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
               className="text-xs font-bold text-[#2E7D32] flex items-center gap-1 hover:underline cursor-pointer"
             >
               <span>View Farmer Checklist →</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Service 7: Agricultural Terminology Guide (Dedicated Section) */}
+        <div className="bg-gradient-to-br from-[#FAF8F5] to-[#EAEFE9] p-8 sm:p-10 rounded-3xl border border-[#CCE0D0] shadow-sm flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="space-y-3 max-w-2xl">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#EAEFE9] text-[#2E7D32] text-xs font-bold">
+              <BookOpen className="w-4 h-4" />
+              <span>Service 07 • Farmer Education & APMC Literacy</span>
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-black text-[#153424] font-['Syne',sans-serif]">
+              Agricultural Terminology Guide
+            </h2>
+            <p className="text-stone-600 text-xs sm:text-sm leading-relaxed font-['Outfit',sans-serif]">
+              Empowering farmers with transparent definitions of wholesale mandi mechanisms — understand <span className="font-bold text-[#153424]">Modal Price</span>, <span className="font-bold text-[#153424]">Minimum & Maximum Bids</span>, and <span className="font-bold text-[#153424]">Arrival Quantities</span> in 10 Indian languages to protect your margins.
+            </p>
+          </div>
+
+          <div className="shrink-0">
+            <button
+              type="button"
+              onClick={() => {
+                if (onOpenTerminologyGuide) {
+                  onOpenTerminologyGuide('modal_price');
+                }
+              }}
+              className="bg-[#153424] hover:bg-[#1f4a34] text-white font-bold px-6 py-3 rounded-full shadow-md border border-[#3FA744]/40 flex items-center gap-2.5 transition-all hover:scale-105 cursor-pointer text-xs sm:text-sm"
+            >
+              <BookOpen className="w-4 h-4 text-[#A5D6A7]" />
+              <span>{TRANSLATIONS[language]?.educationalModalTitle || 'Agricultural Terminology Guide'}</span>
             </button>
           </div>
         </div>
