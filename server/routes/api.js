@@ -137,9 +137,10 @@ router.get('/markets', async (req, res) => {
       // Graceful fallback
     }
 
-    // Dynamic Generation Fallback: If still unsupported (e.g. Dragonfruit, Vanilla, Ginger, Garlic, or offline Agmarknet)
+    // Dynamic Generation Fallback: If requested via pan_india=true or dynamic=true
     // generate realistic deterministic verified APMC records so farmers never hit error screens
-    if (!result.success && result.code === 'UNSUPPORTED_CROP') {
+    const isPanIndiaRequested = req.query.pan_india === 'true' || req.query.dynamic === 'true';
+    if (!result.success && result.code === 'UNSUPPORTED_CROP' && isPanIndiaRequested) {
       result = generateDynamicMarketSearchResult({
         crop,
         location: targetLocation,
@@ -173,7 +174,7 @@ router.get('/prices', (req, res) => {
     return res.status(400).json({ success: false, error: "Crop parameter is required." });
   }
   let result = searchMarkets({ crop, quantity: 1 });
-  if (!result.success && result.code === 'UNSUPPORTED_CROP') {
+  if (!result.success && result.code === 'UNSUPPORTED_CROP' && (req.query.pan_india === 'true' || req.query.dynamic === 'true')) {
     result = generateDynamicMarketSearchResult({ crop, quantity: 1 });
   }
   let markets = result.markets || [];

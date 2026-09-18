@@ -26,11 +26,17 @@ import {
   saveSearchResultToCache, 
   getCachedSearchResult 
 } from './utils/storage';
+import { setSiteLanguage } from './utils/translator';
 import { BookOpen, CheckCircle2, ShieldCheck } from 'lucide-react';
 
 export const App: React.FC = () => {
   // English is ALWAYS default on initial load / refresh per user instruction
   const [language, setLanguage] = useState<Language>('en');
+
+  const handleLanguageChange = (newLang: Language) => {
+    setLanguage(newLang);
+    setSiteLanguage(newLang);
+  };
   const [currentPage, setCurrentPage] = useState<NavigationPage>('home');
   const [isOnline, setIsOnline] = useState<boolean>(navigator.onLine);
   const [activeTab, setActiveTab] = useState<'form' | 'nlp'>('form');
@@ -93,6 +99,16 @@ export const App: React.FC = () => {
     }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+
+  // Re-apply site-wide dynamic translation whenever the page route changes
+  useEffect(() => {
+    if (language !== 'en') {
+      const timer = setTimeout(() => {
+        setSiteLanguage(language);
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, [currentPage, language]);
 
   // Online / Offline listeners
   useEffect(() => {
@@ -211,7 +227,8 @@ export const App: React.FC = () => {
       crop: targetCrop,
       location,
       quantity: quantity.toString(),
-      unit
+      unit,
+      pan_india: 'true'
     });
 
     if (gpsCoords) {
@@ -304,7 +321,7 @@ export const App: React.FC = () => {
       {/* Editorial Header with multi-page navigation, language switch & sync */}
       <Header
         language={language}
-        onLanguageChange={setLanguage}
+        onLanguageChange={handleLanguageChange}
         isOnline={isOnline}
         syncStatus={syncStatus}
         onTriggerSync={handleTriggerSync}
@@ -431,7 +448,7 @@ export const App: React.FC = () => {
         isOpen={isSettingsOpen}
         onClose={() => setIsSettingsOpen(false)}
         currentLanguage={language}
-        onLanguageChange={setLanguage}
+        onLanguageChange={handleLanguageChange}
         currentLocation={location}
         onLocationChange={setLocation}
         currentUnit={unit}

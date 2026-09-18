@@ -14,7 +14,23 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
   </head>
   <body class="bg-[#FBFDF9] text-[#162E21] min-h-screen selection:bg-emerald-200 selection:text-[#123826] antialiased">
+    <div id="google_translate_element" style="display:none;"></div>
     <div id="root"></div>
+
+    <!-- Google Site-Wide Auto-Translation Engine -->
+    <script type="text/javascript">
+      window.googleTranslateElementInit = function() {
+        if (window.google && window.google.translate) {
+          new window.google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,hi,kn,te,ta,mr,bn,gu,pa,ml',
+            autoDisplay: false
+          }, 'google_translate_element');
+        }
+      };
+    </script>
+    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

@@ -158,11 +158,18 @@ export const MarketCard: React.FC<MarketCardProps> = ({
 
       {/* Footer / Action */}
       <div className="pt-3 border-t border-[#E2ECE3] flex items-center justify-between gap-2">
-        <div className="flex items-center gap-1 text-[10px] font-mono text-stone-500">
-          <ShieldCheck className="w-3 h-3 text-[#2E7D32]" />
-          <span className="truncate max-w-[140px] sm:max-w-[170px]" title={market.source}>
-            {market.source.split('/')[0]}
-          </span>
+        <div className="flex items-center gap-1.5 text-[10px] font-mono">
+          {market.source?.toLowerCase().includes('fallback') || market.source?.toLowerCase().includes('dynamic') ? (
+            <span className="text-amber-800 bg-amber-50 px-2 py-0.5 rounded border border-amber-200 flex items-center gap-1 font-semibold" title="Calculated regional APMC benchmark for newly searched produce">
+              <span>⚡</span>
+              <span>Estimated Benchmark</span>
+            </span>
+          ) : (
+            <span className="text-emerald-850 bg-[#EBF5ED] px-2 py-0.5 rounded border border-[#CCE0D0] flex items-center gap-1 font-semibold" title={market.source}>
+              <ShieldCheck className="w-3 h-3 text-[#2E7D32]" />
+              <span>Official Agmarknet Record</span>
+            </span>
+          )}
         </div>
 
         <button

@@ -117,17 +117,24 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
               <Globe className="w-3.5 h-3.5 text-[#2E7D32]" />
               <span>Preferred Dialect / Language</span>
             </label>
-            <div className="grid grid-cols-3 gap-2 font-mono text-xs">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 font-mono text-xs">
               {[
-                { id: 'en', label: 'English' },
+                { id: 'en', label: 'English (Default)' },
                 { id: 'hi', label: 'हिन्दी (Hindi)' },
-                { id: 'kn', label: 'ಕನ್ನಡ (Kannada)' }
+                { id: 'kn', label: 'ಕನ್ನಡ (Kannada)' },
+                { id: 'te', label: 'తెలుగు (Telugu)' },
+                { id: 'ta', label: 'தமிழ் (Tamil)' },
+                { id: 'mr', label: 'मराठी (Marathi)' },
+                { id: 'bn', label: 'বাংলা (Bengali)' },
+                { id: 'gu', label: 'ગુજરાતી (Gujarati)' },
+                { id: 'pa', label: 'ਪੰਜਾਬੀ (Punjabi)' },
+                { id: 'ml', label: 'മലയാളം (Malayalam)' }
               ].map(langItem => (
                 <button
                   key={langItem.id}
                   type="button"
                   onClick={() => setLocalLang(langItem.id as Language)}
-                  className={`py-2 px-3 rounded-xl border transition-all cursor-pointer ${
+                  className={`py-2 px-3 rounded-xl border transition-all cursor-pointer text-left ${
                     localLang === langItem.id
                       ? 'bg-[#EBF5ED] border-2 border-[#2E7D32] text-[#123826] shadow-xs font-bold'
                       : 'bg-[#F4F8F5] border-[#CCE0D0] text-stone-700 hover:bg-[#EBF5ED]'
