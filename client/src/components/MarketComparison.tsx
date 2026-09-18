@@ -18,16 +18,16 @@ const INITIAL_BATCH_SIZE = 6;
 const BATCH_INCREMENT = 6;
 
 const SHOW_MORE_LABELS: Record<Language, string> = {
-  en: 'Show More Mandis',
-  hi: 'और मंडियां देखें',
-  kn: 'ಇನ್ನಷ್ಟು ಮಂಡಿಗಳನ್ನು ತೋರಿಸಿ',
-  te: 'మరిన్ని మార్కెట్లను చూపించు',
-  ta: 'மேலும் சந்தைகளைக் காட்டு',
-  mr: 'आणखी मंड्या दाखवा',
-  bn: 'আরও মান্ডি দেখুন',
-  gu: 'વધુ મંડીઓ જુઓ',
-  pa: 'ਹੋਰ ਮੰਡੀਆਂ ਵੇਖੋ',
-  ml: 'കൂടുതൽ മണ്ടികൾ കാണിക്കുക'
+  en: 'Show More',
+  hi: 'और देखें',
+  kn: 'ಇನ್ನಷ್ಟು ತೋರಿಸಿ',
+  te: 'మరిన్ని చూపించు',
+  ta: 'மேலும் காட்டு',
+  mr: 'आणखी दाखवा',
+  bn: 'আরও দেখুন',
+  gu: 'વધુ જુઓ',
+  pa: 'ਹੋਰ ਵੇਖੋ',
+  ml: 'കൂടുതൽ കാണിക്കുക'
 };
 
 const SHOW_LESS_LABELS: Record<Language, string> = {
@@ -41,19 +41,6 @@ const SHOW_LESS_LABELS: Record<Language, string> = {
   gu: 'ઓછું જુઓ',
   pa: 'ਘੱਟ ਵੇਖੋ',
   ml: 'കുറച്ച് കാണിക്കുക'
-};
-
-const SHOW_ALL_LABELS: Record<Language, string> = {
-  en: 'Show All',
-  hi: 'सभी देखें',
-  kn: 'ಎಲ್ಲವನ್ನೂ ತೋರಿಸಿ',
-  te: 'అన్నీ చూపించు',
-  ta: 'அனைத்தையும் காட்டு',
-  mr: 'सर्व दाखवा',
-  bn: 'সব দেখুন',
-  gu: 'બધા જુઓ',
-  pa: 'ਸਾਰੇ ਵੇਖੋ',
-  ml: 'എല്ലാം കാണിക്കുക'
 };
 
 interface MarketComparisonProps {
@@ -320,61 +307,28 @@ export const MarketComparison: React.FC<MarketComparisonProps> = ({
             ))}
           </div>
 
-          {/* Show More / Show Less Pagination Bar */}
+          {/* Centered Show More Button */}
           {processedMarkets.length > INITIAL_BATCH_SIZE && (
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-4 border-t border-[#E6E1D7] bg-[#FAF8F5] p-4 rounded-2xl shadow-2xs">
-              <div className="text-xs text-stone-600 font-mono flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-[#2E7D32]"></span>
-                <span>
-                  Showing <strong className="text-[#153424] font-bold">{Math.min(visibleCount, processedMarkets.length)}</strong> of{' '}
-                  <strong className="text-[#153424] font-bold">{processedMarkets.length}</strong> APMC Mandis
-                </span>
-                {visibleCount < processedMarkets.length && (
-                  <span className="text-[11px] text-stone-500 hidden sm:inline">
-                    ({processedMarkets.length - visibleCount} more available)
-                  </span>
-                )}
-              </div>
-
-              <div className="flex items-center gap-2">
-                {visibleCount < processedMarkets.length ? (
-                  <>
-                    <button
-                      type="button"
-                      onClick={() => setVisibleCount(prev => Math.min(prev + BATCH_INCREMENT, processedMarkets.length))}
-                      className="px-4 py-2 rounded-xl bg-[#153424] hover:bg-[#1f4a34] text-white text-xs font-bold transition-all shadow-xs flex items-center gap-1.5 cursor-pointer"
-                    >
-                      <span>{SHOW_MORE_LABELS[language] || 'Show More Mandis'}</span>
-                      <span className="text-emerald-300 font-mono text-[11px]">
-                        (+{Math.min(BATCH_INCREMENT, processedMarkets.length - visibleCount)})
-                      </span>
-                      <ChevronDown className="w-3.5 h-3.5 text-emerald-300" />
-                    </button>
-
-                    {processedMarkets.length - visibleCount > BATCH_INCREMENT && (
-                      <button
-                        type="button"
-                        onClick={() => setVisibleCount(processedMarkets.length)}
-                        className="px-3.5 py-2 rounded-xl bg-white hover:bg-stone-100 text-stone-700 hover:text-[#153424] border border-[#E6E1D7] text-xs font-bold transition-all cursor-pointer shadow-2xs"
-                      >
-                        <span>{SHOW_ALL_LABELS[language] || 'Show All'}</span>
-                        <span className="text-stone-500 font-mono text-[11px] ml-1">({processedMarkets.length})</span>
-                      </button>
-                    )}
-                  </>
-                ) : (
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setVisibleCount(INITIAL_BATCH_SIZE);
-                    }}
-                    className="px-4 py-2 rounded-xl bg-white hover:bg-stone-100 text-stone-800 border border-[#E6E1D7] text-xs font-bold transition-all shadow-xs flex items-center gap-1.5 cursor-pointer"
-                  >
-                    <span>{SHOW_LESS_LABELS[language] || 'Show Less'}</span>
-                    <ChevronUp className="w-3.5 h-3.5 text-stone-600" />
-                  </button>
-                )}
-              </div>
+            <div className="flex justify-center pt-5 pb-2">
+              {visibleCount < processedMarkets.length ? (
+                <button
+                  type="button"
+                  onClick={() => setVisibleCount(prev => Math.min(prev + BATCH_INCREMENT, processedMarkets.length))}
+                  className="px-8 py-3 rounded-full bg-[#153424] hover:bg-[#1f4a34] text-white text-xs font-bold transition-all shadow-md hover:shadow-lg flex items-center gap-2 cursor-pointer group"
+                >
+                  <span>{SHOW_MORE_LABELS[language] || 'Show More'}</span>
+                  <ChevronDown className="w-4 h-4 text-emerald-300 group-hover:translate-y-0.5 transition-transform" />
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => setVisibleCount(INITIAL_BATCH_SIZE)}
+                  className="px-7 py-2.5 rounded-full bg-white hover:bg-stone-100 text-stone-800 border border-[#E6E1D7] text-xs font-bold transition-all shadow-xs flex items-center gap-2 cursor-pointer group"
+                >
+                  <span>{SHOW_LESS_LABELS[language] || 'Show Less'}</span>
+                  <ChevronUp className="w-4 h-4 text-stone-600 group-hover:-translate-y-0.5 transition-transform" />
+                </button>
+              )}
             </div>
           )}
         </div>
