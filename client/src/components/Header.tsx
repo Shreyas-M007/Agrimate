@@ -411,7 +411,7 @@ const SEARCH_LABELS: Record<Language, string> = {
                       className="p-2.5 rounded-xl bg-[#F7FBF8] hover:bg-[#EBF5ED] border border-[#E2ECE3] hover:border-[#2E7D32] transition-colors cursor-pointer flex items-center justify-between"
                     >
                       <div className="flex items-center gap-2.5">
-                        <span className="text-xl">{item.icon}</span>
+                        <span className="text-xl notranslate" translate="no">{item.icon}</span>
                         <div>
                           <strong className="text-xs text-[#123826] block">{item.name}</strong>
                           <span className="text-[10px] text-stone-500">{item.tag}</span>

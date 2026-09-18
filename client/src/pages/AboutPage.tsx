@@ -92,7 +92,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Pillar 1 */}
             <div className="bg-white p-7 rounded-2xl border border-[#E2ECE3] shadow-xs space-y-4">
-              <div className="w-12 h-12 rounded-xl bg-[#EBF5ED] text-[#2E7D32] flex items-center justify-center text-2xl">
+              <div className="w-12 h-12 rounded-xl bg-[#EBF5ED] text-[#2E7D32] flex items-center justify-center text-2xl notranslate" translate="no">
                 🌱
               </div>
               <h3 className="text-xl font-bold text-[#123826]">1. Soil & Crop Stewardship</h3>
@@ -113,7 +113,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({
 
             {/* Pillar 2 */}
             <div className="bg-white p-7 rounded-2xl border border-[#E2ECE3] shadow-xs space-y-4">
-              <div className="w-12 h-12 rounded-xl bg-[#FFF8E7] text-[#E8A238] flex items-center justify-center text-2xl">
+              <div className="w-12 h-12 rounded-xl bg-[#FFF8E7] text-[#E8A238] flex items-center justify-center text-2xl notranslate" translate="no">
                 ⚖️
               </div>
               <h3 className="text-xl font-bold text-[#123826]">2. Guaranteed Price Transparency</h3>
@@ -134,7 +134,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({
 
             {/* Pillar 3 */}
             <div className="bg-white p-7 rounded-2xl border border-[#E2ECE3] shadow-xs space-y-4">
-              <div className="w-12 h-12 rounded-xl bg-[#EBF5ED] text-[#2E7D32] flex items-center justify-center text-2xl">
+              <div className="w-12 h-12 rounded-xl bg-[#EBF5ED] text-[#2E7D32] flex items-center justify-center text-2xl notranslate" translate="no">
                 🚛
               </div>
               <h3 className="text-xl font-bold text-[#123826]">3. Algorithmic Freight Optimization</h3>
@@ -155,7 +155,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({
 
             {/* Pillar 4 */}
             <div className="bg-white p-7 rounded-2xl border border-[#E2ECE3] shadow-xs space-y-4">
-              <div className="w-12 h-12 rounded-xl bg-[#FFF8E7] text-[#E8A238] flex items-center justify-center text-2xl">
+              <div className="w-12 h-12 rounded-xl bg-[#FFF8E7] text-[#E8A238] flex items-center justify-center text-2xl notranslate" translate="no">
                 🤝
               </div>
               <h3 className="text-xl font-bold text-[#123826]">4. Fair Remuneration & Settlement</h3>

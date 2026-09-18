@@ -17,7 +17,66 @@ const GOOGLE_LANG_MAP: Record<Language, string> = {
 };
 
 /**
- * Actively suppresses and purges Google Translate top banner, iframe bars, and top padding
+ * Thoroughly clears all Google Translate cookies across all hostnames, subdomains, and paths.
+ */
+export function clearAllTranslateCookies(): void {
+  if (typeof document === 'undefined') return;
+  const hostname = window.location.hostname;
+  const cookieNames = ['googtrans', 'googtrans_prev', 'googtrans_bak'];
+  const domainParts = hostname.split('.');
+  const domains = ['', hostname, `.${hostname}`, 'localhost'];
+  if (domainParts.length >= 2) {
+    domains.push(`.${domainParts.slice(-2).join('.')}`);
+  }
+  const paths = ['/', window.location.pathname, '/en', '/kn', '/hi'];
+
+  domains.forEach(domain => {
+    paths.forEach(path => {
+      cookieNames.forEach(name => {
+        document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=${path};${domain ? ` domain=${domain};` : ''}`;
+      });
+    });
+  });
+}
+
+/**
+ * Searches for and clicks the native Google Translate "Show Original" button inside the banner iframe
+ */
+export function restoreOriginalLanguage(): boolean {
+  if (typeof document === 'undefined') return false;
+  try {
+    const iframes = Array.from(document.querySelectorAll<HTMLIFrameElement>('iframe'));
+    for (const iframe of iframes) {
+      try {
+        const doc = iframe.contentDocument || iframe.contentWindow?.document;
+        if (doc) {
+          const restoreBtn = doc.querySelector<HTMLElement>(
+            'button[id*="restore"], #\\:1\\.restore, #\\:2\\.restore, .goog-te-banner-frame-restore, [id$="restore"], .goog-close-link'
+          );
+          if (restoreBtn) {
+            restoreBtn.click();
+            return true;
+          }
+        }
+      } catch {
+        // Cross-origin iframe boundary
+      }
+    }
+    const docRestoreBtn = document.querySelector<HTMLElement>(
+      'button[id*="restore"], #\\:1\\.restore, .goog-te-banner-frame-restore'
+    );
+    if (docRestoreBtn) {
+      docRestoreBtn.click();
+      return true;
+    }
+  } catch (err) {
+    console.warn('Could not click restore button', err);
+  }
+  return false;
+}
+
+/**
+ * Actively suppresses Google Translate top banner, iframe bars, and top padding without removing the iframe
  */
 export function cleanGoogleTranslateBanner(): void {
   if (typeof document === 'undefined') return;
@@ -32,7 +91,7 @@ export function cleanGoogleTranslateBanner(): void {
     }
   }
 
-  // Remove or hide injected iframes and Google toolbars
+  // Visually hide injected iframes and Google toolbars without deleting them from DOM
   const frames = document.querySelectorAll<HTMLElement>(
     'iframe.skiptranslate, iframe.goog-te-banner-frame, iframe[class*="goog"], iframe[class*="VIpgJd"], iframe[id*=":1.container"], iframe[id*=":2.container"], .VIpgJd-ZVi9od-OR9Pa-bKo6Fe, .VIpgJd-ZVi9od-aZ2wEe-wOHMy'
   );
@@ -43,13 +102,9 @@ export function cleanGoogleTranslateBanner(): void {
     frame.style.setProperty('width', '0px', 'important');
     frame.style.setProperty('opacity', '0', 'important');
     frame.style.setProperty('pointer-events', 'none', 'important');
-    if (frame.parentNode && (frame.classList.contains('VIpgJd-ZVi9od-OR9Pa-bKo6Fe') || frame.classList.contains('goog-te-banner-frame'))) {
-      try {
-        frame.parentNode.removeChild(frame);
-      } catch {
-        // Silent catch
-      }
-    }
+    frame.style.setProperty('position', 'absolute', 'important');
+    frame.style.setProperty('top', '-9999px', 'important');
+    frame.style.setProperty('left', '-9999px', 'important');
   });
 }
 
@@ -107,33 +162,34 @@ export function setSiteLanguage(targetLang: Language): void {
   try {
     cleanGoogleTranslateBanner();
     const hostname = window.location.hostname;
-    const domains = ['', hostname, `.${hostname}`];
-    const paths = ['/', window.location.pathname];
-
-    const clearTransCookies = () => {
-      domains.forEach(d => {
-        paths.forEach(p => {
-          document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=${p};${d ? ` domain=${d};` : ''}`;
-        });
-      });
-    };
 
     if (googleLang === 'en') {
-      clearTransCookies();
+      clearAllTranslateCookies();
+      const clickedRestore = restoreOriginalLanguage();
+
       const combo = document.querySelector<HTMLSelectElement>('.goog-te-combo');
       if (combo) {
-        combo.value = ''; // Empty string restores original English in Google Translate
+        combo.value = '';
         combo.dispatchEvent(new Event('change'));
       }
+
+      document.documentElement.classList.remove('translated-ltr', 'translated-rtl');
+      document.body.classList.remove('translated-ltr', 'translated-rtl');
+
+      // Check if page reverted cleanly. If not, reload with cleared cookies to guarantee 100% pure English
       setTimeout(() => {
-        purgeLingeringTranslateNodes();
-        cleanGoogleTranslateBanner();
+        const stillTranslated = document.documentElement.classList.contains('translated-ltr') ||
+          document.body.classList.contains('translated-ltr') ||
+          document.querySelector('font.VIpgJd-ZVi9od-aZ2wEe-wOHMy, font[class*="VIpgJd"]') !== null;
+        if (stillTranslated || !clickedRestore) {
+          window.location.reload();
+        }
       }, 100);
       return;
     }
 
     // First clear old language cookies to prevent stale language collisions
-    clearTransCookies();
+    clearAllTranslateCookies();
 
     // Set Google Translate cookie for /en/<targetLang>
     const cookieValue = `/en/${googleLang}`;
@@ -178,3 +234,4 @@ export function setSiteLanguage(targetLang: Language): void {
     console.warn('[Translator] Error applying site translation:', err);
   }
 }
+

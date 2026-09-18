@@ -228,25 +228,26 @@ export const SearchForm: React.FC<SearchFormProps> = ({
                 <button
                   key={item.commodity_id}
                   type="button"
+                  translate="no"
                   onClick={() => {
                     onCropChange(item.name);
                     if (item.varieties && item.varieties.length > 0) {
                       onVarietyChange(item.varieties[0]);
                     }
                   }}
-                  className={`flex flex-col items-center justify-center p-2.5 rounded-2xl border transition-all cursor-pointer ${
+                  className={`flex flex-col items-center justify-center p-2.5 rounded-2xl border transition-all cursor-pointer notranslate ${
                     isSelected 
                       ? 'bg-[#EBF5ED] border-[#2E7D32] text-[#123826] font-bold shadow-xs scale-102 ring-1 ring-[#2E7D32]' 
                       : 'bg-white border-[#E2ECE3] text-stone-700 hover:border-[#2E7D32] hover:bg-[#F7FAF8]'
                   }`}
                   aria-pressed={isSelected}
                 >
-                  <span className="text-2xl mb-1 filter drop-shadow-xs">{item.icon}</span>
-                  <span className="text-xs font-bold leading-tight truncate w-full text-center">
+                  <span className="text-2xl mb-1 filter drop-shadow-xs notranslate" translate="no">{item.icon}</span>
+                  <span className="text-xs font-bold leading-tight truncate w-full text-center notranslate" translate="no">
                     {localName}
                   </span>
                   {language !== 'en' && (
-                    <span className="text-[10px] text-stone-400 truncate w-full text-center font-mono">
+                    <span className="text-[10px] text-stone-400 truncate w-full text-center font-mono notranslate" translate="no">
                       {item.name}
                     </span>
                   )}

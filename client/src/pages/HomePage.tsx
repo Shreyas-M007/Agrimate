@@ -223,8 +223,8 @@ export const HomePage: React.FC<HomePageProps> = ({
                             onClick={() => handleExecuteSearch(c.name, undefined)}
                             className="p-2 rounded-xl hover:bg-[#EBF5ED] transition-colors cursor-pointer flex items-center justify-between text-xs"
                           >
-                            <div className="flex items-center gap-2">
-                              <span className="text-base">{c.icon}</span>
+                            <div className="flex items-center gap-2 notranslate" translate="no">
+                              <span className="text-base notranslate" translate="no">{c.icon}</span>
                               <div>
                                 <span className="font-bold text-[#123826] block">{c.name}</span>
                                 <span className="text-[10px] text-stone-500">{c.hindi} • {c.kannada}</span>
@@ -402,7 +402,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                     >
                       <div className="flex items-center justify-between">
                         <span className="font-semibold text-stone-700 flex items-center gap-1">
-                          <span>{item.icon}</span>
+                          <span className="notranslate" translate="no">{item.icon}</span>
                           <span>{item.crop}</span>
                         </span>
                         <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-1.5 py-0.2 rounded font-mono">
@@ -513,7 +513,7 @@ export const HomePage: React.FC<HomePageProps> = ({
               className="bg-white p-4 rounded-2xl border border-[#E2ECE3] hover:border-[#2E7D32] hover:shadow-md transition-all cursor-pointer flex flex-col justify-between"
             >
               <div className="space-y-3">
-                <div className="h-32 rounded-xl overflow-hidden bg-amber-50 flex items-center justify-center text-5xl">
+                <div className="h-32 rounded-xl overflow-hidden bg-amber-50 flex items-center justify-center text-5xl notranslate" translate="no">
                   🌽
                 </div>
                 <div>
@@ -533,7 +533,7 @@ export const HomePage: React.FC<HomePageProps> = ({
               className="bg-white p-4 rounded-2xl border border-[#E2ECE3] hover:border-[#2E7D32] hover:shadow-md transition-all cursor-pointer flex flex-col justify-between"
             >
               <div className="space-y-3">
-                <div className="h-32 rounded-xl overflow-hidden bg-rose-50 flex items-center justify-center text-5xl">
+                <div className="h-32 rounded-xl overflow-hidden bg-rose-50 flex items-center justify-center text-5xl notranslate" translate="no">
                   🍅
                 </div>
                 <div>
@@ -553,7 +553,7 @@ export const HomePage: React.FC<HomePageProps> = ({
               className="bg-white p-4 rounded-2xl border border-[#E2ECE3] hover:border-[#2E7D32] hover:shadow-md transition-all cursor-pointer flex flex-col justify-between"
             >
               <div className="space-y-3">
-                <div className="h-32 rounded-xl overflow-hidden bg-stone-100 flex items-center justify-center text-5xl">
+                <div className="h-32 rounded-xl overflow-hidden bg-stone-100 flex items-center justify-center text-5xl notranslate" translate="no">
                   🥔
                 </div>
                 <div>
@@ -573,7 +573,7 @@ export const HomePage: React.FC<HomePageProps> = ({
               className="bg-white p-4 rounded-2xl border border-[#E2ECE3] hover:border-[#2E7D32] hover:shadow-md transition-all cursor-pointer flex flex-col justify-between"
             >
               <div className="space-y-3">
-                <div className="h-32 rounded-xl overflow-hidden bg-emerald-50 flex items-center justify-center text-5xl">
+                <div className="h-32 rounded-xl overflow-hidden bg-emerald-50 flex items-center justify-center text-5xl notranslate" translate="no">
                   🌶️
                 </div>
                 <div>
@@ -705,7 +705,7 @@ export const HomePage: React.FC<HomePageProps> = ({
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <div className="bg-white p-6 rounded-2xl border border-[#E2ECE3] shadow-xs space-y-3">
-            <div className="w-12 h-12 rounded-xl bg-[#EBF5ED] text-[#2E7D32] flex items-center justify-center text-xl">🌱</div>
+            <div className="w-12 h-12 rounded-xl bg-[#EBF5ED] text-[#2E7D32] flex items-center justify-center text-xl notranslate" translate="no">🌱</div>
             <h3 className="text-lg font-bold text-[#123826]">Soil Stewardship</h3>
             <p className="text-stone-600 text-xs sm:text-sm leading-relaxed">
               Sustainable regenerative farming methods, moisture monitoring, and precision fertilization reducing input overheads by up to 22%.
@@ -713,7 +713,7 @@ export const HomePage: React.FC<HomePageProps> = ({
           </div>
 
           <div className="bg-white p-6 rounded-2xl border border-[#E2ECE3] shadow-xs space-y-3">
-            <div className="w-12 h-12 rounded-xl bg-[#FFF8E7] text-[#E8A238] flex items-center justify-center text-xl">⚖️</div>
+            <div className="w-12 h-12 rounded-xl bg-[#FFF8E7] text-[#E8A238] flex items-center justify-center text-xl notranslate" translate="no">⚖️</div>
             <h3 className="text-lg font-bold text-[#123826]">Price Transparency</h3>
             <p className="text-stone-600 text-xs sm:text-sm leading-relaxed">
               Real-time Agmarknet modal auction prices, spread analysis, and daily arrival statistics with zero algorithmic speculation.
@@ -721,7 +721,7 @@ export const HomePage: React.FC<HomePageProps> = ({
           </div>
 
           <div className="bg-white p-6 rounded-2xl border border-[#E2ECE3] shadow-xs space-y-3">
-            <div className="w-12 h-12 rounded-xl bg-[#EBF5ED] text-[#2E7D32] flex items-center justify-center text-xl">🚛</div>
+            <div className="w-12 h-12 rounded-xl bg-[#EBF5ED] text-[#2E7D32] flex items-center justify-center text-xl notranslate" translate="no">🚛</div>
             <h3 className="text-lg font-bold text-[#123826]">Freight Optimization</h3>
             <p className="text-stone-600 text-xs sm:text-sm leading-relaxed">
               Vehicle-matched haulage calculation across Tata Ace, Pickup, and 6-Wheelers to prevent transport gouging before departure.
@@ -729,7 +729,7 @@ export const HomePage: React.FC<HomePageProps> = ({
           </div>
 
           <div className="bg-white p-6 rounded-2xl border border-[#E2ECE3] shadow-xs space-y-3">
-            <div className="w-12 h-12 rounded-xl bg-[#FFF8E7] text-[#E8A238] flex items-center justify-center text-xl">🤝</div>
+            <div className="w-12 h-12 rounded-xl bg-[#FFF8E7] text-[#E8A238] flex items-center justify-center text-xl notranslate" translate="no">🤝</div>
             <h3 className="text-lg font-bold text-[#123826]">Fair Direct Settlement</h3>
             <p className="text-stone-600 text-xs sm:text-sm leading-relaxed">
               Standardized statutory gate passes and weighbridge verification under the APMC Act 2026 to ensure zero illicit deductions.

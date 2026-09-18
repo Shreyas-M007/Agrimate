@@ -336,7 +336,7 @@ export const CropsPage: React.FC<CropsPageProps> = ({
                 {/* Header */}
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-3">
-                    <span className="text-3xl p-2 rounded-xl bg-[#F2F8F4]">{crop.icon}</span>
+                    <span className="text-3xl p-2 rounded-xl bg-[#F2F8F4] notranslate" translate="no">{crop.icon}</span>
                     <div>
                       <h3 className="text-xl font-black text-[#123826] font-['Syne',sans-serif]">
                         {crop.name}

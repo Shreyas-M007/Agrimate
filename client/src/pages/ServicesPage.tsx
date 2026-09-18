@@ -250,7 +250,7 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
             </div>
           </div>
           <div className="lg:col-span-5 bg-[#F9FBF9] p-6 rounded-2xl border border-[#CCE0D0] text-center space-y-3">
-            <div className="w-14 h-14 mx-auto rounded-2xl bg-[#EBF5ED] flex items-center justify-center text-3xl">
+            <div className="w-14 h-14 mx-auto rounded-2xl bg-[#EBF5ED] flex items-center justify-center text-3xl notranslate" translate="no">
               📄
             </div>
             <p className="font-bold text-[#123826] text-sm">Official Consignment Entry Pass</p>
@@ -286,7 +286,7 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
           </div>
           <div className="lg:col-span-5">
             <div className="rounded-2xl overflow-hidden border border-[#E2ECE3] bg-stone-100 p-6 text-center space-y-3">
-              <p className="text-3xl">❄️</p>
+              <p className="text-3xl notranslate" translate="no">❄️</p>
               <h4 className="font-bold text-[#123826] text-base">Distress Sale Prevention</h4>
               <p className="text-stone-600 text-xs">
                 Avoid selling tomatoes at ₹5/kg during peak afternoon arrivals. Hold overnight for morning auction peaks at ₹18-22/kg.

@@ -11,7 +11,6 @@ import type {
 } from './types';
 import { TRANSLATIONS } from './i18n/translations';
 import { Header } from './components/Header';
-import { TopUtilityPanel } from './components/TopUtilityPanel';
 import { OfflineBanner } from './components/OfflineBanner';
 import { ExplainModal } from './components/ExplainModal';
 import { MandiSlipModal } from './components/MandiSlipModal';
@@ -27,12 +26,17 @@ import {
   saveSearchResultToCache, 
   getCachedSearchResult 
 } from './utils/storage';
-import { setSiteLanguage } from './utils/translator';
+import { setSiteLanguage, clearAllTranslateCookies } from './utils/translator';
 import { BookOpen, CheckCircle2, ShieldCheck } from 'lucide-react';
 
 export const App: React.FC = () => {
   // English is ALWAYS default on initial load / refresh per user instruction
   const [language, setLanguage] = useState<Language>('en');
+
+  // Purge any stale Google Translate cookies on initial mount to guarantee pure English
+  useEffect(() => {
+    clearAllTranslateCookies();
+  }, []);
 
   const handleLanguageChange = (newLang: Language) => {
     setLanguage(newLang);
@@ -328,12 +332,6 @@ export const App: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-[#FBFDF9] text-[#162E21] flex flex-col font-['Plus_Jakarta_Sans',sans-serif]">
-      {/* Continental Farmers Group Corporate Top Utility & Rates Panel */}
-      <TopUtilityPanel
-        onNavigate={navigateTo}
-        onSelectCrop={handleSelectCropAndNavigate}
-      />
-
       {/* Editorial Header with multi-page navigation, language switch & sync */}
       <Header
         language={language}
