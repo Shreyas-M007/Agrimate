@@ -2,7 +2,13 @@ import React, { useState } from 'react';
 import type { Language, NavigationPage, Commodity } from '../types';
 import { 
   Search, 
-  ChevronRight
+  ChevronRight,
+  ShieldCheck,
+  Droplets,
+  Warehouse,
+  TrendingUp,
+  CheckCircle2,
+  Boxes
 } from 'lucide-react';
 
 interface CropsPageProps {
@@ -274,18 +280,105 @@ export const CropsPage: React.FC<CropsPageProps> = ({
   return (
     <div className="space-y-12 sm:space-y-16 pb-16">
       {/* Crops Page Header */}
-      <section className="bg-[#ECE8DE]/60 border-b border-[#E6E1D7] py-12 sm:py-16">
+      <section className="relative overflow-hidden bg-[#ECE8DE]/70 border-b border-[#E6E1D7] py-10 sm:py-14">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="max-w-3xl space-y-4">
-            <span className="text-xs font-bold uppercase tracking-widest text-[#2E7D32] bg-white px-3 py-1 rounded-full border border-[#E6E1D7]">
-              Agricultural Produce Directory
-            </span>
-            <h1 className="text-3xl sm:text-5xl font-black text-[#153424] font-['Syne',sans-serif] tracking-tight">
-              Commodity Portfolio & Agronomic Standards
-            </h1>
-            <p className="text-stone-600 text-base sm:text-lg leading-relaxed font-['Outfit',sans-serif]">
-              Explore official APMC grading metrics, moisture benchmarks, storage conditions, and prevailing auction price bands for 10 key Indian agricultural commodities.
-            </p>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+            {/* Left Column: Heading & Scope */}
+            <div className="lg:col-span-7 space-y-4">
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="text-xs font-bold uppercase tracking-widest text-[#2E7D32] bg-white px-3 py-1 rounded-full border border-[#E6E1D7] shadow-xs">
+                  Agricultural Produce Directory
+                </span>
+                <span className="text-[11px] font-mono text-stone-600 bg-white/80 px-2.5 py-0.5 rounded-full border border-[#E6E1D7]">
+                  Agmarknet Grade-A Standards
+                </span>
+              </div>
+
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#153424] font-['Syne',sans-serif] tracking-tight leading-[1.15]">
+                Commodity Portfolio & Agronomic Standards
+              </h1>
+
+              <p className="text-stone-600 text-sm sm:text-base leading-relaxed font-['Outfit',sans-serif] max-w-2xl">
+                Explore official APMC grading metrics, moisture benchmarks, storage conditions, and prevailing auction price bands across Indian agricultural commodities.
+              </p>
+
+              {/* Quick Feature Badges */}
+              <div className="flex flex-wrap items-center gap-2.5 pt-1 text-xs text-stone-600">
+                <div className="flex items-center gap-1.5 bg-white/90 px-3 py-1.5 rounded-xl border border-[#E6E1D7] shadow-2xs">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-[#2E7D32]" />
+                  <span className="font-semibold text-[#153424]">Zero Price Hallucination</span>
+                </div>
+                <div className="flex items-center gap-1.5 bg-white/90 px-3 py-1.5 rounded-xl border border-[#E6E1D7] shadow-2xs">
+                  <ShieldCheck className="w-3.5 h-3.5 text-[#2E7D32]" />
+                  <span className="font-semibold text-[#153424]">APMC Act Compliant</span>
+                </div>
+                <div className="flex items-center gap-1.5 bg-white/90 px-3 py-1.5 rounded-xl border border-[#E6E1D7] shadow-2xs">
+                  <Boxes className="w-3.5 h-3.5 text-[#E8A238]" />
+                  <span className="font-semibold text-[#153424]">7 Produce Classes</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column: Agronomic Parameters Bento Grid */}
+            <div className="lg:col-span-5">
+              <div className="grid grid-cols-2 gap-3">
+                {/* Tile 1: Grading Metrics */}
+                <div className="bg-white/95 p-4 rounded-2xl border border-[#E6E1D7] shadow-xs hover:border-[#2E7D32] transition-all">
+                  <div className="flex items-center gap-2 text-[#2E7D32] mb-1.5">
+                    <div className="w-7 h-7 rounded-lg bg-[#EAEFE9] flex items-center justify-center">
+                      <ShieldCheck className="w-4 h-4 text-[#2E7D32]" />
+                    </div>
+                    <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-stone-500">Grading</span>
+                  </div>
+                  <p className="text-base font-black text-[#153424] font-['Syne',sans-serif]">Grade-A FAQ</p>
+                  <p className="text-[11px] text-stone-600 mt-0.5 leading-snug">
+                    Standard fair average quality specs for top mandi premiums
+                  </p>
+                </div>
+
+                {/* Tile 2: Moisture Bounds */}
+                <div className="bg-white/95 p-4 rounded-2xl border border-[#E6E1D7] shadow-xs hover:border-[#2E7D32] transition-all">
+                  <div className="flex items-center gap-2 text-[#E8A238] mb-1.5">
+                    <div className="w-7 h-7 rounded-lg bg-[#FEF3C7] flex items-center justify-center">
+                      <Droplets className="w-4 h-4 text-[#D97706]" />
+                    </div>
+                    <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-stone-500">Moisture</span>
+                  </div>
+                  <p className="text-base font-black text-[#153424] font-['Syne',sans-serif]">&lt; 10% – 14%</p>
+                  <p className="text-[11px] text-stone-600 mt-0.5 leading-snug">
+                    Permissible cutoff to prevent dockage & weight cut
+                  </p>
+                </div>
+
+                {/* Tile 3: Storage & Cold Chain */}
+                <div className="bg-white/95 p-4 rounded-2xl border border-[#E6E1D7] shadow-xs hover:border-[#2E7D32] transition-all">
+                  <div className="flex items-center gap-2 text-[#2E7D32] mb-1.5">
+                    <div className="w-7 h-7 rounded-lg bg-[#EAEFE9] flex items-center justify-center">
+                      <Warehouse className="w-4 h-4 text-[#2E7D32]" />
+                    </div>
+                    <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-stone-500">Storage</span>
+                  </div>
+                  <p className="text-base font-black text-[#153424] font-['Syne',sans-serif]">3°C – 12°C RH</p>
+                  <p className="text-[11px] text-stone-600 mt-0.5 leading-snug">
+                    Scientific ventilation, humidity & sprout suppression
+                  </p>
+                </div>
+
+                {/* Tile 4: Market Realization */}
+                <div className="bg-white/95 p-4 rounded-2xl border border-[#E6E1D7] shadow-xs hover:border-[#2E7D32] transition-all">
+                  <div className="flex items-center gap-2 text-emerald-700 mb-1.5">
+                    <div className="w-7 h-7 rounded-lg bg-[#DCFCE7] flex items-center justify-center">
+                      <TrendingUp className="w-4 h-4 text-emerald-700" />
+                    </div>
+                    <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-stone-500">Linkage</span>
+                  </div>
+                  <p className="text-base font-black text-[#153424] font-['Syne',sans-serif]">Daily Rates</p>
+                  <p className="text-[11px] text-stone-600 mt-0.5 leading-snug">
+                    Direct terminal linkage with live arrivals across 85 mandis
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
