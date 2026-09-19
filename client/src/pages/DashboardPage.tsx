@@ -380,22 +380,22 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
       <div className="bg-white rounded-2xl border border-[#E6E1D7] p-4 sm:p-5 shadow-xs space-y-4 print-hide-on-checklist">
         {/* Top Header Row with Live Pulsing Beacon, Station Feed, Countdown & Manual Sync */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#E6E1D7]/60 pb-3">
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2.5">
             <span className="relative flex h-2.5 w-2.5">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#2E7D32]"></span>
             </span>
-            <span className="text-xs font-bold text-[#153424] uppercase tracking-wider">
+            <h3 className="text-xs sm:text-sm font-black text-[#153424] font-['Syne',sans-serif] tracking-tight">
               Real-Time Mandi Microclimate & Satellite Telemetry
-            </span>
-            <span className="text-[10px] font-mono text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+            </h3>
+            <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-emerald-800 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
               Live Feed: {liveWeather?.locationName || (location ? `${location} APMC` : 'Bengaluru APMC')}
             </span>
           </div>
 
           <div className="flex flex-wrap items-center gap-2">
             {/* Auto-refresh countdown pill */}
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-mono font-medium text-stone-600 bg-stone-100 border border-stone-200">
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-mono font-bold tracking-tight text-stone-600 bg-stone-100 border border-stone-200">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
               Auto-sync: {countdown}s
             </span>
@@ -406,7 +406,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
               onClick={handleManualRefresh}
               disabled={weatherLoading}
               title="Click to fetch live weather from Open-Meteo satellite right now"
-              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-bold text-[#153424] bg-[#FAF8F5] hover:bg-[#ECE8DE] border border-[#E6E1D7] transition-all cursor-pointer shadow-2xs hover:shadow-xs active:scale-95 disabled:opacity-50"
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-bold font-['Outfit',sans-serif] text-[#153424] bg-[#FAF8F5] hover:bg-[#ECE8DE] border border-[#E6E1D7] transition-all cursor-pointer shadow-2xs hover:shadow-xs active:scale-95 disabled:opacity-50"
             >
               <RefreshCw className={`w-3.5 h-3.5 text-[#2E7D32] ${weatherLoading ? 'animate-spin' : ''}`} />
               <span>{weatherLoading ? 'Fetching...' : 'Sync Now'}</span>
@@ -414,7 +414,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
 
             {/* Transit Advisory Badge */}
             {liveWeather && (
-              <div className="flex items-center gap-1.5 text-xs font-bold text-[#2E7D32] bg-[#EAEFE9] px-2.5 py-1 rounded-full border border-[#D6DFD4]">
+              <div className="flex items-center gap-1.5 text-xs font-bold font-['Outfit',sans-serif] text-[#2E7D32] bg-[#EAEFE9] px-2.5 py-1 rounded-full border border-[#D6DFD4]">
                 <Sprout className="w-3.5 h-3.5" />
                 <span>{liveWeather.harvestVibe}</span>
               </div>
@@ -424,7 +424,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
 
         {/* 6 Real-Time Telemetry Metrics Cards */}
         {weatherLoading && !liveWeather ? (
-          <div className="py-8 flex flex-col items-center justify-center space-y-2 text-stone-500">
+          <div className="py-8 flex flex-col items-center justify-center space-y-2 text-stone-500 font-['Outfit',sans-serif]">
             <RefreshCw className="w-6 h-6 animate-spin text-[#2E7D32]" />
             <p className="text-xs font-medium">Connecting to Open-Meteo satellite weather sensors for {location || 'APMC Mandi'}...</p>
           </div>
@@ -434,15 +434,15 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
               {/* 1. Ambient Temp */}
               <div className="bg-[#FAF8F5] p-3 rounded-xl border border-[#E6E1D7] space-y-1 hover:border-[#2E7D32]/40 transition-colors">
                 <div className="flex items-center justify-between">
-                  <span className="text-[10px] text-stone-500 font-medium">Ambient Temp</span>
+                  <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-stone-500">Ambient Temp</span>
                   <div className="w-6 h-6 rounded-md bg-emerald-100/60 text-[#2E7D32] flex items-center justify-center shrink-0">
                     <ThermometerSnowflake className="w-3.5 h-3.5" />
                   </div>
                 </div>
-                <strong className="text-base sm:text-lg font-black text-[#153424] font-mono block">
+                <strong className="text-base sm:text-lg font-black text-[#153424] font-['Syne',sans-serif] tracking-tight block">
                   {liveWeather.temp.toFixed(1)}°C
                 </strong>
-                <span className="text-[10px] text-stone-500 block font-mono">
+                <span className="text-[10px] text-stone-500 block font-['Outfit',sans-serif] font-medium truncate">
                   Feels like {liveWeather.feelsLike.toFixed(1)}°C
                 </span>
               </div>
@@ -450,15 +450,15 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
               {/* 2. Relative Humidity */}
               <div className="bg-[#FAF8F5] p-3 rounded-xl border border-[#E6E1D7] space-y-1 hover:border-[#2E7D32]/40 transition-colors">
                 <div className="flex items-center justify-between">
-                  <span className="text-[10px] text-stone-500 font-medium">Humidity</span>
+                  <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-stone-500">Humidity</span>
                   <div className="w-6 h-6 rounded-md bg-blue-100/60 text-blue-700 flex items-center justify-center shrink-0">
                     <Droplets className="w-3.5 h-3.5" />
                   </div>
                 </div>
-                <strong className="text-base sm:text-lg font-black text-[#153424] font-mono block">
+                <strong className="text-base sm:text-lg font-black text-[#153424] font-['Syne',sans-serif] tracking-tight block">
                   {liveWeather.humidity}% RH
                 </strong>
-                <span className="text-[10px] text-stone-500 block font-mono truncate">
+                <span className="text-[10px] text-stone-500 block font-['Outfit',sans-serif] font-medium truncate">
                   {liveWeather.humidity > 70 ? 'High Moisture' : 'Optimal Moisture'}
                 </span>
               </div>
@@ -466,15 +466,15 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
               {/* 3. Field Wind */}
               <div className="bg-[#FAF8F5] p-3 rounded-xl border border-[#E6E1D7] space-y-1 hover:border-[#2E7D32]/40 transition-colors">
                 <div className="flex items-center justify-between">
-                  <span className="text-[10px] text-stone-500 font-medium">Field Wind</span>
+                  <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-stone-500">Field Wind</span>
                   <div className="w-6 h-6 rounded-md bg-teal-100/60 text-teal-700 flex items-center justify-center shrink-0">
                     <Wind className="w-3.5 h-3.5" />
                   </div>
                 </div>
-                <strong className="text-base sm:text-lg font-black text-[#153424] font-mono block">
+                <strong className="text-base sm:text-lg font-black text-[#153424] font-['Syne',sans-serif] tracking-tight block">
                   {liveWeather.windSpeed.toFixed(1)} km/h
                 </strong>
-                <span className="text-[10px] text-stone-500 block font-mono truncate">
+                <span className="text-[10px] text-stone-500 block font-['Outfit',sans-serif] font-medium truncate">
                   {liveWeather.windDirectionText} ({liveWeather.windDirectionDeg}°)
                 </span>
               </div>
@@ -482,15 +482,15 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
               {/* 4. Precipitation */}
               <div className="bg-[#FAF8F5] p-3 rounded-xl border border-[#E6E1D7] space-y-1 hover:border-[#2E7D32]/40 transition-colors">
                 <div className="flex items-center justify-between">
-                  <span className="text-[10px] text-stone-500 font-medium">Precipitation</span>
+                  <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-stone-500">Precipitation</span>
                   <div className="w-6 h-6 rounded-md bg-sky-100/60 text-sky-700 flex items-center justify-center shrink-0">
                     <CloudRain className="w-3.5 h-3.5" />
                   </div>
                 </div>
-                <strong className="text-base sm:text-lg font-black text-[#153424] font-mono block">
+                <strong className="text-base sm:text-lg font-black text-[#153424] font-['Syne',sans-serif] tracking-tight block">
                   {liveWeather.precipitationMm.toFixed(1)} mm
                 </strong>
-                <span className="text-[10px] text-stone-500 block font-mono truncate">
+                <span className="text-[10px] text-stone-500 block font-['Outfit',sans-serif] font-medium truncate">
                   {liveWeather.precipitationMm > 0 ? 'Active Rain' : 'Dry Gate Weather'}
                 </span>
               </div>
@@ -498,13 +498,13 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
               {/* 5. Sky & Barometric */}
               <div className="bg-[#FAF8F5] p-3 rounded-xl border border-[#E6E1D7] space-y-1 hover:border-[#2E7D32]/40 transition-colors">
                 <div className="flex items-center justify-between">
-                  <span className="text-[10px] text-stone-500 font-medium">Sky Condition</span>
+                  <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-stone-500">Sky Condition</span>
                   <span className="text-sm">{liveWeather.conditionIcon}</span>
                 </div>
-                <strong className="text-xs sm:text-sm font-black text-[#153424] truncate block">
+                <strong className="text-base sm:text-lg font-black text-[#153424] font-['Syne',sans-serif] tracking-tight truncate block">
                   {liveWeather.conditionText}
                 </strong>
-                <span className="text-[10px] text-stone-500 block font-mono truncate">
+                <span className="text-[10px] text-stone-500 block font-['Outfit',sans-serif] font-medium truncate">
                   {liveWeather.pressureHpa.toFixed(0)} hPa pressure
                 </span>
               </div>
@@ -512,16 +512,16 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
               {/* 6. Telemetry Satellite Status */}
               <div className="bg-[#FAF8F5] p-3 rounded-xl border border-[#E6E1D7] space-y-1 hover:border-[#2E7D32]/40 transition-colors">
                 <div className="flex items-center justify-between">
-                  <span className="text-[10px] text-stone-500 font-medium">Satellite Link</span>
+                  <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-stone-500">Satellite Link</span>
                   <div className="w-6 h-6 rounded-md bg-lime-100/60 text-lime-800 flex items-center justify-center shrink-0">
                     <Activity className="w-3.5 h-3.5" />
                   </div>
                 </div>
-                <strong className="text-xs sm:text-sm font-black text-[#2E7D32] flex items-center gap-1 block">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#2E7D32] inline-block animate-pulse"></span>
+                <strong className="text-base sm:text-lg font-black text-[#2E7D32] font-['Syne',sans-serif] tracking-tight flex items-center gap-1.5 block">
+                  <span className="w-2 h-2 rounded-full bg-[#2E7D32] inline-block animate-pulse"></span>
                   {weatherLoading ? 'Syncing...' : 'Live Connected'}
                 </strong>
-                <span className="text-[9px] text-stone-500 block font-mono truncate">
+                <span className="text-[10px] text-stone-500 block font-mono truncate">
                   Sync: {lastSyncTime || 'Now'}
                 </span>
               </div>
@@ -536,18 +536,17 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
                 <span>•</span>
                 <span>Last Verified: {lastSyncTime || 'Just now'}</span>
               </span>
-              <span className="text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 font-sans font-bold text-[10px]">
+              <span className="text-emerald-800 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200 font-mono font-bold uppercase tracking-wider text-[10px]">
                 Verified Live Internet Telemetry
               </span>
             </div>
           </>
         ) : null}
 
-
         {/* Quick-Preset Chips for Mandis & Commodities */}
         <div className="pt-1 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs border-t border-[#E6E1D7]/60">
           <div className="flex flex-wrap items-center gap-1.5">
-            <span className="text-stone-500 font-semibold flex items-center gap-1 mr-1">
+            <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-stone-500 flex items-center gap-1 mr-1">
               <MapPin className="w-3 h-3 text-[#2E7D32]" />
               Quick Mandis:
             </span>
@@ -567,9 +566,9 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
                 key={m.name}
                 type="button"
                 onClick={() => setLocation(m.name)}
-                className={`px-2.5 py-1 rounded-lg text-[11px] font-bold transition-all cursor-pointer border ${
+                className={`px-2.5 py-1 rounded-lg text-[11px] font-bold font-['Outfit',sans-serif] transition-all cursor-pointer border ${
                   location.toLowerCase().includes(m.name.toLowerCase())
-                    ? 'bg-[#153424] text-white border-[#153424]'
+                    ? 'bg-[#153424] text-white border-[#153424] shadow-xs'
                     : 'bg-[#F6F4EE] hover:bg-[#ECE8DE] text-stone-700 border-[#E6E1D7]'
                 }`}
               >
@@ -579,15 +578,15 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
           </div>
 
           <div className="flex flex-wrap items-center gap-1.5">
-            <span className="text-stone-500 font-semibold mr-1">Crops:</span>
+            <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-stone-500 mr-1">Crops:</span>
             {['Tomato', 'Onion', 'Maize', 'Paddy', 'Chilli'].map((c) => (
               <button
                 key={c}
                 type="button"
                 onClick={() => setCrop(c)}
-                className={`px-2 py-0.5 rounded-lg text-[11px] font-bold transition-all cursor-pointer border ${
+                className={`px-2 py-0.5 rounded-lg text-[11px] font-bold font-['Outfit',sans-serif] transition-all cursor-pointer border ${
                   crop.toLowerCase() === c.toLowerCase()
-                    ? 'bg-[#E8A238] text-[#153424] border-[#E8A238]'
+                    ? 'bg-[#E8A238] text-[#153424] border-[#E8A238] shadow-xs'
                     : 'bg-[#F6F4EE] hover:bg-[#ECE8DE] text-stone-700 border-[#E6E1D7]'
                 }`}
               >
