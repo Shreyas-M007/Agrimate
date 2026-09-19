@@ -18,7 +18,7 @@ interface ServicesPageProps {
   onOpenTerminologyGuide?: (term?: string) => void;
 }
 
-// Bento service cards — each has a real Unsplash photo + content
+// Bento service cards — verified authentic Indian agricultural photography
 const BENTO_SERVICES = [
   {
     id: 1,
@@ -27,7 +27,7 @@ const BENTO_SERVICES = [
     badgeColor: 'bg-white/15 text-white',
     title: 'Wholesale Auction Terminal & Price Depth',
     desc: 'Inspect real-time modal bids, modal price spreads, arrivals, and 7-day price movements across verified APMC yards.',
-    photo: 'https://images.unsplash.com/photo-1595435934249-5df7ed86e1c0?w=900&q=80&auto=format&fit=crop',
+    photo: '/mandi_auction_yard.jpg',
     page: 'dashboard' as NavigationPage,
     span: 'lg:col-span-7',
     icon: TrendingUp,
@@ -39,7 +39,7 @@ const BENTO_SERVICES = [
     badgeColor: 'bg-amber-500/90 text-white',
     title: 'Grower Protection & Legal Transparency',
     desc: 'Statutory 11-point seller checklist, regulated weighing oversight, and 24/7 legal grievance contacts.',
-    photo: 'https://images.unsplash.com/photo-1589923188651-268a9765e432?w=900&q=80&auto=format&fit=crop',
+    photo: '/farmer_field.jpg',
     page: 'dashboard' as NavigationPage,
     span: 'lg:col-span-5',
     icon: CheckCircle2,
@@ -51,7 +51,7 @@ const BENTO_SERVICES = [
     badgeColor: 'bg-white/15 text-white',
     title: 'Mandi Gate Pass & Dispatch Workstation',
     desc: 'Generate statutory gate slips with QR codes, weighbridge timestamps, and cess guarantees. Formatted under APMC Act.',
-    photo: 'https://images.unsplash.com/photo-1586348943529-beaae6c28db9?w=900&q=80&auto=format&fit=crop',
+    photo: '/logistics_truck.jpg',
     page: 'dispatch' as NavigationPage,
     span: 'lg:col-span-5',
     icon: FileText,
@@ -63,7 +63,7 @@ const BENTO_SERVICES = [
     badgeColor: 'bg-white/15 text-white',
     title: 'Cold Chain & Staging Warehouses',
     desc: 'Protect perishables from distress selling. Hold produce under controlled atmosphere until prices recover.',
-    photo: 'https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=900&q=80&auto=format&fit=crop',
+    photo: '/cold_storage.jpg',
     page: 'dashboard' as NavigationPage,
     span: 'lg:col-span-7',
     icon: ThermometerSnowflake,
@@ -131,10 +131,10 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
                   className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   loading="lazy"
                 />
-                {/* Scrim — slightly lighter green than #153424 */}
+                {/* Scrim — lightened green overlay allowing real photography to shine through */}
                 <div
                   className="absolute inset-0"
-                  style={{ background: 'linear-gradient(160deg, rgba(25,65,42,0.82) 0%, rgba(18,50,32,0.90) 100%)' }}
+                  style={{ background: 'linear-gradient(160deg, rgba(14,44,28,0.68) 0%, rgba(18,54,34,0.80) 100%)' }}
                 />
 
                 {/* Content */}

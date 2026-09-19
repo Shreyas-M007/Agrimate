@@ -39,16 +39,16 @@ export const ContinentalMosaic: React.FC<ContinentalMosaicProps> = ({
             onClick={() => onNavigate('dashboard')}
             className="lg:col-span-7 group relative rounded-3xl overflow-hidden min-h-[360px] sm:min-h-[400px] border border-[#CCE0D0] cursor-pointer shadow-md hover:shadow-2xl transition-all duration-500 bg-[#163D28] flex flex-col justify-between p-6 sm:p-8"
           >
-            {/* Real Unsplash Photo: Vibrant Indian Mandi Wholesale Auction */}
+            {/* Real Photo: Authentic Indian APMC Mandi Wholesale Auction Yard */}
             <div 
-              className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-105 opacity-75"
-              style={{ backgroundImage: `url('https://images.unsplash.com/photo-1595435934249-5df7ed86e1c0?w=1200&q=80&auto=format&fit=crop')` }}
+              className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-105 opacity-85"
+              style={{ backgroundImage: `url('/mandi_auction_yard.jpg')` }}
             />
             {/* Lighter Green Scrim Overlay */}
             <div 
               className="absolute inset-0"
               style={{
-                background: 'linear-gradient(to top, rgba(16, 48, 30, 0.90) 0%, rgba(22, 68, 44, 0.60) 55%, rgba(16, 48, 30, 0.35) 100%)'
+                background: 'linear-gradient(to top, rgba(12, 38, 24, 0.88) 0%, rgba(18, 54, 34, 0.45) 55%, rgba(12, 38, 24, 0.20) 100%)'
               }}
             />
 
@@ -85,16 +85,16 @@ export const ContinentalMosaic: React.FC<ContinentalMosaicProps> = ({
             onClick={() => onNavigate('services')}
             className="lg:col-span-5 group relative rounded-3xl overflow-hidden min-h-[360px] sm:min-h-[400px] border border-[#CCE0D0] cursor-pointer shadow-md hover:shadow-2xl transition-all duration-500 bg-[#163D28] flex flex-col justify-between p-6 sm:p-8"
           >
-            {/* Real Unsplash Photo: Indian Farming & Harvest Hands */}
+            {/* Real Photo: Authentic Indian Farmer in Crop Field */}
             <div 
-              className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-105 opacity-75"
-              style={{ backgroundImage: `url('https://images.unsplash.com/photo-1589923188651-268a9765e432?w=1000&q=80&auto=format&fit=crop')` }}
+              className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-105 opacity-85"
+              style={{ backgroundImage: `url('/farmer_field.jpg')` }}
             />
             {/* Lighter Green Scrim Overlay */}
             <div 
               className="absolute inset-0"
               style={{
-                background: 'linear-gradient(to top, rgba(16, 48, 30, 0.90) 0%, rgba(22, 68, 44, 0.60) 55%, rgba(16, 48, 30, 0.35) 100%)'
+                background: 'linear-gradient(to top, rgba(12, 38, 24, 0.88) 0%, rgba(18, 54, 34, 0.45) 55%, rgba(12, 38, 24, 0.20) 100%)'
               }}
             />
 
@@ -129,16 +129,16 @@ export const ContinentalMosaic: React.FC<ContinentalMosaicProps> = ({
             onClick={() => onNavigate('dispatch')}
             className="lg:col-span-5 group relative rounded-3xl overflow-hidden min-h-[340px] sm:min-h-[380px] border border-[#CCE0D0] cursor-pointer shadow-md hover:shadow-2xl transition-all duration-500 bg-[#163D28] flex flex-col justify-between p-6 sm:p-8"
           >
-            {/* Real Unsplash Photo: Agricultural Transport & Logistics */}
+            {/* Real Photo: Authentic Indian Mandi Produce Logistics & Transport */}
             <div 
-              className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-105 opacity-75"
-              style={{ backgroundImage: `url('https://images.unsplash.com/photo-1586348943529-beaae6c28db9?w=1000&q=80&auto=format&fit=crop')` }}
+              className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-105 opacity-85"
+              style={{ backgroundImage: `url('/logistics_truck.jpg')` }}
             />
             {/* Lighter Green Scrim Overlay */}
             <div 
               className="absolute inset-0"
               style={{
-                background: 'linear-gradient(to top, rgba(16, 48, 30, 0.90) 0%, rgba(22, 68, 44, 0.60) 55%, rgba(16, 48, 30, 0.35) 100%)'
+                background: 'linear-gradient(to top, rgba(12, 38, 24, 0.88) 0%, rgba(18, 54, 34, 0.45) 55%, rgba(12, 38, 24, 0.20) 100%)'
               }}
             />
 
@@ -173,16 +173,16 @@ export const ContinentalMosaic: React.FC<ContinentalMosaicProps> = ({
             onClick={() => onNavigate('crops')}
             className="lg:col-span-7 group relative rounded-3xl overflow-hidden min-h-[340px] sm:min-h-[380px] border border-[#CCE0D0] cursor-pointer shadow-md hover:shadow-2xl transition-all duration-500 bg-[#163D28] flex flex-col justify-between p-6 sm:p-8"
           >
-            {/* Real Unsplash Photo: Vibrant Indian Agricultural Farmland */}
+            {/* Real Photo: Authentic Indian Agricultural Cold Storage & Commodity Grading Facility */}
             <div 
-              className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-105 opacity-75"
-              style={{ backgroundImage: `url('https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=1200&q=80&auto=format&fit=crop')` }}
+              className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-105 opacity-85"
+              style={{ backgroundImage: `url('/cold_storage.jpg')` }}
             />
             {/* Lighter Green Scrim Overlay */}
             <div 
               className="absolute inset-0"
               style={{
-                background: 'linear-gradient(to top, rgba(16, 48, 30, 0.90) 0%, rgba(22, 68, 44, 0.60) 55%, rgba(16, 48, 30, 0.35) 100%)'
+                background: 'linear-gradient(to top, rgba(12, 38, 24, 0.88) 0%, rgba(18, 54, 34, 0.45) 55%, rgba(12, 38, 24, 0.20) 100%)'
               }}
             />
 
