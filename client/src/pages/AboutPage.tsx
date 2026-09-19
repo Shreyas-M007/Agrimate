@@ -64,8 +64,8 @@ export const AboutPage: React.FC<AboutPageProps> = ({
           <div className="lg:col-span-6">
             <div className="rounded-2xl overflow-hidden border border-[#E6E1D7] shadow-lg bg-stone-100">
               <img 
-                src="/agro_terminal_hero.jpg" 
-                alt="AgriMate Agronomy in Action" 
+                src="/mandi_gate_trade.jpg" 
+                alt="APMC Mandi Weighbridge Gate Settlement" 
                 className="w-full h-72 sm:h-80 object-cover"
               />
             </div>
