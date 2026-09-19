@@ -155,7 +155,7 @@ export const HomePage: React.FC<HomePageProps> = ({
   return (
     <div className="space-y-12 sm:space-y-16 pb-16">
       {/* SECTION 1: HERO & LIVE SEARCH */}
-      <section className="relative overflow-hidden -mt-[88px] sm:-mt-[98px] pt-[124px] sm:pt-[138px] pb-10 sm:pb-14">
+      <section className="relative overflow-hidden -mt-[88px] sm:-mt-[98px] pt-[124px] sm:pt-[138px] pb-10 sm:pb-14 bg-[#0F2316]">
         {/* Full-bleed background photo extending well past top */}
         <div
           className="absolute -top-20 inset-x-0 bottom-0 bg-cover bg-center bg-no-repeat"
