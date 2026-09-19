@@ -112,8 +112,6 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
   const [liveWeather, setLiveWeather] = useState<LiveWeatherData | null>(null);
   const [weatherLoading, setWeatherLoading] = useState<boolean>(true);
   const [lastSyncTime, setLastSyncTime] = useState<string>('');
-  const [countdown, setCountdown] = useState<number>(30);
-  const [syncTrigger, setSyncTrigger] = useState<number>(0);
 
   const fetchLiveTelemetry = async (targetLoc: string) => {
     setWeatherLoading(true);
@@ -222,32 +220,16 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
     }
   };
 
-  // Immediate fetch upon location change or manual sync trigger
+  // Immediate fetch upon location change, and silent periodic background refresh every 30s
   useEffect(() => {
     fetchLiveTelemetry(location || 'Bengaluru');
-    setCountdown(30);
-  }, [location, syncTrigger]);
 
-  // Automatic refresh interval: countdown from 30s to 0s, then re-fetches live data automatically
-  useEffect(() => {
     const timer = setInterval(() => {
-      setCountdown((prev) => {
-        if (prev <= 1) {
-          // Trigger next live refresh
-          setSyncTrigger((c) => c + 1);
-          return 30;
-        }
-        return prev - 1;
-      });
-    }, 1000);
+      fetchLiveTelemetry(location || 'Bengaluru');
+    }, 30000);
 
     return () => clearInterval(timer);
-  }, []);
-
-  const handleManualRefresh = () => {
-    setCountdown(30);
-    setSyncTrigger((c) => c + 1);
-  };
+  }, [location]);
 
   const quantityQuintals = searchResult?.normalized_quantity?.in_quintals || 
     (unit === 'kg' ? quantity / 100 : (unit === 'tonne' ? quantity * 10 : quantity));
@@ -378,9 +360,9 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
 
       {/* REAL-TIME OPEN-METEO SATELLITE & MICROCLIMATE TELEMETRY BAR */}
       <div className="bg-white rounded-2xl border border-[#E6E1D7] p-4 sm:p-5 shadow-xs space-y-4 print-hide-on-checklist">
-        {/* Top Header Row with Live Pulsing Beacon, Station Feed, Countdown & Manual Sync */}
+        {/* Top Header Row with Live Pulsing Beacon & Title + Transit Advisory */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#E6E1D7]/60 pb-3">
-          <div className="flex flex-wrap items-center gap-2.5">
+          <div className="flex items-center gap-2.5">
             <span className="relative flex h-2.5 w-2.5">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#2E7D32]"></span>
@@ -388,38 +370,15 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
             <h3 className="text-xs sm:text-sm font-black text-[#153424] font-['Syne',sans-serif] tracking-tight">
               Real-Time Mandi Microclimate & Satellite Telemetry
             </h3>
-            <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-emerald-800 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
-              Live Feed: {liveWeather?.locationName || (location ? `${location} APMC` : 'Bengaluru APMC')}
-            </span>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2">
-            {/* Auto-refresh countdown pill */}
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-mono font-bold tracking-tight text-stone-600 bg-stone-100 border border-stone-200">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-              Auto-sync: {countdown}s
-            </span>
-
-            {/* Manual Sync Now Button */}
-            <button
-              type="button"
-              onClick={handleManualRefresh}
-              disabled={weatherLoading}
-              title="Click to fetch live weather from Open-Meteo satellite right now"
-              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-bold font-['Outfit',sans-serif] text-[#153424] bg-[#FAF8F5] hover:bg-[#ECE8DE] border border-[#E6E1D7] transition-all cursor-pointer shadow-2xs hover:shadow-xs active:scale-95 disabled:opacity-50"
-            >
-              <RefreshCw className={`w-3.5 h-3.5 text-[#2E7D32] ${weatherLoading ? 'animate-spin' : ''}`} />
-              <span>{weatherLoading ? 'Fetching...' : 'Sync Now'}</span>
-            </button>
-
-            {/* Transit Advisory Badge */}
-            {liveWeather && (
-              <div className="flex items-center gap-1.5 text-xs font-bold font-['Outfit',sans-serif] text-[#2E7D32] bg-[#EAEFE9] px-2.5 py-1 rounded-full border border-[#D6DFD4]">
-                <Sprout className="w-3.5 h-3.5" />
-                <span>{liveWeather.harvestVibe}</span>
-              </div>
-            )}
-          </div>
+          {/* Transit Advisory Badge */}
+          {liveWeather && (
+            <div className="flex items-center gap-1.5 text-xs font-bold font-['Outfit',sans-serif] text-[#2E7D32] bg-[#EAEFE9] px-2.5 py-1 rounded-full border border-[#D6DFD4]">
+              <Sprout className="w-3.5 h-3.5" />
+              <span>{liveWeather.harvestVibe}</span>
+            </div>
+          )}
         </div>
 
         {/* 6 Real-Time Telemetry Metrics Cards */}
