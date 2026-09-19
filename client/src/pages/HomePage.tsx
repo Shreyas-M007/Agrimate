@@ -155,13 +155,30 @@ export const HomePage: React.FC<HomePageProps> = ({
   return (
     <div className="space-y-12 sm:space-y-16 pb-16">
       {/* SECTION 1: HERO & LIVE SEARCH */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-[#ECE8DE]/80 via-[#F6F4EE] to-[#F6F4EE] pt-8 sm:pt-14 pb-10 sm:pb-14 border-b border-[#E6E1D7]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 space-y-8">
+      <section className="relative overflow-hidden pt-8 sm:pt-14 pb-10 sm:pb-14">
+        {/* Full-bleed background photo */}
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{
+            backgroundImage: `url('https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=1800&q=80&auto=format&fit=crop')`,
+          }}
+          aria-hidden="true"
+        />
+        {/* Dark green scrim */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background: 'linear-gradient(to bottom, rgba(15,35,22,0.72) 0%, rgba(15,35,22,0.60) 60%, rgba(15,35,22,0.82) 100%)',
+          }}
+          aria-hidden="true"
+        />
+
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 space-y-8">
           
           {/* Universal Search Bar with Live Autocomplete */}
           <div className="max-w-3xl mx-auto relative z-30">
             <form onSubmit={handleSearchSubmit} className="relative">
-              <div className="bg-white p-2 sm:p-2.5 pl-4 rounded-full border border-[#E6E1D7] focus-within:border-[#2E7D32] shadow-sm hover:shadow-md transition-all flex items-center gap-2 sm:gap-3">
+              <div className="bg-white/95 backdrop-blur-sm p-2 sm:p-2.5 pl-4 rounded-full border border-white/20 focus-within:border-[#2E7D32] shadow-lg hover:shadow-xl transition-all flex items-center gap-2 sm:gap-3">
                 <div className="w-10 h-10 rounded-full bg-[#EAEFE9] flex items-center justify-center text-[#2E7D32] shrink-0">
                   <Search className="w-5 h-5" />
                 </div>
@@ -292,11 +309,11 @@ export const HomePage: React.FC<HomePageProps> = ({
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             {/* Left Column: Editorial Headline & Actions */}
             <div className="lg:col-span-7 space-y-5">
-              <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-[#153424] tracking-tight font-['Syne',sans-serif] leading-[1.14]">
-                Precision Mandi Intelligence for <span className="text-[#2E7D32] italic">Indian Agriculture</span>
+              <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight font-['Syne',sans-serif] leading-[1.14]">
+                Precision Mandi Intelligence for <span className="text-[#6FBF73] italic">Indian Agriculture</span>
               </h1>
 
-              <p className="text-stone-600 text-sm sm:text-base leading-relaxed max-w-xl font-['Outfit',sans-serif]">
+              <p className="text-white/75 text-sm sm:text-base leading-relaxed max-w-xl font-['Outfit',sans-serif]">
                 Official Agmarknet wholesale auction rates, freight estimators, and statutory digital gate passes across 20+ verified mandis.
               </p>
 
@@ -304,33 +321,33 @@ export const HomePage: React.FC<HomePageProps> = ({
               <div className="flex flex-wrap items-center gap-3 pt-1">
                 <button
                   onClick={() => onNavigate('dashboard')}
-                  className="px-6 py-3.5 rounded-2xl bg-[#153424] hover:bg-[#1f4a34] text-white font-bold text-xs sm:text-sm flex items-center gap-2 shadow-md hover:shadow-lg transition-all cursor-pointer"
+                  className="px-6 py-3.5 rounded-2xl bg-white hover:bg-white/90 text-[#153424] font-bold text-xs sm:text-sm flex items-center gap-2 shadow-md hover:shadow-lg transition-all cursor-pointer"
                 >
                   <span>Open Terminal</span>
-                  <ArrowRight className="w-4 h-4 text-[#E8A238]" />
+                  <ArrowRight className="w-4 h-4 text-[#2E7D32]" />
                 </button>
 
                 <button
                   onClick={() => onNavigate('dispatch')}
-                  className="px-5 py-3.5 rounded-2xl bg-[#EAEFE9] hover:bg-[#dbe4da] text-[#153424] font-bold text-xs sm:text-sm flex items-center gap-2 border border-[#D6DFD4] transition-all cursor-pointer"
+                  className="px-5 py-3.5 rounded-2xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs sm:text-sm flex items-center gap-2 border border-white/25 transition-all cursor-pointer backdrop-blur-sm"
                 >
-                  <FileText className="w-4 h-4 text-[#2E7D32]" />
+                  <FileText className="w-4 h-4 text-[#6FBF73]" />
                   <span>Gate Slip Station</span>
                 </button>
 
                 <button
                   onClick={() => onNavigate('services')}
-                  className="px-5 py-3.5 rounded-2xl bg-white hover:bg-[#F2EFE8] text-[#153424] font-semibold text-xs sm:text-sm border border-[#E6E1D7] flex items-center gap-2 transition-all cursor-pointer"
+                  className="px-5 py-3.5 rounded-2xl bg-white/10 hover:bg-white/20 text-white font-semibold text-xs sm:text-sm border border-white/20 flex items-center gap-2 transition-all cursor-pointer backdrop-blur-sm"
                 >
-                  <Play className="w-3.5 h-3.5 fill-[#153424] text-[#153424]" />
+                  <Play className="w-3.5 h-3.5 fill-white text-white" />
                   <span>Interactive Tools</span>
                 </button>
               </div>
 
               {/* Trust Badges */}
-              <div className="pt-3 border-t border-[#E6E1D7] flex flex-wrap items-center gap-4 text-xs text-stone-600">
+              <div className="pt-3 border-t border-white/15 flex flex-wrap items-center gap-4 text-xs text-white/65">
                 <div className="flex items-center gap-1.5 font-medium">
-                  <ShieldCheck className="w-4 h-4 text-[#2E7D32]" />
+                  <ShieldCheck className="w-4 h-4 text-[#6FBF73]" />
                   <span>100% Agmarknet APMC Data</span>
                 </div>
                 <div className="flex items-center gap-1.5 font-medium">
@@ -338,7 +355,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                   <span>APMC Act 2026 Compliant</span>
                 </div>
                 <div className="flex items-center gap-1.5 font-medium">
-                  <Database className="w-4 h-4 text-[#2E7D32]" />
+                  <Database className="w-4 h-4 text-[#6FBF73]" />
                   <span>Zero Price Hallucination</span>
                 </div>
               </div>
