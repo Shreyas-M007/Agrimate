@@ -95,8 +95,8 @@ export const IndiaMarketsMap: React.FC<IndiaMarketsMapProps> = ({
     <div
       className="relative rounded-3xl overflow-hidden flex flex-col justify-between p-4 sm:p-5 transition-all"
       style={{
-        background: 'linear-gradient(145deg, #0D2118 0%, #122A1C 40%, #0A1D14 100%)',
-        boxShadow: '0 32px 64px rgba(0,0,0,0.40), 0 0 0 1px rgba(255,255,255,0.06) inset',
+        background: 'linear-gradient(160deg, #0A1628 0%, #0D1F3C 45%, #091525 100%)',
+        boxShadow: '0 32px 64px rgba(0,0,0,0.50), 0 0 0 1px rgba(100,150,255,0.08) inset',
       }}
     >
       {/* Soft ambient glow behind map */}
