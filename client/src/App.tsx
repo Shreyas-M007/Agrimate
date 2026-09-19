@@ -329,7 +329,17 @@ export const App: React.FC = () => {
     (unit === 'kg' ? quantity / 100 : (unit === 'tonne' ? quantity * 10 : quantity));
 
   return (
-    <div className="min-h-screen bg-[#F6F4EE] text-[#153424] flex flex-col font-['Plus_Jakarta_Sans',sans-serif]">
+    <div className="min-h-screen text-[#153424] flex flex-col font-['Plus_Jakarta_Sans',sans-serif] relative" style={{ background: '#F0EDE6' }}>
+      {/* Global fixed farmland background — subtle on all pages */}
+      <div
+        className="fixed inset-0 bg-cover bg-center bg-no-repeat pointer-events-none"
+        style={{
+          backgroundImage: `url('https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=1800&q=80&auto=format&fit=crop')`,
+          opacity: 0.07,
+          zIndex: 0,
+        }}
+        aria-hidden="true"
+      />
       {/* Editorial Header with multi-page navigation, language switch & sync */}
       <Header
         language={language}
@@ -361,7 +371,7 @@ export const App: React.FC = () => {
       />
 
       {/* Main Page Content Router with Smooth Slide Transition */}
-      <main key={currentPage} className="flex-1 w-full animate-slide-up">
+      <main key={currentPage} className="relative z-10 flex-1 w-full animate-slide-up">
         {currentPage === 'home' && (
           <HomePage
             language={language}
@@ -373,7 +383,7 @@ export const App: React.FC = () => {
         )}
 
         {currentPage === 'dashboard' && (
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
             <DashboardPage
               language={language}
               activeTab={activeTab}
@@ -482,7 +492,7 @@ export const App: React.FC = () => {
       />
 
       {/* Rich Multi-Column VerdaAgro Forest Green Footer */}
-      <footer className="bg-[#153424] text-stone-300 text-xs py-14 border-t border-[#1f4a34] mt-auto print:hidden">
+      <footer className="relative z-10 bg-[#153424] text-stone-300 text-xs py-14 border-t border-[#1f4a34] mt-auto print:hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 pb-10 border-b border-[#1f4a34]">
             

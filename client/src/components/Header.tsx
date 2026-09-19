@@ -110,7 +110,7 @@ export const Header: React.FC<HeaderProps> = ({
           <div className="w-8 h-8 sm:w-8.5 sm:h-8.5 rounded-full bg-[#153424] flex items-center justify-center text-white shadow-2xs group-hover:scale-105 transition-transform">
             <Sprout className="w-4.5 h-4.5 text-[#4ADE80]" />
           </div>
-          <span className="text-lg sm:text-xl font-bold tracking-tight text-[#153424] font-['Syne',sans-serif] notranslate" translate="no">
+          <span className="text-lg sm:text-xl font-bold tracking-tight text-white font-['Syne',sans-serif] notranslate drop-shadow-sm" translate="no">
             AgriMate
           </span>
         </div>
