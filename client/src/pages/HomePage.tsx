@@ -155,7 +155,7 @@ export const HomePage: React.FC<HomePageProps> = ({
   return (
     <div className="space-y-12 sm:space-y-16 pb-16">
       {/* SECTION 1: HERO & LIVE SEARCH */}
-      <section className="relative overflow-hidden -mt-[68px] pt-[104px] sm:pt-[120px] pb-10 sm:pb-14">
+      <section className="relative overflow-hidden pt-8 sm:pt-12 pb-12 sm:pb-16">
         {/* Full-bleed background photo */}
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
@@ -168,7 +168,7 @@ export const HomePage: React.FC<HomePageProps> = ({
         <div
           className="absolute inset-0"
           style={{
-            background: 'linear-gradient(to bottom, rgba(15,35,22,0.72) 0%, rgba(15,35,22,0.60) 60%, rgba(15,35,22,0.82) 100%)',
+            background: 'linear-gradient(to bottom, rgba(15,35,22,0.72) 0%, rgba(15,35,22,0.60) 60%, rgba(15,35,22,0.85) 100%)',
           }}
           aria-hidden="true"
         />
@@ -178,7 +178,7 @@ export const HomePage: React.FC<HomePageProps> = ({
           {/* Universal Search Bar with Live Autocomplete */}
           <div className="max-w-3xl mx-auto relative z-30">
             <form onSubmit={handleSearchSubmit} className="relative">
-              <div className="bg-white/95 backdrop-blur-sm p-2 sm:p-2.5 pl-4 rounded-full border border-white/20 focus-within:border-[#2E7D32] shadow-lg hover:shadow-xl transition-all flex items-center gap-2 sm:gap-3">
+              <div className="bg-white p-2.5 sm:p-3 pl-5 sm:pl-6 rounded-full border-2 border-white/60 focus-within:border-[#2E7D32] shadow-2xl hover:shadow-3xl transition-all flex items-center gap-2.5 sm:gap-3">
                 <div className="w-10 h-10 rounded-full bg-[#EAEFE9] flex items-center justify-center text-[#2E7D32] shrink-0">
                   <Search className="w-5 h-5" />
                 </div>
@@ -208,7 +208,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                 )}
                 <button
                   type="submit"
-                  className="px-5 sm:px-6 py-2.5 rounded-full bg-[#153424] hover:bg-[#2E7D32] text-white text-xs sm:text-sm font-bold transition-all cursor-pointer shrink-0 shadow-xs flex items-center gap-1.5"
+                  className="px-6 sm:px-7 py-2.5 sm:py-3 rounded-full bg-[#153424] hover:bg-[#2E7D32] text-white text-xs sm:text-sm font-bold transition-all cursor-pointer shrink-0 shadow-md flex items-center gap-2"
                 >
                   <span>Search Rates</span>
                   <ArrowRight className="w-4 h-4 text-[#E8A238]" />
