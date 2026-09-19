@@ -77,18 +77,18 @@ const CROP_DATABASE: CropDetail[] = [
     moistureThreshold: 'Tough skin setting, no greening or tuber moth damage'
   },
   {
-    id: 'turmeric',
-    name: 'Turmeric',
-    hindiName: 'हल्दी',
-    kannadaName: 'ಅರಿಶಿನ',
-    category: 'Spices & Plantation',
-    icon: '🌿',
-    varieties: ['Salem', 'Prathibha', 'Rajapore', 'Waigaon'],
-    modalRange: '₹9,800 - ₹14,500 / q',
-    peakSeason: 'Feb - May',
-    majorMandis: ['Nizamabad (TS)', 'Sangli (MH)', 'Erode (TN)', 'Chamarajanagar (KA)'],
-    storageAdvice: 'Boil, dry, and polish before storage. Keep in dry, dark warehouses.',
-    moistureThreshold: 'Curcumin content > 3.5%, moisture strictly below 10%'
+    id: 'mustard',
+    name: 'Mustard / Rapeseed',
+    hindiName: 'सरसों / राई',
+    kannadaName: 'ಸಾಸಿವೆ',
+    category: 'Oilseeds',
+    icon: '🌼',
+    varieties: ['Pusa Bold', 'Giriraj', 'RH-749', 'Kranti'],
+    modalRange: '₹5,400 - ₹6,350 / q',
+    peakSeason: 'Feb - Apr (Rabi Peak)',
+    majorMandis: ['Bharatpur (RJ)', 'Kota (RJ)', 'Hisar (HR)', 'Agra (UP)'],
+    storageAdvice: 'Store below 8% moisture in dry, clean sealed gunny bags to prevent mold and rancidity.',
+    moistureThreshold: 'Seed moisture strictly < 8%, minimum oil extraction content > 40%'
   },
   {
     id: 'ginger',
@@ -257,6 +257,34 @@ const CROP_DATABASE: CropDetail[] = [
     majorMandis: ['Challakere (KA)', 'Bikaner (RJ)', 'Gondal (GJ)', 'Anantapur (AP)'],
     storageAdvice: 'Decorticate only prior to sale. Store pods in clean, dry jute sacks.',
     moistureThreshold: 'Pod moisture < 8%, shelling outturn > 70%'
+  },
+  {
+    id: 'sugarcane',
+    name: 'Sugarcane',
+    hindiName: 'गन्ना',
+    kannadaName: 'ಕಬ್ಬು',
+    category: 'Cash Crops',
+    icon: '🎋',
+    varieties: ['Co-0238', 'Co-86032', 'Co-0118', 'Co-265'],
+    modalRange: '₹340 - ₹420 / q',
+    peakSeason: 'Oct - Apr (Mandi Crushing Season)',
+    majorMandis: ['Kolhapur (MH)', 'Belagavi (KA)', 'Mandya (KA)', 'Muzaffarnagar (UP)'],
+    storageAdvice: 'Transport and crush within 24-36 hrs of harvest to prevent sucrose inversion and driage loss.',
+    moistureThreshold: 'Brix reading > 18-21%, clean detrashed stalks, zero red-rot infection'
+  },
+  {
+    id: 'turmeric',
+    name: 'Turmeric',
+    hindiName: 'हल्दी',
+    kannadaName: 'ಅರಿಶಿನ',
+    category: 'Spices & Plantation',
+    icon: '🫚',
+    varieties: ['Salem', 'Prathibha', 'Rajapore', 'Waigaon'],
+    modalRange: '₹9,800 - ₹14,500 / q',
+    peakSeason: 'Feb - May',
+    majorMandis: ['Nizamabad (TS)', 'Sangli (MH)', 'Erode (TN)', 'Chamarajanagar (KA)'],
+    storageAdvice: 'Boil, sun-dry, and polish before bagging. Store in dry, well-aerated dark godowns.',
+    moistureThreshold: 'Curcumin content > 3.5%, moisture strictly below 10%, deep golden fingers'
   }
 ];
 
