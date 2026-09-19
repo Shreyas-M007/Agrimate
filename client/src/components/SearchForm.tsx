@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import type { Language, CropUnit, Commodity } from '../types';
 import { TRANSLATIONS } from '../i18n/translations';
-import { Search, MapPin, Navigation, Scale, SlidersHorizontal, Sparkles } from 'lucide-react';
+import { Search, MapPin, Navigation, Scale, SlidersHorizontal } from 'lucide-react';
 
 interface SearchFormProps {
   language: Language;
@@ -19,45 +19,6 @@ interface SearchFormProps {
   onSearch: (gpsCoords?: { lat: number; lon: number }) => void;
   isLoading: boolean;
 }
-
-const CROP_TRANSLATIONS: Record<string, Record<Language, string>> = {
-  Tomato: {
-    en: "Tomato", hi: "टमाटर", kn: "ಟೊಮೆಟೊ", te: "టమోటా", ta: "தக்காளி",
-    mr: "टोमॅटो", bn: "টমেটো", gu: "ટામેટા", pa: "ਟਮਾਟਰ", ml: "തക്കാളി"
-  },
-  Onion: {
-    en: "Onion", hi: "प्याज", kn: "ಈರುಳ್ಳಿ", te: "ఉల్లిపాయ", ta: "வெங்காயம்",
-    mr: "कांदा", bn: "পেঁয়াজ", gu: "ડુંગળી", pa: "ਪਿਆਜ਼", ml: "സവാള"
-  },
-  Potato: {
-    en: "Potato", hi: "आलू", kn: "ಆಲೂಗಡ್ಡೆ", te: "బంగాళాదుంప", ta: "உருளைக்கிழங்கு",
-    mr: "बटाटा", bn: "আলু", gu: "બટાટા", pa: "ਆਲੂ", ml: "ഉരുളക്കിഴങ്ങ്"
-  },
-  Groundnut: {
-    en: "Groundnut", hi: "मूंगफली", kn: "ಕಡಲೆಕಾಯಿ", te: "వేరుశెనగ", ta: "வேர்க்கடலை",
-    mr: "भुईमूग", bn: "চিনাবাদাম", gu: "મગફળી", pa: "ਮੂੰਗਫਲੀ", ml: "നിലക്കടല"
-  },
-  Maize: {
-    en: "Maize", hi: "मक्का", kn: "ಮೆಕ್ಕೆಜೋಳ", te: "మొక్కజొన్న", ta: "மக்காச்சோளம்",
-    mr: "मका", bn: "ভুট্টা", gu: "મકાઈ", pa: "ਮੱਕੀ", ml: "ചോളം"
-  },
-  Paddy: {
-    en: "Paddy", hi: "धान", kn: "ಭತ್ತ", te: "వరి", ta: "நெல்",
-    mr: "भात", bn: "ধান", gu: "ડાંગર", pa: "ਝੋਨਾ", ml: "നെല്ല്"
-  },
-  Wheat: {
-    en: "Wheat", hi: "गेहूं", kn: "ಗೋಧಿ", te: "గోధుమలు", ta: "கோதுமை",
-    mr: "गहू", bn: "গম", gu: "ઘઉં", pa: "ਕਣਕ", ml: "ഗോതമ്പ്"
-  },
-  Cotton: {
-    en: "Cotton", hi: "कपास", kn: "ಹತ್ತಿ", te: "ప్రత్తి", ta: "பருத்தி",
-    mr: "कापूस", bn: "তুলা", gu: "કપાસ", pa: "ਨਰਮਾ", ml: "പരുത്തി"
-  },
-  Chilli: {
-    en: "Chilli", hi: "मिर्च", kn: "ಮೆಣಸಿನಕಾಯಿ", te: "మిరపకాయ", ta: "மிளகாய்",
-    mr: "मिरची", bn: "লঙ্কা", gu: "મરચાં", pa: "ਮਿਰਚ", ml: "മുളക്"
-  }
-};
 
 export const SearchForm: React.FC<SearchFormProps> = ({
   language,
@@ -218,80 +179,78 @@ function getNearestDistrictName(lat: number, lon: number): string {
               )}
             </div>
             <datalist id="panIndiaCropsList">
-              <option value="Tomato" />
-              <option value="Onion" />
-              <option value="Potato" />
-              <option value="Groundnut" />
-              <option value="Soyabean" />
-              <option value="Mustard" />
-              <option value="Maize" />
-              <option value="Paddy" />
-              <option value="Wheat" />
-              <option value="Cotton" />
-              <option value="Chilli" />
-              <option value="Apple" />
-              <option value="Banana" />
-              <option value="Mango" />
-              <option value="Turmeric" />
-              <option value="Garlic" />
-              <option value="Ginger" />
-              <option value="Cardamom" />
-              <option value="Black Pepper" />
-              <option value="Saffron" />
-              <option value="Dragonfruit" />
-              <option value="Vanilla" />
-              <option value="Avocado" />
-              <option value="Coffee" />
-              <option value="Tea" />
-              <option value="Coriander" />
-              <option value="Cumin" />
-              <option value="Cashew" />
+              {/* Cereals & Millets */}
+              <option value="Rice" /><option value="Paddy" /><option value="Wheat" />
+              <option value="Maize" /><option value="Sorghum" /><option value="Jowar" />
+              <option value="Bajra" /><option value="Ragi" /><option value="Finger Millet" />
+              <option value="Barley" /><option value="Oats" /><option value="Small Millet" />
+              <option value="Kodo Millet" /><option value="Foxtail Millet" /><option value="Proso Millet" />
+              <option value="Barnyard Millet" />
+              {/* Pulses */}
+              <option value="Tur" /><option value="Arhar" /><option value="Pigeon Pea" />
+              <option value="Gram" /><option value="Chickpea" /><option value="Bengal Gram" />
+              <option value="Moong" /><option value="Green Gram" /><option value="Urad" />
+              <option value="Black Gram" /><option value="Lentil" /><option value="Masoor" />
+              <option value="Peas" /><option value="Rajma" /><option value="Kidney Beans" />
+              <option value="Moth Bean" /><option value="Horse Gram" /><option value="Cowpea" />
+              <option value="Cluster Bean" /><option value="Guar" />
+              {/* Oilseeds */}
+              <option value="Groundnut" /><option value="Soybean" /><option value="Mustard" />
+              <option value="Rapeseed" /><option value="Sunflower" /><option value="Sesame" />
+              <option value="Til" /><option value="Linseed" /><option value="Castor" />
+              <option value="Safflower" /><option value="Nigerseed" /><option value="Coconut" />
+              <option value="Copra" />
+              {/* Cash Crops */}
+              <option value="Cotton" /><option value="Sugarcane" /><option value="Jute" />
+              <option value="Tobacco" /><option value="Rubber" /><option value="Tea" />
+              <option value="Coffee" /><option value="Cardamom" /><option value="Arecanut" />
+              {/* Vegetables */}
+              <option value="Tomato" /><option value="Onion" /><option value="Potato" />
+              <option value="Brinjal" /><option value="Chilli" /><option value="Capsicum" />
+              <option value="Cabbage" /><option value="Cauliflower" /><option value="Bitter Gourd" />
+              <option value="Bottle Gourd" /><option value="Ridge Gourd" /><option value="Snake Gourd" />
+              <option value="Pumpkin" /><option value="Ash Gourd" /><option value="Cucumber" />
+              <option value="Okra" /><option value="Bhindi" /><option value="Lady Finger" />
+              <option value="Spinach" /><option value="Fenugreek" /><option value="Methi" />
+              <option value="Coriander" /><option value="Dill" /><option value="Curry Leaves" />
+              <option value="Amaranth" /><option value="Drumstick" /><option value="Moringa" />
+              <option value="French Beans" /><option value="Cluster Beans" /><option value="Guar Beans" />
+              <option value="Flat Beans" /><option value="Sword Beans" />
+              <option value="Carrot" /><option value="Radish" /><option value="Turnip" />
+              <option value="Beetroot" /><option value="Sweet Potato" /><option value="Yam" />
+              <option value="Colocasia" /><option value="Arbi" /><option value="Garlic" />
+              <option value="Ginger" /><option value="Turmeric" /><option value="Mushroom" />
+              <option value="Green Peas" /><option value="Elephant Foot Yam" />
+              <option value="Ash Plantain" /><option value="Raw Banana" />
+              {/* Fruits */}
+              <option value="Mango" /><option value="Banana" /><option value="Apple" />
+              <option value="Grapes" /><option value="Orange" /><option value="Mosambi" />
+              <option value="Lemon" /><option value="Lime" /><option value="Guava" />
+              <option value="Papaya" /><option value="Pomegranate" /><option value="Watermelon" />
+              <option value="Muskmelon" /><option value="Pineapple" /><option value="Sapota" />
+              <option value="Chikoo" /><option value="Custard Apple" /><option value="Jackfruit" />
+              <option value="Litchi" /><option value="Pear" /><option value="Plum" />
+              <option value="Peach" /><option value="Apricot" /><option value="Cherry" />
+              <option value="Strawberry" /><option value="Amla" /><option value="Ber" />
+              <option value="Date Palm" /><option value="Avocado" /><option value="Dragon Fruit" />
+              <option value="Kiwi" /><option value="Fig" /><option value="Tamarind" />
+              {/* Spices */}
+              <option value="Cumin" /><option value="Jeera" /><option value="Fennel" />
+              <option value="Saunf" /><option value="Coriander Seeds" /><option value="Pepper" />
+              <option value="Black Pepper" /><option value="Cloves" /><option value="Nutmeg" />
+              <option value="Mace" /><option value="Cinnamon" /><option value="Star Anise" />
+              <option value="Bay Leaf" /><option value="Ajwain" /><option value="Carom Seeds" />
+              <option value="Fenugreek Seeds" /><option value="Asafoetida" /><option value="Hing" />
+              <option value="Vanilla" /><option value="Saffron" />
+              {/* Flowers */}
+              <option value="Marigold" /><option value="Rose" /><option value="Jasmine" />
+              <option value="Lotus" /><option value="Chrysanthemum" /><option value="Tuberose" />
+              {/* Plantation */}
+              <option value="Cashew" /><option value="Banana Flower" /><option value="Bamboo" />
+              <option value="Oil Palm" />
             </datalist>
           </div>
 
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-[11px] font-semibold text-stone-500 uppercase tracking-wider">
-              Quick Select Popular Crops:
-            </span>
-          </div>
-
-          {/* Quick select pills */}
-          <div className="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-9 gap-2 mb-3">
-            {commodities.map((item) => {
-              const isSelected = item.name.toLowerCase() === selectedCrop.toLowerCase();
-              const localName = CROP_TRANSLATIONS[item.name]?.[language] || (item.localNames as any)?.[language] || item.name;
-
-              return (
-                <button
-                  key={item.commodity_id}
-                  type="button"
-                  translate="no"
-                  onClick={() => {
-                    onCropChange(item.name);
-                    if (item.varieties && item.varieties.length > 0) {
-                      onVarietyChange(item.varieties[0]);
-                    }
-                  }}
-                  className={`flex flex-col items-center justify-center p-2.5 rounded-2xl border transition-all cursor-pointer notranslate ${
-                    isSelected 
-                      ? 'bg-[#EBF5ED] border-[#2E7D32] text-[#123826] font-bold shadow-xs scale-102 ring-1 ring-[#2E7D32]' 
-                      : 'bg-white border-[#E2ECE3] text-stone-700 hover:border-[#2E7D32] hover:bg-[#F7FAF8]'
-                  }`}
-                  aria-pressed={isSelected}
-                >
-                  <span className="text-2xl mb-1 filter drop-shadow-xs notranslate" translate="no">{item.icon}</span>
-                  <span className="text-xs font-bold leading-tight truncate w-full text-center notranslate" translate="no">
-                    {localName}
-                  </span>
-                  {language !== 'en' && (
-                    <span className="text-[10px] text-stone-400 truncate w-full text-center font-mono notranslate" translate="no">
-                      {item.name}
-                    </span>
-                  )}
-                </button>
-              );
-            })}
-          </div>
 
           {/* Variety Selector */}
           {activeCommodity && activeCommodity.varieties && activeCommodity.varieties.length > 0 && (
@@ -421,36 +380,6 @@ function getNearestDistrictName(lat: number, lon: number): string {
           </button>
         </div>
 
-        {/* Quick Presets */}
-        <div className="pt-3 border-t border-[#E2ECE3] flex flex-wrap items-center gap-2 text-xs">
-          <span className="text-stone-500 font-medium flex items-center gap-1">
-            <Sparkles className="w-3 h-3 text-[#2E7D32]" />
-            Quick Presets:
-          </span>
-          {[
-            { icon: "🍅", label: "Tomato 500kg (Ballari)", crop: "Tomato", loc: "Ballari, Karnataka", qty: 500, u: "kg" as CropUnit },
-            { icon: "🧅", label: "Onion 15q (Nashik)", crop: "Onion", loc: "Nashik, Maharashtra", qty: 15, u: "quintal" as CropUnit },
-            { icon: "🥔", label: "Potato 20q (Agra)", crop: "Potato", loc: "Agra, Uttar Pradesh", qty: 20, u: "quintal" as CropUnit },
-            { icon: "🌶️", label: "Chilli 5q (Guntur)", crop: "Chilli", loc: "Guntur, Andhra Pradesh", qty: 5, u: "quintal" as CropUnit },
-            { icon: "🌾", label: "Paddy 30q (Karnal)", crop: "Paddy", loc: "Karnal, Haryana", qty: 30, u: "quintal" as CropUnit }
-          ].map((item, idx) => (
-            <button
-              key={idx}
-              type="button"
-              onClick={() => {
-                onCropChange(item.crop);
-                onLocationChange(item.loc);
-                onQuantityChange(item.qty);
-                onUnitChange(item.u);
-                setTimeout(() => onSearch(), 50);
-              }}
-              className="bg-[#F4F8F5] hover:bg-[#EBF5ED] text-stone-700 hover:text-[#123826] px-3 py-1 rounded-xl border border-[#CCE0D0] transition-all cursor-pointer text-[11px] font-medium flex items-center gap-1.5"
-            >
-              <span className="notranslate" translate="no">{item.icon}</span>
-              <span>{item.label}</span>
-            </button>
-          ))}
-        </div>
       </form>
     </div>
   );

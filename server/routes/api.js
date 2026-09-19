@@ -56,8 +56,8 @@ router.get('/aws/status', (req, res) => {
   });
 });
 
-// GET /api/crops
-router.get('/crops', (req, res) => {
+// GET /api/crops or /api/commodities
+router.get(['/crops', '/commodities'], (req, res) => {
   res.json({
     success: true,
     commodities: getCommodities()
