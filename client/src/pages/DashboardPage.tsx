@@ -27,7 +27,9 @@ import {
   Sprout,
   MapPin,
   TrendingUp,
-  Activity
+  Activity,
+  RefreshCw,
+  CloudRain
 } from 'lucide-react';
 
 interface DashboardPageProps {
@@ -87,126 +89,165 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
 }) => {
   const t = TRANSLATIONS[language];
 
-  // Real-time weather state from Open-Meteo
-  const [liveWeather, setLiveWeather] = useState<{
+  // Real-time weather data interface
+  interface LiveWeatherData {
     temp: number;
+    feelsLike: number;
     humidity: number;
     windSpeed: number;
+    windDirectionDeg: number;
+    windDirectionText: string;
+    precipitationMm: number;
+    pressureHpa: number;
     conditionText: string;
     conditionIcon: string;
     harvestVibe: string;
     locationName: string;
-  }>({
-    temp: 27.8,
-    humidity: 52,
-    windSpeed: 9.4,
-    conditionText: 'Clear Sky',
-    conditionIcon: '☀️',
-    harvestVibe: 'Optimal Conditions for Transit',
-    locationName: location || 'Bengaluru APMC'
-  });
-  const [weatherLoading, setWeatherLoading] = useState<boolean>(false);
+    stationObservationTime: string;
+    fetchedAt: string;
+    source: string;
+  }
 
-  useEffect(() => {
-    let isCancelled = false;
-    const MANDI_COORDS: Record<string, { lat: number; lon: number; name: string }> = {
-      bengaluru: { lat: 12.9716, lon: 77.5946, name: 'Bengaluru APMC' },
-      bangalore: { lat: 12.9716, lon: 77.5946, name: 'Bengaluru APMC' },
-      kolar: { lat: 13.1367, lon: 78.1340, name: 'Kolar APMC' },
-      ballari: { lat: 15.1394, lon: 76.9214, name: 'Ballari APMC' },
-      bellary: { lat: 15.1394, lon: 76.9214, name: 'Ballari APMC' },
-      lasalgaon: { lat: 20.1469, lon: 74.2274, name: 'Lasalgaon APMC' },
-      nashik: { lat: 19.9975, lon: 73.7898, name: 'Nashik APMC' },
-      pune: { lat: 18.5204, lon: 73.8567, name: 'Pune APMC' },
-      azadpur: { lat: 28.7041, lon: 77.1025, name: 'Azadpur (Delhi)' },
-      delhi: { lat: 28.7041, lon: 77.1025, name: 'Delhi APMC' },
-      agra: { lat: 27.1767, lon: 78.0081, name: 'Agra APMC' },
-      guntur: { lat: 16.3067, lon: 80.4365, name: 'Guntur APMC' },
-      karnal: { lat: 29.6857, lon: 76.9905, name: 'Karnal APMC' },
-      unjha: { lat: 23.8037, lon: 72.3929, name: 'Unjha APMC' },
-      kota: { lat: 25.2138, lon: 75.8648, name: 'Kota APMC' },
-      khanna: { lat: 30.7071, lon: 76.2167, name: 'Khanna APMC' },
-      kolkata: { lat: 22.5726, lon: 88.3639, name: 'Kolkata APMC' },
-      indore: { lat: 22.7196, lon: 75.8577, name: 'Indore APMC' },
-      mumbai: { lat: 19.0760, lon: 72.8777, name: 'Vashi / Mumbai APMC' },
-      hyderabad: { lat: 17.3850, lon: 78.4867, name: 'Bowenpally APMC' }
-    };
+  // Real-time weather state (null initially until live satellite response arrives)
+  const [liveWeather, setLiveWeather] = useState<LiveWeatherData | null>(null);
+  const [weatherLoading, setWeatherLoading] = useState<boolean>(true);
+  const [lastSyncTime, setLastSyncTime] = useState<string>('');
+  const [countdown, setCountdown] = useState<number>(30);
+  const [syncTrigger, setSyncTrigger] = useState<number>(0);
 
-    const fetchWeather = async () => {
-      const cleanLoc = (location || 'Bengaluru').trim();
-      const lower = cleanLoc.toLowerCase();
+  const fetchLiveTelemetry = async (targetLoc: string) => {
+    setWeatherLoading(true);
+    const clean = (targetLoc || 'Bengaluru').trim();
 
-      let matched = Object.entries(MANDI_COORDS).find(([key]) => lower.includes(key));
+    try {
+      // 1. Try local full-stack proxy endpoint
+      const apiRes = await fetch(`/api/weather?location=${encodeURIComponent(clean)}`);
+      if (apiRes.ok) {
+        const json = await apiRes.json();
+        if (json.success && json.telemetry) {
+          setLiveWeather({
+            temp: json.telemetry.temp,
+            feelsLike: json.telemetry.feelsLike,
+            humidity: json.telemetry.humidity,
+            windSpeed: json.telemetry.windSpeed,
+            windDirectionDeg: json.telemetry.windDirectionDeg || 0,
+            windDirectionText: json.telemetry.windDirectionText || 'N',
+            precipitationMm: json.telemetry.precipitationMm || 0,
+            pressureHpa: json.telemetry.pressureHpa || 1013,
+            conditionText: json.telemetry.conditionText,
+            conditionIcon: json.telemetry.conditionIcon,
+            harvestVibe: json.telemetry.harvestVibe,
+            locationName: json.location,
+            stationObservationTime: json.telemetry.stationObservationTime,
+            fetchedAt: json.telemetry.fetchedAt,
+            source: json.source
+          });
+          setLastSyncTime(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }));
+          setWeatherLoading(false);
+          return;
+        }
+      }
+    } catch (err) {
+      console.warn('Backend /api/weather unavailable, falling back to direct Open-Meteo:', err);
+    }
+
+    // 2. Direct client-side Open-Meteo fallback
+    try {
       let lat = 12.9716;
       let lon = 77.5946;
-      let dispName = cleanLoc;
+      let dispName = `${clean} APMC`;
 
-      if (matched) {
-        lat = matched[1].lat;
-        lon = matched[1].lon;
-        dispName = matched[1].name;
-      } else {
-        try {
-          const firstWord = cleanLoc.split(/[, -]/)[0];
-          const geoRes = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(firstWord)}&count=1&language=en&format=json`);
-          const geoData = await geoRes.json();
-          if (geoData.results && geoData.results.length > 0) {
-            lat = geoData.results[0].latitude;
-            lon = geoData.results[0].longitude;
-            dispName = `${geoData.results[0].name}, ${geoData.results[0].admin1 || 'India'}`;
-          }
-        } catch {
-          // fallback
-        }
-      }
-
-      setWeatherLoading(true);
       try {
-        const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code&timezone=auto`);
-        const data = await res.json();
-        if (!isCancelled && data && data.current) {
-          const code = data.current.weather_code;
-          let condText = 'Fair Weather';
-          let condIcon = '🌤️';
-          if (code === 0) { condText = 'Clear Sky'; condIcon = '☀️'; }
-          else if (code <= 2) { condText = 'Partly Cloudy'; condIcon = '🌤️'; }
-          else if (code === 3) { condText = 'Overcast'; condIcon = '☁️'; }
-          else if (code === 45 || code === 48) { condText = 'Fog / Mist'; condIcon = '🌫️'; }
-          else if (code >= 51 && code <= 65) { condText = 'Light Rain'; condIcon = '🌦️'; }
-          else if (code >= 80 && code <= 82) { condText = 'Rain Showers'; condIcon = '🌧️'; }
-          else if (code >= 95) { condText = 'Thunderstorm'; condIcon = '⛈️'; }
-
-          const temp = data.current.temperature_2m;
-          const hum = data.current.relative_humidity_2m;
-          const wind = data.current.wind_speed_10m;
-
-          let vibe = 'Optimal Conditions for Transit';
-          if (hum > 80 || code >= 51) {
-            vibe = 'High Moisture: Tarpaulin Covered Transit';
-          } else if (temp > 35) {
-            vibe = 'High Ambient Heat: Ventilate Crates';
-          }
-
-          setLiveWeather({
-            temp,
-            humidity: hum,
-            windSpeed: wind,
-            conditionText: condText,
-            conditionIcon: condIcon,
-            harvestVibe: vibe,
-            locationName: dispName
-          });
+        const firstWord = clean.split(/[, -]/)[0];
+        const geoRes = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(firstWord)}&count=1&language=en&format=json`);
+        const geoData = await geoRes.json();
+        if (geoData.results && geoData.results.length > 0) {
+          lat = geoData.results[0].latitude;
+          lon = geoData.results[0].longitude;
+          dispName = `${geoData.results[0].name} APMC, ${geoData.results[0].admin1 || 'India'}`;
         }
-      } catch (e) {
-        console.warn('Weather fetch error:', e);
-      } finally {
-        if (!isCancelled) setWeatherLoading(false);
+      } catch {
+        // use default coordinates
       }
-    };
 
-    fetchWeather();
-    return () => { isCancelled = true; };
-  }, [location]);
+      const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,wind_speed_10m,wind_direction_10m,surface_pressure&timezone=auto`);
+      const data = await res.json();
+
+      if (data && data.current) {
+        const c = data.current;
+        const code = c.weather_code;
+        let condText = 'Fair Weather';
+        let condIcon = '🌤️';
+        if (code === 0) { condText = 'Clear Sky'; condIcon = '☀️'; }
+        else if (code <= 2) { condText = 'Partly Cloudy'; condIcon = '🌤️'; }
+        else if (code === 3) { condText = 'Overcast'; condIcon = '☁️'; }
+        else if (code === 45 || code === 48) { condText = 'Fog / Mist'; condIcon = '🌫️'; }
+        else if (code >= 51 && code <= 65) { condText = 'Light Rain'; condIcon = '🌦️'; }
+        else if (code >= 80 && code <= 82) { condText = 'Rain Showers'; condIcon = '🌧️'; }
+        else if (code >= 95) { condText = 'Thunderstorm'; condIcon = '⛈️'; }
+
+        let vibe = 'Optimal Conditions for Transit';
+        if (c.precipitation > 0 || c.relative_humidity_2m > 80 || code >= 51) {
+          vibe = 'Precipitation / High Moisture: Tarpaulin Covered Transit Required';
+        } else if (c.temperature_2m > 36 || (c.apparent_temperature && c.apparent_temperature > 39)) {
+          vibe = 'High Ambient Heat: Ventilate Produce Crates';
+        }
+
+        const directions = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW'];
+        const windDirText = directions[Math.round((c.wind_direction_10m || 0) / 22.5) % 16] || 'N';
+
+        setLiveWeather({
+          temp: c.temperature_2m,
+          feelsLike: c.apparent_temperature || c.temperature_2m,
+          humidity: c.relative_humidity_2m,
+          windSpeed: c.wind_speed_10m,
+          windDirectionDeg: c.wind_direction_10m || 0,
+          windDirectionText: windDirText,
+          precipitationMm: c.precipitation || 0,
+          pressureHpa: c.surface_pressure || 1013,
+          conditionText: condText,
+          conditionIcon: condIcon,
+          harvestVibe: vibe,
+          locationName: dispName,
+          stationObservationTime: c.time,
+          fetchedAt: new Date().toISOString(),
+          source: 'Direct Open-Meteo Satellite Feed'
+        });
+        setLastSyncTime(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }));
+      }
+    } catch (err) {
+      console.error('Direct Open-Meteo fetch failed:', err);
+    } finally {
+      setWeatherLoading(false);
+    }
+  };
+
+  // Immediate fetch upon location change or manual sync trigger
+  useEffect(() => {
+    fetchLiveTelemetry(location || 'Bengaluru');
+    setCountdown(30);
+  }, [location, syncTrigger]);
+
+  // Automatic refresh interval: countdown from 30s to 0s, then re-fetches live data automatically
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCountdown((prev) => {
+        if (prev <= 1) {
+          // Trigger next live refresh
+          setSyncTrigger((c) => c + 1);
+          return 30;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  const handleManualRefresh = () => {
+    setCountdown(30);
+    setSyncTrigger((c) => c + 1);
+  };
 
   const quantityQuintals = searchResult?.normalized_quantity?.in_quintals || 
     (unit === 'kg' ? quantity / 100 : (unit === 'tonne' ? quantity * 10 : quantity));
@@ -337,84 +378,170 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
 
       {/* REAL-TIME OPEN-METEO SATELLITE & MICROCLIMATE TELEMETRY BAR */}
       <div className="bg-white rounded-2xl border border-[#E6E1D7] p-4 sm:p-5 shadow-xs space-y-4 print-hide-on-checklist">
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#E6E1D7]/60 pb-3">
-          <div className="flex items-center gap-2">
-            <span className={`w-2.5 h-2.5 rounded-full ${weatherLoading ? 'bg-amber-400 animate-spin' : 'bg-[#2E7D32] animate-pulse'}`}></span>
+        {/* Top Header Row with Live Pulsing Beacon, Station Feed, Countdown & Manual Sync */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#E6E1D7]/60 pb-3">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="relative flex h-2.5 w-2.5">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#2E7D32]"></span>
+            </span>
             <span className="text-xs font-bold text-[#153424] uppercase tracking-wider">
-              Real-Time Mandi Microclimate & Weather
+              Real-Time Mandi Microclimate & Satellite Telemetry
             </span>
-            <span className="text-[10px] text-stone-500 font-mono hidden sm:inline">
-              (Live feed: {liveWeather.locationName} • Open-Meteo)
+            <span className="text-[10px] font-mono text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+              Live Feed: {liveWeather?.locationName || (location ? `${location} APMC` : 'Bengaluru APMC')}
             </span>
           </div>
-          <div className="flex items-center gap-2 text-xs font-bold text-[#2E7D32] bg-[#EAEFE9] px-2.5 py-1 rounded-full border border-[#D6DFD4]">
-            <Sprout className="w-3.5 h-3.5" />
-            <span>{liveWeather.harvestVibe}</span>
+
+          <div className="flex flex-wrap items-center gap-2">
+            {/* Auto-refresh countdown pill */}
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-mono font-medium text-stone-600 bg-stone-100 border border-stone-200">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+              Auto-sync: {countdown}s
+            </span>
+
+            {/* Manual Sync Now Button */}
+            <button
+              type="button"
+              onClick={handleManualRefresh}
+              disabled={weatherLoading}
+              title="Click to fetch live weather from Open-Meteo satellite right now"
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-bold text-[#153424] bg-[#FAF8F5] hover:bg-[#ECE8DE] border border-[#E6E1D7] transition-all cursor-pointer shadow-2xs hover:shadow-xs active:scale-95 disabled:opacity-50"
+            >
+              <RefreshCw className={`w-3.5 h-3.5 text-[#2E7D32] ${weatherLoading ? 'animate-spin' : ''}`} />
+              <span>{weatherLoading ? 'Fetching...' : 'Sync Now'}</span>
+            </button>
+
+            {/* Transit Advisory Badge */}
+            {liveWeather && (
+              <div className="flex items-center gap-1.5 text-xs font-bold text-[#2E7D32] bg-[#EAEFE9] px-2.5 py-1 rounded-full border border-[#D6DFD4]">
+                <Sprout className="w-3.5 h-3.5" />
+                <span>{liveWeather.harvestVibe}</span>
+              </div>
+            )}
           </div>
         </div>
 
-        {/* 5 Real-Time Telemetry Metrics */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
-          <div className="bg-[#FAF8F5] p-3 rounded-xl border border-[#E6E1D7] flex items-center gap-3 hover-slide-scale animate-slide-up stagger-1">
-            <div className="w-8 h-8 rounded-lg bg-emerald-100/60 text-[#2E7D32] flex items-center justify-center shrink-0">
-              <ThermometerSnowflake className="w-4 h-4" />
-            </div>
-            <div>
-              <span className="text-[10px] text-stone-500 block font-medium">Ambient Temp</span>
-              <strong className="text-xs sm:text-sm font-black text-[#153424] font-mono">
-                {liveWeather.temp.toFixed(1)}°C
-              </strong>
-            </div>
+        {/* 6 Real-Time Telemetry Metrics Cards */}
+        {weatherLoading && !liveWeather ? (
+          <div className="py-8 flex flex-col items-center justify-center space-y-2 text-stone-500">
+            <RefreshCw className="w-6 h-6 animate-spin text-[#2E7D32]" />
+            <p className="text-xs font-medium">Connecting to Open-Meteo satellite weather sensors for {location || 'APMC Mandi'}...</p>
           </div>
+        ) : liveWeather ? (
+          <>
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+              {/* 1. Ambient Temp */}
+              <div className="bg-[#FAF8F5] p-3 rounded-xl border border-[#E6E1D7] space-y-1 hover:border-[#2E7D32]/40 transition-colors">
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] text-stone-500 font-medium">Ambient Temp</span>
+                  <div className="w-6 h-6 rounded-md bg-emerald-100/60 text-[#2E7D32] flex items-center justify-center shrink-0">
+                    <ThermometerSnowflake className="w-3.5 h-3.5" />
+                  </div>
+                </div>
+                <strong className="text-base sm:text-lg font-black text-[#153424] font-mono block">
+                  {liveWeather.temp.toFixed(1)}°C
+                </strong>
+                <span className="text-[10px] text-stone-500 block font-mono">
+                  Feels like {liveWeather.feelsLike.toFixed(1)}°C
+                </span>
+              </div>
 
-          <div className="bg-[#FAF8F5] p-3 rounded-xl border border-[#E6E1D7] flex items-center gap-3 hover-slide-scale animate-slide-up stagger-2">
-            <div className="w-8 h-8 rounded-lg bg-blue-100/60 text-blue-700 flex items-center justify-center shrink-0">
-              <Droplets className="w-4 h-4" />
-            </div>
-            <div>
-              <span className="text-[10px] text-stone-500 block font-medium">Relative Humidity</span>
-              <strong className="text-xs sm:text-sm font-black text-[#153424] font-mono">
-                {liveWeather.humidity}% RH
-              </strong>
-            </div>
-          </div>
+              {/* 2. Relative Humidity */}
+              <div className="bg-[#FAF8F5] p-3 rounded-xl border border-[#E6E1D7] space-y-1 hover:border-[#2E7D32]/40 transition-colors">
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] text-stone-500 font-medium">Humidity</span>
+                  <div className="w-6 h-6 rounded-md bg-blue-100/60 text-blue-700 flex items-center justify-center shrink-0">
+                    <Droplets className="w-3.5 h-3.5" />
+                  </div>
+                </div>
+                <strong className="text-base sm:text-lg font-black text-[#153424] font-mono block">
+                  {liveWeather.humidity}% RH
+                </strong>
+                <span className="text-[10px] text-stone-500 block font-mono truncate">
+                  {liveWeather.humidity > 70 ? 'High Moisture' : 'Optimal Moisture'}
+                </span>
+              </div>
 
-          <div className="bg-[#FAF8F5] p-3 rounded-xl border border-[#E6E1D7] flex items-center gap-3 hover-slide-scale animate-slide-up stagger-3">
-            <div className="w-8 h-8 rounded-lg bg-teal-100/60 text-teal-700 flex items-center justify-center shrink-0">
-              <Wind className="w-4 h-4" />
-            </div>
-            <div>
-              <span className="text-[10px] text-stone-500 block font-medium">Field Wind</span>
-              <strong className="text-xs sm:text-sm font-black text-[#153424] font-mono">
-                {liveWeather.windSpeed.toFixed(1)} km/h
-              </strong>
-            </div>
-          </div>
+              {/* 3. Field Wind */}
+              <div className="bg-[#FAF8F5] p-3 rounded-xl border border-[#E6E1D7] space-y-1 hover:border-[#2E7D32]/40 transition-colors">
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] text-stone-500 font-medium">Field Wind</span>
+                  <div className="w-6 h-6 rounded-md bg-teal-100/60 text-teal-700 flex items-center justify-center shrink-0">
+                    <Wind className="w-3.5 h-3.5" />
+                  </div>
+                </div>
+                <strong className="text-base sm:text-lg font-black text-[#153424] font-mono block">
+                  {liveWeather.windSpeed.toFixed(1)} km/h
+                </strong>
+                <span className="text-[10px] text-stone-500 block font-mono truncate">
+                  {liveWeather.windDirectionText} ({liveWeather.windDirectionDeg}°)
+                </span>
+              </div>
 
-          <div className="bg-[#FAF8F5] p-3 rounded-xl border border-[#E6E1D7] flex items-center gap-3 hover-slide-scale animate-slide-up stagger-4">
-            <div className="w-8 h-8 rounded-lg bg-amber-100/60 text-amber-700 flex items-center justify-center shrink-0 text-base">
-              {liveWeather.conditionIcon}
-            </div>
-            <div>
-              <span className="text-[10px] text-stone-500 block font-medium">Sky Condition</span>
-              <strong className="text-xs sm:text-sm font-black text-[#153424] truncate block">
-                {liveWeather.conditionText}
-              </strong>
-            </div>
-          </div>
+              {/* 4. Precipitation */}
+              <div className="bg-[#FAF8F5] p-3 rounded-xl border border-[#E6E1D7] space-y-1 hover:border-[#2E7D32]/40 transition-colors">
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] text-stone-500 font-medium">Precipitation</span>
+                  <div className="w-6 h-6 rounded-md bg-sky-100/60 text-sky-700 flex items-center justify-center shrink-0">
+                    <CloudRain className="w-3.5 h-3.5" />
+                  </div>
+                </div>
+                <strong className="text-base sm:text-lg font-black text-[#153424] font-mono block">
+                  {liveWeather.precipitationMm.toFixed(1)} mm
+                </strong>
+                <span className="text-[10px] text-stone-500 block font-mono truncate">
+                  {liveWeather.precipitationMm > 0 ? 'Active Rain' : 'Dry Gate Weather'}
+                </span>
+              </div>
 
-          <div className="bg-[#FAF8F5] p-3 rounded-xl border border-[#E6E1D7] flex items-center gap-3 col-span-2 sm:col-span-1 hover-slide-scale animate-slide-up stagger-5">
-            <div className="w-8 h-8 rounded-lg bg-lime-100/60 text-lime-800 flex items-center justify-center shrink-0">
-              <Activity className="w-4 h-4" />
+              {/* 5. Sky & Barometric */}
+              <div className="bg-[#FAF8F5] p-3 rounded-xl border border-[#E6E1D7] space-y-1 hover:border-[#2E7D32]/40 transition-colors">
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] text-stone-500 font-medium">Sky Condition</span>
+                  <span className="text-sm">{liveWeather.conditionIcon}</span>
+                </div>
+                <strong className="text-xs sm:text-sm font-black text-[#153424] truncate block">
+                  {liveWeather.conditionText}
+                </strong>
+                <span className="text-[10px] text-stone-500 block font-mono truncate">
+                  {liveWeather.pressureHpa.toFixed(0)} hPa pressure
+                </span>
+              </div>
+
+              {/* 6. Telemetry Satellite Status */}
+              <div className="bg-[#FAF8F5] p-3 rounded-xl border border-[#E6E1D7] space-y-1 hover:border-[#2E7D32]/40 transition-colors">
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] text-stone-500 font-medium">Satellite Link</span>
+                  <div className="w-6 h-6 rounded-md bg-lime-100/60 text-lime-800 flex items-center justify-center shrink-0">
+                    <Activity className="w-3.5 h-3.5" />
+                  </div>
+                </div>
+                <strong className="text-xs sm:text-sm font-black text-[#2E7D32] flex items-center gap-1 block">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#2E7D32] inline-block animate-pulse"></span>
+                  {weatherLoading ? 'Syncing...' : 'Live Connected'}
+                </strong>
+                <span className="text-[9px] text-stone-500 block font-mono truncate">
+                  Sync: {lastSyncTime || 'Now'}
+                </span>
+              </div>
             </div>
-            <div>
-              <span className="text-[10px] text-stone-500 block font-medium">Telemetry Link</span>
-              <strong className="text-xs sm:text-sm font-black text-[#153424]">
-                {weatherLoading ? 'Syncing...' : 'Live Connected'}
-              </strong>
+
+            {/* Satellite Timestamp & Verification Footer */}
+            <div className="flex flex-wrap items-center justify-between gap-2 text-[10px] text-stone-500 font-mono pt-1">
+              <span className="flex items-center gap-1.5">
+                <span>🛰️ Station Observation: {liveWeather.stationObservationTime ? liveWeather.stationObservationTime.replace('T', ' ') : 'Live'}</span>
+                <span>•</span>
+                <span>Source: {liveWeather.source}</span>
+                <span>•</span>
+                <span>Last Verified: {lastSyncTime || 'Just now'}</span>
+              </span>
+              <span className="text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 font-sans font-bold text-[10px]">
+                Verified Live Internet Telemetry
+              </span>
             </div>
-          </div>
-        </div>
+          </>
+        ) : null}
 
 
         {/* Quick-Preset Chips for Mandis & Commodities */}

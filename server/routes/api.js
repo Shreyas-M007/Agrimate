@@ -407,4 +407,144 @@ router.post('/preferences', async (req, res) => {
   }
 });
 
+// Coordinates for verified APMC Mandis & major agricultural centers across India
+const MANDI_COORDINATES = {
+  'bengaluru': { lat: 12.9716, lon: 77.5946, name: 'Bengaluru APMC (Yeshwanthpur)', state: 'Karnataka' },
+  'bangalore': { lat: 12.9716, lon: 77.5946, name: 'Bengaluru APMC (Yeshwanthpur)', state: 'Karnataka' },
+  'kolar': { lat: 13.1367, lon: 78.1340, name: 'Kolar APMC (Market Yard)', state: 'Karnataka' },
+  'ballari': { lat: 15.1394, lon: 76.9214, name: 'Ballari APMC (Cantonment Yard)', state: 'Karnataka' },
+  'bellary': { lat: 15.1394, lon: 76.9214, name: 'Ballari APMC (Cantonment Yard)', state: 'Karnataka' },
+  'lasalgaon': { lat: 20.1469, lon: 74.2274, name: 'Lasalgaon APMC (Onion Terminal)', state: 'Maharashtra' },
+  'nashik': { lat: 19.9975, lon: 73.7898, name: 'Nashik APMC', state: 'Maharashtra' },
+  'pune': { lat: 18.5204, lon: 73.8567, name: 'Gultekdi APMC (Pune)', state: 'Maharashtra' },
+  'azadpur': { lat: 28.7041, lon: 77.1025, name: 'Azadpur APMC (Delhi Terminal)', state: 'Delhi' },
+  'delhi': { lat: 28.7041, lon: 77.1025, name: 'Azadpur APMC (Delhi)', state: 'Delhi' },
+  'agra': { lat: 27.1767, lon: 78.0081, name: 'Agra APMC', state: 'Uttar Pradesh' },
+  'guntur': { lat: 16.3067, lon: 80.4365, name: 'Guntur APMC (Mirchi Yard)', state: 'Andhra Pradesh' },
+  'karnal': { lat: 29.6857, lon: 76.9905, name: 'Karnal APMC (Grain Market)', state: 'Haryana' },
+  'unjha': { lat: 23.8037, lon: 72.3929, name: 'Unjha APMC (Spice Terminal)', state: 'Gujarat' },
+  'kota': { lat: 25.2138, lon: 75.8648, name: 'Kota APMC (Bhamashah Mandi)', state: 'Rajasthan' },
+  'khanna': { lat: 30.7071, lon: 76.2167, name: 'Khanna APMC (Grain Market)', state: 'Punjab' },
+  'kolkata': { lat: 22.5726, lon: 88.3639, name: 'Posta Bazar / Koley Market (Kolkata)', state: 'West Bengal' },
+  'indore': { lat: 22.7196, lon: 75.8577, name: 'Indore APMC (Choithram Mandi)', state: 'Madhya Pradesh' },
+  'mumbai': { lat: 19.0760, lon: 72.8777, name: 'Vashi Turbhe APMC (Navi Mumbai)', state: 'Maharashtra' },
+  'hyderabad': { lat: 17.3850, lon: 78.4867, name: 'Bowenpally Market Yard (Hyderabad)', state: 'Telangana' },
+  'hassan': { lat: 13.0072, lon: 76.1030, name: 'Hassan APMC', state: 'Karnataka' },
+  'sindhanur': { lat: 15.7725, lon: 76.7628, name: 'Sindhanur APMC (Paddy Hub)', state: 'Karnataka' },
+  'hubballi': { lat: 15.3647, lon: 75.1240, name: 'Hubballi APMC (Cotton Yard)', state: 'Karnataka' },
+  'hubli': { lat: 15.3647, lon: 75.1240, name: 'Hubballi APMC (Cotton Yard)', state: 'Karnataka' }
+};
+
+function getWindCompass(degrees) {
+  const directions = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW'];
+  const index = Math.round(degrees / 22.5) % 16;
+  return directions[index] || 'N';
+}
+
+function parseWeatherCode(code) {
+  if (code === 0) return { text: 'Clear Sky', icon: '☀️' };
+  if (code <= 2) return { text: 'Partly Cloudy', icon: '🌤️' };
+  if (code === 3) return { text: 'Overcast', icon: '☁️' };
+  if (code === 45 || code === 48) return { text: 'Fog / Mist', icon: '🌫️' };
+  if (code >= 51 && code <= 55) return { text: 'Light Drizzle', icon: '🌦️' };
+  if (code >= 61 && code <= 65) return { text: 'Rain Showers', icon: '🌧️' };
+  if (code >= 80 && code <= 82) return { text: 'Heavy Rain', icon: '🌧️' };
+  if (code >= 95) return { text: 'Thunderstorm', icon: '⛈️' };
+  return { text: 'Fair Weather', icon: '🌤️' };
+}
+
+// GET /api/weather - Live Real-Time Microclimate Telemetry from Open-Meteo
+router.get('/weather', async (req, res) => {
+  const { location, lat: qLat, lon: qLon } = req.query;
+  const cleanLoc = (location || 'Bengaluru').trim();
+  const lower = cleanLoc.toLowerCase();
+
+  let lat = qLat ? parseFloat(qLat) : null;
+  let lon = qLon ? parseFloat(qLon) : null;
+  let dispName = cleanLoc;
+
+  if (!lat || !lon) {
+    const matched = Object.entries(MANDI_COORDINATES).find(([key]) => lower.includes(key));
+    if (matched) {
+      lat = matched[1].lat;
+      lon = matched[1].lon;
+      dispName = matched[1].name;
+    } else {
+      try {
+        const firstWord = cleanLoc.split(/[, -]/)[0];
+        const geoRes = await fetch(
+          `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(firstWord)}&count=1&language=en&format=json`
+        );
+        const geoData = await geoRes.json();
+        if (geoData.results && geoData.results.length > 0) {
+          lat = geoData.results[0].latitude;
+          lon = geoData.results[0].longitude;
+          dispName = `${geoData.results[0].name} APMC, ${geoData.results[0].admin1 || 'India'}`;
+        }
+      } catch (err) {
+        console.warn('Geocoding lookup warning:', err.message);
+      }
+    }
+  }
+
+  // Default fallback if unresolvable
+  if (!lat || !lon) {
+    lat = 12.9716;
+    lon = 77.5946;
+    dispName = 'Bengaluru APMC (Yeshwanthpur)';
+  }
+
+  try {
+    const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,wind_speed_10m,wind_direction_10m,surface_pressure&timezone=auto`;
+    const response = await fetch(weatherUrl);
+    const data = await response.json();
+
+    if (!data || !data.current) {
+      throw new Error('No current weather payload returned from Open-Meteo');
+    }
+
+    const current = data.current;
+    const weatherInfo = parseWeatherCode(current.weather_code);
+    const windDirText = getWindCompass(current.wind_direction_10m);
+
+    let harvestVibe = 'Optimal Conditions for Transit';
+    if (current.precipitation > 0 || current.relative_humidity_2m > 80 || current.weather_code >= 51) {
+      harvestVibe = 'Precipitation / High Moisture: Tarpaulin Covered Transit Required';
+    } else if (current.temperature_2m > 36 || current.apparent_temperature > 39) {
+      harvestVibe = 'High Ambient Heat: Ventilate Produce Crates';
+    }
+
+    res.json({
+      success: true,
+      realTime: true,
+      source: 'Open-Meteo Satellite & Station Telemetry',
+      location: dispName,
+      coordinates: { lat, lon },
+      telemetry: {
+        temp: current.temperature_2m,
+        feelsLike: current.apparent_temperature,
+        humidity: current.relative_humidity_2m,
+        windSpeed: current.wind_speed_10m,
+        windDirectionDeg: current.wind_direction_10m,
+        windDirectionText: windDirText,
+        precipitationMm: current.precipitation,
+        pressureHpa: current.surface_pressure,
+        weatherCode: current.weather_code,
+        conditionText: weatherInfo.text,
+        conditionIcon: weatherInfo.icon,
+        harvestVibe,
+        stationObservationTime: current.time,
+        fetchedAt: new Date().toISOString()
+      }
+    });
+  } catch (err) {
+    console.error('Open-Meteo fetch failed:', err.message);
+    res.status(502).json({
+      success: false,
+      error: 'Failed to fetch live weather from Open-Meteo',
+      message: err.message
+    });
+  }
+});
+
 export default router;
