@@ -497,15 +497,15 @@ export const App: React.FC = () => {
       {/* Rich Multi-Column VerdaAgro Forest Green Footer */}
       <footer className="relative z-10 bg-[#153424] text-stone-300 text-xs py-14 border-t border-[#1f4a34] mt-auto print:hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 pb-10 border-b border-[#1f4a34]">
+          <div className="flex flex-col md:flex-row items-start justify-between gap-10 pb-10 border-b border-[#1f4a34]">
             
             {/* Column 1: Brand & Identity */}
-            <div className="lg:col-span-2 space-y-3">
+            <div className="space-y-3 max-w-lg">
               <div className="flex items-center gap-2.5 notranslate select-none" translate="no">
                 <span className="text-2xl notranslate" translate="no">🌾</span>
                 <span className="font-black text-white text-xl font-['Syne',sans-serif] notranslate" translate="no">AgriMate</span>
               </div>
-              <p className="text-emerald-100/70 text-xs sm:text-sm leading-relaxed max-w-sm font-['Outfit',sans-serif]">
+              <p className="text-emerald-100/70 text-xs sm:text-sm leading-relaxed font-['Outfit',sans-serif]">
                 Cultivating tomorrow with integrity and intelligence. Providing 15,000+ growers across Karnataka, Maharashtra, Delhi, and Andhra Pradesh with verified APMC wholesale auction rates, freight simulators, and statutory gate passes.
               </p>
               <div className="pt-2 flex items-center gap-3 text-xs text-emerald-200/80">
@@ -518,36 +518,8 @@ export const App: React.FC = () => {
               </div>
             </div>
 
-            {/* Column 2: Navigation Links */}
-            <div className="space-y-2.5">
-              <h4 className="text-white font-bold text-xs uppercase tracking-wider">Navigation</h4>
-              <ul className="space-y-1.5 text-xs text-emerald-100/70">
-                <li><button onClick={() => navigateTo('home')} className="hover:text-white transition-colors cursor-pointer">Home</button></li>
-                <li><button onClick={() => navigateTo('dashboard')} className="hover:text-white transition-colors cursor-pointer">Terminal Dashboard</button></li>
-                <li><button onClick={() => navigateTo('about')} className="hover:text-white transition-colors cursor-pointer">About Our Ecosystem</button></li>
-                <li><button onClick={() => navigateTo('services')} className="hover:text-white transition-colors cursor-pointer">Core Services</button></li>
-                <li><button onClick={() => navigateTo('crops')} className="hover:text-white transition-colors cursor-pointer">Crop Directory</button></li>
-                <li><button onClick={() => navigateTo('dispatch')} className="hover:text-white transition-colors cursor-pointer">Dispatch Desk</button></li>
-                <li><button onClick={() => navigateTo('contact')} className="hover:text-white transition-colors cursor-pointer">Grower Support</button></li>
-              </ul>
-            </div>
-
-            {/* Column 3: Agricultural Portfolio */}
-            <div className="space-y-2.5">
-              <h4 className="text-white font-bold text-xs uppercase tracking-wider">Commodities</h4>
-              <ul className="space-y-1.5 text-xs text-emerald-100/70">
-                <li><button onClick={() => handleSelectCropAndNavigate('Tomato')} className="hover:text-white transition-colors cursor-pointer">Tomato (Hybrid / Local)</button></li>
-                <li><button onClick={() => handleSelectCropAndNavigate('Onion')} className="hover:text-white transition-colors cursor-pointer">Onion (Nashik Red)</button></li>
-                <li><button onClick={() => handleSelectCropAndNavigate('Potato')} className="hover:text-white transition-colors cursor-pointer">Potato (Kufri Jyoti)</button></li>
-                <li><button onClick={() => handleSelectCropAndNavigate('Green Chilli')} className="hover:text-white transition-colors cursor-pointer">Green Chilli (G-4)</button></li>
-                <li><button onClick={() => handleSelectCropAndNavigate('Cotton')} className="hover:text-white transition-colors cursor-pointer">Cotton (DCH-32)</button></li>
-                <li><button onClick={() => handleSelectCropAndNavigate('Soybean')} className="hover:text-white transition-colors cursor-pointer">Soybean (JS-335)</button></li>
-                <li><button onClick={() => handleSelectCropAndNavigate('Maize')} className="hover:text-white transition-colors cursor-pointer">Maize & Grains</button></li>
-              </ul>
-            </div>
-
-            {/* Column 4: Support & Community */}
-            <div className="space-y-2.5">
+            {/* Column 2: Farmer Helpline & Community */}
+            <div className="space-y-2.5 shrink-0">
               <h4 className="text-white font-bold text-xs uppercase tracking-wider">Farmer Helpline & Community</h4>
               <div className="space-y-2 text-xs text-emerald-100/70">
                 <a 
