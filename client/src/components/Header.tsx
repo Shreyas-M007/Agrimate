@@ -109,7 +109,7 @@ export const Header: React.FC<HeaderProps> = ({
   };
 
   return (
-    <header className="bg-[#0D1F14]/90 backdrop-blur-md sticky top-0 z-50 print:hidden border-b border-white/10 transition-colors">
+    <header className="bg-transparent sticky top-0 z-50 print:hidden pt-2.5 sm:pt-3 transition-colors">
       {/* Main Brand & Multi-Page Navigation Bar */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-2.5 sm:py-3 flex items-center justify-between gap-4 relative">
         {/* Brand Logo & Name (Minimalist Cultivo Style) */}
@@ -125,8 +125,8 @@ export const Header: React.FC<HeaderProps> = ({
           </span>
         </div>
 
-        {/* Center: Dark Pill Capsule Navigation - Made bigger and comfortable */}
-        <nav className="hidden lg:flex items-center gap-1.5 p-1.5 notranslate absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 bg-[#141B17] rounded-full border border-stone-700/70 shadow-lg" translate="no">
+        {/* Center: Dark Pill Capsule Navigation - Centered to align with search below */}
+        <nav className="hidden lg:flex items-center gap-1 p-1 notranslate absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 bg-[#181F1C] rounded-full border border-stone-800/80 shadow-md" translate="no">
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = currentPage === item.id;
@@ -134,13 +134,13 @@ export const Header: React.FC<HeaderProps> = ({
               <button
                 key={item.id}
                 onClick={() => handleNavClick(item.id)}
-                className={`px-4 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer flex items-center gap-2 select-none ${
+                className={`px-3 py-1.5 rounded-full text-xs transition-all duration-200 cursor-pointer flex items-center gap-1.5 select-none ${
                   isActive
-                    ? 'bg-white text-[#153424] font-bold shadow-md'
+                    ? 'bg-white text-[#153424] font-bold shadow-xs'
                     : 'text-stone-300 hover:text-white hover:bg-white/10 font-medium'
                 }`}
               >
-                {isActive && <Icon className="w-4 h-4 text-[#153424] shrink-0" />}
+                {isActive && <Icon className="w-3.5 h-3.5 text-[#153424] shrink-0" />}
                 <span>{item.label}</span>
               </button>
             );

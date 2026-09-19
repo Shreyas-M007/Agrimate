@@ -329,7 +329,7 @@ export const App: React.FC = () => {
     (unit === 'kg' ? quantity / 100 : (unit === 'tonne' ? quantity * 10 : quantity));
 
   return (
-    <div className="min-h-screen text-[#153424] flex flex-col font-['Plus_Jakarta_Sans',sans-serif] relative bg-[#0D1F14]">
+    <div className="min-h-screen text-[#153424] flex flex-col font-['Plus_Jakarta_Sans',sans-serif] relative" style={{ background: '#F0EDE6' }}>
       {/* Global fixed farmland background — subtle on all pages */}
       <div
         className="fixed inset-0 bg-cover bg-center bg-no-repeat pointer-events-none"
