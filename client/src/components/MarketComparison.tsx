@@ -186,22 +186,22 @@ export const MarketComparison: React.FC<MarketComparisonProps> = ({
       {/* Aggregate Stats Matrix */}
       {stats && (
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-          <div className="bg-white p-3 rounded-xl border border-[#E6E1D7] shadow-xs">
+          <div className="glass-card-subtle p-3 rounded-xl border border-white/80 shadow-xs">
             <span className="text-[10px] font-mono uppercase tracking-wider text-stone-500 block">Floor Price</span>
             <strong className="text-base text-stone-800 font-mono tnum">₹{stats.minPrice.toLocaleString('en-IN')}/q</strong>
           </div>
-          <div className="bg-white p-3 rounded-xl border border-[#E6E1D7] shadow-xs">
+          <div className="glass-card-subtle p-3 rounded-xl border border-white/80 shadow-xs">
             <span className="text-[10px] font-mono uppercase tracking-wider text-[#153424] font-bold block flex items-center gap-1">
               <TrendingUp className="w-3 h-3 text-[#2E7D32]" />
               Ceiling Modal Price
             </span>
             <strong className="text-base text-[#153424] font-mono font-black tnum">₹{stats.maxPrice.toLocaleString('en-IN')}/q</strong>
           </div>
-          <div className="bg-white p-3 rounded-xl border border-[#E6E1D7] shadow-xs">
+          <div className="glass-card-subtle p-3 rounded-xl border border-white/80 shadow-xs">
             <span className="text-[10px] font-mono uppercase tracking-wider text-stone-500 block">Regional Average</span>
             <strong className="text-base text-stone-800 font-mono tnum">₹{stats.avgPrice.toLocaleString('en-IN')}/q</strong>
           </div>
-          <div className="bg-white p-3 rounded-xl border border-amber-200/80 bg-amber-50/40 shadow-xs">
+          <div className="glass-card-subtle p-3 rounded-xl border border-amber-200/80 bg-amber-50/40 shadow-xs">
             <span className="text-[10px] font-mono uppercase tracking-wider text-amber-800 font-bold block flex items-center gap-1">
               <BarChart2 className="w-3 h-3 text-amber-700" />
               Total Recorded Arrivals
@@ -212,10 +212,10 @@ export const MarketComparison: React.FC<MarketComparisonProps> = ({
       )}
 
       {/* Interactive Toolbar */}
-      <div className="bg-white p-3.5 rounded-xl border border-[#E6E1D7] flex flex-wrap items-center justify-between gap-3 text-xs shadow-xs">
+      <div className="glass-card p-3.5 rounded-xl border border-white/80 flex flex-wrap items-center justify-between gap-3 text-xs shadow-xs">
         <div className="flex flex-wrap items-center gap-2">
           {/* State Filter */}
-          <div className="flex items-center gap-1.5 bg-[#FAF8F5] px-2.5 py-1.5 rounded-lg border border-[#E6E1D7] font-mono">
+          <div className="flex items-center gap-1.5 bg-white/60 backdrop-blur-xs px-2.5 py-1.5 rounded-lg border border-white/80 font-mono">
             <Filter className="w-3.5 h-3.5 text-stone-500" />
             <span className="text-stone-600 hidden sm:inline font-medium">State:</span>
             <select
@@ -231,7 +231,7 @@ export const MarketComparison: React.FC<MarketComparisonProps> = ({
           </div>
 
           {/* Distance Radius Filter */}
-          <div className="flex items-center gap-1.5 bg-[#FAF8F5] px-2.5 py-1.5 rounded-lg border border-[#E6E1D7] font-mono">
+          <div className="flex items-center gap-1.5 bg-white/60 backdrop-blur-xs px-2.5 py-1.5 rounded-lg border border-white/80 font-mono">
             <span className="text-stone-600 font-medium">Radius:</span>
             <select
               value={maxDistance}
@@ -246,7 +246,7 @@ export const MarketComparison: React.FC<MarketComparisonProps> = ({
           </div>
 
           {/* Sort By */}
-          <div className="flex items-center gap-1.5 bg-[#FAF8F5] px-2.5 py-1.5 rounded-lg border border-[#E6E1D7] font-mono">
+          <div className="flex items-center gap-1.5 bg-white/60 backdrop-blur-xs px-2.5 py-1.5 rounded-lg border border-white/80 font-mono">
             <ArrowUpDown className="w-3.5 h-3.5 text-stone-500" />
             <span className="text-stone-600 hidden sm:inline font-medium">Sort:</span>
             <select

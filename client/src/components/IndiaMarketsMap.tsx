@@ -274,7 +274,7 @@ export const IndiaMarketsMap: React.FC<IndiaMarketsMapProps> = ({
         </svg>
 
         {/* Legend Overlay at Map Top-Right */}
-        <div className="absolute top-2 right-2 p-2 rounded-xl bg-white/90 backdrop-blur-xs border border-[#E6E1D7] text-[9px] font-mono text-stone-600 space-y-1 shadow-xs pointer-events-none">
+        <div className="absolute top-2 right-2 p-2 rounded-xl glass-card-subtle border border-white/80 text-[9px] font-mono text-stone-600 space-y-1 shadow-xs pointer-events-none">
           <div className="flex items-center gap-1.5">
             <span className="w-2 h-2 rounded-full bg-[#E8A238]"></span>
             <span>Mega Mandi</span>
@@ -292,7 +292,7 @@ export const IndiaMarketsMap: React.FC<IndiaMarketsMapProps> = ({
 
       {/* Dynamic Active Mandi Slide-Up Card */}
       <div 
-        className="mt-1 p-3.5 rounded-2xl bg-white border border-[#E6E1D7] shadow-sm hover:shadow-md transition-all duration-300 animate-slide-up notranslate"
+        className="mt-1 p-3.5 rounded-2xl glass-card border border-white/80 shadow-sm hover:shadow-md transition-all duration-300 animate-slide-up notranslate"
         translate="no"
       >
         <div className="flex items-start justify-between gap-3">

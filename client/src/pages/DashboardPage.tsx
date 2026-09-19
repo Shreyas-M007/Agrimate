@@ -237,7 +237,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
   return (
     <div className="space-y-8 pb-16">
       {/* Terminal Title & Overview Hero */}
-      <div className="rounded-3xl p-6 sm:p-10 border border-[#E6E1D7] relative overflow-hidden bg-gradient-to-br from-white via-[#FAF8F5] to-[#ECE8DE]/70 print-hide-on-checklist shadow-xs">
+      <div className="rounded-3xl p-6 sm:p-10 border border-white/85 relative overflow-hidden glass-card print-hide-on-checklist shadow-xs">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           {/* Left Content Column */}
           <div className="lg:col-span-7 space-y-4">
@@ -256,14 +256,14 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
             <div className="flex flex-wrap items-center gap-3 pt-1">
               <button
                 onClick={() => onNavigate('dispatch')}
-                className="px-4 py-2 rounded-xl bg-white hover:bg-[#ECE8DE] text-[#153424] text-xs font-bold border border-[#E6E1D7] flex items-center gap-2 shadow-xs transition-colors cursor-pointer"
+                className="px-4 py-2 rounded-xl glass-card-subtle hover:bg-white text-[#153424] text-xs font-bold border border-white/80 flex items-center gap-2 shadow-xs transition-colors cursor-pointer"
               >
                 <FileText className="w-3.5 h-3.5 text-[#2E7D32]" />
                 <span>Go to Dispatch Desk</span>
               </button>
               <button
                 onClick={() => onNavigate('crops')}
-                className="px-4 py-2 rounded-xl bg-white hover:bg-[#ECE8DE] text-[#153424] text-xs font-bold border border-[#E6E1D7] flex items-center gap-2 shadow-xs transition-colors cursor-pointer"
+                className="px-4 py-2 rounded-xl glass-card-subtle hover:bg-white text-[#153424] text-xs font-bold border border-white/80 flex items-center gap-2 shadow-xs transition-colors cursor-pointer"
               >
                 <span>Browse All Crops Database</span>
               </button>
@@ -271,19 +271,19 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
 
             {/* Agricultural Key Stat Tiles */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
-              <div className="bg-white p-3.5 rounded-2xl border border-[#E6E1D7] shadow-xs hover-slide-up animate-slide-up stagger-1">
+              <div className="glass-card-subtle p-3.5 rounded-2xl border border-white/80 shadow-xs hover-slide-up animate-slide-up stagger-1">
                 <span className="text-[11px] text-stone-600 font-medium block">Active Markets</span>
                 <span className="text-[#153424] font-black text-lg sm:text-xl">85+ Mandis</span>
               </div>
-              <div className="bg-white p-3.5 rounded-2xl border border-[#E6E1D7] shadow-xs hover-slide-up animate-slide-up stagger-2">
+              <div className="glass-card-subtle p-3.5 rounded-2xl border border-white/80 shadow-xs hover-slide-up animate-slide-up stagger-2">
                 <span className="text-[11px] text-stone-600 font-medium block">All Crops In DB</span>
                 <span className="text-[#153424] font-black text-lg sm:text-xl">100+ Crops</span>
               </div>
-              <div className="bg-white p-3.5 rounded-2xl border border-[#E6E1D7] shadow-xs hover-slide-up animate-slide-up stagger-3">
+              <div className="glass-card-subtle p-3.5 rounded-2xl border border-white/80 shadow-xs hover-slide-up animate-slide-up stagger-3">
                 <span className="text-[11px] text-stone-600 font-medium block">Top Spread</span>
                 <span className="text-[#D97706] font-black text-lg sm:text-xl">₹1,400/q</span>
               </div>
-              <div className="bg-white p-3.5 rounded-2xl border border-[#E6E1D7] shadow-xs hover-slide-up animate-slide-up stagger-4">
+              <div className="glass-card-subtle p-3.5 rounded-2xl border border-white/80 shadow-xs hover-slide-up animate-slide-up stagger-4">
                 <span className="text-[11px] text-stone-600 font-medium block">Sync Status</span>
                 <span className="text-[#2E7D32] font-black text-lg sm:text-xl">Daily Live</span>
               </div>
@@ -292,7 +292,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
 
           {/* Right Useful Panel: Real-Time APMC Market Pulse & Spreads */}
           <div className="lg:col-span-5 relative">
-            <div className="bg-white rounded-2xl border border-[#E6E1D7] p-4 sm:p-5 shadow-sm space-y-3.5">
+            <div className="glass-card rounded-2xl border border-white/85 p-4 sm:p-5 shadow-sm space-y-3.5">
               <div className="flex items-center justify-between border-b border-[#E6E1D7]/70 pb-2.5">
                 <div className="flex items-center gap-2">
                   <span className="relative flex h-2.5 w-2.5">
@@ -321,8 +321,8 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
                     onClick={() => setCrop(item.name)}
                     className={`w-full p-2.5 rounded-xl border text-left transition-all cursor-pointer flex items-center justify-between ${
                       crop.toLowerCase() === item.name.toLowerCase()
-                        ? 'bg-[#EBF5ED] border-[#2E7D32] shadow-xs ring-1 ring-[#2E7D32]'
-                        : 'bg-[#FAF8F5] border-[#E6E1D7] hover:border-[#2E7D32]/50 hover:bg-white'
+                        ? 'bg-emerald-50/90 border-[#2E7D32] shadow-xs ring-1 ring-[#2E7D32]'
+                        : 'glass-card-subtle border-white/70 hover:border-[#2E7D32]/50 hover:bg-white/90'
                     }`}
                   >
                     <div className="flex items-center gap-2.5 min-w-0">
@@ -341,7 +341,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
               </div>
 
               {/* Arbitrage Opportunity Snapshot */}
-              <div className="p-2.5 rounded-xl bg-gradient-to-r from-[#FFF8E7] to-[#FAF8F5] border border-[#E8A238]/40 flex items-center justify-between text-xs">
+              <div className="p-2.5 rounded-xl bg-gradient-to-r from-[#FFF8E7]/90 to-[#FAF8F5]/80 border border-[#E8A238]/40 backdrop-blur-xs flex items-center justify-between text-xs">
                 <div className="flex items-center gap-2">
                   <TrendingUp className="w-4 h-4 text-[#E8A238] shrink-0" />
                   <div>
@@ -359,7 +359,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
       </div>
 
       {/* REAL-TIME OPEN-METEO SATELLITE & MICROCLIMATE TELEMETRY BAR */}
-      <div className="bg-white rounded-2xl border border-[#E6E1D7] p-4 sm:p-5 shadow-xs space-y-4 print-hide-on-checklist">
+      <div className="glass-card rounded-2xl border border-white/85 p-4 sm:p-5 shadow-xs space-y-4 print-hide-on-checklist">
         {/* Top Header Row with Live Pulsing Beacon & Title + Transit Advisory */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#E6E1D7]/60 pb-3">
           <div className="flex items-center gap-2.5">
@@ -391,7 +391,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
           <>
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
               {/* 1. Ambient Temp */}
-              <div className="bg-[#FAF8F5] p-3 rounded-xl border border-[#E6E1D7] space-y-1 hover:border-[#2E7D32]/40 transition-colors">
+              <div className="glass-card-subtle p-3 rounded-xl border border-white/80 space-y-1 hover:border-[#2E7D32]/40 transition-colors shadow-2xs">
                 <div className="flex items-center justify-between">
                   <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-stone-500">Ambient Temp</span>
                   <div className="w-6 h-6 rounded-md bg-emerald-100/60 text-[#2E7D32] flex items-center justify-center shrink-0">
@@ -407,7 +407,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
               </div>
 
               {/* 2. Relative Humidity */}
-              <div className="bg-[#FAF8F5] p-3 rounded-xl border border-[#E6E1D7] space-y-1 hover:border-[#2E7D32]/40 transition-colors">
+              <div className="glass-card-subtle p-3 rounded-xl border border-white/80 space-y-1 hover:border-[#2E7D32]/40 transition-colors shadow-2xs">
                 <div className="flex items-center justify-between">
                   <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-stone-500">Humidity</span>
                   <div className="w-6 h-6 rounded-md bg-blue-100/60 text-blue-700 flex items-center justify-center shrink-0">
@@ -423,7 +423,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
               </div>
 
               {/* 3. Field Wind */}
-              <div className="bg-[#FAF8F5] p-3 rounded-xl border border-[#E6E1D7] space-y-1 hover:border-[#2E7D32]/40 transition-colors">
+              <div className="glass-card-subtle p-3 rounded-xl border border-white/80 space-y-1 hover:border-[#2E7D32]/40 transition-colors shadow-2xs">
                 <div className="flex items-center justify-between">
                   <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-stone-500">Field Wind</span>
                   <div className="w-6 h-6 rounded-md bg-teal-100/60 text-teal-700 flex items-center justify-center shrink-0">
@@ -439,7 +439,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
               </div>
 
               {/* 4. Precipitation */}
-              <div className="bg-[#FAF8F5] p-3 rounded-xl border border-[#E6E1D7] space-y-1 hover:border-[#2E7D32]/40 transition-colors">
+              <div className="glass-card-subtle p-3 rounded-xl border border-white/80 space-y-1 hover:border-[#2E7D32]/40 transition-colors shadow-2xs">
                 <div className="flex items-center justify-between">
                   <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-stone-500">Precipitation</span>
                   <div className="w-6 h-6 rounded-md bg-sky-100/60 text-sky-700 flex items-center justify-center shrink-0">
@@ -455,7 +455,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
               </div>
 
               {/* 5. Sky & Barometric */}
-              <div className="bg-[#FAF8F5] p-3 rounded-xl border border-[#E6E1D7] space-y-1 hover:border-[#2E7D32]/40 transition-colors">
+              <div className="glass-card-subtle p-3 rounded-xl border border-white/80 space-y-1 hover:border-[#2E7D32]/40 transition-colors shadow-2xs">
                 <div className="flex items-center justify-between">
                   <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-stone-500">Sky Condition</span>
                   <span className="text-sm">{liveWeather.conditionIcon}</span>
@@ -469,7 +469,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
               </div>
 
               {/* 6. Telemetry Satellite Status */}
-              <div className="bg-[#FAF8F5] p-3 rounded-xl border border-[#E6E1D7] space-y-1 hover:border-[#2E7D32]/40 transition-colors">
+              <div className="glass-card-subtle p-3 rounded-xl border border-white/80 space-y-1 hover:border-[#2E7D32]/40 transition-colors shadow-2xs">
                 <div className="flex items-center justify-between">
                   <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-stone-500">Satellite Link</span>
                   <div className="w-6 h-6 rounded-md bg-lime-100/60 text-lime-800 flex items-center justify-center shrink-0">

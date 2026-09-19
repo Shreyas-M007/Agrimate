@@ -218,8 +218,8 @@ export const SellingChecklist: React.FC<SellingChecklistProps> = ({
                 onClick={() => toggleCheck(step.id)}
                 className={`p-4 sm:p-5 rounded-2xl border transition-all cursor-pointer flex items-start gap-4 ${
                   isChecked 
-                    ? 'bg-[#F4F8F5] border-[#A5D6A7] text-stone-500 shadow-xs' 
-                    : 'bg-white border-[#E2ECE3] hover:border-[#2E7D32] hover:bg-[#FBFDF9]'
+                    ? 'bg-white/40 border-[#A5D6A7]/70 text-stone-500 shadow-xs backdrop-blur-xs' 
+                    : 'glass-card-subtle border-white/80 hover:border-[#2E7D32]/50 hover:bg-white/80'
                 }`}
               >
                 <div className="mt-0.5 shrink-0">

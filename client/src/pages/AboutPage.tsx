@@ -50,11 +50,11 @@ export const AboutPage: React.FC<AboutPageProps> = ({
             </p>
             
             <div className="grid grid-cols-2 gap-3 pt-1">
-              <div className="p-3.5 rounded-xl bg-white border border-[#E6E1D7] shadow-xs">
+              <div className="p-3.5 rounded-xl glass-card-subtle border border-white/80 shadow-xs">
                 <p className="text-xl font-black text-[#153424] font-mono">+19.4%</p>
                 <p className="text-xs text-stone-600 mt-0.5">Average net return improvement</p>
               </div>
-              <div className="p-3.5 rounded-xl bg-white border border-[#E6E1D7] shadow-xs">
+              <div className="p-3.5 rounded-xl glass-card-subtle border border-white/80 shadow-xs">
                 <p className="text-xl font-black text-[#2E7D32] font-mono">100%</p>
                 <p className="text-xs text-stone-600 mt-0.5">Verified Agmarknet prices</p>
               </div>
@@ -62,7 +62,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({
           </div>
 
           <div className="lg:col-span-6">
-            <div className="rounded-2xl overflow-hidden border border-[#E6E1D7] shadow-lg bg-stone-100">
+            <div className="rounded-2xl overflow-hidden border border-white/80 shadow-lg bg-stone-100">
               <img 
                 src="/mandi_gate_trade.jpg" 
                 alt="APMC Mandi Weighbridge Gate Settlement" 
@@ -90,7 +90,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {/* Pillar 1 */}
-            <div className="bg-white p-5 rounded-2xl border border-[#E6E1D7] shadow-xs space-y-2.5">
+            <div className="glass-card p-5 rounded-2xl border border-white/80 shadow-xs space-y-2.5 hover-slide-up">
               <div className="w-10 h-10 rounded-xl bg-[#EAEFE9] text-[#2E7D32] flex items-center justify-center text-lg notranslate" translate="no">
                 🌱
               </div>
@@ -101,7 +101,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({
             </div>
 
             {/* Pillar 2 */}
-            <div className="bg-white p-5 rounded-2xl border border-[#E6E1D7] shadow-xs space-y-2.5">
+            <div className="glass-card p-5 rounded-2xl border border-white/80 shadow-xs space-y-2.5 hover-slide-up">
               <div className="w-10 h-10 rounded-xl bg-[#FFF8E7] text-[#E8A238] flex items-center justify-center text-lg notranslate" translate="no">
                 ⚖️
               </div>
@@ -112,7 +112,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({
             </div>
 
             {/* Pillar 3 */}
-            <div className="bg-white p-5 rounded-2xl border border-[#E6E1D7] shadow-xs space-y-2.5">
+            <div className="glass-card p-5 rounded-2xl border border-white/80 shadow-xs space-y-2.5 hover-slide-up">
               <div className="w-10 h-10 rounded-xl bg-[#EAEFE9] text-[#2E7D32] flex items-center justify-center text-lg notranslate" translate="no">
                 🚛
               </div>
@@ -123,7 +123,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({
             </div>
 
             {/* Pillar 4 */}
-            <div className="bg-white p-5 rounded-2xl border border-[#E6E1D7] shadow-xs space-y-2.5">
+            <div className="glass-card p-5 rounded-2xl border border-white/80 shadow-xs space-y-2.5 hover-slide-up">
               <div className="w-10 h-10 rounded-xl bg-[#FFF8E7] text-[#E8A238] flex items-center justify-center text-lg notranslate" translate="no">
                 🤝
               </div>
@@ -151,7 +151,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-white p-6 rounded-2xl border border-[#E6E1D7] shadow-xs space-y-3">
+          <div className="glass-card p-6 rounded-2xl border border-white/80 shadow-xs space-y-3 hover-slide-up">
             <div className="w-10 h-10 rounded-lg bg-[#EAEFE9] text-[#2E7D32] flex items-center justify-center">
               <Database className="w-5 h-5" />
             </div>
@@ -161,7 +161,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({
             </p>
           </div>
 
-          <div className="bg-white p-6 rounded-2xl border border-[#E6E1D7] shadow-xs space-y-3">
+          <div className="glass-card p-6 rounded-2xl border border-white/80 shadow-xs space-y-3 hover-slide-up">
             <div className="w-10 h-10 rounded-lg bg-[#FFF8E7] text-[#E8A238] flex items-center justify-center">
               <Cpu className="w-5 h-5" />
             </div>
@@ -171,7 +171,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({
             </p>
           </div>
 
-          <div className="bg-white p-6 rounded-2xl border border-[#E6E1D7] shadow-xs space-y-3">
+          <div className="glass-card p-6 rounded-2xl border border-white/80 shadow-xs space-y-3 hover-slide-up">
             <div className="w-10 h-10 rounded-lg bg-[#EAEFE9] text-[#2E7D32] flex items-center justify-center">
               <Users className="w-5 h-5" />
             </div>

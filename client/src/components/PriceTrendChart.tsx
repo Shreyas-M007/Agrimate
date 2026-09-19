@@ -56,8 +56,8 @@ export const PriceTrendChart: React.FC<PriceTrendChartProps> = ({
 
   if (!trendData || !trendData.has_data) {
     return (
-      <div className="rounded-2xl border border-[#E6E1D7] p-8 text-center bg-white"
-        style={{ boxShadow: '0 1px 2px rgba(0,0,0,0.03), 0 4px 8px rgba(0,0,0,0.04)' }}>
+      <div className="rounded-2xl border border-white/80 p-8 text-center glass-card"
+        style={{ boxShadow: '0 4px 20px rgba(21,52,36,0.04), inset 0 1px 1px rgba(255,255,255,0.95)' }}>
         <BarChart2 className="w-8 h-8 mx-auto text-stone-300 mb-2" />
         <p className="text-xs font-mono text-stone-400">No historical data for this market.</p>
       </div>
@@ -90,11 +90,11 @@ export const PriceTrendChart: React.FC<PriceTrendChartProps> = ({
   const yLabels = [maxP, Math.round((maxP + minP) / 2), minP];
 
   return (
-    <div className="rounded-2xl border border-[#E6E1D7] overflow-hidden bg-white"
-      style={{ boxShadow: '0 1px 2px rgba(0,0,0,0.03), 0 4px 8px rgba(0,0,0,0.05), 0 16px 32px rgba(0,0,0,0.04)' }}>
+    <div className="rounded-2xl border border-white/80 overflow-hidden glass-card"
+      style={{ boxShadow: '0 8px 32px 0 rgba(21, 52, 36, 0.05), inset 0 1px 1px rgba(255,255,255,0.95)' }}>
 
       {/* ── Header ── */}
-      <div className="px-5 pt-5 pb-4 flex flex-wrap items-start justify-between gap-3 border-b border-[#F0EDE7]">
+      <div className="px-5 pt-5 pb-4 flex flex-wrap items-start justify-between gap-3 border-b border-stone-200/50">
         <div>
           <h3 className="text-[15px] font-bold text-[#153424] font-['Syne',sans-serif] leading-snug">
             {t.trendsTitle}
@@ -105,7 +105,7 @@ export const PriceTrendChart: React.FC<PriceTrendChartProps> = ({
         </div>
 
         {/* Period toggle */}
-        <div className="flex items-center gap-1 bg-stone-100 p-1 rounded-xl">
+        <div className="flex items-center gap-1 bg-white/60 backdrop-blur-xs border border-white/80 p-1 rounded-xl">
           {[7, 15, 30].map(d => (
             <button
               key={d}
@@ -167,7 +167,7 @@ export const PriceTrendChart: React.FC<PriceTrendChartProps> = ({
             { label: t.periodHigh, value: highest_price, color: 'text-[#2E7D32]' },
             { label: t.periodLow,  value: lowest_price,  color: 'text-rose-600'  },
           ].map(({ label, value, color }) => (
-            <div key={label} className="border border-[#F0EDE7] rounded-xl px-3 py-2.5 bg-[#FAFAF9] text-center">
+            <div key={label} className="border border-white/70 rounded-xl px-3 py-2.5 glass-card-subtle text-center">
               <div className="text-[9px] font-mono uppercase tracking-[0.1em] text-stone-400 mb-1">{label}</div>
               <div className={`text-sm font-black font-mono ${color}`}>₹{value.toLocaleString('en-IN')}</div>
             </div>
@@ -175,7 +175,7 @@ export const PriceTrendChart: React.FC<PriceTrendChartProps> = ({
         </div>
 
         {/* ── SVG Chart ── */}
-        <div className="relative rounded-xl bg-[#FAFAF9] border border-[#F0EDE7] overflow-hidden">
+        <div className="relative rounded-xl glass-card-subtle border border-white/70 overflow-hidden">
           {isLoading ? (
             <div className="h-[180px] flex items-center justify-center text-[11px] font-mono text-stone-400 animate-pulse">
               Loading…

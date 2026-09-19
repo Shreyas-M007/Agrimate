@@ -74,7 +74,7 @@ export const ValueCalculator: React.FC<ValueCalculatorProps> = ({
 
       <div className="p-5 sm:p-6">
         {/* Gross Value Formula & Result Card */}
-        <div className="bg-[#F7FAF8] rounded-2xl p-5 border border-[#E2ECE3] mb-4 shadow-inner">
+        <div className="glass-card-subtle rounded-2xl p-5 border border-white/80 mb-4">
           <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 mb-3">
             <div className="text-xs font-mono text-stone-600">
               Estimated Value: <span className="text-[#123826] font-bold">{quantityQuintals} Quintals × ₹{market.modal_price.toLocaleString('en-IN')}/q</span>
@@ -102,7 +102,7 @@ export const ValueCalculator: React.FC<ValueCalculatorProps> = ({
           </div>
 
           {/* Mandatory PRD Disclaimer */}
-          <div className="mt-4 flex items-start gap-2 text-xs font-mono text-amber-900 bg-amber-50 p-2.5 rounded-xl border border-amber-200">
+          <div className="mt-4 flex items-start gap-2 text-xs font-mono text-amber-900 bg-amber-50/60 p-2.5 rounded-xl border border-amber-200">
             <AlertCircle className="w-4 h-4 text-amber-700 shrink-0 mt-0.5" />
             <p className="leading-relaxed">
               <strong>{t.grossValueDisclaimer}</strong>
@@ -111,11 +111,11 @@ export const ValueCalculator: React.FC<ValueCalculatorProps> = ({
         </div>
 
         {/* Toggle Net Return Estimator (PRD Sec 17) */}
-        <div className="border-t border-[#E2ECE3] pt-4">
+        <div className="border-t border-stone-200/50 pt-4">
           <button
             type="button"
             onClick={() => setShowNetCalculator(!showNetCalculator)}
-            className="w-full flex items-center justify-between text-left p-3.5 rounded-xl bg-[#F4F8F5] hover:bg-[#EBF5ED] transition-all border border-[#E2ECE3] hover:border-[#2E7D32] cursor-pointer"
+            className="w-full flex items-center justify-between text-left p-3.5 rounded-xl glass-card-subtle hover:bg-white/80 transition-all border border-white/80 hover:border-[#2E7D32] cursor-pointer"
           >
             <div>
               <div className="font-bold text-sm sm:text-base text-[#123826] flex items-center gap-2 font-['Syne',sans-serif]">
@@ -134,7 +134,7 @@ export const ValueCalculator: React.FC<ValueCalculatorProps> = ({
           </button>
 
           {showNetCalculator && (
-            <div className="mt-4 p-4 sm:p-5 bg-[#F7FAF8] rounded-xl border border-[#E2ECE3] space-y-4">
+            <div className="mt-4 p-4 sm:p-5 glass-card-subtle rounded-xl border border-white/80 space-y-4">
               {/* Vehicle selector */}
               <div>
                 <label className="block text-xs font-mono text-stone-600 mb-1 flex items-center gap-1.5">

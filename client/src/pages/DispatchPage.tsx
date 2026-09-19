@@ -67,7 +67,7 @@ export const DispatchPage: React.FC<DispatchPageProps> = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
           {/* Left Form: Editable Consignment Inputs */}
-          <div className="lg:col-span-6 bg-white p-6 sm:p-8 rounded-3xl border border-[#E6E1D7] shadow-xs space-y-6 print:hidden">
+          <div className="lg:col-span-6 glass-card p-6 sm:p-8 rounded-3xl border border-white/80 shadow-xs space-y-6 print:hidden">
             <div className="flex items-center justify-between pb-3 border-b border-[#E6E1D7]">
               <h2 className="text-lg font-bold text-[#153424] flex items-center gap-2">
                 <FileText className="w-5 h-5 text-[#2E7D32]" />
@@ -158,12 +158,12 @@ export const DispatchPage: React.FC<DispatchPageProps> = () => {
               </div>
             </div>
 
-            {/* Produce & Destination Section */}
+            {/* Produce & Weight Section */}
             <div className="space-y-3 pt-3 border-t border-[#E6E1D7]">
-              <h3 className="text-xs font-bold text-[#153424] uppercase tracking-wider">Produce & Destination</h3>
+              <h3 className="text-xs font-bold text-[#153424] uppercase tracking-wider">Consignment Specification</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="text-[11px] font-semibold text-stone-600 block mb-1">Commodity & Variety</label>
+                  <label className="text-[11px] font-semibold text-stone-600 block mb-1">Commodity / Crop</label>
                   <input
                     type="text"
                     value={commodity}
@@ -231,7 +231,7 @@ export const DispatchPage: React.FC<DispatchPageProps> = () => {
           </div>
 
           {/* Right Column: Live Printable Digital Gate Slip */}
-          <div className="lg:col-span-6 bg-white p-6 sm:p-8 rounded-3xl border-2 border-[#153424] shadow-xl space-y-5 print:border-none print:shadow-none print:p-0">
+          <div className="lg:col-span-6 glass-card p-6 sm:p-8 rounded-3xl border-2 border-[#153424] shadow-xl space-y-5 print:border-none print:shadow-none print:p-0">
             {/* Gate Pass Header */}
             <div className="text-center pb-4 border-b-2 border-dashed border-stone-300 space-y-1">
               <div className="flex items-center justify-center gap-2 text-xs font-bold text-[#2E7D32] tracking-wider uppercase">
@@ -251,37 +251,37 @@ export const DispatchPage: React.FC<DispatchPageProps> = () => {
 
             {/* Live Data Grid */}
             <div className="grid grid-cols-2 gap-4 text-xs">
-              <div className="bg-[#FAF8F5] p-3 rounded-xl border border-[#E6E1D7] space-y-1">
+              <div className="glass-card-subtle p-3 rounded-xl border border-white/80 space-y-1">
                 <span className="text-[10px] uppercase font-bold text-stone-600 block">Grower / Consignor</span>
                 <p className="font-bold text-[#153424] text-sm">{farmerName}</p>
                 <p className="text-stone-600 font-mono text-[11px]">{farmerPhone}</p>
                 <p className="text-stone-600 text-[11px]">{village}</p>
               </div>
 
-              <div className="bg-[#FAF8F5] p-3 rounded-xl border border-[#E6E1D7] space-y-1">
-                <span className="text-[10px] uppercase font-bold text-stone-600 block">Haulage & Vehicle</span>
-                <p className="font-bold text-[#153424] font-mono text-sm">{vehicleNumber}</p>
-                <p className="text-stone-600 text-[11px]">{vehicleType}</p>
-                <p className="text-stone-600 text-[11px]">Driver: {driverName} ({driverPhone})</p>
+              <div className="glass-card-subtle p-3 rounded-xl border border-white/80 space-y-1">
+                <span className="text-[10px] uppercase font-bold text-stone-600 block">Vehicle & Hauler</span>
+                <p className="font-bold text-[#153424] text-sm">{vehicleType}</p>
+                <p className="font-mono text-[11px] font-bold text-[#2E7D32]">{vehicleNumber}</p>
+                <p className="text-stone-600 text-[11px]">{driverName} ({driverPhone})</p>
               </div>
 
-              <div className="bg-[#FAF8F5] p-3 rounded-xl border border-[#E6E1D7] space-y-1">
-                <span className="text-[10px] uppercase font-bold text-stone-600 block">Commodity & Quantity</span>
+              <div className="glass-card-subtle p-3 rounded-xl border border-white/80 space-y-1">
+                <span className="text-[10px] uppercase font-bold text-stone-600 block">Produce Consignment</span>
                 <p className="font-bold text-[#153424] text-sm">{commodity}</p>
-                <p className="text-stone-600 text-[11px]">{packageCount} {packageType}</p>
-                <p className="font-bold text-[#2E7D32] font-mono text-[11px]">Weight: {grossWeightQuintals} Quintals ({(grossWeightQuintals * 100).toLocaleString('en-IN')} kg)</p>
+                <p className="text-stone-600 text-[11px]">{packageType}</p>
+                <p className="font-mono font-bold text-[#153424] text-xs">{packageCount} Packages</p>
               </div>
 
-              <div className="bg-[#FAF8F5] p-3 rounded-xl border border-[#E6E1D7] space-y-1">
-                <span className="text-[10px] uppercase font-bold text-stone-600 block">Destination & Gate</span>
-                <p className="font-bold text-[#153424] text-sm">{targetMandi}</p>
-                <p className="text-stone-600 text-[11px]">Reporting Window: Morning Auction</p>
-                <p className="text-stone-600 text-[11px] font-mono">Date: {new Date().toLocaleDateString('en-IN')}</p>
+              <div className="glass-card-subtle p-3 rounded-xl border border-white/80 space-y-1">
+                <span className="text-[10px] uppercase font-bold text-stone-600 block">Weighbridge & Mandi</span>
+                <p className="font-bold text-[#2E7D32] text-sm font-mono">{grossWeightQuintals} Quintals</p>
+                <p className="text-stone-600 text-[11px]">Gross Dispatch Weight</p>
+                <p className="font-bold text-[#153424] text-xs">{targetMandi}</p>
               </div>
             </div>
 
             {/* QR Simulation & Statutory Seal */}
-            <div className="p-4 rounded-xl bg-[#FAF8F5] border border-[#E6E1D7] flex items-center justify-between gap-4">
+            <div className="p-4 rounded-xl glass-card-subtle border border-white/80 flex items-center justify-between gap-4">
               <div className="flex items-center gap-3">
                 <div className="w-16 h-16 bg-white border border-[#E6E1D7] rounded-xl flex items-center justify-center p-1">
                   <div className="w-full h-full bg-stone-900 rounded-sm flex items-center justify-center text-white text-[9px] font-mono p-1 text-center">

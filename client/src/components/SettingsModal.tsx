@@ -92,11 +92,11 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
       onClick={onClose}
     >
       <div
-        className="verda-card bg-white rounded-3xl max-w-lg w-full overflow-hidden shadow-xl border border-[#CCE0D0] animate-in fade-in zoom-in-95 cursor-default"
+        className="glass-card rounded-3xl max-w-lg w-full overflow-hidden shadow-2xl border border-white/90 animate-in fade-in zoom-in-95 cursor-default"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="bg-[#F4F8F5] text-[#123826] px-6 py-4 flex items-center justify-between border-b border-[#E2ECE3]">
+        <div className="bg-white/40 text-[#123826] px-6 py-4 flex items-center justify-between border-b border-white/60 backdrop-blur-xs">
           <div className="flex items-center gap-2 font-bold text-base font-['Syne',sans-serif]">
             <Settings className="w-5 h-5 text-[#2E7D32]" />
             <span>Infrastructure & Farmer Profile</span>
@@ -205,7 +205,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
               <span>Data Sync & Storage</span>
             </span>
 
-            <div className="p-3.5 bg-[#F7FAF8] rounded-xl border border-[#E2ECE3] text-xs font-mono space-y-2">
+            <div className="p-3.5 glass-card-subtle rounded-xl border border-white/80 text-xs font-mono space-y-2">
               <div className="flex items-center justify-between text-stone-700">
                 <span className="flex items-center gap-1.5">
                   <ShieldCheck className="w-3.5 h-3.5 text-[#2E7D32]" />

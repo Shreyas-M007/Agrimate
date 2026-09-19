@@ -227,14 +227,14 @@ export const AiExplanation: React.FC<AiExplanationProps> = ({
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 font-mono text-xs">
-          <div className="bg-white p-4.5 rounded-2xl border border-[#E2ECE3]">
+          <div className="glass-card-subtle p-4.5 rounded-2xl border border-white/80">
             <div className="text-[10px] uppercase tracking-wider text-amber-800 font-bold mb-1.5">
               Price Range & Arrival Volume
             </div>
             <p className="text-stone-700 leading-normal">{explanation.priceDetails}</p>
           </div>
 
-          <div className="bg-white p-4.5 rounded-2xl border border-[#E2ECE3]">
+          <div className="glass-card-subtle p-4.5 rounded-2xl border border-white/80">
             <div className="text-[10px] uppercase tracking-wider text-[#123826] font-bold mb-1.5">
               Historical Trend Insight
             </div>
@@ -243,12 +243,12 @@ export const AiExplanation: React.FC<AiExplanationProps> = ({
         </div>
 
         {explanation.estimatedValueNote && (
-          <div className="bg-amber-50 p-4 rounded-2xl border border-amber-200 text-xs font-mono text-amber-900">
+          <div className="glass-card-subtle p-4 rounded-2xl border border-amber-200/80 bg-amber-50/40 text-xs font-mono text-amber-900">
             <strong className="text-amber-800">Produce Estimate Note:</strong> {explanation.estimatedValueNote}
           </div>
         )}
 
-        <div className="bg-[#EBF5ED] p-5 rounded-2xl border border-[#A5D6A7] flex items-start gap-3.5 shadow-inner">
+        <div className="glass-card-subtle p-5 rounded-2xl border border-[#2E7D32]/25 flex items-start gap-3.5">
           <div className="p-2 bg-[#2E7D32] text-white rounded-xl shrink-0 mt-0.5">
             <Bot className="w-5 h-5" />
           </div>

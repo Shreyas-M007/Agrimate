@@ -394,7 +394,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                   if (onSelectCropAndNavigate) onSelectCropAndNavigate(item.crop);
                   else onNavigate('dashboard');
                 }}
-                className="inline-flex items-center gap-3 px-4 py-2 rounded-xl bg-white border border-[#E6E1D7] hover:border-[#2E7D32] shadow-xs hover:shadow-sm transition-all cursor-pointer shrink-0"
+                className="inline-flex items-center gap-3 px-4 py-2 rounded-xl glass-card border border-white/80 hover:border-[#2E7D32] shadow-xs hover:shadow-sm transition-all cursor-pointer shrink-0"
               >
                 <span className="text-xl notranslate" translate="no">{item.icon}</span>
                 <div className="flex flex-col">
@@ -464,11 +464,11 @@ export const HomePage: React.FC<HomePageProps> = ({
                 if (onSelectCropAndNavigate) onSelectCropAndNavigate(c.name);
                 else onNavigate('dashboard');
               }}
-              className="slide-scroll-item min-w-[280px] sm:min-w-[320px] max-w-[320px] bg-white p-5 rounded-2xl border border-[#E6E1D7] hover:border-[#2E7D32] hover:shadow-md transition-all cursor-pointer flex flex-col justify-between space-y-4"
+              className="slide-scroll-item min-w-[280px] sm:min-w-[320px] max-w-[320px] glass-card p-5 rounded-2xl border border-white/80 hover:border-[#2E7D32]/50 hover:shadow-md transition-all cursor-pointer flex flex-col justify-between space-y-4"
             >
               <div className="space-y-3">
                 <div className="flex items-start justify-between">
-                  <div className="w-12 h-12 rounded-xl bg-[#FAF8F5] flex items-center justify-center text-3xl notranslate" translate="no">
+                  <div className="w-12 h-12 rounded-xl bg-white/60 backdrop-blur-xs flex items-center justify-center text-3xl notranslate border border-white/60" translate="no">
                     {c.icon}
                   </div>
                   <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full font-mono">
@@ -507,7 +507,7 @@ export const HomePage: React.FC<HomePageProps> = ({
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
-          <div className="bg-white p-6 rounded-2xl border border-[#E6E1D7] shadow-xs space-y-2.5">
+          <div className="glass-card p-6 rounded-2xl border border-white/80 shadow-xs space-y-2.5 hover-slide-up">
             <div className="w-10 h-10 rounded-xl bg-[#EAEFE9] text-[#2E7D32] flex items-center justify-center text-lg notranslate" translate="no">🌱</div>
             <h3 className="text-base font-bold text-[#153424]">Soil Stewardship</h3>
             <p className="text-stone-600 text-xs leading-relaxed">
@@ -515,7 +515,7 @@ export const HomePage: React.FC<HomePageProps> = ({
             </p>
           </div>
 
-          <div className="bg-white p-6 rounded-2xl border border-[#E6E1D7] shadow-xs space-y-2.5">
+          <div className="glass-card p-6 rounded-2xl border border-white/80 shadow-xs space-y-2.5 hover-slide-up">
             <div className="w-10 h-10 rounded-xl bg-[#FFF8E7] text-[#E8A238] flex items-center justify-center text-lg notranslate" translate="no">⚖️</div>
             <h3 className="text-base font-bold text-[#153424]">Price Transparency</h3>
             <p className="text-stone-600 text-xs leading-relaxed">
@@ -523,7 +523,7 @@ export const HomePage: React.FC<HomePageProps> = ({
             </p>
           </div>
 
-          <div className="bg-white p-6 rounded-2xl border border-[#E6E1D7] shadow-xs space-y-2.5">
+          <div className="glass-card p-6 rounded-2xl border border-white/80 shadow-xs space-y-2.5 hover-slide-up">
             <div className="w-10 h-10 rounded-xl bg-[#EAEFE9] text-[#2E7D32] flex items-center justify-center text-lg notranslate" translate="no">🚛</div>
             <h3 className="text-base font-bold text-[#153424]">Freight Optimization</h3>
             <p className="text-stone-600 text-xs leading-relaxed">
@@ -531,7 +531,7 @@ export const HomePage: React.FC<HomePageProps> = ({
             </p>
           </div>
 
-          <div className="bg-white p-6 rounded-2xl border border-[#E6E1D7] shadow-xs space-y-2.5">
+          <div className="glass-card p-6 rounded-2xl border border-white/80 shadow-xs space-y-2.5 hover-slide-up">
             <div className="w-10 h-10 rounded-xl bg-[#FFF8E7] text-[#E8A238] flex items-center justify-center text-lg notranslate" translate="no">🤝</div>
             <h3 className="text-base font-bold text-[#153424]">Fair Direct Settlement</h3>
             <p className="text-stone-600 text-xs leading-relaxed">

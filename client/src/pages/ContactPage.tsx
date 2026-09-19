@@ -182,7 +182,7 @@ export const ContactPage: React.FC<ContactPageProps> = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {APMC_OFFICES.map((office, idx) => (
-            <div key={idx} className="bg-white p-6 rounded-2xl border border-[#E6E1D7] shadow-xs space-y-3">
+            <div key={idx} className="glass-card p-6 rounded-2xl border border-white/80 shadow-xs space-y-3 hover:border-[#2E7D32]/40 transition-all">
               <div className="flex items-center justify-between">
                 <h3 className="font-bold text-[#153424] text-base">{office.name}</h3>
                 <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#EAEFE9] text-[#2E7D32]">
@@ -205,7 +205,7 @@ export const ContactPage: React.FC<ContactPageProps> = () => {
                 </p>
               </div>
 
-              <div className="pt-2 border-t border-[#E6E1D7] text-[11px] text-stone-600">
+              <div className="pt-2 border-t border-stone-200/60 text-[11px] text-stone-600">
                 <span className="font-medium text-stone-700">Primary Commodities:</span> {office.crops}
               </div>
             </div>
@@ -230,11 +230,11 @@ export const ContactPage: React.FC<ContactPageProps> = () => {
               {FAQ_LIST.map((item, i) => (
                 <div 
                   key={i} 
-                  className="bg-white rounded-2xl border border-[#E6E1D7] overflow-hidden transition-all shadow-xs"
+                  className="glass-card rounded-2xl border border-white/80 overflow-hidden transition-all shadow-xs"
                 >
                   <button
                     onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                    className="w-full p-4 text-left flex items-center justify-between gap-4 font-bold text-[#153424] text-sm cursor-pointer hover:bg-[#FAF8F5]"
+                    className="w-full p-4 text-left flex items-center justify-between gap-4 font-bold text-[#153424] text-sm cursor-pointer hover:bg-white/40 transition-colors"
                   >
                     <span>{item.q}</span>
                     {openFaq === i ? (
@@ -244,7 +244,7 @@ export const ContactPage: React.FC<ContactPageProps> = () => {
                     )}
                   </button>
                   {openFaq === i && (
-                    <div className="px-4 pb-4 text-xs text-stone-600 leading-relaxed border-t border-[#E6E1D7] pt-3 bg-[#FAF8F5]">
+                    <div className="px-4 pb-4 text-xs text-stone-600 leading-relaxed border-t border-white/60 pt-3 bg-white/30 backdrop-blur-xs">
                       {item.a}
                     </div>
                   )}
@@ -254,7 +254,7 @@ export const ContactPage: React.FC<ContactPageProps> = () => {
           </div>
 
           {/* Grievance & Support Form */}
-          <div className="lg:col-span-5 bg-white p-6 sm:p-8 rounded-3xl border border-[#E6E1D7] shadow-xs space-y-5">
+          <div className="lg:col-span-5 glass-card p-6 sm:p-8 rounded-3xl border border-white/85 shadow-sm space-y-5">
             <div className="space-y-1">
               <h3 className="text-lg font-bold text-[#153424] flex items-center gap-2">
                 <HelpCircle className="w-5 h-5 text-[#2E7D32]" />

@@ -66,11 +66,11 @@ export const ExplainModal: React.FC<ExplainModalProps> = ({
       onClick={onClose}
     >
       <div 
-        className="verda-card bg-white rounded-3xl max-w-lg w-full overflow-hidden shadow-xl border border-[#CCE0D0] animate-in fade-in zoom-in-95 duration-200 cursor-default"
+        className="glass-card rounded-3xl max-w-lg w-full overflow-hidden shadow-2xl border border-white/90 animate-in fade-in zoom-in-95 duration-200 cursor-default"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="bg-[#F4F8F5] border-b border-[#E2ECE3] px-6 py-4 flex items-center justify-between">
+        <div className="bg-white/40 border-b border-white/60 px-6 py-4 flex items-center justify-between backdrop-blur-xs">
           <div className="flex items-center gap-2.5">
             <BookOpen className="w-5 h-5 text-[#2E7D32]" />
             <h2 className="text-lg font-bold tracking-tight text-[#123826] font-['Syne',sans-serif]">

@@ -26,16 +26,16 @@ export const MarketCard: React.FC<MarketCardProps> = ({
     <div
       onClick={() => onSelect(market)}
       className={`
-        group relative bg-white rounded-2xl cursor-pointer transition-all duration-200 flex flex-col
+        group relative glass-card rounded-2xl cursor-pointer transition-all duration-200 flex flex-col
         ${isSelected
-          ? 'ring-2 ring-[#2E7D32]'
-          : 'ring-1 ring-black/[0.06] hover:ring-[#2E7D32]/30'
+          ? 'border-[#2E7D32] ring-2 ring-[#2E7D32]/40'
+          : 'border border-white/80 hover:border-[#2E7D32]/40'
         }
       `}
       style={{
         boxShadow: isSelected
-          ? '0 0 0 2px #2E7D32, 0 4px 8px rgba(46,125,50,0.08), 0 16px 32px rgba(46,125,50,0.06)'
-          : '0 1px 2px rgba(0,0,0,0.03), 0 4px 8px rgba(0,0,0,0.04), 0 12px 24px rgba(0,0,0,0.05)',
+          ? '0 0 0 2px #2E7D32, 0 8px 24px rgba(46,125,50,0.12)'
+          : '0 4px 20px rgba(21,52,36,0.04), inset 0 1px 1px rgba(255,255,255,0.95)',
       }}
     >
       {/* Top green bar — appears on select */}
@@ -98,8 +98,8 @@ export const MarketCard: React.FC<MarketCardProps> = ({
           </div>
         </div>
 
-        {/* ── Row 3: Min / Max — inline, no coloured boxes ── */}
-        <div className="grid grid-cols-2 divide-x divide-[#F0EDE7] border border-[#F0EDE7] rounded-xl overflow-hidden bg-[#FAFAF9]">
+        {/* ── Row 3: Min / Max — inline, glassmorphic ── */}
+        <div className="grid grid-cols-2 divide-x divide-white/60 border border-white/70 rounded-xl overflow-hidden glass-card-subtle">
           <div className="px-3.5 py-2.5">
             <div className="flex items-center gap-1 mb-0.5">
               <span className="text-[10px] font-mono uppercase tracking-[0.1em] text-stone-400">{t.minPrice}</span>
@@ -136,13 +136,13 @@ export const MarketCard: React.FC<MarketCardProps> = ({
 
         {/* ── Row 4: Pills — variety, grade, arrival ── */}
         <div className="flex flex-wrap gap-1.5">
-          <span className="text-[10px] font-mono text-stone-500 bg-stone-50 border border-stone-200 px-2 py-0.5 rounded-md">
+          <span className="text-[10px] font-mono text-stone-600 bg-white/60 border border-white/80 px-2 py-0.5 rounded-md backdrop-blur-xs">
             {market.variety}
           </span>
-          <span className="text-[10px] font-mono text-stone-500 bg-stone-50 border border-stone-200 px-2 py-0.5 rounded-md">
+          <span className="text-[10px] font-mono text-stone-600 bg-white/60 border border-white/80 px-2 py-0.5 rounded-md backdrop-blur-xs">
             {market.grade}
           </span>
-          <span className="text-[10px] font-mono text-stone-600 bg-stone-50 border border-stone-200 px-2 py-0.5 rounded-md">
+          <span className="text-[10px] font-mono text-stone-700 bg-white/60 border border-white/80 px-2 py-0.5 rounded-md backdrop-blur-xs">
             {t.arrivalQty}: {market.arrival_quantity}q
           </span>
         </div>

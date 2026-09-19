@@ -132,9 +132,9 @@ function getNearestDistrictName(lat: number, lon: number): string {
   };
 
   return (
-    <div className="verda-card rounded-3xl overflow-hidden border border-[#E2ECE3] shadow-sm">
+    <div className="glass-card rounded-3xl overflow-hidden border border-white/85 shadow-sm">
       {/* Visual Subheader */}
-      <div className="bg-[#F4F8F5] border-b border-[#E2ECE3] px-6 py-4 flex items-center justify-between">
+      <div className="bg-white/40 border-b border-white/60 px-6 py-4 flex items-center justify-between backdrop-blur-xs">
         <h2 className="text-base sm:text-lg font-bold text-[#123826] flex items-center gap-2 font-['Syne',sans-serif]">
           <SlidersHorizontal className="w-5 h-5 text-[#2E7D32]" />
           <span>{t.searchTabForm}</span>
@@ -155,7 +155,7 @@ function getNearestDistrictName(lat: number, lon: number): string {
 
           {/* Pan-India Universal Crop Input Bar */}
           <div className="relative mb-3">
-            <div className="flex items-center rounded-2xl overflow-hidden border border-[#CCE0D0] bg-white focus-within:border-[#2E7D32] focus-within:ring-2 focus-within:ring-[#2E7D32]/20 shadow-xs transition-all">
+            <div className="flex items-center rounded-2xl overflow-hidden border border-white/80 bg-white/70 backdrop-blur-xs focus-within:border-[#2E7D32] focus-within:ring-2 focus-within:ring-[#2E7D32]/20 shadow-xs transition-all">
               <div className="pl-4 pr-2 text-[#2E7D32]">
                 <Search className="w-4 h-4" />
               </div>
@@ -304,7 +304,7 @@ function getNearestDistrictName(lat: number, lon: number): string {
                 setGpsActive(false);
               }}
               placeholder={t.locationPlaceholder}
-              className="w-full px-4 py-3 text-sm bg-white border border-[#CCE0D0] rounded-2xl text-stone-900 placeholder:text-stone-400 focus:outline-none focus:border-[#2E7D32] focus:ring-1 focus:ring-[#2E7D32] transition-all font-medium shadow-xs"
+              className="w-full px-4 py-3 text-sm bg-white/70 backdrop-blur-xs border border-white/80 rounded-2xl text-stone-900 placeholder:text-stone-400 focus:outline-none focus:border-[#2E7D32] focus:ring-1 focus:ring-[#2E7D32] transition-all font-medium shadow-xs"
             />
             <p className="text-[11px] text-stone-500 mt-1">
               Popular APMCs: Ballari, Kolar, Bangalore, Belagavi, Mysuru, Nashik, Pune, Guntur, Agra...
@@ -317,7 +317,7 @@ function getNearestDistrictName(lat: number, lon: number): string {
               <Scale className="w-3.5 h-3.5 text-[#2E7D32]" />
               <span className="text-stone-800">{t.quantityLabel}</span>
             </label>
-            <div className="flex rounded-2xl overflow-hidden border border-[#CCE0D0] bg-white focus-within:border-[#2E7D32] focus-within:ring-1 focus-within:ring-[#2E7D32] transition-all shadow-xs">
+            <div className="flex rounded-2xl overflow-hidden border border-white/80 bg-white/70 backdrop-blur-xs focus-within:border-[#2E7D32] focus-within:ring-1 focus-within:ring-[#2E7D32] transition-all shadow-xs">
               <input
                 type="number"
                 min="0.1"

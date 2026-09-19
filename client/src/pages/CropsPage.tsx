@@ -351,7 +351,7 @@ export const CropsPage: React.FC<CropsPageProps> = ({
             <div className="lg:col-span-5">
               <div className="grid grid-cols-2 gap-3">
                 {/* Tile 1: Grading Metrics */}
-                <div className="bg-white/95 p-4 rounded-2xl border border-[#E6E1D7] shadow-xs hover:border-[#2E7D32] transition-all">
+                <div className="glass-card p-4 rounded-2xl border border-white/80 shadow-xs hover:border-[#2E7D32]/50 transition-all">
                   <div className="flex items-center gap-2 text-[#2E7D32] mb-1.5">
                     <div className="w-7 h-7 rounded-lg bg-[#EAEFE9] flex items-center justify-center">
                       <ShieldCheck className="w-4 h-4 text-[#2E7D32]" />
@@ -365,7 +365,7 @@ export const CropsPage: React.FC<CropsPageProps> = ({
                 </div>
 
                 {/* Tile 2: Moisture Bounds */}
-                <div className="bg-white/95 p-4 rounded-2xl border border-[#E6E1D7] shadow-xs hover:border-[#2E7D32] transition-all">
+                <div className="glass-card p-4 rounded-2xl border border-white/80 shadow-xs hover:border-[#2E7D32]/50 transition-all">
                   <div className="flex items-center gap-2 text-[#E8A238] mb-1.5">
                     <div className="w-7 h-7 rounded-lg bg-[#FEF3C7] flex items-center justify-center">
                       <Droplets className="w-4 h-4 text-[#D97706]" />
@@ -379,7 +379,7 @@ export const CropsPage: React.FC<CropsPageProps> = ({
                 </div>
 
                 {/* Tile 3: Storage & Cold Chain */}
-                <div className="bg-white/95 p-4 rounded-2xl border border-[#E6E1D7] shadow-xs hover:border-[#2E7D32] transition-all">
+                <div className="glass-card p-4 rounded-2xl border border-white/80 shadow-xs hover:border-[#2E7D32]/50 transition-all">
                   <div className="flex items-center gap-2 text-[#2E7D32] mb-1.5">
                     <div className="w-7 h-7 rounded-lg bg-[#EAEFE9] flex items-center justify-center">
                       <Warehouse className="w-4 h-4 text-[#2E7D32]" />
@@ -393,7 +393,7 @@ export const CropsPage: React.FC<CropsPageProps> = ({
                 </div>
 
                 {/* Tile 4: Market Realization */}
-                <div className="bg-white/95 p-4 rounded-2xl border border-[#E6E1D7] shadow-xs hover:border-[#2E7D32] transition-all">
+                <div className="glass-card p-4 rounded-2xl border border-white/80 shadow-xs hover:border-[#2E7D32]/50 transition-all">
                   <div className="flex items-center gap-2 text-emerald-700 mb-1.5">
                     <div className="w-7 h-7 rounded-lg bg-[#DCFCE7] flex items-center justify-center">
                       <TrendingUp className="w-4 h-4 text-emerald-700" />
@@ -413,7 +413,7 @@ export const CropsPage: React.FC<CropsPageProps> = ({
 
       {/* Filter and Search Bar */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="bg-white p-4 sm:p-6 rounded-2xl border border-[#E6E1D7] shadow-xs flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+        <div className="glass-card p-4 sm:p-6 rounded-2xl border border-white/80 shadow-xs flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
           {/* Category Tabs */}
           <div className="flex flex-wrap items-center gap-2">
             {categories.map((cat) => (
@@ -451,7 +451,7 @@ export const CropsPage: React.FC<CropsPageProps> = ({
           {filteredCrops.map((crop, idx) => (
             <div 
               key={crop.id}
-              className={`bg-white rounded-2xl border border-[#E6E1D7] hover:border-[#2E7D32] hover:shadow-lg transition-all p-6 space-y-4 flex flex-col justify-between animate-slide-up stagger-${Math.min(idx + 1, 8)} hover-slide-up`}
+              className={`glass-card rounded-2xl border border-white/80 hover:border-[#2E7D32] hover:shadow-lg transition-all p-6 space-y-4 flex flex-col justify-between animate-slide-up stagger-${Math.min(idx + 1, 8)} hover-slide-up`}
             >
               <div className="space-y-4">
                 {/* Header */}

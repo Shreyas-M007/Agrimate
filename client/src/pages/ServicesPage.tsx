@@ -261,7 +261,7 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
 
         {/* ── AI Advisory + 11-Step Protocol ── */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="bg-white p-7 rounded-3xl border border-[#E6E1D7] shadow-xs space-y-4">
+          <div className="glass-card p-7 rounded-3xl border border-white/80 shadow-xs space-y-4 hover-slide-up">
             <div className="w-12 h-12 rounded-xl bg-[#EAEFE9] text-[#2E7D32] flex items-center justify-center">
               <Cpu className="w-6 h-6" />
             </div>
@@ -274,7 +274,7 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
             </button>
           </div>
 
-          <div className="bg-white p-7 rounded-3xl border border-[#E6E1D7] shadow-xs space-y-4">
+          <div className="glass-card p-7 rounded-3xl border border-white/80 shadow-xs space-y-4 hover-slide-up">
             <div className="w-12 h-12 rounded-xl bg-[#FFF8E7] text-[#E8A238] flex items-center justify-center">
               <CheckCircle2 className="w-6 h-6" />
             </div>
@@ -289,7 +289,7 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
         </div>
 
         {/* ── Terminology Guide CTA ── */}
-        <div className="bg-gradient-to-br from-[#FAF8F5] to-[#EAEFE9] p-8 sm:p-10 rounded-3xl border border-[#CCE0D0] shadow-sm flex flex-col md:flex-row items-center justify-between gap-6">
+        <div className="glass-card p-8 sm:p-10 rounded-3xl border border-white/80 shadow-sm flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="space-y-3 max-w-2xl">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#EAEFE9] text-[#2E7D32] text-xs font-bold">
               <BookOpen className="w-4 h-4" />
