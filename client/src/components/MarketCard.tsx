@@ -1,7 +1,7 @@
 import React from 'react';
 import type { MarketItem, Language } from '../types';
 import { TRANSLATIONS } from '../i18n/translations';
-import { MapPin, Clock, ShieldCheck, TrendingUp, TrendingDown, HelpCircle, CheckCircle, Zap, Activity } from 'lucide-react';
+import { MapPin, Clock, ShieldCheck, HelpCircle, CheckCircle, Zap } from 'lucide-react';
 
 interface MarketCardProps {
   market: MarketItem;
@@ -19,167 +19,169 @@ export const MarketCard: React.FC<MarketCardProps> = ({
   onExplainTerm
 }) => {
   const t = TRANSLATIONS[language];
-  const arrivalPct = Math.min(100, Math.max(8, Math.round((market.arrival_quantity / 500) * 100)));
-  const spread = market.max_price - market.min_price;
-  const spreadPct = market.modal_price > 0 ? Math.round((spread / market.modal_price) * 100) : 0;
+  const arrivalPct = Math.min(100, Math.max(4, Math.round((market.arrival_quantity / 500) * 100)));
   const isEstimated = market.source?.toLowerCase().includes('fallback') || market.source?.toLowerCase().includes('dynamic');
 
   return (
     <div
       onClick={() => onSelect(market)}
       className={`
-        rounded-2xl border cursor-pointer transition-all duration-200 overflow-hidden flex flex-col
+        group relative bg-white rounded-2xl cursor-pointer transition-all duration-200 flex flex-col
         ${isSelected
-          ? 'border-[#2E7D32] shadow-lg ring-1 ring-[#2E7D32]/30 bg-white'
-          : 'border-[#E6E1D7] hover:border-[#2E7D32]/50 hover:shadow-md bg-white'
+          ? 'ring-2 ring-[#2E7D32]'
+          : 'ring-1 ring-black/[0.06] hover:ring-[#2E7D32]/30'
         }
       `}
+      style={{
+        boxShadow: isSelected
+          ? '0 0 0 2px #2E7D32, 0 4px 8px rgba(46,125,50,0.08), 0 16px 32px rgba(46,125,50,0.06)'
+          : '0 1px 2px rgba(0,0,0,0.03), 0 4px 8px rgba(0,0,0,0.04), 0 12px 24px rgba(0,0,0,0.05)',
+      }}
     >
-      {/* Top accent bar */}
-      <div className={`h-1 w-full ${isSelected ? 'bg-gradient-to-r from-[#2E7D32] to-[#4CAF50]' : 'bg-gradient-to-r from-[#E6E1D7] to-[#D6DFD4]'}`} />
+      {/* Top green bar — appears on select */}
+      <div
+        className={`h-[3px] rounded-t-2xl transition-all duration-200 ${isSelected ? 'bg-[#2E7D32]' : 'bg-transparent group-hover:bg-[#2E7D32]/20'}`}
+      />
 
       <div className="p-5 flex flex-col gap-4 flex-1">
 
-        {/* Header: Name + freshness */}
-        <div className="flex items-start justify-between gap-2">
-          <div className="min-w-0">
+        {/* ── Row 1: Name + meta ── */}
+        <div className="flex items-start justify-between gap-3">
+          <div className="min-w-0 flex-1">
             <div className="flex items-center gap-1.5 mb-0.5">
-              {isSelected && <CheckCircle className="w-3.5 h-3.5 text-[#2E7D32] shrink-0" />}
-              <h3 className="text-base font-bold text-[#153424] truncate font-['Syne',sans-serif]">
+              {isSelected && (
+                <CheckCircle className="w-3.5 h-3.5 text-[#2E7D32] shrink-0" />
+              )}
+              <h3 className="font-bold text-[#153424] text-[15px] leading-snug truncate font-['Syne',sans-serif]" style={{ textWrap: 'balance' }}>
                 {market.market_name}
               </h3>
             </div>
-            <div className="flex items-center gap-1 text-[11px] text-stone-500 font-mono">
+            <p className="text-[11px] text-stone-500 font-mono flex items-center gap-1 mt-0.5 leading-none">
               <MapPin className="w-3 h-3 shrink-0 text-stone-400" />
               <span className="truncate">{market.district}, {market.state}</span>
-              {market.distance_km !== null && (
-                <span className="ml-1 text-[#2E7D32] font-bold shrink-0 bg-[#EAEFE9] px-1.5 py-0.5 rounded text-[10px]">
-                  ~{market.distance_km}km
-                </span>
-              )}
-            </div>
+            </p>
           </div>
-          <div className="flex items-center gap-1 text-[10px] font-mono text-stone-500 bg-[#FAF8F5] px-2 py-1 rounded-lg border border-[#E6E1D7] shrink-0">
-            <Clock className="w-2.5 h-2.5 text-stone-400" />
-            <span>{market.freshness}</span>
+
+          <div className="flex flex-col items-end gap-1 shrink-0">
+            {market.distance_km !== null && (
+              <span className="text-[11px] font-mono font-semibold text-[#2E7D32] bg-[#F0F7F1] border border-[#C8E6C9] px-2 py-0.5 rounded-md">
+                {market.distance_km} km
+              </span>
+            )}
+            <span className="text-[10px] font-mono text-stone-400 flex items-center gap-0.5">
+              <Clock className="w-2.5 h-2.5" />
+              {market.freshness}
+            </span>
           </div>
         </div>
 
-        {/* Modal Price — Hero block */}
-        <div className={`rounded-xl p-4 relative overflow-hidden ${isSelected ? 'bg-[#F0F7F1]' : 'bg-[#FAF8F5]'} border border-[#E6E1D7]`}>
-          <div className="flex items-center gap-1 text-[10px] font-mono font-bold uppercase tracking-widest text-stone-500 mb-1.5">
-            <span>{t.modalPrice}</span>
+        {/* ── Row 2: Modal price ── */}
+        <div>
+          <div className="flex items-center gap-1.5 mb-1">
+            <span className="text-[10px] font-mono uppercase tracking-[0.12em] text-stone-400 font-semibold">
+              {t.modalPrice}
+            </span>
             <button
               type="button"
               onClick={(e) => { e.stopPropagation(); onExplainTerm('modal_price'); }}
-              className="text-stone-400 hover:text-[#2E7D32] cursor-pointer transition-colors"
+              className="text-stone-300 hover:text-[#2E7D32] transition-colors cursor-pointer"
               aria-label="Explain Modal Price"
             >
               <HelpCircle className="w-3 h-3" />
             </button>
           </div>
-          <div className="flex items-end gap-2">
-            <span className="text-3xl font-black text-[#153424] font-mono tracking-tight">
+          <div className="flex items-baseline gap-1.5">
+            <span className="text-[32px] font-black text-[#153424] font-mono leading-none tracking-tight">
               ₹{market.modal_price.toLocaleString('en-IN')}
             </span>
-            <span className="text-xs text-stone-500 font-mono mb-1">/quintal</span>
+            <span className="text-xs text-stone-400 font-mono">/quintal</span>
           </div>
-          {/* Decorative icon */}
-          <Activity className="absolute right-3 bottom-3 w-10 h-10 text-[#153424]/5" />
         </div>
 
-        {/* Min / Max — two clean stat tiles */}
-        <div className="grid grid-cols-2 gap-2">
-          <div className="rounded-xl p-3 bg-sky-50 border border-sky-100">
-            <div className="flex items-center gap-1 text-[9px] font-mono font-bold uppercase tracking-wider text-sky-600 mb-1">
-              <TrendingDown className="w-2.5 h-2.5" />
-              <span>{t.minPrice}</span>
+        {/* ── Row 3: Min / Max — inline, no coloured boxes ── */}
+        <div className="grid grid-cols-2 divide-x divide-[#F0EDE7] border border-[#F0EDE7] rounded-xl overflow-hidden bg-[#FAFAF9]">
+          <div className="px-3.5 py-2.5">
+            <div className="flex items-center gap-1 mb-0.5">
+              <span className="text-[10px] font-mono uppercase tracking-[0.1em] text-stone-400">{t.minPrice}</span>
               <button
                 type="button"
                 onClick={(e) => { e.stopPropagation(); onExplainTerm('min_price'); }}
-                className="ml-auto text-sky-300 hover:text-sky-600 cursor-pointer"
+                className="text-stone-300 hover:text-stone-500 cursor-pointer transition-colors"
                 aria-label="Explain Min Price"
               >
                 <HelpCircle className="w-2.5 h-2.5" />
               </button>
             </div>
-            <div className="text-sm font-bold text-sky-700 font-mono">
+            <span className="text-sm font-bold text-stone-700 font-mono">
               ₹{market.min_price.toLocaleString('en-IN')}
-            </div>
+            </span>
           </div>
-
-          <div className="rounded-xl p-3 bg-amber-50 border border-amber-100">
-            <div className="flex items-center gap-1 text-[9px] font-mono font-bold uppercase tracking-wider text-amber-700 mb-1">
-              <TrendingUp className="w-2.5 h-2.5" />
-              <span>{t.maxPrice}</span>
+          <div className="px-3.5 py-2.5">
+            <div className="flex items-center gap-1 mb-0.5">
+              <span className="text-[10px] font-mono uppercase tracking-[0.1em] text-stone-400">{t.maxPrice}</span>
               <button
                 type="button"
                 onClick={(e) => { e.stopPropagation(); onExplainTerm('max_price'); }}
-                className="ml-auto text-amber-300 hover:text-amber-600 cursor-pointer"
+                className="text-stone-300 hover:text-stone-500 cursor-pointer transition-colors"
                 aria-label="Explain Max Price"
               >
                 <HelpCircle className="w-2.5 h-2.5" />
               </button>
             </div>
-            <div className="text-sm font-bold text-amber-700 font-mono">
+            <span className="text-sm font-bold text-stone-700 font-mono">
               ₹{market.max_price.toLocaleString('en-IN')}
-            </div>
+            </span>
           </div>
         </div>
 
-        {/* Tag pills */}
+        {/* ── Row 4: Pills — variety, grade, arrival ── */}
         <div className="flex flex-wrap gap-1.5">
-          <span className="text-[10px] font-mono text-stone-600 bg-[#FAF8F5] px-2 py-0.5 rounded-md border border-[#E6E1D7]">
+          <span className="text-[10px] font-mono text-stone-500 bg-stone-50 border border-stone-200 px-2 py-0.5 rounded-md">
             {market.variety}
           </span>
-          <span className="text-[10px] font-mono text-stone-600 bg-[#FAF8F5] px-2 py-0.5 rounded-md border border-[#E6E1D7]">
+          <span className="text-[10px] font-mono text-stone-500 bg-stone-50 border border-stone-200 px-2 py-0.5 rounded-md">
             {market.grade}
           </span>
-          <span className="text-[10px] font-mono text-amber-800 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200">
+          <span className="text-[10px] font-mono text-stone-600 bg-stone-50 border border-stone-200 px-2 py-0.5 rounded-md">
             {t.arrivalQty}: {market.arrival_quantity}q
           </span>
-          {spreadPct > 0 && (
-            <span className="text-[10px] font-mono text-violet-700 bg-violet-50 px-2 py-0.5 rounded-md border border-violet-200">
-              Spread {spreadPct}%
-            </span>
-          )}
         </div>
 
-        {/* Arrival volume bar */}
+        {/* ── Row 5: Arrival bar ── */}
         <div>
-          <div className="flex justify-between text-[10px] font-mono text-stone-500 mb-1.5">
-            <span>Arrival Volume</span>
+          <div className="flex justify-between items-center mb-1.5 text-[10px] font-mono text-stone-400">
+            <span>Arrival volume</span>
             <span className="text-[#2E7D32] font-semibold">{arrivalPct}%</span>
           </div>
-          <div className="h-1.5 rounded-full bg-[#E6E1D7] overflow-hidden">
+          <div className="h-1 rounded-full bg-stone-100 overflow-hidden">
             <div
-              className="h-full rounded-full bg-gradient-to-r from-[#2E7D32] to-[#4CAF50] transition-all duration-700"
-              style={{ width: `${arrivalPct}%` }}
+              className="h-full rounded-full bg-[#2E7D32] transition-all duration-700"
+              style={{ width: `${arrivalPct}%`, opacity: 0.75 }}
             />
           </div>
         </div>
 
-        {/* Footer */}
-        <div className="flex items-center justify-between gap-2 pt-3 border-t border-[#E6E1D7] mt-auto">
+        {/* ── Footer ── */}
+        <div className="pt-3 mt-auto border-t border-[#F0EDE7] flex items-center justify-between gap-2">
           {isEstimated ? (
-            <div className="flex items-center gap-1 text-[10px] font-mono text-amber-800 bg-amber-50 px-2 py-1 rounded-lg border border-amber-200">
+            <span className="text-[10px] font-mono text-amber-700 bg-amber-50 border border-amber-200/80 px-2 py-1 rounded-lg flex items-center gap-1">
               <Zap className="w-2.5 h-2.5" />
-              <span>Estimated</span>
-            </div>
+              Estimated
+            </span>
           ) : (
-            <div className="flex items-center gap-1 text-[10px] font-mono text-emerald-800 bg-[#EAEFE9] px-2 py-1 rounded-lg border border-[#D6DFD4]">
-              <ShieldCheck className="w-2.5 h-2.5 text-[#2E7D32]" />
-              <span>Official Agmarknet</span>
-            </div>
+            <span className="text-[10px] font-mono text-[#2E7D32] bg-[#F0F7F1] border border-[#C8E6C9] px-2 py-1 rounded-lg flex items-center gap-1">
+              <ShieldCheck className="w-2.5 h-2.5" />
+              Official Agmarknet
+            </span>
           )}
 
           <button
             type="button"
             onClick={(e) => { e.stopPropagation(); onSelect(market); }}
-            className={`text-[10px] font-bold font-mono px-3 py-1.5 rounded-lg transition-all cursor-pointer ${
+            className={`text-[11px] font-bold font-mono px-3.5 py-1.5 rounded-lg transition-all duration-150 cursor-pointer active:scale-95 ${
               isSelected
-                ? 'bg-[#2E7D32] text-white shadow-sm'
-                : 'bg-[#FAF8F5] hover:bg-[#153424] hover:text-white text-[#153424] border border-[#E6E1D7]'
+                ? 'bg-[#153424] text-white'
+                : 'bg-[#F0F7F1] text-[#2E7D32] border border-[#C8E6C9] hover:bg-[#153424] hover:text-white hover:border-[#153424]'
             }`}
           >
             {isSelected
@@ -187,6 +189,7 @@ export const MarketCard: React.FC<MarketCardProps> = ({
               : (language === 'hi' ? 'विश्लेषण →' : language === 'kn' ? 'ವಿಶ್ಲೇಷಣೆ →' : 'Analyze →')}
           </button>
         </div>
+
       </div>
     </div>
   );
