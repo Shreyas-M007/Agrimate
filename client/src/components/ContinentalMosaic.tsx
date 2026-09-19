@@ -26,9 +26,6 @@ export const ContinentalMosaic: React.FC<ContinentalMosaicProps> = ({
               Cultivating Integrity Across the Agro Supply Chain
             </h2>
           </div>
-          <p className="text-stone-600 text-xs sm:text-sm max-w-md font-['Outfit',sans-serif] leading-relaxed">
-            Uniting wholesale terminal auctions, statutory grower protection, digital dispatch vouchers, and agronomy intelligence.
-          </p>
         </div>
 
         {/* Asymmetrical 4-Card Photographic Mosaic Grid — Real Unsplash Photos, Vivid Natural Color & Lighter Green Scrim */}
