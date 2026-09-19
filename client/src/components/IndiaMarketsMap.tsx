@@ -1,7 +1,6 @@
 import React, { useState, useMemo } from 'react';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Sparkles, Orbit, Radio } from 'lucide-react';
 import type { NavigationPage } from '../types';
-import { indiaMapData } from '../data/indiaMapData';
 import { VERIFIED_MANDI_PINS, type MandiPin } from '../data/allStateMarketsData';
 
 export type { MandiPin };
@@ -12,6 +11,16 @@ interface IndiaMarketsMapProps {
   onSearchAndNavigate?: (crop?: string, mandi?: string) => void;
 }
 
+// Major Pan-India Trade Arcs connecting key agricultural corridors
+const TRADE_ARCS = [
+  { fromId: 'MKT-KA-001', toId: 'MKT-DL-001', color: '#FCD34D', lift: 60, label: 'South-North Grain Corridor' },
+  { fromId: 'MKT-MH-001', toId: 'MKT-WB-001', color: '#38BDF8', lift: 55, label: 'West-East Onion Transit' },
+  { fromId: 'MKT-KA-001', toId: 'MKT-MH-001', color: '#F59E0B', lift: 40, label: 'Deccan Solanaceous Link' },
+  { fromId: 'MKT-AP-001', toId: 'MKT-GJ-001', color: '#38BDF8', lift: 65, label: 'Spice & Seed Expressway' },
+  { fromId: 'MKT-PB-001', toId: 'MKT-MH-001', color: '#FCD34D', lift: 55, label: 'Wheat & Basmati Artery' },
+  { fromId: 'MKT-MP-001', toId: 'MKT-DL-001', color: '#FBBF24', lift: 35, label: 'Central Pulse Artery' },
+];
+
 export const IndiaMarketsMap: React.FC<IndiaMarketsMapProps> = ({
   onNavigate,
   onSearchAndNavigate
@@ -19,10 +28,24 @@ export const IndiaMarketsMap: React.FC<IndiaMarketsMapProps> = ({
   const [selectedRegion, setSelectedRegion] = useState<'all' | 'north' | 'west' | 'south' | 'east' | 'central_ne'>('all');
   const [selectedStateId, setSelectedStateId] = useState<string>('all');
   const [activePin, setActivePin] = useState<MandiPin>(VERIFIED_MANDI_PINS[0]);
+  const [hoveredPin, setHoveredPin] = useState<MandiPin | null>(null);
 
-  const projectCoords = (lat: number, lon: number) => {
-    const x = Math.round((20.75 * lon - 1416) * 10) / 10;
-    const y = Math.round((-22.35 * lat + 848) * 10) / 10;
+  // Exact perspective mapping onto 16:9 orbital Earth view (viewBox 0 0 1000 562.5)
+  const projectGlobeCoords = (lat: number, lon: number) => {
+    const lon0 = 78.5;
+    const lat0 = 8.0;
+    const dLon = lon - lon0;
+    const dLat = lat - lat0;
+
+    // Foreshortening towards north horizon
+    const yPercent = 74.0 - (dLat * 2.02) + (dLat * dLat * 0.0072);
+    
+    // Perspective convergence toward upper vanishing point
+    const k = 1.0 - (dLat * 0.0125);
+    const xPercent = 48.2 + (dLon * 1.08 * k);
+
+    const x = Math.round((xPercent / 100) * 1000 * 10) / 10;
+    const y = Math.round((yPercent / 100) * 562.5 * 10) / 10;
     return { x, y };
   };
 
@@ -44,17 +67,6 @@ export const IndiaMarketsMap: React.FC<IndiaMarketsMapProps> = ({
     });
   }, [selectedRegion, selectedStateId]);
 
-  const isStateHighlighted = (stateId: string) => {
-    if (selectedStateId !== 'all') return stateId === selectedStateId;
-    if (selectedRegion === 'all') return true;
-    if (selectedRegion === 'north') return ['pb','hr','dl','up','hp','jk','ut','ch'].includes(stateId);
-    if (selectedRegion === 'west')  return ['mh','gj','rj','ga','dn','dd'].includes(stateId);
-    if (selectedRegion === 'south') return ['ka','ap','tg','tn','kl','py'].includes(stateId);
-    if (selectedRegion === 'east')  return ['wb','br','or','jh'].includes(stateId);
-    if (selectedRegion === 'central_ne') return ['mp','ct','as','ml','tr','mn','nl','mz','ar','sk'].includes(stateId);
-    return false;
-  };
-
   const handleInspectTerminal = (pin: MandiPin) => {
     if (onSearchAndNavigate) onSearchAndNavigate(pin.crop.split(' ')[0], pin.name);
     else if (onNavigate) onNavigate('dashboard');
@@ -66,34 +78,50 @@ export const IndiaMarketsMap: React.FC<IndiaMarketsMapProps> = ({
       ? selectedRegion.toUpperCase().replace('_', ' & ')
       : 'All India';
 
+  // Resolved arc coordinates
+  const resolvedArcs = useMemo(() => {
+    return TRADE_ARCS.map(arc => {
+      const fromPin = VERIFIED_MANDI_PINS.find(p => p.id === arc.fromId) || VERIFIED_MANDI_PINS[0];
+      const toPin = VERIFIED_MANDI_PINS.find(p => p.id === arc.toId) || VERIFIED_MANDI_PINS[1];
+      const p1 = projectGlobeCoords(fromPin.lat, fromPin.lon);
+      const p2 = projectGlobeCoords(toPin.lat, toPin.lon);
+      const midX = (p1.x + p2.x) / 2;
+      const midY = (p1.y + p2.y) / 2 - arc.lift;
+      const pathD = `M ${p1.x} ${p1.y} Q ${midX} ${midY} ${p2.x} ${p2.y}`;
+      return { ...arc, p1, p2, pathD };
+    });
+  }, []);
+
   return (
     <div
-      className="relative rounded-3xl overflow-hidden flex flex-col justify-between p-4 sm:p-5 transition-all"
+      className="relative rounded-3xl overflow-hidden flex flex-col justify-between p-4 sm:p-5 transition-all select-none border border-white/10"
       style={{
-        background: 'linear-gradient(160deg, #0A1628 0%, #0D1F3C 45%, #091525 100%)',
-        boxShadow: '0 32px 64px rgba(0,0,0,0.50), 0 0 0 1px rgba(100,150,255,0.08) inset',
+        background: 'linear-gradient(175deg, #020408 0%, #050B14 50%, #03070F 100%)',
+        boxShadow: '0 32px 64px rgba(0,0,0,0.70), 0 0 0 1px rgba(255,255,255,0.06) inset',
       }}
     >
-      {/* Soft ocean ambient glow */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse 70% 55% at 50% 48%, rgba(30,80,160,0.18) 0%, transparent 80%)' }}
-        aria-hidden="true"
-      />
-
       {/* Top Header */}
-      <div className="relative flex items-center justify-between gap-2.5 pb-2.5 border-b border-white/10">
+      <div className="relative z-10 flex items-center justify-between gap-2.5 pb-2.5 border-b border-white/10">
         <h3 className="text-xs sm:text-sm font-black text-white font-['Syne',sans-serif] tracking-tight flex items-center gap-2">
           <span className="relative flex h-2.5 w-2.5">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-sky-400"></span>
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-amber-400"></span>
           </span>
-          <span>{filteredPins.length} Verified APMC Mandis • {activeStateName}</span>
+          <span className="flex items-center gap-1.5">
+            <Orbit className="w-3.5 h-3.5 text-cyan-400" />
+            <span>Orbital Mandi Network • {activeStateName}</span>
+          </span>
         </h3>
+        <div className="flex items-center gap-2">
+          <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-cyan-950/80 text-cyan-300 border border-cyan-500/30 flex items-center gap-1">
+            <Radio className="w-2.5 h-2.5 animate-pulse text-cyan-400" />
+            <span>{filteredPins.length} Active Nodes</span>
+          </span>
+        </div>
       </div>
 
-      {/* Region Filter Chips */}
-      <div className="relative pt-2.5 pb-1 flex items-center gap-1.5 overflow-x-auto no-scrollbar notranslate" translate="no">
+      {/* Region Filter Chips — Sleek Dark Obsidian Pills */}
+      <div className="relative z-10 pt-2.5 pb-1 flex items-center gap-1.5 overflow-x-auto no-scrollbar notranslate" translate="no">
         {[
           { id: 'all', label: `All India (${VERIFIED_MANDI_PINS.length})` },
           { id: 'south', label: 'South' },
@@ -111,10 +139,10 @@ export const IndiaMarketsMap: React.FC<IndiaMarketsMapProps> = ({
               const first = VERIFIED_MANDI_PINS.find(p => r === 'all' || p.region === r);
               if (first) setActivePin(first);
             }}
-            className={`px-2.5 py-1 rounded-lg text-[10px] font-bold tracking-tight whitespace-nowrap transition-all cursor-pointer ${
+            className={`px-3 py-1 rounded-full text-[10px] font-bold tracking-tight whitespace-nowrap transition-all cursor-pointer ${
               selectedRegion === tab.id && selectedStateId === 'all'
-                ? 'bg-sky-500/80 text-white shadow-sm'
-                : 'bg-white/8 hover:bg-white/15 text-white/60 border border-white/10'
+                ? 'bg-amber-400 text-stone-950 font-black shadow-lg shadow-amber-400/25 scale-102'
+                : 'bg-white/5 hover:bg-white/12 text-white/70 border border-white/10 hover:text-white'
             }`}
           >
             {tab.label}
@@ -122,113 +150,170 @@ export const IndiaMarketsMap: React.FC<IndiaMarketsMapProps> = ({
         ))}
       </div>
 
-      {/* Satellite-Style Map Canvas */}
-      <div className="relative w-full h-84 sm:h-96 my-2 select-none overflow-hidden rounded-xl">
+      {/* ── Photographic Night Globe Canvas ── */}
+      <div className="relative w-full aspect-[16/9] min-h-[300px] sm:min-h-[360px] my-2 overflow-hidden rounded-2xl border border-white/10 bg-[#020408]">
+        {/* Photorealistic Orbital Satellite Earth at Night */}
+        <img
+          src="/india_globe_night.jpg"
+          alt="Planet Earth from Space at Night — India Subcontinent"
+          className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none"
+        />
+
+        {/* Soft edge vignette to integrate seamlessly into dark card */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: 'radial-gradient(ellipse at 50% 50%, transparent 60%, rgba(2,4,8,0.65) 100%)',
+          }}
+        />
+
+        {/* Interactive SVG Overlay with Glowing Arcs & Mandi Pins */}
         <svg
-          viewBox={indiaMapData.viewBox || '0 0 612 696'}
-          className="w-full h-full max-h-[380px]"
+          viewBox="0 0 1000 562.5"
+          className="absolute inset-0 w-full h-full"
           style={{ display: 'block' }}
         >
           <defs>
-            {/* Ocean gradient — deep Indian Ocean blue */}
-            <radialGradient id="oceanGrad" cx="50%" cy="60%" r="80%">
-              <stop offset="0%" stopColor="#1A3A6B" />
-              <stop offset="55%" stopColor="#0D2550" />
-              <stop offset="100%" stopColor="#07152E" />
+            {/* Pin pulse gradient */}
+            <radialGradient id="globePinPulse">
+              <stop offset="0%" stopColor="#FCD34D" stopOpacity="0.9" />
+              <stop offset="50%" stopColor="#F59E0B" stopOpacity="0.4" />
+              <stop offset="100%" stopColor="#F59E0B" stopOpacity="0" />
             </radialGradient>
-            {/* Land terrain gradient — satellite dark green/brown */}
-            <linearGradient id="terrainGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#2D4A1E" />
-              <stop offset="100%" stopColor="#1E3214" />
-            </linearGradient>
-            {/* Active state */}
-            <linearGradient id="activeTerrainGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#4A7C35" />
-              <stop offset="100%" stopColor="#35601E" />
-            </linearGradient>
-            {/* Highlighted region */}
-            <linearGradient id="highlightTerrainGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#385A25" />
-              <stop offset="100%" stopColor="#28451A" />
-            </linearGradient>
-            {/* Pin pulse */}
-            <radialGradient id="pinPulseGrad">
-              <stop offset="0%" stopColor="#FCD34D" stopOpacity="0.8" />
-              <stop offset="100%" stopColor="#FCD34D" stopOpacity="0" />
-            </radialGradient>
-            {/* Terrain shadow */}
-            <filter id="terrainShadow" x="-4%" y="-4%" width="108%" height="108%">
-              <feDropShadow dx="0" dy="1" stdDeviation="2" floodColor="#000" floodOpacity="0.6" />
+
+            {/* Cyan glow for trade routes */}
+            <filter id="arcGlowCyan" x="-20%" y="-20%" width="140%" height="140%">
+              <feGaussianBlur stdDeviation="3" result="blur" />
+              <feComposite in="SourceGraphic" in2="blur" operator="over" />
+            </filter>
+
+            {/* Gold glow for pins */}
+            <filter id="goldPinGlow" x="-30%" y="-30%" width="160%" height="160%">
+              <feGaussianBlur stdDeviation="2.5" result="blur" />
+              <feComposite in="SourceGraphic" in2="blur" operator="over" />
             </filter>
           </defs>
 
-          {/* Full ocean background */}
-          <rect x="0" y="0" width="612" height="696" fill="url(#oceanGrad)" />
-
-          {/* Subtle ocean grid shimmer */}
-          {[120, 240, 360, 480, 600].map(y => (
-            <line key={`h${y}`} x1="0" y1={y} x2="612" y2={y} stroke="rgba(100,160,255,0.05)" strokeWidth="0.5" />
-          ))}
-          {[100, 200, 300, 400, 500].map(x => (
-            <line key={`v${x}`} x1={x} y1="0" x2={x} y2="696" stroke="rgba(100,160,255,0.05)" strokeWidth="0.5" />
-          ))}
-
-          {/* India State Paths — satellite terrain */}
-          <g filter="url(#terrainShadow)">
-            {indiaMapData.locations.map((loc) => {
-              const highlighted = isStateHighlighted(loc.id);
-              const hasActiveMandi = activePin.stateId === loc.id;
-              const isSelected = selectedStateId === loc.id;
-              return (
+          {/* ── Orbital Supply-Chain Arcs ── */}
+          <g className="pointer-events-none opacity-80">
+            {resolvedArcs.map((arc, i) => (
+              <g key={i}>
+                {/* Outer halo arc */}
                 <path
-                  key={loc.id}
-                  id={loc.id}
-                  d={loc.path}
-                  fill={
-                    isSelected || hasActiveMandi ? 'url(#activeTerrainGrad)'
-                    : highlighted ? 'url(#highlightTerrainGrad)'
-                    : 'url(#terrainGrad)'
-                  }
-                  stroke={
-                    isSelected || hasActiveMandi ? '#F59E0B'
-                    : '#4A6830'
-                  }
-                  strokeWidth={isSelected || hasActiveMandi ? '1.2' : '0.5'}
-                  strokeLinejoin="round"
-                  style={{ cursor: 'pointer', transition: 'fill 0.25s' }}
-                  onClick={() => {
-                    const match = VERIFIED_MANDI_PINS.find(p => p.stateId === loc.id);
-                    if (match) { setActivePin(match); setSelectedStateId(loc.id); setSelectedRegion('all'); }
-                  }}
-                >
-                  <title>{loc.name}</title>
-                </path>
-              );
-            })}
+                  d={arc.pathD}
+                  fill="none"
+                  stroke={arc.color}
+                  strokeWidth="2.5"
+                  strokeOpacity="0.25"
+                  filter="url(#arcGlowCyan)"
+                />
+                {/* Core bright arc */}
+                <path
+                  d={arc.pathD}
+                  fill="none"
+                  stroke={arc.color}
+                  strokeWidth="1.2"
+                  strokeOpacity="0.75"
+                  strokeDasharray="6 4"
+                />
+                {/* Animated light photon pulse travelling along the arc */}
+                <circle r="3" fill="#FFFFFF">
+                  <animateMotion
+                    path={arc.pathD}
+                    dur={`${4.5 + i * 0.8}s`}
+                    repeatCount="indefinite"
+                  />
+                </circle>
+              </g>
+            ))}
           </g>
 
-          {/* APMC Mandi Pins — warm gold, satellite-style */}
+          {/* ── Verified APMC Mandi Pins plotted onto Earth at Night ── */}
           {filteredPins.map((pin) => {
-            const { x, y } = projectCoords(pin.lat, pin.lon);
-            const isActive = activePin.id === pin.id;
+            const { x, y } = projectGlobeCoords(pin.lat, pin.lon);
+            const isSelected = activePin.id === pin.id;
+            const isHovered = hoveredPin?.id === pin.id;
+
             return (
-              <g key={pin.id} onClick={() => setActivePin(pin)} style={{ cursor: 'pointer' }}>
-                {isActive && <circle cx={x} cy={y} r="16" fill="url(#pinPulseGrad)" className="animate-ping pointer-events-none" />}
-                {/* glow ring */}
-                <circle cx={x} cy={y} r={isActive ? 9 : pin.isMega ? 7 : 5}
-                  fill={isActive ? '#FCD34D' : pin.isMega ? '#F97316' : '#FBBF24'} fillOpacity={isActive ? 0.28 : 0.18} />
-                {/* main dot */}
-                <circle cx={x} cy={y} r={isActive ? 5 : pin.isMega ? 3.8 : 2.8}
-                  fill={isActive ? '#FCD34D' : pin.isMega ? '#F97316' : '#FBBF24'}
-                  stroke={isActive ? '#fff' : 'rgba(255,255,255,0.55)'} strokeWidth={isActive ? 1.8 : 0.8} />
-                {/* center pip */}
-                <circle cx={x} cy={y} r={isActive ? 1.8 : 0.9} fill="rgba(255,255,255,0.95)" />
-                {/* label */}
-                {isActive && (
+              <g
+                key={pin.id}
+                onClick={() => {
+                  setActivePin(pin);
+                  setSelectedStateId(pin.stateId);
+                }}
+                onMouseEnter={() => setHoveredPin(pin)}
+                onMouseLeave={() => setHoveredPin(null)}
+                style={{ cursor: 'pointer' }}
+                className="group/pin transition-transform"
+              >
+                {/* Selected Pulsing Radar Waves */}
+                {isSelected && (
+                  <>
+                    <circle
+                      cx={x}
+                      cy={y}
+                      r="20"
+                      fill="url(#globePinPulse)"
+                      className="animate-ping pointer-events-none"
+                    />
+                    <circle
+                      cx={x}
+                      cy={y}
+                      r="12"
+                      fill="none"
+                      stroke="#FCD34D"
+                      strokeWidth="1.2"
+                      strokeOpacity="0.6"
+                    />
+                  </>
+                )}
+
+                {/* Soft ambient stellar glow */}
+                <circle
+                  cx={x}
+                  cy={y}
+                  r={isSelected ? 10 : isHovered ? 8 : pin.isMega ? 6.5 : 4.5}
+                  fill={isSelected ? '#FCD34D' : pin.isMega ? '#F97316' : '#FBBF24'}
+                  fillOpacity={isSelected ? 0.45 : isHovered ? 0.35 : 0.22}
+                  filter="url(#goldPinGlow)"
+                />
+
+                {/* Core Luminous Star Pin */}
+                <circle
+                  cx={x}
+                  cy={y}
+                  r={isSelected ? 5.5 : isHovered ? 4.5 : pin.isMega ? 3.5 : 2.5}
+                  fill={isSelected ? '#FFFFFF' : pin.isMega ? '#FFA500' : '#FDE047'}
+                  stroke={isSelected ? '#F59E0B' : 'rgba(255,255,255,0.7)'}
+                  strokeWidth={isSelected ? 2 : 0.8}
+                  className="transition-all duration-200"
+                />
+
+                {/* Center diamond spark */}
+                <circle cx={x} cy={y} r={isSelected ? 2 : 1} fill="#FFFFFF" />
+
+                {/* Pin Name Badge for Selected or Hovered Pin */}
+                {(isSelected || isHovered) && (
                   <g className="pointer-events-none">
-                    <rect x={x + 7} y={y - 11} width={pin.name.replace(' APMC', '').length * 5.8 + 14} height={16} rx={4}
-                      fill="#07152E" stroke="#FCD34D" strokeWidth={0.9} />
-                    <text x={x + 12} y={y + 1} fill="#FCD34D" fontSize={8} fontWeight="bold" fontFamily="system-ui,sans-serif">
+                    <rect
+                      x={x + 9}
+                      y={y - 12}
+                      width={pin.name.replace(' APMC', '').length * 6.5 + 16}
+                      height="18"
+                      rx="5"
+                      fill="#050B14"
+                      stroke={isSelected ? '#FCD34D' : '#38BDF8'}
+                      strokeWidth="1"
+                      fillOpacity="0.92"
+                    />
+                    <text
+                      x={x + 15}
+                      y={y + 1}
+                      fill={isSelected ? '#FCD34D' : '#FFFFFF'}
+                      fontSize="9"
+                      fontWeight="bold"
+                      fontFamily="system-ui, -apple-system, sans-serif"
+                    >
                       {pin.name.replace(' APMC', '')}
                     </text>
                   </g>
@@ -238,57 +323,88 @@ export const IndiaMarketsMap: React.FC<IndiaMarketsMapProps> = ({
           })}
         </svg>
 
-        {/* Satellite legend */}
+        {/* Legend Overlay at Top-Right */}
         <div
-          className="absolute top-2 right-2 p-2 rounded-xl text-[9px] font-mono text-white/70 space-y-1 pointer-events-none"
-          style={{ background: 'rgba(7,21,46,0.88)', backdropFilter: 'blur(8px)', border: '1px solid rgba(100,150,255,0.18)' }}
+          className="absolute top-2.5 right-2.5 p-2 rounded-xl text-[9px] font-mono text-white/80 space-y-1 pointer-events-none"
+          style={{
+            background: 'rgba(5, 11, 20, 0.85)',
+            backdropFilter: 'blur(10px)',
+            border: '1px solid rgba(255, 255, 255, 0.12)',
+          }}
         >
-          <div className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-[#F97316]"></span><span>Mega Mandi</span></div>
-          <div className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-[#FBBF24]"></span><span>Regional Yard</span></div>
-          <div className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-[#FCD34D]"></span><span>Selected</span></div>
+          <div className="flex items-center gap-1.5">
+            <span className="w-2 h-2 rounded-full bg-[#FFA500] shadow-xs shadow-orange-500/50"></span>
+            <span>Mega Terminal</span>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <span className="w-2 h-2 rounded-full bg-[#FDE047] shadow-xs shadow-yellow-500/50"></span>
+            <span>Regional APMC</span>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <span className="w-2 h-2 rounded-full bg-[#38BDF8] shadow-xs shadow-cyan-500/50"></span>
+            <span>Trade Corridor</span>
+          </div>
         </div>
       </div>
 
-      {/* Active Mandi Info Card */}
+      {/* Dynamic Active Mandi Slide-Up Card — Frosted Obsidian Glass */}
       <div
-        className="relative mt-1 p-3.5 rounded-2xl transition-all duration-300 animate-slide-up notranslate"
+        className="relative z-10 mt-1 p-3.5 rounded-2xl transition-all duration-300 notranslate"
         translate="no"
-        style={{ background: 'rgba(255,255,255,0.06)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.10)' }}
+        style={{
+          background: 'rgba(5, 11, 20, 0.82)',
+          backdropFilter: 'blur(16px)',
+          border: '1px solid rgba(255, 255, 255, 0.12)',
+          boxShadow: '0 8px 32px rgba(0,0,0,0.5)',
+        }}
       >
         <div className="flex items-start justify-between gap-3">
           <div className="space-y-1 min-w-0">
             <div className="flex items-center gap-1.5 flex-wrap">
-              <span className="text-[9px] font-mono font-bold uppercase tracking-wider px-1.5 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-500/30">
+              <span className="text-[9px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-amber-400/15 text-amber-300 border border-amber-400/30">
                 {activePin.type}
               </span>
-              <span className="text-[10px] text-white/50 font-medium">{activePin.district}, {activePin.state}</span>
+              <span className="text-[10px] text-white/55 font-medium">
+                {activePin.district}, {activePin.state}
+              </span>
             </div>
-            <h4 className="text-xs sm:text-sm font-bold text-white truncate">{activePin.fullName}</h4>
+
+            <h4 className="text-xs sm:text-sm font-bold text-white truncate flex items-center gap-1.5">
+              <span>{activePin.fullName}</span>
+              <Sparkles className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+            </h4>
+
             <div className="flex items-center gap-2 pt-0.5 text-[11px]">
-              <span className="flex items-center gap-1 font-semibold text-white/80">
+              <span className="flex items-center gap-1 font-semibold text-white/90">
                 <span className="notranslate" translate="no">{activePin.cropIcon}</span>
                 <span>{activePin.crop}</span>
               </span>
-              <span className="text-white/20">•</span>
-              <span className="text-white/45 font-mono text-[10px]">Arrivals: {activePin.arrivals}</span>
+              <span className="text-white/25">•</span>
+              <span className="text-white/50 font-mono text-[10px]">
+                Arrivals: {activePin.arrivals}
+              </span>
             </div>
           </div>
 
+          {/* Price & Action Button */}
           <div className="text-right shrink-0 space-y-1">
-            <span className="text-sm sm:text-base font-black font-mono text-white block">{activePin.modalPrice}</span>
+            <span className="text-sm sm:text-base font-black font-mono text-white block">
+              {activePin.modalPrice}
+            </span>
             <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded font-mono inline-block ${
-              activePin.change.startsWith('+') ? 'text-[#FCD34D] bg-[#FCD34D]/15' : 'text-rose-400 bg-rose-500/15'
+              activePin.change.startsWith('+') ? 'text-amber-300 bg-amber-400/15' : 'text-rose-400 bg-rose-500/15'
             }`}>
               {activePin.change} Modal
             </span>
+
             <div>
               <button
                 type="button"
                 onClick={() => handleInspectTerminal(activePin)}
-                className="mt-1 px-3 py-1 rounded-xl bg-white/10 hover:bg-white/20 text-white text-[10px] font-bold flex items-center gap-1 border border-white/15 transition-all cursor-pointer backdrop-blur-sm"
+                className="mt-1 px-3 py-1 rounded-xl bg-amber-400/90 hover:bg-amber-300 text-stone-950 text-[10px] font-black flex items-center gap-1 shadow-md shadow-amber-400/20 transition-all cursor-pointer"
               >
                 <span>Terminal</span>
-                <ArrowRight className="w-3 h-3 text-[#FCD34D]" />
+                <ArrowRight className="w-3 h-3 text-stone-950" />
               </button>
             </div>
           </div>
@@ -297,3 +413,5 @@ export const IndiaMarketsMap: React.FC<IndiaMarketsMapProps> = ({
     </div>
   );
 };
+
+export default IndiaMarketsMap;
