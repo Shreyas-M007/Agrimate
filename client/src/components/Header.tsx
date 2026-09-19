@@ -116,7 +116,7 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
 
         {/* Center: Dark Pill Capsule Navigation - Centered to align with search below */}
-        <nav className="hidden lg:flex items-center gap-1.5 p-1.5 notranslate absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 bg-[#181F1C] rounded-full border border-stone-800/80 shadow-md" translate="no">
+        <nav className="hidden lg:flex items-center gap-1 p-1 notranslate absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 bg-[#181F1C] rounded-full border border-stone-800/80 shadow-md" translate="no">
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = currentPage === item.id;
@@ -124,7 +124,7 @@ export const Header: React.FC<HeaderProps> = ({
               <button
                 key={item.id}
                 onClick={() => handleNavClick(item.id)}
-                className={`px-4 py-2 rounded-full text-sm transition-all duration-200 cursor-pointer flex items-center gap-1.5 select-none ${
+                className={`px-3 py-1.5 rounded-full text-xs transition-all duration-200 cursor-pointer flex items-center gap-1.5 select-none ${
                   isActive
                     ? 'bg-white text-[#153424] font-bold shadow-xs'
                     : 'text-stone-300 hover:text-white hover:bg-white/10 font-medium'
