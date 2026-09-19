@@ -59,15 +59,25 @@ export const Header: React.FC<HeaderProps> = ({
   const langDropdownRef = useRef<HTMLDivElement>(null);
   const t = TRANSLATIONS[language];
 
-  // Close language dropdown on outside click
+  // Close language dropdown on outside click or Escape
   useEffect(() => {
-    const handler = (e: MouseEvent) => {
+    const onMouse = (e: MouseEvent) => {
       if (langDropdownRef.current && !langDropdownRef.current.contains(e.target as Node)) {
         setLangDropdownOpen(false);
       }
     };
-    if (langDropdownOpen) document.addEventListener('mousedown', handler);
-    return () => document.removeEventListener('mousedown', handler);
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setLangDropdownOpen(false);
+        setSearchModalOpen(false);
+      }
+    };
+    if (langDropdownOpen) document.addEventListener('mousedown', onMouse);
+    document.addEventListener('keydown', onKey);
+    return () => {
+      document.removeEventListener('mousedown', onMouse);
+      document.removeEventListener('keydown', onKey);
+    };
   }, [langDropdownOpen]);
 
   const navItems: { id: NavigationPage; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
@@ -153,28 +163,29 @@ export const Header: React.FC<HeaderProps> = ({
           </button>
 
           {/* Language Switcher — Sleek Text Dropdown */}
-          <div
-            ref={langDropdownRef}
-            className="relative flex items-center text-xs font-medium text-white/80 hover:text-white gap-1.5 notranslate cursor-pointer select-none transition-colors py-1.5 px-2 rounded-full hover:bg-stone-200/40"
-            translate="no"
-            onClick={() => setLangDropdownOpen(!langDropdownOpen)}
-            role="combobox"
-            aria-haspopup="listbox"
-            aria-expanded={langDropdownOpen}
-            aria-label="Select language"
-          >
-            <Globe className="w-3.5 h-3.5 text-stone-500 shrink-0" />
-            <span className="notranslate whitespace-nowrap">
-              {LANGUAGES.find(l => l.code === language)?.label ?? 'English'} ({LANGUAGES.find(l => l.code === language)?.name ?? 'EN'})
-            </span>
-            <ChevronDown className={`w-3 h-3 text-stone-400 transition-transform shrink-0 ${langDropdownOpen ? 'rotate-180' : ''}`} />
+          <div ref={langDropdownRef} className="relative notranslate" translate="no">
+            <button
+              type="button"
+              className="flex items-center text-xs font-medium text-white/80 hover:text-white gap-1.5 notranslate cursor-pointer select-none transition-colors py-1.5 px-2 rounded-full hover:bg-white/10"
+              translate="no"
+              onClick={() => setLangDropdownOpen(v => !v)}
+              role="combobox"
+              aria-haspopup="listbox"
+              aria-expanded={langDropdownOpen}
+              aria-label="Select language"
+            >
+              <Globe className="w-3.5 h-3.5 shrink-0" />
+              <span className="notranslate whitespace-nowrap">
+                {LANGUAGES.find(l => l.code === language)?.label ?? 'English'} ({LANGUAGES.find(l => l.code === language)?.name ?? 'EN'})
+              </span>
+              <ChevronDown className={`w-3 h-3 transition-transform shrink-0 ${langDropdownOpen ? 'rotate-180' : ''}`} />
+            </button>
 
             {langDropdownOpen && (
               <div
                 className="absolute right-0 top-full mt-2 w-48 bg-white rounded-2xl border border-[#E6E1D7] shadow-xl z-50 py-1.5 max-h-72 overflow-y-auto notranslate"
                 translate="no"
                 role="listbox"
-                onClick={(e) => e.stopPropagation()}
               >
                 {LANGUAGES.map(lang => (
                   <button
