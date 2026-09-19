@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowUpRight, TrendingUp, ShieldCheck, Truck, BookOpen, Layers } from 'lucide-react';
+import { ArrowUpRight, TrendingUp, ShieldCheck, Truck, BookOpen } from 'lucide-react';
 import type { NavigationPage } from '../types';
 
 interface ContinentalMosaicProps {
@@ -8,8 +8,7 @@ interface ContinentalMosaicProps {
 }
 
 export const ContinentalMosaic: React.FC<ContinentalMosaicProps> = ({
-  onNavigate,
-  onSelectCrop
+  onNavigate
 }) => {
   return (
     <section className="py-12 bg-[#ECE8DE]/60 border-y border-[#E6E1D7] relative overflow-hidden">
@@ -213,37 +212,6 @@ export const ContinentalMosaic: React.FC<ContinentalMosaicProps> = ({
           </div>
         </div>
 
-        {/* Corporate Trust Banner */}
-        <div className="rounded-2xl bg-white border border-[#E6E1D7] p-4 sm:p-5 flex flex-wrap items-center justify-between gap-4 shadow-xs">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-[#EAEFE9] text-[#2E7D32] flex items-center justify-center shrink-0">
-              <Layers className="w-5 h-5" />
-            </div>
-            <div>
-              <h4 className="text-xs sm:text-sm font-bold text-[#153424]">
-                Apex Wholesale Agmarknet Integration
-              </h4>
-              <p className="text-[11px] text-stone-500">
-                Official prices collected daily from Directorate of Marketing & Inspection (DMI) terminals.
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-2">
-            {['Tomato', 'Onion', 'Potato', 'Maize', 'Cotton'].map((crop) => (
-              <button
-                key={crop}
-                onClick={() => {
-                  if (onSelectCrop) onSelectCrop(crop);
-                  onNavigate('dashboard');
-                }}
-                className="px-3 py-1 rounded-lg bg-[#F6F4EE] hover:bg-[#ECE8DE] text-[#153424] border border-[#E6E1D7] text-xs font-semibold transition-colors cursor-pointer"
-              >
-                {crop}
-              </button>
-            ))}
-          </div>
-        </div>
       </div>
     </section>
   );
