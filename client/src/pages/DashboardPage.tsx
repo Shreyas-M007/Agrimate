@@ -325,14 +325,9 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
                         : 'glass-card-subtle border-white/70 hover:border-[#2E7D32]/50 hover:bg-white/90'
                     }`}
                   >
-                    <div className="flex items-center gap-2.5 min-w-0">
-                      <div className="w-7 h-7 rounded-lg bg-[#EAEFE9] text-[#2E7D32] flex items-center justify-center shrink-0 border border-[#D6DFD4]">
-                        <Sprout className="w-3.5 h-3.5" />
-                      </div>
-                      <div className="truncate">
-                        <span className="text-xs font-bold text-[#153424] block truncate">{item.name}</span>
-                        <span className="text-[10px] text-stone-500 truncate block">{item.apmc}</span>
-                      </div>
+                    <div className="min-w-0">
+                      <span className="text-xs font-bold text-[#153424] block truncate">{item.name}</span>
+                      <span className="text-[10px] text-stone-500 truncate block">{item.apmc}</span>
                     </div>
                     <div className="text-right shrink-0">
                       <span className="text-xs font-mono font-black text-[#153424] block">{item.price}</span>

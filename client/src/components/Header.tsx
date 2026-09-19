@@ -120,7 +120,7 @@ export const Header: React.FC<HeaderProps> = ({
           className="flex items-center gap-2 cursor-pointer group select-none shrink-0"
         >
           <div className="w-8 h-8 sm:w-8.5 sm:h-8.5 rounded-full bg-[#153424] flex items-center justify-center text-white shadow-2xs group-hover:scale-105 transition-transform">
-            <Sprout className="w-4.5 h-4.5 text-[#4ADE80]" />
+            <span className="text-base select-none notranslate" translate="no">🌾</span>
           </div>
           <span className={`text-lg sm:text-xl font-bold tracking-tight font-['Syne',sans-serif] notranslate transition-colors ${
             isHero ? 'text-white drop-shadow-sm' : 'text-[#153424]'
@@ -371,9 +371,6 @@ export const Header: React.FC<HeaderProps> = ({
                       className="p-2.5 rounded-xl bg-[#F7FBF8] hover:bg-[#EBF5ED] border border-[#E2ECE3] hover:border-[#2E7D32] transition-colors cursor-pointer flex items-center justify-between"
                     >
                       <div className="flex items-center gap-2.5">
-                        <div className="w-8 h-8 rounded-lg bg-[#EAEFE9] text-[#2E7D32] flex items-center justify-center shrink-0 border border-[#D6DFD4]">
-                          <Sprout className="w-4 h-4" />
-                        </div>
                         <div>
                           <strong className="text-xs text-[#123826] block">{item.name}</strong>
                           <span className="text-[10px] text-stone-500">{item.tag}</span>

@@ -8,8 +8,7 @@ import {
   Warehouse,
   TrendingUp,
   CheckCircle2,
-  Boxes,
-  Sprout
+  Boxes
 } from 'lucide-react';
 
 interface CropsPageProps {
@@ -437,21 +436,16 @@ export const CropsPage: React.FC<CropsPageProps> = ({
             >
               <div className="space-y-4">
                 {/* Header */}
-                <div className="flex items-start justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="w-11 h-11 rounded-xl bg-[#EAEFE9] text-[#2E7D32] flex items-center justify-center border border-[#D6DFD4] shrink-0">
-                    <Sprout className="w-5 h-5" />
+                <div className="flex items-start justify-between gap-3">
+                  <div>
+                    <h3 className="text-xl font-black text-[#153424] font-['Syne',sans-serif]">
+                      {crop.name}
+                    </h3>
+                    <p className="text-xs text-stone-600 font-medium mt-0.5">
+                      {crop.hindiName} • {crop.kannadaName}
+                    </p>
                   </div>
-                    <div>
-                      <h3 className="text-xl font-black text-[#153424] font-['Syne',sans-serif]">
-                        {crop.name}
-                      </h3>
-                      <p className="text-xs text-stone-600 font-medium">
-                        {crop.hindiName} • {crop.kannadaName}
-                      </p>
-                    </div>
-                  </div>
-                  <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-[#EAEFE9] text-[#2E7D32] border border-[#D6DFD4]">
+                  <span className="text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 rounded-full bg-[#EAEFE9] text-[#2E7D32] border border-[#D6DFD4] shrink-0">
                     {crop.category}
                   </span>
                 </div>

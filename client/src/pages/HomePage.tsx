@@ -250,9 +250,6 @@ export const HomePage: React.FC<HomePageProps> = ({
                             className="p-2 rounded-xl hover:bg-[#EBF5ED] transition-colors cursor-pointer flex items-center justify-between text-xs"
                           >
                             <div className="flex items-center gap-2">
-                              <div className="w-7 h-7 rounded-lg bg-[#EAEFE9] text-[#2E7D32] flex items-center justify-center shrink-0 border border-[#D6DFD4]">
-                                <Sprout className="w-3.5 h-3.5" />
-                              </div>
                               <div>
                                 <span className="font-bold text-[#123826] block">{c.name}</span>
                                 <span className="text-[10px] text-stone-500">{c.hindi} • {c.kannada}</span>
@@ -399,11 +396,8 @@ export const HomePage: React.FC<HomePageProps> = ({
                   if (onSelectCropAndNavigate) onSelectCropAndNavigate(item.crop);
                   else onNavigate('dashboard');
                 }}
-                className="inline-flex items-center gap-3 px-4 py-2 rounded-xl glass-card border border-white/80 hover:border-[#2E7D32] shadow-xs hover:shadow-sm transition-all cursor-pointer shrink-0"
+                className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl glass-card border border-white/80 hover:border-[#2E7D32] shadow-xs hover:shadow-sm transition-all cursor-pointer shrink-0"
               >
-                <div className="w-7 h-7 rounded-lg bg-[#EAEFE9] text-[#2E7D32] flex items-center justify-center shrink-0 border border-[#D6DFD4]">
-                  <Sprout className="w-3.5 h-3.5" />
-                </div>
                 <div className="flex flex-col">
                   <span className="text-xs font-bold text-[#153424] flex items-center gap-1.5">
                     <span>{item.crop}</span>
@@ -473,21 +467,17 @@ export const HomePage: React.FC<HomePageProps> = ({
               }}
               className="slide-scroll-item min-w-[280px] sm:min-w-[320px] max-w-[320px] glass-card p-5 rounded-2xl border border-white/80 hover:border-[#2E7D32]/50 hover:shadow-md transition-all cursor-pointer flex flex-col justify-between space-y-4"
             >
-              <div className="space-y-3">
-                <div className="flex items-start justify-between">
-                  <div className="w-12 h-12 rounded-xl bg-[#EAEFE9] text-[#2E7D32] flex items-center justify-center border border-[#D6DFD4]">
-                    <Sprout className="w-6 h-6" />
+              <div className="space-y-2.5">
+                <div className="flex items-start justify-between gap-2">
+                  <div>
+                    <h3 className="text-lg font-bold text-[#153424] font-['Syne',sans-serif]">{c.name}</h3>
+                    <p className="text-xs text-stone-500 font-medium">{c.mandi}</p>
                   </div>
-                  <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full font-mono">
+                  <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full font-mono border border-emerald-200/60 shrink-0">
                     {c.change}
                   </span>
                 </div>
-
-                <div>
-                  <h3 className="text-base font-bold text-[#153424]">{c.name}</h3>
-                  <p className="text-xs text-stone-500">{c.mandi}</p>
-                  <p className="text-[11px] text-stone-400 mt-1">{c.note}</p>
-                </div>
+                <p className="text-[11px] text-stone-500 font-['Outfit',sans-serif] leading-relaxed">{c.note}</p>
               </div>
 
               <div className="pt-3 border-t border-[#ECE8DE] flex items-center justify-between">

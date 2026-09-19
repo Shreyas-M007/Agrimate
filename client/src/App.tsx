@@ -27,7 +27,7 @@ import {
   getCachedSearchResult 
 } from './utils/storage';
 import { setSiteLanguage, clearAllTranslateCookies } from './utils/translator';
-import { CheckCircle2, ShieldCheck, Sprout, MessageSquare } from 'lucide-react';
+import { CheckCircle2, ShieldCheck, MessageSquare } from 'lucide-react';
 
 export const App: React.FC = () => {
   // English is ALWAYS default on initial load / refresh per user instruction
@@ -502,9 +502,7 @@ export const App: React.FC = () => {
             {/* Column 1: Brand & Identity */}
             <div className="space-y-3 max-w-lg">
               <div className="flex items-center gap-2.5 notranslate select-none" translate="no">
-                <div className="w-8 h-8 rounded-lg bg-[#2E7D32]/40 border border-[#A5D6A7]/30 flex items-center justify-center text-[#A5D6A7]">
-                  <Sprout className="w-5 h-5" />
-                </div>
+                <span className="text-2xl notranslate select-none" translate="no">🌾</span>
                 <span className="font-black text-white text-xl font-['Syne',sans-serif] notranslate" translate="no">AgriMate</span>
               </div>
               <p className="text-emerald-100/70 text-xs sm:text-sm leading-relaxed font-['Outfit',sans-serif]">
