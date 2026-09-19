@@ -52,7 +52,7 @@ export const App: React.FC = () => {
   // Search form state
   const [crop, setCrop] = useState<string>('Tomato');
   const [variety, setVariety] = useState<string>('Hybrid');
-  const [location, setLocation] = useState<string>('Ballari');
+  const [location, setLocation] = useState<string>('Bengaluru');
   const [quantity, setQuantity] = useState<number>(500);
   const [unit, setUnit] = useState<CropUnit>('kg');
 
