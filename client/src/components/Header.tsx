@@ -108,6 +108,8 @@ export const Header: React.FC<HeaderProps> = ({
     ml: 'തിരയുക'
   };
 
+  const isHero = currentPage === 'home';
+
   return (
     <header className="bg-transparent sticky top-0 z-50 print:hidden pt-2.5 sm:pt-3 transition-colors">
       {/* Main Brand & Multi-Page Navigation Bar */}
@@ -120,7 +122,9 @@ export const Header: React.FC<HeaderProps> = ({
           <div className="w-8 h-8 sm:w-8.5 sm:h-8.5 rounded-full bg-[#153424] flex items-center justify-center text-white shadow-2xs group-hover:scale-105 transition-transform">
             <Sprout className="w-4.5 h-4.5 text-[#4ADE80]" />
           </div>
-          <span className="text-lg sm:text-xl font-bold tracking-tight text-white font-['Syne',sans-serif] notranslate drop-shadow-sm" translate="no">
+          <span className={`text-lg sm:text-xl font-bold tracking-tight font-['Syne',sans-serif] notranslate transition-colors ${
+            isHero ? 'text-white drop-shadow-sm' : 'text-[#153424]'
+          }`} translate="no">
             AgriMate
           </span>
         </div>
@@ -147,16 +151,20 @@ export const Header: React.FC<HeaderProps> = ({
           })}
         </nav>
 
-        {/* Right Actions: Ultra-Clean Search & Language (Terminal removed per request) */}
+        {/* Right Actions: Ultra-Clean Search & Language (Adapts to page background) */}
         <div className="flex items-center gap-2 sm:gap-2.5 relative shrink-0">
           {/* Quick Search Link */}
           <button
             onClick={() => setSearchModalOpen(true)}
-            className="text-xs font-medium text-white/80 hover:text-white transition-colors cursor-pointer flex items-center gap-1.5 notranslate py-1.5 px-2 rounded-full hover:bg-stone-200/40"
+            className={`text-xs font-semibold transition-all cursor-pointer flex items-center gap-1.5 notranslate py-1.5 px-3 rounded-full ${
+              isHero 
+                ? 'text-white/90 hover:text-white hover:bg-white/15' 
+                : 'text-[#153424] bg-white/80 border border-[#E6E1D7] shadow-2xs hover:bg-white hover:border-[#2E7D32]/50 hover:text-[#2E7D32]'
+            }`}
             translate="no"
             title={SEARCH_LABELS[language] || 'Search'}
           >
-            <Search className="w-3.5 h-3.5 text-stone-500" />
+            <Search className={`w-3.5 h-3.5 ${isHero ? 'text-white/80' : 'text-[#2E7D32]'}`} />
             <span className="hidden sm:inline notranslate" translate="no">
               {SEARCH_LABELS[language] || 'Search'}
             </span>
@@ -166,7 +174,11 @@ export const Header: React.FC<HeaderProps> = ({
           <div ref={langDropdownRef} className="relative notranslate" translate="no">
             <button
               type="button"
-              className="flex items-center text-xs font-medium text-white/80 hover:text-white gap-1.5 notranslate cursor-pointer select-none transition-colors py-1.5 px-2 rounded-full hover:bg-white/10"
+              className={`flex items-center text-xs font-semibold gap-1.5 notranslate cursor-pointer select-none transition-all py-1.5 px-3 rounded-full ${
+                isHero
+                  ? 'text-white/90 hover:text-white hover:bg-white/15'
+                  : 'text-[#153424] bg-white/80 border border-[#E6E1D7] shadow-2xs hover:bg-white hover:border-[#2E7D32]/50 hover:text-[#2E7D32]'
+              }`}
               translate="no"
               onClick={() => setLangDropdownOpen(v => !v)}
               role="combobox"
@@ -174,11 +186,11 @@ export const Header: React.FC<HeaderProps> = ({
               aria-expanded={langDropdownOpen}
               aria-label="Select language"
             >
-              <Globe className="w-3.5 h-3.5 shrink-0" />
+              <Globe className={`w-3.5 h-3.5 shrink-0 ${isHero ? 'text-white/80' : 'text-[#2E7D32]'}`} />
               <span className="notranslate whitespace-nowrap">
                 {LANGUAGES.find(l => l.code === language)?.label ?? 'English'} ({LANGUAGES.find(l => l.code === language)?.name ?? 'EN'})
               </span>
-              <ChevronDown className={`w-3 h-3 transition-transform shrink-0 ${langDropdownOpen ? 'rotate-180' : ''}`} />
+              <ChevronDown className={`w-3 h-3 transition-transform shrink-0 ${langDropdownOpen ? 'rotate-180' : ''} ${isHero ? 'text-white/80' : 'text-[#153424]/70'}`} />
             </button>
 
             {langDropdownOpen && (
@@ -210,7 +222,9 @@ export const Header: React.FC<HeaderProps> = ({
           {/* Mobile Menu Toggle Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden p-1.5 rounded-full text-[#123826] hover:bg-stone-200/50 transition-colors cursor-pointer"
+            className={`lg:hidden p-1.5 rounded-full transition-colors cursor-pointer ${
+              isHero ? 'text-white hover:bg-white/10' : 'text-[#153424] hover:bg-black/5'
+            }`}
             aria-label="Toggle Navigation Menu"
           >
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
