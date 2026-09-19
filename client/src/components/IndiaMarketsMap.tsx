@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Sprout } from 'lucide-react';
 import type { NavigationPage } from '../types';
 import { indiaMapData } from '../data/indiaMapData';
 import { VERIFIED_MANDI_PINS, type MandiPin } from '../data/allStateMarketsData';
@@ -311,8 +311,8 @@ export const IndiaMarketsMap: React.FC<IndiaMarketsMapProps> = ({
             </h4>
 
             <div className="flex items-center gap-2 pt-0.5 text-[11px]">
-              <span className="flex items-center gap-1 font-semibold text-stone-700">
-                <span className="notranslate" translate="no">{activePin.cropIcon}</span>
+              <span className="flex items-center gap-1.5 font-semibold text-stone-700">
+                <Sprout className="w-3.5 h-3.5 text-[#2E7D32]" />
                 <span>{activePin.crop}</span>
               </span>
               <span className="text-stone-300">•</span>

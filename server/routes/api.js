@@ -442,15 +442,15 @@ function getWindCompass(degrees) {
 }
 
 function parseWeatherCode(code) {
-  if (code === 0) return { text: 'Clear Sky', icon: '☀️' };
-  if (code <= 2) return { text: 'Partly Cloudy', icon: '🌤️' };
-  if (code === 3) return { text: 'Overcast', icon: '☁️' };
-  if (code === 45 || code === 48) return { text: 'Fog / Mist', icon: '🌫️' };
-  if (code >= 51 && code <= 55) return { text: 'Light Drizzle', icon: '🌦️' };
-  if (code >= 61 && code <= 65) return { text: 'Rain Showers', icon: '🌧️' };
-  if (code >= 80 && code <= 82) return { text: 'Heavy Rain', icon: '🌧️' };
-  if (code >= 95) return { text: 'Thunderstorm', icon: '⛈️' };
-  return { text: 'Fair Weather', icon: '🌤️' };
+  if (code === 0) return { text: 'Clear Sky', icon: '' };
+  if (code <= 2) return { text: 'Partly Cloudy', icon: '' };
+  if (code === 3) return { text: 'Overcast', icon: '' };
+  if (code === 45 || code === 48) return { text: 'Fog / Mist', icon: '' };
+  if (code >= 51 && code <= 55) return { text: 'Light Drizzle', icon: '' };
+  if (code >= 61 && code <= 65) return { text: 'Rain Showers', icon: '' };
+  if (code >= 80 && code <= 82) return { text: 'Heavy Rain', icon: '' };
+  if (code >= 95) return { text: 'Thunderstorm', icon: '' };
+  return { text: 'Fair Weather', icon: '' };
 }
 
 // GET /api/weather - Live Real-Time Microclimate Telemetry from Open-Meteo

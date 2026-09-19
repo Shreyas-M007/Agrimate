@@ -27,7 +27,7 @@ import {
   getCachedSearchResult 
 } from './utils/storage';
 import { setSiteLanguage, clearAllTranslateCookies } from './utils/translator';
-import { CheckCircle2, ShieldCheck } from 'lucide-react';
+import { CheckCircle2, ShieldCheck, Sprout, MessageSquare } from 'lucide-react';
 
 export const App: React.FC = () => {
   // English is ALWAYS default on initial load / refresh per user instruction
@@ -198,7 +198,7 @@ export const App: React.FC = () => {
       const res = await fetch('/api/sync', { method: 'POST' });
       const data = await res.json();
       if (data.success) {
-        setSyncToast(`⚡ Successfully synced ${data.records_synced} APMC records into SQLite & Cloud DB!`);
+        setSyncToast(`Successfully synced ${data.records_synced} APMC records into SQLite & Cloud DB!`);
         setTimeout(() => setSyncToast(null), 4500);
         await fetchSyncStatus();
         await handleSearch();
@@ -502,7 +502,9 @@ export const App: React.FC = () => {
             {/* Column 1: Brand & Identity */}
             <div className="space-y-3 max-w-lg">
               <div className="flex items-center gap-2.5 notranslate select-none" translate="no">
-                <span className="text-2xl notranslate" translate="no">🌾</span>
+                <div className="w-8 h-8 rounded-lg bg-[#2E7D32]/40 border border-[#A5D6A7]/30 flex items-center justify-center text-[#A5D6A7]">
+                  <Sprout className="w-5 h-5" />
+                </div>
                 <span className="font-black text-white text-xl font-['Syne',sans-serif] notranslate" translate="no">AgriMate</span>
               </div>
               <p className="text-emerald-100/70 text-xs sm:text-sm leading-relaxed font-['Outfit',sans-serif]">
@@ -528,9 +530,10 @@ export const App: React.FC = () => {
                     e.preventDefault();
                     alert('AgriMate Farmers Community WhatsApp Group link will be active shortly.');
                   }}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#25D366] text-white font-bold text-xs hover:bg-[#20ba59] transition-colors shadow-xs cursor-pointer"
+                  className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#25D366] text-white font-bold text-xs hover:bg-[#20ba59] transition-colors shadow-xs cursor-pointer"
                 >
-                  <span>💬 Join Farmer WhatsApp Group</span>
+                  <MessageSquare className="w-3.5 h-3.5" />
+                  <span>Join Farmer WhatsApp Group</span>
                 </a>
                 <p className="font-mono text-sm font-bold text-[#E8A238] pt-1">Kisan Helpline: 1800-180-1551</p>
                 <p className="text-[11px]">Toll-free 24x7 Ministry of Agriculture & Farmers Welfare</p>

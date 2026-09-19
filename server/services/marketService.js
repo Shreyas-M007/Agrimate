@@ -433,7 +433,7 @@ export function generateDynamicMarketSearchResult({
     varieties: ["Standard", "Hybrid", "Desi"],
     unit: "quintal",
     category: "Agricultural Produce",
-    icon: "🌱"
+    icon: ""
   };
 
   return {

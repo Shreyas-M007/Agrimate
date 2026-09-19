@@ -344,14 +344,14 @@ export const Header: React.FC<HeaderProps> = ({
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 {[
-                  { name: 'Tomato', icon: '🍅', tag: 'Hybrid / Local', mandi: 'Ballari, Kolar' },
-                  { name: 'Onion', icon: '🧅', tag: 'Nashik Red', mandi: 'Lasalgaon, Hubballi' },
-                  { name: 'Maize', icon: '🌽', tag: 'Hybrid Yellow', mandi: 'Davanagere, Bellary' },
-                  { name: 'Green Chilli', icon: '🌶️', tag: 'G-4 Hot', mandi: 'Guntur, Ballari' },
-                  { name: 'Potato', icon: '🥔', tag: 'Kufri Jyoti', mandi: 'Hassan, Agra' },
-                  { name: 'Cotton', icon: '☁️', tag: 'DCH-32', mandi: 'Hubballi, Raichur' },
-                  { name: 'Paddy / Rice', icon: '🍚', tag: 'Sona Masoori', mandi: 'Sindhanur, Davanagere' },
-                  { name: 'Soybean', icon: '🌱', tag: 'JS-335', mandi: 'Latur, Indore' }
+                  { name: 'Tomato', tag: 'Hybrid / Local', mandi: 'Ballari, Kolar' },
+                  { name: 'Onion', tag: 'Nashik Red', mandi: 'Lasalgaon, Hubballi' },
+                  { name: 'Maize', tag: 'Hybrid Yellow', mandi: 'Davanagere, Bellary' },
+                  { name: 'Green Chilli', tag: 'G-4 Hot', mandi: 'Guntur, Ballari' },
+                  { name: 'Potato', tag: 'Kufri Jyoti', mandi: 'Hassan, Agra' },
+                  { name: 'Cotton', tag: 'DCH-32', mandi: 'Hubballi, Raichur' },
+                  { name: 'Paddy / Rice', tag: 'Sona Masoori', mandi: 'Sindhanur, Davanagere' },
+                  { name: 'Soybean', tag: 'JS-335', mandi: 'Latur, Indore' }
                 ]
                   .filter(item => 
                     !headerSearchQuery || 
@@ -371,7 +371,9 @@ export const Header: React.FC<HeaderProps> = ({
                       className="p-2.5 rounded-xl bg-[#F7FBF8] hover:bg-[#EBF5ED] border border-[#E2ECE3] hover:border-[#2E7D32] transition-colors cursor-pointer flex items-center justify-between"
                     >
                       <div className="flex items-center gap-2.5">
-                        <span className="text-xl notranslate" translate="no">{item.icon}</span>
+                        <div className="w-8 h-8 rounded-lg bg-[#EAEFE9] text-[#2E7D32] flex items-center justify-center shrink-0 border border-[#D6DFD4]">
+                          <Sprout className="w-4 h-4" />
+                        </div>
                         <div>
                           <strong className="text-xs text-[#123826] block">{item.name}</strong>
                           <span className="text-[10px] text-stone-500">{item.tag}</span>

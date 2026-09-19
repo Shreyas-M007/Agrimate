@@ -13,7 +13,10 @@ import {
   Search, 
   Send, 
   X, 
-  MapPin 
+  MapPin,
+  Sprout,
+  Scale,
+  Truck
 } from 'lucide-react';
 import { ContinentalMosaic } from '../components/ContinentalMosaic';
 import { IndiaMarketsMap } from '../components/IndiaMarketsMap';
@@ -38,31 +41,31 @@ export const HomePage: React.FC<HomePageProps> = ({
 
   // Quick live mandi ticker data (Pan-India APMC coverage)
   const liveTickers = [
-    { crop: 'Maize', mandi: 'Davanagere APMC', state: 'Karnataka', modal: '₹2,150', unit: 'q', change: '+4.2%', trend: 'up', icon: '🌽' },
-    { crop: 'Tomato', mandi: 'Ballari APMC', state: 'Karnataka', modal: '₹1,850', unit: 'q', change: '+2.6%', trend: 'up', icon: '🍅' },
-    { crop: 'Onion', mandi: 'Lasalgaon APMC', state: 'Maharashtra', modal: '₹2,100', unit: 'q', change: '+1.9%', trend: 'up', icon: '🧅' },
-    { crop: 'Cumin', mandi: 'Unjha APMC', state: 'Gujarat', modal: '₹28,500', unit: 'q', change: '+4.8%', trend: 'up', icon: '🌿' },
-    { crop: 'Mustard', mandi: 'Kota APMC', state: 'Rajasthan', modal: '₹5,450', unit: 'q', change: '+2.1%', trend: 'up', icon: '🌼' },
-    { crop: 'Wheat', mandi: 'Khanna APMC', state: 'Punjab', modal: '₹2,275', unit: 'q', change: '+1.1%', trend: 'up', icon: '🌾' },
-    { crop: 'Potato', mandi: 'Agra APMC', state: 'Uttar Pradesh', modal: '₹1,480', unit: 'q', change: '-0.5%', trend: 'stable', icon: '🥔' },
-    { crop: 'Green Chilli', mandi: 'Guntur APMC', state: 'Andhra Pradesh', modal: '₹3,400', unit: 'q', change: '+5.2%', trend: 'up', icon: '🌶️' },
-    { crop: 'Soybean', mandi: 'Indore APMC', state: 'Madhya Pradesh', modal: '₹4,600', unit: 'q', change: '+1.8%', trend: 'up', icon: '🌱' },
-    { crop: 'Paddy / Rice', mandi: 'Burdwan APMC', state: 'West Bengal', modal: '₹2,550', unit: 'q', change: '+1.8%', trend: 'up', icon: '🍚' },
-    { crop: 'Apple', mandi: 'Sopore Mandi', state: 'Jammu and Kashmir', modal: '₹5,200', unit: 'q', change: '+3.6%', trend: 'up', icon: '🍎' },
-    { crop: 'Turmeric', mandi: 'Nizamabad APMC', state: 'Telangana', modal: '₹12,400', unit: 'q', change: '+4.1%', trend: 'up', icon: '🌿' },
+    { crop: 'Maize', mandi: 'Davanagere APMC', state: 'Karnataka', modal: '₹2,150', unit: 'q', change: '+4.2%', trend: 'up' },
+    { crop: 'Tomato', mandi: 'Ballari APMC', state: 'Karnataka', modal: '₹1,850', unit: 'q', change: '+2.6%', trend: 'up' },
+    { crop: 'Onion', mandi: 'Lasalgaon APMC', state: 'Maharashtra', modal: '₹2,100', unit: 'q', change: '+1.9%', trend: 'up' },
+    { crop: 'Cumin', mandi: 'Unjha APMC', state: 'Gujarat', modal: '₹28,500', unit: 'q', change: '+4.8%', trend: 'up' },
+    { crop: 'Mustard', mandi: 'Kota APMC', state: 'Rajasthan', modal: '₹5,450', unit: 'q', change: '+2.1%', trend: 'up' },
+    { crop: 'Wheat', mandi: 'Khanna APMC', state: 'Punjab', modal: '₹2,275', unit: 'q', change: '+1.1%', trend: 'up' },
+    { crop: 'Potato', mandi: 'Agra APMC', state: 'Uttar Pradesh', modal: '₹1,480', unit: 'q', change: '-0.5%', trend: 'stable' },
+    { crop: 'Green Chilli', mandi: 'Guntur APMC', state: 'Andhra Pradesh', modal: '₹3,400', unit: 'q', change: '+5.2%', trend: 'up' },
+    { crop: 'Soybean', mandi: 'Indore APMC', state: 'Madhya Pradesh', modal: '₹4,600', unit: 'q', change: '+1.8%', trend: 'up' },
+    { crop: 'Paddy / Rice', mandi: 'Burdwan APMC', state: 'West Bengal', modal: '₹2,550', unit: 'q', change: '+1.8%', trend: 'up' },
+    { crop: 'Apple', mandi: 'Sopore Mandi', state: 'Jammu and Kashmir', modal: '₹5,200', unit: 'q', change: '+3.6%', trend: 'up' },
+    { crop: 'Turmeric', mandi: 'Nizamabad APMC', state: 'Telangana', modal: '₹12,400', unit: 'q', change: '+4.1%', trend: 'up' },
   ];
 
   const cropList = [
-    { name: 'Tomato', icon: '🍅', hindi: 'टमाटर', kannada: 'ಟೊಮೆಟೊ', modal: '₹1,850/q' },
-    { name: 'Onion', icon: '🧅', hindi: 'प्याज', kannada: 'ಈರುಳ್ಳಿ', modal: '₹2,100/q' },
-    { name: 'Potato', icon: '🥔', hindi: 'आलू', kannada: 'ಆಲೂಗಡ್ಡೆ', modal: '₹1,600/q' },
-    { name: 'Green Chilli', icon: '🌶️', hindi: 'हरी मिर्च', kannada: 'ಹಸಿಮೆಣಸಿನಕಾಯಿ', modal: '₹3,400/q' },
-    { name: 'Cotton', icon: '☁️', hindi: 'कपास', kannada: 'ಹತ್ತಿ', modal: '₹7,200/q' },
-    { name: 'Soybean', icon: '🌱', hindi: 'सोयाबीन', kannada: 'ಸೋಯಾಬೀನ್', modal: '₹4,350/q' },
-    { name: 'Maize', icon: '🌽', hindi: 'मक्का', kannada: 'ಮೆಕ್ಕೆಜೋಳ', modal: '₹2,150/q' },
-    { name: 'Paddy / Rice', icon: '🍚', hindi: 'धान / चावल', kannada: 'ಭತ್ತ / ಅಕ್ಕಿ', modal: '₹2,450/q' },
-    { name: 'Wheat', icon: '🌾', hindi: 'गेहूं', kannada: 'ಗೋಧಿ', modal: '₹2,600/q' },
-    { name: 'Mustard', icon: '🌼', hindi: 'सरसों', kannada: 'ಸಾಸಿವೆ', modal: '₹5,400/q' },
+    { name: 'Tomato', hindi: 'टमाटर', kannada: 'ಟೊಮೆಟೊ', modal: '₹1,850/q' },
+    { name: 'Onion', hindi: 'प्याज', kannada: 'ಈರುಳ್ಳಿ', modal: '₹2,100/q' },
+    { name: 'Potato', hindi: 'आलू', kannada: 'ಆಲೂಗಡ್ಡೆ', modal: '₹1,600/q' },
+    { name: 'Green Chilli', hindi: 'हरी मिर्च', kannada: 'ಹಸಿಮೆಣಸಿನಕಾಯಿ', modal: '₹3,400/q' },
+    { name: 'Cotton', hindi: 'कपास', kannada: 'ಹತ್ತಿ', modal: '₹7,200/q' },
+    { name: 'Soybean', hindi: 'सोयाबीन', kannada: 'ಸೋಯಾಬೀನ್', modal: '₹4,350/q' },
+    { name: 'Maize', hindi: 'मक्का', kannada: 'ಮೆಕ್ಕೆಜೋಳ', modal: '₹2,150/q' },
+    { name: 'Paddy / Rice', hindi: 'धान / चावल', kannada: 'ಭತ್ತ / ಅಕ್ಕಿ', modal: '₹2,450/q' },
+    { name: 'Wheat', hindi: 'गेहूं', kannada: 'ಗೋಧಿ', modal: '₹2,600/q' },
+    { name: 'Mustard', hindi: 'सरसों', kannada: 'ಸಾಸಿವೆ', modal: '₹5,400/q' },
   ];
 
   const mandiList = [
@@ -143,13 +146,13 @@ export const HomePage: React.FC<HomePageProps> = ({
   };
 
   const featuredCrops = [
-    { name: 'Tomato', icon: '🍅', mandi: 'Ballari APMC', modal: '₹1,850', unit: 'q', change: '+2.6%', note: 'Solanaceous • High Demand' },
-    { name: 'Onion', icon: '🧅', mandi: 'Lasalgaon APMC', modal: '₹2,100', unit: 'q', change: '+1.9%', note: 'Allium • Peak Arrivals' },
-    { name: 'Maize', icon: '🌽', mandi: 'Davanagere APMC', modal: '₹2,150', unit: 'q', change: '+4.2%', note: 'Cereal • Export Grade' },
-    { name: 'Green Chilli', icon: '🌶️', mandi: 'Guntur APMC', modal: '₹3,400', unit: 'q', change: '+5.2%', note: 'Spice • High Realization' },
-    { name: 'Potato', icon: '🥔', mandi: 'Hassan APMC', modal: '₹1,600', unit: 'q', change: '+0.8%', note: 'Tuber • Steady Arrivals' },
-    { name: 'Paddy / Rice', icon: '🍚', mandi: 'Sindhanur APMC', modal: '₹2,450', unit: 'q', change: '+3.1%', note: 'Staple • MSP Verified' },
-    { name: 'Cotton', icon: '☁️', mandi: 'Hubballi APMC', modal: '₹7,200', unit: 'q', change: '+1.4%', note: 'Commercial • Medium Staple' },
+    { name: 'Tomato', mandi: 'Ballari APMC', modal: '₹1,850', unit: 'q', change: '+2.6%', note: 'Solanaceous • High Demand' },
+    { name: 'Onion', mandi: 'Lasalgaon APMC', modal: '₹2,100', unit: 'q', change: '+1.9%', note: 'Allium • Peak Arrivals' },
+    { name: 'Maize', mandi: 'Davanagere APMC', modal: '₹2,150', unit: 'q', change: '+4.2%', note: 'Cereal • Export Grade' },
+    { name: 'Green Chilli', mandi: 'Guntur APMC', modal: '₹3,400', unit: 'q', change: '+5.2%', note: 'Spice • High Realization' },
+    { name: 'Potato', mandi: 'Hassan APMC', modal: '₹1,600', unit: 'q', change: '+0.8%', note: 'Tuber • Steady Arrivals' },
+    { name: 'Paddy / Rice', mandi: 'Sindhanur APMC', modal: '₹2,450', unit: 'q', change: '+3.1%', note: 'Staple • MSP Verified' },
+    { name: 'Cotton', mandi: 'Hubballi APMC', modal: '₹7,200', unit: 'q', change: '+1.4%', note: 'Commercial • Medium Staple' },
   ];
 
   return (
@@ -246,8 +249,10 @@ export const HomePage: React.FC<HomePageProps> = ({
                             onClick={() => handleExecuteSearch(c.name, undefined)}
                             className="p-2 rounded-xl hover:bg-[#EBF5ED] transition-colors cursor-pointer flex items-center justify-between text-xs"
                           >
-                            <div className="flex items-center gap-2 notranslate" translate="no">
-                              <span className="text-base notranslate" translate="no">{c.icon}</span>
+                            <div className="flex items-center gap-2">
+                              <div className="w-7 h-7 rounded-lg bg-[#EAEFE9] text-[#2E7D32] flex items-center justify-center shrink-0 border border-[#D6DFD4]">
+                                <Sprout className="w-3.5 h-3.5" />
+                              </div>
                               <div>
                                 <span className="font-bold text-[#123826] block">{c.name}</span>
                                 <span className="text-[10px] text-stone-500">{c.hindi} • {c.kannada}</span>
@@ -396,7 +401,9 @@ export const HomePage: React.FC<HomePageProps> = ({
                 }}
                 className="inline-flex items-center gap-3 px-4 py-2 rounded-xl glass-card border border-white/80 hover:border-[#2E7D32] shadow-xs hover:shadow-sm transition-all cursor-pointer shrink-0"
               >
-                <span className="text-xl notranslate" translate="no">{item.icon}</span>
+                <div className="w-7 h-7 rounded-lg bg-[#EAEFE9] text-[#2E7D32] flex items-center justify-center shrink-0 border border-[#D6DFD4]">
+                  <Sprout className="w-3.5 h-3.5" />
+                </div>
                 <div className="flex flex-col">
                   <span className="text-xs font-bold text-[#153424] flex items-center gap-1.5">
                     <span>{item.crop}</span>
@@ -468,8 +475,8 @@ export const HomePage: React.FC<HomePageProps> = ({
             >
               <div className="space-y-3">
                 <div className="flex items-start justify-between">
-                  <div className="w-12 h-12 rounded-xl bg-white/60 backdrop-blur-xs flex items-center justify-center text-3xl notranslate border border-white/60" translate="no">
-                    {c.icon}
+                  <div className="w-12 h-12 rounded-xl bg-[#EAEFE9] text-[#2E7D32] flex items-center justify-center border border-[#D6DFD4]">
+                    <Sprout className="w-6 h-6" />
                   </div>
                   <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full font-mono">
                     {c.change}
@@ -495,20 +502,22 @@ export const HomePage: React.FC<HomePageProps> = ({
         </div>
       </section>
 
-      {/* SECTION 5: FOUR ECOSYSTEM PILLARS (Clean, Minimalist Layout) */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="text-center max-w-2xl mx-auto space-y-2 mb-8">
-          <span className="text-[11px] uppercase font-mono font-bold tracking-wider text-[#2E7D32] bg-[#EAEFE9] px-3 py-1 rounded-full border border-[#D6DFD4]">
-            Core Principles
+      {/* SECTION 5: FOUR PILLARS */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 space-y-8">
+        <div className="text-center max-w-2xl mx-auto space-y-2">
+          <span className="text-xs font-bold uppercase tracking-widest text-[#2E7D32] bg-[#EAEFE9] px-3 py-1 rounded-full border border-[#D6DFD4]">
+            Statutory Transparency
           </span>
-          <h2 className="text-2xl sm:text-3xl font-black text-[#153424] font-['Syne',sans-serif]">
+          <h2 className="text-2xl sm:text-4xl font-black text-[#153424] font-['Syne',sans-serif]">
             Four Pillars of AgriMate Ecosystem
           </h2>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
           <div className="glass-card p-6 rounded-2xl border border-white/80 shadow-xs space-y-2.5 hover-slide-up">
-            <div className="w-10 h-10 rounded-xl bg-[#EAEFE9] text-[#2E7D32] flex items-center justify-center text-lg notranslate" translate="no">🌱</div>
+            <div className="w-10 h-10 rounded-xl bg-[#EAEFE9] text-[#2E7D32] flex items-center justify-center">
+              <Sprout className="w-5 h-5" />
+            </div>
             <h3 className="text-base font-bold text-[#153424]">Soil Stewardship</h3>
             <p className="text-stone-600 text-xs leading-relaxed">
               Regenerative crop management and moisture indexing reducing input overheads.
@@ -516,7 +525,9 @@ export const HomePage: React.FC<HomePageProps> = ({
           </div>
 
           <div className="glass-card p-6 rounded-2xl border border-white/80 shadow-xs space-y-2.5 hover-slide-up">
-            <div className="w-10 h-10 rounded-xl bg-[#FFF8E7] text-[#E8A238] flex items-center justify-center text-lg notranslate" translate="no">⚖️</div>
+            <div className="w-10 h-10 rounded-xl bg-[#FFF8E7] text-[#E8A238] flex items-center justify-center">
+              <Scale className="w-5 h-5" />
+            </div>
             <h3 className="text-base font-bold text-[#153424]">Price Transparency</h3>
             <p className="text-stone-600 text-xs leading-relaxed">
               Real-time Agmarknet modal bids, spreads, and arrivals with zero algorithmic speculation.
@@ -524,7 +535,9 @@ export const HomePage: React.FC<HomePageProps> = ({
           </div>
 
           <div className="glass-card p-6 rounded-2xl border border-white/80 shadow-xs space-y-2.5 hover-slide-up">
-            <div className="w-10 h-10 rounded-xl bg-[#EAEFE9] text-[#2E7D32] flex items-center justify-center text-lg notranslate" translate="no">🚛</div>
+            <div className="w-10 h-10 rounded-xl bg-[#EAEFE9] text-[#2E7D32] flex items-center justify-center">
+              <Truck className="w-5 h-5" />
+            </div>
             <h3 className="text-base font-bold text-[#153424]">Freight Optimization</h3>
             <p className="text-stone-600 text-xs leading-relaxed">
               Vehicle-matched haulage calculation across Tata Ace and 6-Wheelers to avoid transport loss.
@@ -532,7 +545,9 @@ export const HomePage: React.FC<HomePageProps> = ({
           </div>
 
           <div className="glass-card p-6 rounded-2xl border border-white/80 shadow-xs space-y-2.5 hover-slide-up">
-            <div className="w-10 h-10 rounded-xl bg-[#FFF8E7] text-[#E8A238] flex items-center justify-center text-lg notranslate" translate="no">🤝</div>
+            <div className="w-10 h-10 rounded-xl bg-[#FFF8E7] text-[#E8A238] flex items-center justify-center">
+              <ShieldCheck className="w-5 h-5" />
+            </div>
             <h3 className="text-base font-bold text-[#153424]">Fair Direct Settlement</h3>
             <p className="text-stone-600 text-xs leading-relaxed">
               Digital gate passes and certified weighbridge verification under APMC Act 2026.

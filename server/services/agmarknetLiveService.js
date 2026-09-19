@@ -98,7 +98,7 @@ export async function processAndIngestRecords(rawRecords = []) {
       if (!cmdExists) {
         await db.run(
           "INSERT OR IGNORE INTO commodities (commodity_id, name, name_hi, name_kn, category, unit, icon, varieties_json) VALUES (?, ?, ?, ?, ?, ?, ?, ?);",
-          [candidate.commodity_id, candidate.commodity_name, candidate.commodity_name, candidate.commodity_name, "General", "quintal", "🌾", '["Standard"]']
+          [candidate.commodity_id, candidate.commodity_name, candidate.commodity_name, candidate.commodity_name, "General", "quintal", "", '["Standard"]']
         );
       }
 
@@ -197,7 +197,7 @@ export async function fetchLiveMandiData(crop, district, state) {
       });
 
       const ingestionResult = await processAndIngestRecords(rawRecords);
-      console.log(`🌾 Agmarknet Live: Ingested ${ingestionResult.inserted} verified record(s) for "${crop}"`);
+      console.log(`[Agmarknet Live] Ingested ${ingestionResult.inserted} verified record(s) for "${crop}"`);
       return rawRecords;
     }
   } catch (err) {

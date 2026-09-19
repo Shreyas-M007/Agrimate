@@ -46,7 +46,7 @@ const commodities = [
     typicalArrival: 140, // Quintals
     unit: "₹/Quintal",
     category: "Vegetables",
-    icon: "🍅"
+    icon: ""
   },
   {
     commodity_id: "CROP-002",
@@ -58,7 +58,7 @@ const commodities = [
     typicalArrival: 320,
     unit: "₹/Quintal",
     category: "Vegetables",
-    icon: "🧅"
+    icon: ""
   },
   {
     commodity_id: "CROP-003",
@@ -70,7 +70,7 @@ const commodities = [
     typicalArrival: 260,
     unit: "₹/Quintal",
     category: "Vegetables",
-    icon: "🥔"
+    icon: ""
   },
   {
     commodity_id: "CROP-004",
@@ -82,7 +82,7 @@ const commodities = [
     typicalArrival: 85,
     unit: "₹/Quintal",
     category: "Oilseeds",
-    icon: "🥜"
+    icon: ""
   },
   {
     commodity_id: "CROP-005",
@@ -94,7 +94,7 @@ const commodities = [
     typicalArrival: 190,
     unit: "₹/Quintal",
     category: "Cereals",
-    icon: "🌽"
+    icon: ""
   },
   {
     commodity_id: "CROP-006",
@@ -106,7 +106,7 @@ const commodities = [
     typicalArrival: 410,
     unit: "₹/Quintal",
     category: "Cereals",
-    icon: "🌾"
+    icon: ""
   },
   {
     commodity_id: "CROP-007",
@@ -118,7 +118,7 @@ const commodities = [
     typicalArrival: 380,
     unit: "₹/Quintal",
     category: "Cereals",
-    icon: "🍞"
+    icon: ""
   },
   {
     commodity_id: "CROP-008",
@@ -130,7 +130,7 @@ const commodities = [
     typicalArrival: 110,
     unit: "₹/Quintal",
     category: "Fibre",
-    icon: "🌱"
+    icon: ""
   },
   {
     commodity_id: "CROP-009",
@@ -142,7 +142,7 @@ const commodities = [
     typicalArrival: 75,
     unit: "₹/Quintal",
     category: "Spices",
-    icon: "🌶️"
+    icon: ""
   }
 ];
 

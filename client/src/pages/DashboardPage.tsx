@@ -29,7 +29,8 @@ import {
   TrendingUp,
   Activity,
   RefreshCw,
-  CloudRain
+  CloudRain,
+  CloudSun
 } from 'lucide-react';
 
 interface DashboardPageProps {
@@ -175,14 +176,13 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
         const c = data.current;
         const code = c.weather_code;
         let condText = 'Fair Weather';
-        let condIcon = '🌤️';
-        if (code === 0) { condText = 'Clear Sky'; condIcon = '☀️'; }
-        else if (code <= 2) { condText = 'Partly Cloudy'; condIcon = '🌤️'; }
-        else if (code === 3) { condText = 'Overcast'; condIcon = '☁️'; }
-        else if (code === 45 || code === 48) { condText = 'Fog / Mist'; condIcon = '🌫️'; }
-        else if (code >= 51 && code <= 65) { condText = 'Light Rain'; condIcon = '🌦️'; }
-        else if (code >= 80 && code <= 82) { condText = 'Rain Showers'; condIcon = '🌧️'; }
-        else if (code >= 95) { condText = 'Thunderstorm'; condIcon = '⛈️'; }
+        if (code === 0) condText = 'Clear Sky';
+        else if (code <= 2) condText = 'Partly Cloudy';
+        else if (code === 3) condText = 'Overcast';
+        else if (code === 45 || code === 48) condText = 'Fog / Mist';
+        else if (code >= 51 && code <= 65) condText = 'Light Rain';
+        else if (code >= 80 && code <= 82) condText = 'Rain Showers';
+        else if (code >= 95) condText = 'Thunderstorm';
 
         let vibe = 'Optimal Conditions for Transit';
         if (c.precipitation > 0 || c.relative_humidity_2m > 80 || code >= 51) {
@@ -204,7 +204,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
           precipitationMm: c.precipitation || 0,
           pressureHpa: c.surface_pressure || 1013,
           conditionText: condText,
-          conditionIcon: condIcon,
+          conditionIcon: '',
           harvestVibe: vibe,
           locationName: dispName,
           stationObservationTime: c.time,
@@ -311,9 +311,9 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
               {/* 3 Live Top Crops from DB */}
               <div className="space-y-2">
                 {[
-                  { name: 'Tomato', apmc: 'Kolar & Ballari APMC', price: '₹1,850 - ₹2,100', trend: '+4.2%', icon: '🍅' },
-                  { name: 'Onion', apmc: 'Lasalgaon & Nashik', price: '₹1,920 - ₹2,250', trend: '+2.8%', icon: '🧅' },
-                  { name: 'Maize', apmc: 'Davanagere & Khanna', price: '₹1,950 - ₹2,080', trend: '+1.5%', icon: '🌽' },
+                  { name: 'Tomato', apmc: 'Kolar & Ballari APMC', price: '₹1,850 - ₹2,100', trend: '+4.2%' },
+                  { name: 'Onion', apmc: 'Lasalgaon & Nashik', price: '₹1,920 - ₹2,250', trend: '+2.8%' },
+                  { name: 'Maize', apmc: 'Davanagere & Khanna', price: '₹1,950 - ₹2,080', trend: '+1.5%' },
                 ].map((item) => (
                   <button
                     key={item.name}
@@ -326,7 +326,9 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
                     }`}
                   >
                     <div className="flex items-center gap-2.5 min-w-0">
-                      <span className="text-xl shrink-0">{item.icon}</span>
+                      <div className="w-7 h-7 rounded-lg bg-[#EAEFE9] text-[#2E7D32] flex items-center justify-center shrink-0 border border-[#D6DFD4]">
+                        <Sprout className="w-3.5 h-3.5" />
+                      </div>
                       <div className="truncate">
                         <span className="text-xs font-bold text-[#153424] block truncate">{item.name}</span>
                         <span className="text-[10px] text-stone-500 truncate block">{item.apmc}</span>
@@ -458,7 +460,9 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
               <div className="glass-card-subtle p-3 rounded-xl border border-white/80 space-y-1 hover:border-[#2E7D32]/40 transition-colors shadow-2xs">
                 <div className="flex items-center justify-between">
                   <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-stone-500">Sky Condition</span>
-                  <span className="text-sm">{liveWeather.conditionIcon}</span>
+                  <div className="w-6 h-6 rounded-md bg-amber-100/60 text-amber-800 flex items-center justify-center shrink-0">
+                    <CloudSun className="w-3.5 h-3.5" />
+                  </div>
                 </div>
                 <strong className="text-base sm:text-lg font-black text-[#153424] font-['Syne',sans-serif] tracking-tight truncate block">
                   {liveWeather.conditionText}
@@ -489,7 +493,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
             {/* Satellite Timestamp & Verification Footer */}
             <div className="flex flex-wrap items-center justify-between gap-2 text-[10px] text-stone-500 font-mono pt-1">
               <span className="flex items-center gap-1.5">
-                <span>🛰️ Station Observation: {liveWeather.stationObservationTime ? liveWeather.stationObservationTime.replace('T', ' ') : 'Live'}</span>
+                <span>Station Observation: {liveWeather.stationObservationTime ? liveWeather.stationObservationTime.replace('T', ' ') : 'Live'}</span>
                 <span>•</span>
                 <span>Source: {liveWeather.source}</span>
                 <span>•</span>

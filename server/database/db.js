@@ -132,7 +132,7 @@ export async function initDb() {
   if (fs.existsSync(jsonPath)) {
     const data = JSON.parse(fs.readFileSync(jsonPath, 'utf-8'));
     if (marketCount.cnt < data.markets.length || recordCount.cnt === 0) {
-      console.log(`🌾 Syncing ${data.markets.length} verified pan-India markets into SQLite...`);
+      console.log(`[AgriMate DB] Syncing ${data.markets.length} verified pan-India markets into SQLite...`);
 
       // Seed/update markets
       for (const m of data.markets) {
@@ -181,7 +181,7 @@ export async function initDb() {
         VALUES (?, ?, ?, ?)
       `, ["Agmarknet Verified Base Ingestion", data.price_records.length, new Date().toISOString(), "SUCCESS"]);
 
-      console.log(`🌾 Successfully seeded ${data.price_records.length} records into SQLite database!`);
+      console.log(`[AgriMate DB] Successfully seeded ${data.price_records.length} records into SQLite database!`);
     }
   }
 }

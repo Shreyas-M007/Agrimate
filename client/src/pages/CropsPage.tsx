@@ -8,7 +8,8 @@ import {
   Warehouse,
   TrendingUp,
   CheckCircle2,
-  Boxes
+  Boxes,
+  Sprout
 } from 'lucide-react';
 
 interface CropsPageProps {
@@ -24,7 +25,6 @@ interface CropDetail {
   hindiName: string;
   kannadaName: string;
   category: 'Solanaceous' | 'Alliums & Tubers' | 'Grains & Pulses' | 'Cash Crops' | 'Oilseeds' | 'Spices & Plantation' | 'Fruits & Exotic';
-  icon: string;
   varieties: string[];
   modalRange: string;
   peakSeason: string;
@@ -40,7 +40,6 @@ const CROP_DATABASE: CropDetail[] = [
     hindiName: 'टमाटर',
     kannadaName: 'ಟೊಮೆಟೊ',
     category: 'Solanaceous',
-    icon: '🍅',
     varieties: ['Hybrid Shivam', 'Local Country', 'Abhinav', 'Arka Rakshak'],
     modalRange: '₹1,400 - ₹2,350 / q',
     peakSeason: 'Year-round (Peak: Nov - Feb)',
@@ -54,7 +53,6 @@ const CROP_DATABASE: CropDetail[] = [
     hindiName: 'प्याज',
     kannadaName: 'ಈರುಳ್ಳಿ',
     category: 'Alliums & Tubers',
-    icon: '🧅',
     varieties: ['Nashik Red', 'Garwa Late', 'Bellary White', 'Bhima Super'],
     modalRange: '₹1,600 - ₹2,450 / q',
     peakSeason: 'Kharif (Oct-Dec) & Rabi (Mar-Jun)',
@@ -68,7 +66,6 @@ const CROP_DATABASE: CropDetail[] = [
     hindiName: 'आलू',
     kannadaName: 'ಆಲೂಗಡ್ಡೆ',
     category: 'Alliums & Tubers',
-    icon: '🥔',
     varieties: ['Kufri Jyoti', 'Kufri Chandramukhi', 'Kufri Pukhraj'],
     modalRange: '₹1,300 - ₹1,900 / q',
     peakSeason: 'Dec - Mar',
@@ -82,7 +79,6 @@ const CROP_DATABASE: CropDetail[] = [
     hindiName: 'सरसों / राई',
     kannadaName: 'ಸಾಸಿವೆ',
     category: 'Oilseeds',
-    icon: '🌼',
     varieties: ['Pusa Bold', 'Giriraj', 'RH-749', 'Kranti'],
     modalRange: '₹5,400 - ₹6,350 / q',
     peakSeason: 'Feb - Apr (Rabi Peak)',
@@ -96,7 +92,6 @@ const CROP_DATABASE: CropDetail[] = [
     hindiName: 'अदरक',
     kannadaName: 'ಶುಂಠಿ',
     category: 'Spices & Plantation',
-    icon: '🫚',
     varieties: ['Rio-de-Janeiro', 'Varada', 'Mahim', 'Nadia'],
     modalRange: '₹4,500 - ₹8,200 / q',
     peakSeason: 'Nov - Feb',
@@ -110,7 +105,6 @@ const CROP_DATABASE: CropDetail[] = [
     hindiName: 'लहसुन',
     kannadaName: 'ಬೆಳ್ಳುಳ್ಳಿ',
     category: 'Alliums & Tubers',
-    icon: '🧄',
     varieties: ['G-282', 'Yamuna Safed', 'Ooty-1', 'Bhima Omkar'],
     modalRange: '₹7,500 - ₹16,000 / q',
     peakSeason: 'Jan - Apr',
@@ -124,7 +118,6 @@ const CROP_DATABASE: CropDetail[] = [
     hindiName: 'छोटी इलायची',
     kannadaName: 'ಏಲಕ್ಕಿ',
     category: 'Spices & Plantation',
-    icon: '🌱',
     varieties: ['Malabar', 'Mysore', 'Vazhukka'],
     modalRange: '₹1,40,000 - ₹2,10,000 / q',
     peakSeason: 'Aug - Jan',
@@ -138,7 +131,6 @@ const CROP_DATABASE: CropDetail[] = [
     hindiName: 'ड्रैगन फ्रूट / कमलम',
     kannadaName: 'ಡ್ರ್ಯಾಗನ್ ಹಣ್ಣು',
     category: 'Fruits & Exotic',
-    icon: '🐉',
     varieties: ['Red Flesh (C规范)', 'White Flesh', 'Royal Red'],
     modalRange: '₹12,000 - ₹22,000 / q',
     peakSeason: 'Jun - Nov',
@@ -152,7 +144,6 @@ const CROP_DATABASE: CropDetail[] = [
     hindiName: 'केसर',
     kannadaName: 'ಕೇಸರಿ',
     category: 'Spices & Plantation',
-    icon: '🌸',
     varieties: ['Mongra', 'Lacha', 'Guchhi'],
     modalRange: '₹1,80,000 - ₹2,60,000 / kg',
     peakSeason: 'Oct - Nov',
@@ -166,7 +157,6 @@ const CROP_DATABASE: CropDetail[] = [
     hindiName: 'हरी मिर्च',
     kannadaName: 'ಹಸಿ ಮೆಣಸಿನಕಾಯಿ',
     category: 'Solanaceous',
-    icon: '🌶️',
     varieties: ['G-4', 'Sitara', 'Teja', 'Byadagi Green'],
     modalRange: '₹2,800 - ₹4,200 / q',
     peakSeason: 'Aug - Jan',
@@ -180,7 +170,6 @@ const CROP_DATABASE: CropDetail[] = [
     hindiName: 'कपास',
     kannadaName: 'ಹತ್ತಿ',
     category: 'Cash Crops',
-    icon: '🌱',
     varieties: ['DCH-32 Extra Long Staple', 'Bunny BT', 'RCH-2'],
     modalRange: '₹6,400 - ₹7,800 / q',
     peakSeason: 'Oct - Feb',
@@ -194,7 +183,6 @@ const CROP_DATABASE: CropDetail[] = [
     hindiName: 'सोयाबीन',
     kannadaName: 'ಸೋಯಾಬೀನ್',
     category: 'Oilseeds',
-    icon: '🥜',
     varieties: ['JS-335', 'JS-9560', 'NRC-37'],
     modalRange: '₹4,100 - ₹4,850 / q',
     peakSeason: 'Sep - Nov',
@@ -208,7 +196,6 @@ const CROP_DATABASE: CropDetail[] = [
     hindiName: 'मक्का',
     kannadaName: 'ಮೆಕ್ಕೆಜೋಳ',
     category: 'Grains & Pulses',
-    icon: '🌽',
     varieties: ['Kargil 900M', 'Pioneer 30V92', 'DeKalb 9108'],
     modalRange: '₹1,950 - ₹2,350 / q',
     peakSeason: 'Oct - Jan (Kharif) & May - Jul (Rabi)',
@@ -222,7 +209,6 @@ const CROP_DATABASE: CropDetail[] = [
     hindiName: 'गेहूं',
     kannadaName: 'ಗೋಧಿ',
     category: 'Grains & Pulses',
-    icon: '🌾',
     varieties: ['Sharbati', 'Lokwan', 'HD-2967', 'PBW-343'],
     modalRange: '₹2,200 - ₹2,750 / q',
     peakSeason: 'Mar - May',
@@ -236,7 +222,6 @@ const CROP_DATABASE: CropDetail[] = [
     hindiName: 'धान / चावल',
     kannadaName: 'ಭತ್ತ / ಅಕ್ಕಿ',
     category: 'Grains & Pulses',
-    icon: '🍚',
     varieties: ['Sona Masoori (BPT-5204)', 'IR-64', 'Basmati 1121', 'JGL-1798'],
     modalRange: '₹2,100 - ₹2,850 / q',
     peakSeason: 'Nov - Jan (Kharif) & Apr - May (Rabi)',
@@ -250,7 +235,6 @@ const CROP_DATABASE: CropDetail[] = [
     hindiName: 'मूंगफली',
     kannadaName: 'ಕಡಲೆಕಾಯಿ',
     category: 'Oilseeds',
-    icon: '🥜',
     varieties: ['TMV-2', 'Kadiri-6', 'JL-24', 'TAG-24'],
     modalRange: '₹5,800 - ₹7,100 / q',
     peakSeason: 'Oct - Dec',
@@ -264,7 +248,6 @@ const CROP_DATABASE: CropDetail[] = [
     hindiName: 'गन्ना',
     kannadaName: 'ಕಬ್ಬು',
     category: 'Cash Crops',
-    icon: '🎋',
     varieties: ['Co-0238', 'Co-86032', 'Co-0118', 'Co-265'],
     modalRange: '₹340 - ₹420 / q',
     peakSeason: 'Oct - Apr (Mandi Crushing Season)',
@@ -278,7 +261,6 @@ const CROP_DATABASE: CropDetail[] = [
     hindiName: 'हल्दी',
     kannadaName: 'ಅರಿಶಿನ',
     category: 'Spices & Plantation',
-    icon: '🫚',
     varieties: ['Salem', 'Prathibha', 'Rajapore', 'Waigaon'],
     modalRange: '₹9,800 - ₹14,500 / q',
     peakSeason: 'Feb - May',
@@ -457,7 +439,9 @@ export const CropsPage: React.FC<CropsPageProps> = ({
                 {/* Header */}
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-3">
-                    <span className="text-3xl p-2 rounded-xl bg-[#FAF8F5] notranslate" translate="no">{crop.icon}</span>
+                    <div className="w-11 h-11 rounded-xl bg-[#EAEFE9] text-[#2E7D32] flex items-center justify-center border border-[#D6DFD4] shrink-0">
+                    <Sprout className="w-5 h-5" />
+                  </div>
                     <div>
                       <h3 className="text-xl font-black text-[#153424] font-['Syne',sans-serif]">
                         {crop.name}

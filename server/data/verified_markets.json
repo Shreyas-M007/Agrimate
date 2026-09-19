@@ -792,7 +792,7 @@
       "typicalArrival": 140,
       "unit": "₹/Quintal",
       "category": "Vegetables",
-      "icon": "🍅"
+      "icon": ""
     },
     {
       "commodity_id": "CROP-002",
@@ -812,7 +812,7 @@
       "typicalArrival": 320,
       "unit": "₹/Quintal",
       "category": "Vegetables",
-      "icon": "🧅"
+      "icon": ""
     },
     {
       "commodity_id": "CROP-003",
@@ -832,7 +832,7 @@
       "typicalArrival": 260,
       "unit": "₹/Quintal",
       "category": "Vegetables",
-      "icon": "🥔"
+      "icon": ""
     },
     {
       "commodity_id": "CROP-004",
@@ -852,7 +852,7 @@
       "typicalArrival": 85,
       "unit": "₹/Quintal",
       "category": "Oilseeds",
-      "icon": "🥜"
+      "icon": ""
     },
     {
       "commodity_id": "CROP-005",
@@ -872,7 +872,7 @@
       "typicalArrival": 190,
       "unit": "₹/Quintal",
       "category": "Cereals",
-      "icon": "🌽"
+      "icon": ""
     },
     {
       "commodity_id": "CROP-006",
@@ -892,7 +892,7 @@
       "typicalArrival": 410,
       "unit": "₹/Quintal",
       "category": "Cereals",
-      "icon": "🌾"
+      "icon": ""
     },
     {
       "commodity_id": "CROP-007",
@@ -912,7 +912,7 @@
       "typicalArrival": 380,
       "unit": "₹/Quintal",
       "category": "Cereals",
-      "icon": "🍞"
+      "icon": ""
     },
     {
       "commodity_id": "CROP-008",
@@ -932,7 +932,7 @@
       "typicalArrival": 110,
       "unit": "₹/Quintal",
       "category": "Fibre",
-      "icon": "🌱"
+      "icon": ""
     },
     {
       "commodity_id": "CROP-009",
@@ -952,7 +952,7 @@
       "typicalArrival": 75,
       "unit": "₹/Quintal",
       "category": "Spices",
-      "icon": "🌶️"
+      "icon": ""
     }
   ],
   "price_records": [

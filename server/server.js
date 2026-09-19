@@ -58,14 +58,14 @@ import { refreshCache } from './services/marketService.js';
 // Initialize SQLite database and warm cache
 async function startServer() {
   try {
-    console.log("🌾 Initializing AgriMate SQLite database...");
+    console.log("[AgriMate] Initializing SQLite database...");
     await db.initDb();
     await refreshCache();
-    console.log("🌾 AgriMate SQLite database ready and verified.");
+    console.log("[AgriMate] SQLite database ready and verified.");
 
     app.listen(PORT, () => {
-      console.log(`🌾 AgriMate full-stack service running on http://localhost:${PORT}`);
-      console.log(`🌾 Verified agricultural intelligence ready.`);
+      console.log(`[AgriMate] Full-stack service running on http://localhost:${PORT}`);
+      console.log(`[AgriMate] Verified agricultural intelligence ready.`);
     });
   } catch (err) {
     console.error("Failed to start AgriMate service:", err);

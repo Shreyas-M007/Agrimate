@@ -163,8 +163,8 @@ export const MandiSlipModal: React.FC<MandiSlipModalProps> = ({
         <div className="p-7 sm:p-8 space-y-5 text-stone-900" id="printable-voucher">
           {/* Slip Header */}
           <div className="border-b-2 border-dashed border-stone-400 pb-4 text-center relative">
-            <div className="text-2xl font-black tracking-tight text-emerald-900 flex items-center justify-center gap-1.5">
-              <span className="notranslate" translate="no">🌾</span>
+            <div className="text-2xl font-black tracking-tight text-emerald-900 flex items-center justify-center gap-2">
+              <FileText className="w-6 h-6 text-[#2E7D32]" />
               <span>AgriMate Gate Entry Voucher</span>
             </div>
             <p className="text-xs text-stone-600 font-medium mt-0.5">
