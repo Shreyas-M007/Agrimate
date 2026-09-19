@@ -155,20 +155,20 @@ export const HomePage: React.FC<HomePageProps> = ({
   return (
     <div className="space-y-12 sm:space-y-16 pb-16">
       {/* SECTION 1: HERO & LIVE SEARCH */}
-      <section className="relative overflow-hidden -mt-[68px] pt-[104px] sm:pt-[120px] pb-10 sm:pb-14">
-        {/* Full-bleed background photo */}
+      <section className="relative overflow-hidden -mt-[88px] sm:-mt-[98px] pt-[124px] sm:pt-[138px] pb-10 sm:pb-14">
+        {/* Full-bleed background photo extending well past top */}
         <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          className="absolute -top-20 inset-x-0 bottom-0 bg-cover bg-center bg-no-repeat"
           style={{
             backgroundImage: `url('https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=1800&q=80&auto=format&fit=crop')`,
           }}
           aria-hidden="true"
         />
-        {/* Dark green scrim */}
+        {/* Dark green scrim extending well past top */}
         <div
-          className="absolute inset-0"
+          className="absolute -top-20 inset-x-0 bottom-0"
           style={{
-            background: 'linear-gradient(to bottom, rgba(15,35,22,0.72) 0%, rgba(15,35,22,0.60) 60%, rgba(15,35,22,0.82) 100%)',
+            background: 'linear-gradient(to bottom, rgba(15,35,22,0.85) 0%, rgba(15,35,22,0.60) 35%, rgba(15,35,22,0.82) 100%)',
           }}
           aria-hidden="true"
         />
