@@ -129,6 +129,12 @@ function getNearestDistrictName(lat: number, lon: number): string {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (selectedCrop) {
+      const resolved = resolveCropFromQuery(selectedCrop);
+      if (resolved && resolved.name.toLowerCase() !== selectedCrop.toLowerCase()) {
+        onCropChange(resolved.name);
+      }
+    }
     onSearch(gpsCoords);
   };
 
@@ -165,12 +171,8 @@ function getNearestDistrictName(lat: number, lon: number): string {
                 id="cropInput"
                 list="panIndiaCropsList"
                 value={selectedCrop}
-                onChange={(e) => {
-                  const val = e.target.value;
-                  const resolved = resolveCropFromQuery(val);
-                  onCropChange(resolved ? resolved.name : val);
-                }}
-                placeholder="Type or select any crop e.g. Kadlekayi, Tomato, Ginger, Garlic..."
+                onChange={(e) => onCropChange(e.target.value)}
+                placeholder="Type or select any crop e.g. Groundnut, Tomato, Ginger, Garlic..."
                 className="w-full py-3 pr-3 text-sm bg-transparent text-stone-900 font-bold focus:outline-none placeholder:text-stone-400 placeholder:font-normal"
               />
               {selectedCrop && (
@@ -182,31 +184,6 @@ function getNearestDistrictName(lat: number, lon: number): string {
                   Clear
                 </button>
               )}
-            </div>
-            {/* Quick Regional Crop Pills */}
-            <div className="flex flex-wrap gap-1.5 mb-2">
-              {[
-                { label: 'Kadlekayi (ಕಡಲೆಕಾಯಿ)', name: 'Groundnut' },
-                { label: 'Tomato (ಟೊಮೆಟೊ)', name: 'Tomato' },
-                { label: 'Eerulli (ಈರುಳ್ಳಿ)', name: 'Onion' },
-                { label: 'Alugadde (ಆಲೂಗಡ್ಡೆ)', name: 'Potato' },
-                { label: 'Menasinakayi (ಮೆಣಸಿನಕಾಯಿ)', name: 'Green Chilli' },
-                { label: 'Mekkejola (ಮೆಕ್ಕೆಜೋಳ)', name: 'Maize' },
-                { label: 'Cotton (ಹತ್ತಿ)', name: 'Cotton' },
-              ].map(item => (
-                <button
-                  key={item.label}
-                  type="button"
-                  onClick={() => onCropChange(item.name)}
-                  className={`px-2.5 py-1 rounded-lg text-xs font-semibold transition-all cursor-pointer border ${
-                    selectedCrop.toLowerCase() === item.name.toLowerCase()
-                      ? 'bg-[#123826] text-white border-[#123826] shadow-2xs'
-                      : 'bg-[#F4F8F5] hover:bg-[#EBF5ED] text-stone-700 border-[#CCE0D0]'
-                  }`}
-                >
-                  {item.label}
-                </button>
-              ))}
             </div>
             <datalist id="panIndiaCropsList">
               {/* Popular crops with English, Kannada & Hindi */}

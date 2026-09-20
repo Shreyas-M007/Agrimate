@@ -175,14 +175,39 @@ export const COMPREHENSIVE_CROPS: CropDictionaryEntry[] = [
 
 export function resolveCropFromQuery(query: string): CropDictionaryEntry | undefined {
   if (!query) return undefined;
-  const q = query.trim().toLowerCase();
-  return COMPREHENSIVE_CROPS.find(c => 
+  const raw = query.trim();
+  const q = raw.toLowerCase();
+  if (q.length < 2) return undefined;
+
+  // 1. Exact match on name, primary alias, or aliases
+  const exact = COMPREHENSIVE_CROPS.find(c => 
     c.name.toLowerCase() === q ||
-    c.name.toLowerCase().includes(q) ||
     c.primaryAlias.toLowerCase() === q ||
-    c.primaryAlias.toLowerCase().includes(q) ||
-    c.hindi.includes(query.trim()) ||
-    c.kannada.includes(query.trim()) ||
-    c.aliases.some(alias => alias === q || q.includes(alias) || alias.includes(q))
+    c.aliases.some(a => a.toLowerCase() === q) ||
+    c.hindi === raw ||
+    c.kannada === raw
   );
+  if (exact) return exact;
+
+  // 2. Query contains canonical name or alias (e.g. "fresh kadlekayi", "organic tomato")
+  const containsAlias = COMPREHENSIVE_CROPS.find(c => 
+    q.includes(c.name.toLowerCase()) ||
+    q.includes(c.primaryAlias.toLowerCase()) ||
+    c.aliases.some(a => q.includes(a.toLowerCase())) ||
+    (c.kannada && raw.includes(c.kannada)) ||
+    (c.hindi && raw.includes(c.hindi))
+  );
+  if (containsAlias) return containsAlias;
+
+  // 3. Prefix match (min 3 chars)
+  if (q.length >= 3) {
+    const prefixMatch = COMPREHENSIVE_CROPS.find(c => 
+      c.name.toLowerCase().startsWith(q) ||
+      c.primaryAlias.toLowerCase().startsWith(q) ||
+      c.aliases.some(a => a.toLowerCase().startsWith(q))
+    );
+    if (prefixMatch) return prefixMatch;
+  }
+
+  return undefined;
 }
