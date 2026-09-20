@@ -3,6 +3,18 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.tsx'
 
+// Route /api calls to remote AWS API Gateway when VITE_API_BASE_URL is configured
+const apiBase = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/$/, '');
+if (apiBase) {
+  const nativeFetch = window.fetch;
+  window.fetch = (input: RequestInfo | URL, init?: RequestInit) => {
+    if (typeof input === 'string' && input.startsWith('/api')) {
+      return nativeFetch(`${apiBase}${input}`, init);
+    }
+    return nativeFetch(input, init);
+  };
+}
+
 // React + Google Translate DOM reconciliation crash protection:
 // Prevents NotFoundError crashes when Google Translate injects <font> wrapper tags into text nodes
 if (typeof window !== 'undefined' && typeof Node === 'function' && Node.prototype) {
