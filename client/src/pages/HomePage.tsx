@@ -297,28 +297,6 @@ export const HomePage: React.FC<HomePageProps> = ({
                 </div>
               )}
             </form>
-
-            {/* Quick Vernacular Search Chips */}
-            <div className="flex flex-wrap items-center justify-center gap-2 mt-3.5 text-xs">
-              <span className="text-[11px] font-semibold text-emerald-200/90 font-['Syne',sans-serif]">Quick Search:</span>
-              {[
-                { label: 'Kadlekayi (ಕಡಲೆಕಾಯಿ)', query: 'Groundnut' },
-                { label: 'Ballari Tomato', query: 'Tomato' },
-                { label: 'Lasalgaon Onion (ಈರುಳ್ಳಿ)', query: 'Onion' },
-                { label: 'Davanagere Maize', query: 'Maize' },
-                { label: 'Guntur Chilli (ಮೆಣಸಿನಕಾಯಿ)', query: 'Green Chilli' },
-                { label: 'Alugadde (ಆಲೂಗಡ್ಡೆ)', query: 'Potato' },
-              ].map((chip) => (
-                <button
-                  key={chip.label}
-                  type="button"
-                  onClick={() => handleExecuteSearch(chip.query, undefined)}
-                  className="px-2.5 py-1 rounded-full bg-white/12 hover:bg-white/22 border border-white/20 text-white text-[11px] font-medium transition-all cursor-pointer shadow-2xs hover:scale-105"
-                >
-                  {chip.label}
-                </button>
-              ))}
-            </div>
           </div>
 
           {/* Hero Editorial Header & Split */}
