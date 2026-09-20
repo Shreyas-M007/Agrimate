@@ -71,35 +71,40 @@ export const App: React.FC = () => {
   const [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false);
   const [syncToast, setSyncToast] = useState<string | null>(null);
 
-  // Initialize page routing from pathname
+  // Initialize page routing from hash and pathname
   useEffect(() => {
-    const getPageFromPath = (path: string): NavigationPage => {
-      const clean = path.replace(/^\//, '').toLowerCase();
-      if (clean === 'dashboard') return 'dashboard';
-      if (clean === 'about') return 'about';
-      if (clean === 'services') return 'services';
-      if (clean === 'crops') return 'crops';
-      if (clean === 'dispatch') return 'dispatch';
-      if (clean === 'contact') return 'contact';
+    const getPageFromLocation = (): NavigationPage => {
+      // 1. Check hash first (e.g. #/dashboard, #dashboard)
+      const hashClean = (window.location.hash || '').replace(/^#\/?/, '').split('?')[0].toLowerCase();
+      if (['dashboard', 'about', 'services', 'crops', 'dispatch', 'contact'].includes(hashClean)) {
+        return hashClean as NavigationPage;
+      }
+      // 2. Check pathname (e.g. /dashboard or /dashboard.html)
+      const pathClean = window.location.pathname.replace(/^\//, '').replace(/\.html$/, '').toLowerCase();
+      if (['dashboard', 'about', 'services', 'crops', 'dispatch', 'contact'].includes(pathClean)) {
+        return pathClean as NavigationPage;
+      }
       return 'home';
     };
 
-    setCurrentPage(getPageFromPath(window.location.pathname));
+    setCurrentPage(getPageFromLocation());
 
-    const handlePopState = () => {
-      setCurrentPage(getPageFromPath(window.location.pathname));
+    const handleLocationChange = () => {
+      setCurrentPage(getPageFromLocation());
     };
 
-    window.addEventListener('popstate', handlePopState);
-    return () => window.removeEventListener('popstate', handlePopState);
+    window.addEventListener('popstate', handleLocationChange);
+    window.addEventListener('hashchange', handleLocationChange);
+    return () => {
+      window.removeEventListener('popstate', handleLocationChange);
+      window.removeEventListener('hashchange', handleLocationChange);
+    };
   }, []);
 
   const navigateTo = (page: NavigationPage) => {
     setCurrentPage(page);
-    const targetPath = page === 'home' ? '/' : `/${page}`;
-    if (window.location.pathname !== targetPath) {
-      window.history.pushState({}, '', targetPath);
-    }
+    // Hash routing guarantees 100% reloadable URLs on S3/static hosting without 403 AccessDenied
+    window.location.hash = page === 'home' ? '' : `/${page}`;
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
