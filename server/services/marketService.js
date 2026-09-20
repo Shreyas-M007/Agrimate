@@ -479,9 +479,67 @@ export function searchMarkets({
     };
   }
 
+  const CROP_ALIASES = {
+    'kadlekayi': 'Groundnut',
+    'kadale kayi': 'Groundnut',
+    'kadlekai': 'Groundnut',
+    'kadale': 'Groundnut',
+    'mungphali': 'Groundnut',
+    'moongphali': 'Groundnut',
+    'peanut': 'Groundnut',
+    'peanuts': 'Groundnut',
+    'shengdana': 'Groundnut',
+    'tamatar': 'Tomato',
+    'tamate': 'Tomato',
+    'pyaz': 'Onion',
+    'pyaaz': 'Onion',
+    'kanda': 'Onion',
+    'eerulli': 'Onion',
+    'irulli': 'Onion',
+    'ulligaddi': 'Onion',
+    'aloo': 'Potato',
+    'alu': 'Potato',
+    'batata': 'Potato',
+    'alugadde': 'Potato',
+    'mirch': 'Chilli',
+    'mirchi': 'Chilli',
+    'menasinakayi': 'Chilli',
+    'menasinkayi': 'Chilli',
+    'makka': 'Maize',
+    'makai': 'Maize',
+    'bhutta': 'Maize',
+    'mekkejola': 'Maize',
+    'kapas': 'Cotton',
+    'hathi': 'Cotton',
+    'hathhi': 'Cotton',
+    'gehun': 'Wheat',
+    'godhi': 'Wheat',
+    'dhan': 'Paddy',
+    'bhatta': 'Paddy',
+    'akki': 'Paddy',
+    'chawal': 'Paddy',
+    'sarson': 'Mustard',
+    'sasive': 'Mustard',
+    'adrak': 'Ginger',
+    'shunti': 'Ginger',
+    'lahsun': 'Garlic',
+    'bellulli': 'Garlic',
+    'haldi': 'Turmeric',
+    'arishina': 'Turmeric',
+    'elaichi': 'Cardamom',
+    'elakki': 'Cardamom',
+    'ganna': 'Sugarcane',
+    'kabbu': 'Sugarcane',
+    'ragi': 'Ragi',
+    'jola': 'Jowar',
+    'jowar': 'Jowar'
+  };
+
   const normalizedCrop = crop.trim().toLowerCase();
+  const resolvedAlias = CROP_ALIASES[normalizedCrop] || normalizedCrop;
   const matchedCommodity = cachedCommodities.find(c => 
     c.name.toLowerCase() === normalizedCrop ||
+    c.name.toLowerCase() === resolvedAlias.toLowerCase() ||
     c.commodity_id.toLowerCase() === normalizedCrop ||
     (c.localNames?.hi && c.localNames.hi.toLowerCase() === normalizedCrop) ||
     (c.localNames?.kn && c.localNames.kn.toLowerCase() === normalizedCrop)

@@ -344,6 +344,7 @@ export const Header: React.FC<HeaderProps> = ({
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 {[
+                  { name: 'Groundnut', tag: 'Kadlekayi / ಕಡಲೆಕಾಯಿ', mandi: 'Ballari, Kolar, Hospet' },
                   { name: 'Tomato', tag: 'Hybrid / Local', mandi: 'Ballari, Kolar' },
                   { name: 'Onion', tag: 'Nashik Red', mandi: 'Lasalgaon, Hubballi' },
                   { name: 'Maize', tag: 'Hybrid Yellow', mandi: 'Davanagere, Bellary' },

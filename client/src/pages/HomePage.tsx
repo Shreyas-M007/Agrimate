@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import { ContinentalMosaic } from '../components/ContinentalMosaic';
 import { IndiaMarketsMap } from '../components/IndiaMarketsMap';
+import { COMPREHENSIVE_CROPS, resolveCropFromQuery } from '../data/cropDictionary';
 
 interface HomePageProps {
   language: Language;
@@ -55,19 +56,6 @@ export const HomePage: React.FC<HomePageProps> = ({
     { crop: 'Turmeric', mandi: 'Nizamabad APMC', state: 'Telangana', modal: '₹12,400', unit: 'q', change: '+4.1%', trend: 'up' },
   ];
 
-  const cropList = [
-    { name: 'Tomato', hindi: 'टमाटर', kannada: 'ಟೊಮೆಟೊ', modal: '₹1,850/q' },
-    { name: 'Onion', hindi: 'प्याज', kannada: 'ಈರುಳ್ಳಿ', modal: '₹2,100/q' },
-    { name: 'Potato', hindi: 'आलू', kannada: 'ಆಲೂಗಡ್ಡೆ', modal: '₹1,600/q' },
-    { name: 'Green Chilli', hindi: 'हरी मिर्च', kannada: 'ಹಸಿಮೆಣಸಿನಕಾಯಿ', modal: '₹3,400/q' },
-    { name: 'Cotton', hindi: 'कपास', kannada: 'ಹತ್ತಿ', modal: '₹7,200/q' },
-    { name: 'Soybean', hindi: 'सोयाबीन', kannada: 'ಸೋಯಾಬೀನ್', modal: '₹4,350/q' },
-    { name: 'Maize', hindi: 'मक्का', kannada: 'ಮೆಕ್ಕೆಜೋಳ', modal: '₹2,150/q' },
-    { name: 'Paddy / Rice', hindi: 'धान / चावल', kannada: 'ಭತ್ತ / ಅಕ್ಕಿ', modal: '₹2,450/q' },
-    { name: 'Wheat', hindi: 'गेहूं', kannada: 'ಗೋಧಿ', modal: '₹2,600/q' },
-    { name: 'Mustard', hindi: 'सरसों', kannada: 'ಸಾಸಿವೆ', modal: '₹5,400/q' },
-  ];
-
   const mandiList = [
     { name: 'Ballari', apmc: 'Ballari APMC', state: 'Karnataka', topCrop: 'Tomato & Chilli' },
     { name: 'Kolar', apmc: 'Kolar APMC', state: 'Karnataka', topCrop: 'Tomato & Veg' },
@@ -86,11 +74,13 @@ export const HomePage: React.FC<HomePageProps> = ({
   ];
 
   const filteredCrops = searchQuery.trim() === ''
-    ? cropList.slice(0, 4)
-    : cropList.filter(c => 
+    ? COMPREHENSIVE_CROPS.slice(0, 5)
+    : COMPREHENSIVE_CROPS.filter(c => 
         c.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+        c.primaryAlias.toLowerCase().includes(searchQuery.toLowerCase()) ||
         c.hindi.includes(searchQuery) || 
-        c.kannada.includes(searchQuery)
+        c.kannada.includes(searchQuery) ||
+        c.aliases.some(a => a.toLowerCase().includes(searchQuery.toLowerCase()) || searchQuery.toLowerCase().includes(a.toLowerCase()))
       );
 
   const filteredMandis = searchQuery.trim() === ''
@@ -120,10 +110,10 @@ export const HomePage: React.FC<HomePageProps> = ({
       onNavigate('dashboard');
       return;
     }
-    const foundCrop = cropList.find(c => query.toLowerCase().includes(c.name.toLowerCase()) || c.hindi.includes(query) || c.kannada.includes(query));
+    const resolved = resolveCropFromQuery(query);
     const foundMandi = mandiList.find(m => query.toLowerCase().includes(m.name.toLowerCase()) || query.toLowerCase().includes(m.state.toLowerCase()));
     
-    handleExecuteSearch(foundCrop ? foundCrop.name : query, foundMandi ? foundMandi.name : undefined);
+    handleExecuteSearch(resolved ? resolved.name : query, foundMandi ? foundMandi.name : undefined);
   };
 
   const handleSubscribe = (e: React.FormEvent) => {
@@ -193,7 +183,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                     setShowSuggestions(true);
                   }}
                   onFocus={() => setShowSuggestions(true)}
-                  placeholder="Search crop (Tomato, Onion, Maize...) or APMC Mandi (Ballari, Lasalgaon, Kolar)..."
+                  placeholder="Search crop in English, ಕನ್ನಡ (Kadlekayi), or हिन्दी (टमाटर)..."
                   className="text-xs sm:text-sm text-[#153424] font-semibold flex-1 bg-transparent outline-none placeholder:text-stone-400 placeholder:font-normal"
                 />
                 {searchQuery && (
@@ -251,8 +241,10 @@ export const HomePage: React.FC<HomePageProps> = ({
                           >
                             <div className="flex items-center gap-2">
                               <div>
-                                <span className="font-bold text-[#123826] block">{c.name}</span>
-                                <span className="text-[10px] text-stone-500">{c.hindi} • {c.kannada}</span>
+                                <span className="font-bold text-[#123826] block">
+                                  {c.name} {c.primaryAlias && c.primaryAlias.toLowerCase() !== c.name.toLowerCase() ? `(${c.primaryAlias})` : ''}
+                                </span>
+                                <span className="text-[10px] text-stone-500">{c.kannada} • {c.hindi}</span>
                               </div>
                             </div>
                             <span className="font-mono font-bold text-xs text-[#2E7D32]">{c.modal}</span>
@@ -305,6 +297,28 @@ export const HomePage: React.FC<HomePageProps> = ({
                 </div>
               )}
             </form>
+
+            {/* Quick Vernacular Search Chips */}
+            <div className="flex flex-wrap items-center justify-center gap-2 mt-3.5 text-xs">
+              <span className="text-[11px] font-semibold text-emerald-200/90 font-['Syne',sans-serif]">Quick Search:</span>
+              {[
+                { label: 'Kadlekayi (ಕಡಲೆಕಾಯಿ)', query: 'Groundnut' },
+                { label: 'Ballari Tomato', query: 'Tomato' },
+                { label: 'Lasalgaon Onion (ಈರುಳ್ಳಿ)', query: 'Onion' },
+                { label: 'Davanagere Maize', query: 'Maize' },
+                { label: 'Guntur Chilli (ಮೆಣಸಿನಕಾಯಿ)', query: 'Green Chilli' },
+                { label: 'Alugadde (ಆಲೂಗಡ್ಡೆ)', query: 'Potato' },
+              ].map((chip) => (
+                <button
+                  key={chip.label}
+                  type="button"
+                  onClick={() => handleExecuteSearch(chip.query, undefined)}
+                  className="px-2.5 py-1 rounded-full bg-white/12 hover:bg-white/22 border border-white/20 text-white text-[11px] font-medium transition-all cursor-pointer shadow-2xs hover:scale-105"
+                >
+                  {chip.label}
+                </button>
+              ))}
+            </div>
           </div>
 
           {/* Hero Editorial Header & Split */}
