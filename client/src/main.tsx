@@ -3,8 +3,11 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.tsx'
 
-// Route /api calls to remote AWS API Gateway when VITE_API_BASE_URL is configured
-const apiBase = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/$/, '');
+// Route /api calls to remote AWS API Gateway when deployed (or when VITE_API_BASE_URL is set)
+const isLocal = typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
+const AWS_API_BASE = 'https://2nvi2atdoc.execute-api.ap-south-1.amazonaws.com/prod';
+const apiBase = (import.meta.env.VITE_API_BASE_URL || (isLocal ? '' : AWS_API_BASE)).replace(/\/$/, '');
+
 if (apiBase) {
   const nativeFetch = window.fetch;
   window.fetch = (input: RequestInfo | URL, init?: RequestInit) => {
