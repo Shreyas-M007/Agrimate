@@ -49,15 +49,20 @@ async function runAudit() {
         env: { ...process.env, PORT: '5001' },
         stdio: 'ignore'
       });
-      for (let i = 0; i < 40; i++) {
+      let serverReady = false;
+      for (let i = 0; i < 150; i++) {
         await new Promise(r => setTimeout(r, 100));
         try {
-          const testPing = await fetch(`${BASE_URL}/api/health`, { signal: AbortSignal.timeout(200) });
+          const testPing = await fetch(`${BASE_URL}/api/health`, { signal: AbortSignal.timeout(500) });
           if (testPing.ok) {
             console.log("🌾 AgriMate test server ready.\n");
+            serverReady = true;
             break;
           }
         } catch {}
+      }
+      if (!serverReady) {
+        console.warn("⚠️ Warning: AgriMate test server did not respond to /api/health within 15 seconds.");
       }
     }
   } catch (err) {

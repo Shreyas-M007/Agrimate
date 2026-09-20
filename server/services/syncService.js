@@ -63,7 +63,7 @@ export async function syncMarketData({ simulateLiveData = false } = {}) {
         const min = Math.round(modal * 0.90);
         const max = Math.round(modal * 1.12);
         const arrival = Math.max(30, 100 + (hash % 120));
-        const variety = varieties[hash % varieties.length];
+        const variety = (Array.isArray(varieties) && varieties.length > 0) ? (varieties[hash % varieties.length] || "Standard") : "Standard";
         const grade = hash % 2 === 0 ? "FAQ (Fair Average Quality)" : "Grade 1";
 
         const recordId = `SYNC-${commodity.commodity_id}-${market.market_id}-${todayStr}`;

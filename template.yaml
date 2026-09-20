@@ -15,7 +15,7 @@ Globals:
       Variables:
         NODE_ENV: production
         AWS_REGION: !Ref AWS::Region
-        BEDROCK_MODEL_ID: !Ref BedrockModelId
+        AI_ENGINE: AWS_LAMBDA_SERVERLESS
         DYNAMO_TABLE_MARKETS: !Ref MarketsTable
         DYNAMO_TABLE_COMMODITIES: !Ref CommoditiesTable
         DYNAMO_TABLE_PRICES: !Ref PriceRecordsTable
@@ -27,10 +27,6 @@ Parameters:
     Default: prod
     AllowedValues: [dev, staging, prod]
     Description: Deployment target environment
-  BedrockModelId:
-    Type: String
-    Default: anthropic.claude-3-haiku-20240307-v1:0
-    Description: Amazon Bedrock Foundation Model ID for multilingual explanation layer
 
 Resources:
   ##############################################################################
@@ -64,13 +60,6 @@ Resources:
             TableName: !Ref CommoditiesTable
         - DynamoDBCrudPolicy:
             TableName: !Ref UserPreferencesTable
-        # Amazon Bedrock Invoke Policy (PRD Sec 14, 18, 19.1)
-        - Statement:
-            - Effect: Allow
-              Action:
-                - bedrock:InvokeModel
-                - bedrock:InvokeModelWithResponseStream
-              Resource: !Sub 'arn:aws:bedrock:${AWS::Region}::foundation-model/*'
       Events:
         ApiProxy:
           Type: Api
@@ -188,9 +177,9 @@ Outputs:
   MandiMateApiUrl:
     Description: Production API Gateway URL endpoint for MandiMate
     Value: !Sub 'https://${MandiMateApi}.execute-api.${AWS::Region}.amazonaws.com/${Environment}/'
-  BedrockModel:
-    Description: Active Amazon Bedrock Model configured for multilingual explanations
-    Value: !Ref BedrockModelId
+  AiEngine:
+    Description: Native Serverless AI Advisory Engine (100% AWS Free Tier)
+    Value: "AWS Lambda Native Serverless AI (100% Free Tier)"
   PriceRecordsTableArn:
     Description: DynamoDB Price Records Table ARN
     Value: !GetAtt PriceRecordsTable.Arn
