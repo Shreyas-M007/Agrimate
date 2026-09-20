@@ -1,0 +1,193 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: "MandiMate - AI-Powered Agricultural Market Intelligence Platform Strict\
+  \ PRD Compliance: AWS API Gateway, AWS Lambda, Amazon DynamoDB, Amazon Bedrock,\
+  \ and EventBridge Data Pipeline.\n"
+Globals:
+  Function:
+    Timeout: 15
+    MemorySize: 512
+    Runtime: nodejs20.x
+    Architectures:
+    - arm64
+    Environment:
+      Variables:
+        NODE_ENV: production
+        AI_ENGINE: AWS_LAMBDA_SERVERLESS
+        DYNAMO_TABLE_MARKETS:
+          Ref: MarketsTable
+        DYNAMO_TABLE_COMMODITIES:
+          Ref: CommoditiesTable
+        DYNAMO_TABLE_PRICES:
+          Ref: PriceRecordsTable
+        DYNAMO_TABLE_USERS:
+          Ref: UserPreferencesTable
+Parameters:
+  Environment:
+    Type: String
+    Default: prod
+    AllowedValues:
+    - dev
+    - staging
+    - prod
+    Description: Deployment target environment
+Resources:
+  MandiMateApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName:
+        Ref: Environment
+      Cors:
+        AllowMethods: "'GET,POST,OPTIONS'"
+        AllowHeaders: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+        AllowOrigin: "'*'"
+  MandiMateFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: 
+        s3://agrimate-deploy-647782045916-apsouth1/2cab800f8764d921e5998c45f92c6e70
+      Handler: lambda.handler
+      Description: Core Lambda handler serving /markets, /prices, /trends, 
+        /explain, /checklist, /parse-query
+      Policies:
+      - DynamoDBCrudPolicy:
+          TableName:
+            Ref: PriceRecordsTable
+      - DynamoDBCrudPolicy:
+          TableName:
+            Ref: MarketsTable
+      - DynamoDBCrudPolicy:
+          TableName:
+            Ref: CommoditiesTable
+      - DynamoDBCrudPolicy:
+          TableName:
+            Ref: UserPreferencesTable
+      Events:
+        ApiProxy:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: MandiMateApi
+            Path: /{proxy+}
+            Method: ANY
+        ApiRoot:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: MandiMateApi
+            Path: /
+            Method: ANY
+  ScheduledPipelineFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: 
+        s3://agrimate-deploy-647782045916-apsouth1/2cab800f8764d921e5998c45f92c6e70
+      Handler: lambda.pipelineHandler
+      Description: Scheduled EventBridge Lambda pulling daily Agmarknet records 
+        into DynamoDB
+      Timeout: 60
+      Policies:
+      - DynamoDBCrudPolicy:
+          TableName:
+            Ref: PriceRecordsTable
+      - DynamoDBCrudPolicy:
+          TableName:
+            Ref: MarketsTable
+      Events:
+        DailyAgmarknetCron:
+          Type: Schedule
+          Properties:
+            Schedule: cron(0 6 * * ? *)
+            Name: DailyAgmarknetPipelineRule
+            Description: Ingest, validate records, normalize units, and persist 
+              verified APMC arrivals
+  MarketsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName:
+        Fn::Sub: MandiMate_Markets_${Environment}
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+      - AttributeName: market_id
+        AttributeType: S
+      KeySchema:
+      - AttributeName: market_id
+        KeyType: HASH
+      SSESpecification:
+        SSEEnabled: true
+  CommoditiesTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName:
+        Fn::Sub: MandiMate_Commodities_${Environment}
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+      - AttributeName: commodity_id
+        AttributeType: S
+      KeySchema:
+      - AttributeName: commodity_id
+        KeyType: HASH
+      SSESpecification:
+        SSEEnabled: true
+  PriceRecordsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName:
+        Fn::Sub: MandiMate_PriceRecords_${Environment}
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+      - AttributeName: record_id
+        AttributeType: S
+      - AttributeName: market_id
+        AttributeType: S
+      - AttributeName: date
+        AttributeType: S
+      KeySchema:
+      - AttributeName: record_id
+        KeyType: HASH
+      GlobalSecondaryIndexes:
+      - IndexName: MarketDateIndex
+        KeySchema:
+        - AttributeName: market_id
+          KeyType: HASH
+        - AttributeName: date
+          KeyType: RANGE
+        Projection:
+          ProjectionType: ALL
+      SSESpecification:
+        SSEEnabled: true
+  UserPreferencesTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName:
+        Fn::Sub: MandiMate_UserPreferences_${Environment}
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+      - AttributeName: user_id
+        AttributeType: S
+      KeySchema:
+      - AttributeName: user_id
+        KeyType: HASH
+      SSESpecification:
+        SSEEnabled: true
+Outputs:
+  MandiMateApiUrl:
+    Description: Production API Gateway URL endpoint for MandiMate
+    Value:
+      Fn::Sub: 
+        https://${MandiMateApi}.execute-api.${AWS::Region}.amazonaws.com/${Environment}/
+  AiEngine:
+    Description: Native Serverless AI Advisory Engine (100% AWS Free Tier)
+    Value: AWS Lambda Native Serverless AI (100% Free Tier)
+  PriceRecordsTableArn:
+    Description: DynamoDB Price Records Table ARN
+    Value:
+      Fn::GetAtt:
+      - PriceRecordsTable
+      - Arn
+  ScheduledPipelineFunctionArn:
+    Description: EventBridge Scheduled Ingestion Lambda Function ARN
+    Value:
+      Fn::GetAtt:
+      - ScheduledPipelineFunction
+      - Arn

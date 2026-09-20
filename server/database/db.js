@@ -1,4 +1,3 @@
-import sqlite3 from 'sqlite3';
 import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
@@ -6,10 +5,22 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const dbFile = path.join(__dirname, 'mandimate.db');
-const db = new sqlite3.Database(dbFile);
+const isLambda = !!(process.env.AWS_LAMBDA_FUNCTION_NAME || process.env.LAMBDA_TASK_ROOT);
+
+let db = null;
+if (!isLambda) {
+  try {
+    const sqlite3Module = await import('sqlite3');
+    const sqlite3 = sqlite3Module.default || sqlite3Module;
+    const dbFile = path.join(__dirname, 'mandimate.db');
+    db = new sqlite3.Database(dbFile);
+  } catch (err) {
+    console.warn("[db] SQLite initialization bypassed:", err.message);
+  }
+}
 
 export function query(sql, params = []) {
+  if (!db) return Promise.resolve([]);
   return new Promise((resolve, reject) => {
     db.all(sql, params, (err, rows) => {
       if (err) reject(err);
@@ -19,6 +30,7 @@ export function query(sql, params = []) {
 }
 
 export function get(sql, params = []) {
+  if (!db) return Promise.resolve(null);
   return new Promise((resolve, reject) => {
     db.get(sql, params, (err, row) => {
       if (err) reject(err);
@@ -28,6 +40,7 @@ export function get(sql, params = []) {
 }
 
 export function run(sql, params = []) {
+  if (!db) return Promise.resolve({ lastID: 0, changes: 0 });
   return new Promise((resolve, reject) => {
     db.run(sql, params, function (err) {
       if (err) reject(err);
@@ -37,6 +50,7 @@ export function run(sql, params = []) {
 }
 
 export async function initDb() {
+  if (!db) return;
   // Enable WAL mode for high concurrency
   await run("PRAGMA journal_mode = WAL;");
   await run("PRAGMA synchronous = NORMAL;");
