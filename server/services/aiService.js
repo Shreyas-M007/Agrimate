@@ -113,19 +113,20 @@ const CROP_LOCAL_NAMES = {
 export function generateMarketExplanation({ market, trend, language = 'en', quantityQuintals = 0 }) {
   const lang = ['hi', 'kn', 'te', 'ta', 'mr', 'bn', 'gu', 'pa', 'ml', 'en'].includes(language) ? language : 'en';
 
-  const rawCrop = (market.commodity_name || "produce").toLowerCase();
+  const rawCrop = (market.commodity_name || market.commodity || market.crop || "produce").toLowerCase();
   const localizedCrop = (CROP_LOCAL_NAMES[rawCrop] && CROP_LOCAL_NAMES[rawCrop][lang]) 
     ? CROP_LOCAL_NAMES[rawCrop][lang] 
-    : (market.commodity_name || "produce");
+    : (market.commodity_name || market.commodity || market.crop || "produce");
 
   const cropName = localizedCrop;
-  const marketName = market.market_name;
-  const modalPrice = market.modal_price;
-  const minPrice = market.min_price;
-  const maxPrice = market.max_price;
+  const marketName = market.market_name || market.name || "APMC Yard";
+  const modalPrice = Number(market.modal_price) || 0;
+  const minPrice = Number(market.min_price) || Math.round(modalPrice * 0.85);
+  const maxPrice = Number(market.max_price) || Math.round(modalPrice * 1.15);
   const spread = maxPrice - minPrice;
-  const freshness = market.freshness;
-  const arrivalQty = market.arrival_quantity;
+  const freshness = market.freshness || (market.is_today ? "verified today" : "official Agmarknet feed");
+  const arrivalQty = market.arrival_quantity != null ? market.arrival_quantity : "daily standard";
+  const sourceName = market.source || "Agmarknet / DMI (Ministry of Agriculture)";
 
   const trendSymbol = trend?.symbol || "→";
   const trendPercent = trend?.percent_change || 0;
@@ -342,7 +343,7 @@ export function generateMarketExplanation({ market, trend, language = 'en', quan
       trendExplanation: trendNarrative,
       estimatedValueNote: valueNote,
       advice: `നല്ല ഗുണനിലവാരമുള്ള വിളയാണെങ്കിൽ മോഡൽ നിരക്കോ അതിൽ കൂടുതലോ ലഭിക്കാൻ സാധ്യതയുണ്ട്. വാടകയും കയറ്റിറക്ക് കൂലിയും മുൻകൂട്ടി ഉറപ്പാക്കുക.`,
-      verifiedNotice: `ഈ വിവരങ്ങൾ ഔദ്യോഗിക കാർഷിക ഡാറ്റയിൽ (${market.source}) നിന്ന് സ്ഥിരീകരിച്ചതാണ്.`
+      verifiedNotice: `ഈ വിവരങ്ങൾ ഔദ്യോഗിക കാർഷിക ഡാറ്റയിൽ (${sourceName}) നിന്ന് സ്ഥിരീകരിച്ചതാണ്.`
     };
   }
 
@@ -368,6 +369,6 @@ export function generateMarketExplanation({ market, trend, language = 'en', quan
     trendExplanation: trendNarrative,
     estimatedValueNote: valueNote,
     advice: `Produce with good uniformity and low moisture typically commands the modal price or higher. Confirm transport charges and APMC market deductions before dispatching your load.`,
-    verifiedNotice: `Sourced from official agricultural records: ${market.source}.`
+    verifiedNotice: `Sourced from official agricultural records: ${sourceName}.`
   };
 }

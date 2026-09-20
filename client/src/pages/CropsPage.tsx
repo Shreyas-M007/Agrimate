@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import type { Language, NavigationPage, Commodity } from '../types';
+import { resolveCropFromQuery } from '../data/cropDictionary';
 import { 
   Search, 
   ChevronRight,
@@ -71,6 +72,19 @@ const CROP_DATABASE: CropDetail[] = [
     majorMandis: ['Hassan (KA)', 'Agra (UP)', 'Farrukhabad (UP)', 'Kolar (KA)'],
     storageAdvice: 'Cold storage at 3-4°C with CIPC sprout suppression for table stock.',
     moistureThreshold: 'Tough skin setting, no greening or tuber moth damage'
+  },
+  {
+    id: 'groundnut',
+    name: 'Groundnut (Kadlekayi)',
+    hindiName: 'मूंगफली',
+    kannadaName: 'ಕಡಲೆಕಾಯಿ',
+    category: 'Oilseeds',
+    varieties: ['TMV-2', 'JL-24', 'Kadiri-6', 'TAG-24'],
+    modalRange: '₹5,800 - ₹7,400 / q',
+    peakSeason: 'Oct - Jan (Kharif) & Mar - May (Summer)',
+    majorMandis: ['Ballari (KA)', 'Challakere (KA)', 'Kurnool (AP)', 'Gondal (GJ)'],
+    storageAdvice: 'Sun-cure pods for 3-5 days. Store in double-layer breathable gunny bags at moisture < 8% to prevent aflatoxin contamination.',
+    moistureThreshold: 'Pod moisture strictly below 8%, shelling outturn > 70%'
   },
   {
     id: 'mustard',
@@ -277,13 +291,21 @@ export const CropsPage: React.FC<CropsPageProps> = ({
 
   const categories = ['All', 'Solanaceous', 'Alliums & Tubers', 'Grains & Pulses', 'Cash Crops', 'Oilseeds', 'Spices & Plantation', 'Fruits & Exotic'];
 
+  const resolvedSearch = searchQuery.trim() ? resolveCropFromQuery(searchQuery.trim()) : null;
+
   const filteredCrops = CROP_DATABASE.filter(crop => {
     const matchesCat = selectedCategory === 'All' || crop.category === selectedCategory;
-    const matchesSearch = crop.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    const q = searchQuery.toLowerCase().trim();
+    const matchesDirect = !searchQuery ||
+                          crop.name.toLowerCase().includes(q) ||
                           crop.hindiName.includes(searchQuery) ||
                           crop.kannadaName.includes(searchQuery) ||
-                          crop.varieties.some(v => v.toLowerCase().includes(searchQuery.toLowerCase()));
-    return matchesCat && matchesSearch;
+                          crop.varieties.some(v => v.toLowerCase().includes(q));
+    const matchesResolved = resolvedSearch ? (
+      crop.name.toLowerCase().includes(resolvedSearch.name.toLowerCase()) ||
+      resolvedSearch.name.toLowerCase().includes(crop.name.toLowerCase())
+    ) : false;
+    return matchesCat && (matchesDirect || matchesResolved);
   });
 
   return (

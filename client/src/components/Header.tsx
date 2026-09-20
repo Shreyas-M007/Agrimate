@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import type { Language, SyncStatusData, NavigationPage } from '../types';
 import { TRANSLATIONS } from '../i18n/translations';
+import { resolveCropFromQuery } from '../data/cropDictionary';
 import { 
   Globe, 
   Settings, 
@@ -316,7 +317,9 @@ export const Header: React.FC<HeaderProps> = ({
                   if (e.key === 'Enter') {
                     e.preventDefault();
                     if (headerSearchQuery.trim()) {
-                      if (onSearchAndNavigate) onSearchAndNavigate(headerSearchQuery.trim(), undefined);
+                      const resolved = resolveCropFromQuery(headerSearchQuery.trim());
+                      const targetCrop = resolved ? resolved.name : headerSearchQuery.trim();
+                      if (onSearchAndNavigate) onSearchAndNavigate(targetCrop, undefined);
                       else handleNavClick('dashboard');
                       setSearchModalOpen(false);
                       setHeaderSearchQuery('');
@@ -389,7 +392,10 @@ export const Header: React.FC<HeaderProps> = ({
               <span>Press <kbd className="font-mono bg-stone-100 px-1.5 py-0.5 rounded border border-stone-300">Enter</kbd> to search terminal</span>
               <button
                 onClick={() => {
-                  if (onSearchAndNavigate) onSearchAndNavigate(headerSearchQuery || 'Tomato', undefined);
+                  const query = headerSearchQuery || 'Tomato';
+                  const resolved = resolveCropFromQuery(query);
+                  const targetCrop = resolved ? resolved.name : query;
+                  if (onSearchAndNavigate) onSearchAndNavigate(targetCrop, undefined);
                   else handleNavClick('dashboard');
                   setSearchModalOpen(false);
                   setHeaderSearchQuery('');
