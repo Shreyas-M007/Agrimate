@@ -8,7 +8,7 @@ Globals:
   Function:
     Timeout: 15
     MemorySize: 512
-    Runtime: nodejs20.x
+    Runtime: nodejs22.x
     Architectures:
       - arm64
     Environment:

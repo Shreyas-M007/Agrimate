@@ -66,7 +66,7 @@ export async function handler(event, context) {
           bedrock: getBedrockConfig(),
           dynamodb: getDynamoConfig(),
           lambda: {
-            runtime: "nodejs20.x",
+            runtime: "nodejs22.x",
             architecture: "arm64",
             handler: "server/lambda.handler"
           }
