@@ -155,6 +155,22 @@ router.get('/markets', async (req, res) => {
     }
   }
 
+  // Also fallback if result has no markets found and pan_india is requested
+  const isPanIndiaRequested = req.query.pan_india === 'true' || req.query.dynamic === 'true';
+  if (isPanIndiaRequested && result.success && (!result.verified || !result.markets || result.markets.length === 0)) {
+    result = generateDynamicMarketSearchResult({
+      crop,
+      location: targetLocation,
+      quantity: numQuantity,
+      unit,
+      lat,
+      lon,
+      filterState,
+      maxDistanceKm,
+      sortBy
+    });
+  }
+
   if (!result.success) {
     return res.status(400).json(result);
   }

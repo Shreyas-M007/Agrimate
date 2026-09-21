@@ -532,7 +532,37 @@ export function searchMarkets({
     'kabbu': 'Sugarcane',
     'ragi': 'Ragi',
     'jola': 'Jowar',
-    'jowar': 'Jowar'
+    'jowar': 'Jowar',
+    'apple': 'Apple',
+    'seb': 'Apple',
+    'sebu': 'Apple',
+    'banana': 'Banana',
+    'kela': 'Banana',
+    'balehannu': 'Banana',
+    'mango': 'Mango',
+    'aam': 'Mango',
+    'mavinahannu': 'Mango',
+    'pomegranate': 'Pomegranate',
+    'anar': 'Pomegranate',
+    'dalimbe': 'Pomegranate',
+    'grapes': 'Grapes',
+    'grape': 'Grapes',
+    'angoor': 'Grapes',
+    'drakshi': 'Grapes',
+    'orange': 'Orange',
+    'santra': 'Orange',
+    'kittale': 'Orange',
+    'papaya': 'Papaya',
+    'papita': 'Papaya',
+    'parangi': 'Papaya',
+    'coconut': 'Coconut',
+    'nariyal': 'Coconut',
+    'tenginakayi': 'Coconut',
+    'coffee': 'Coffee',
+    'tea': 'Tea',
+    'cashew': 'Cashew',
+    'kaju': 'Cashew',
+    'godambi': 'Cashew'
   };
 
   const normalizedCrop = crop.trim().toLowerCase();
@@ -607,6 +637,20 @@ export function searchMarkets({
   }
 
   if (latestRecords.length === 0) {
+    if (allowDynamic) {
+      return generateDynamicMarketSearchResult({
+        crop: matchedCommodity.name || crop,
+        location,
+        quantity,
+        unit,
+        lat,
+        lon,
+        filterState,
+        maxDistanceKm,
+        sortBy
+      });
+    }
+
     return {
       success: true,
       verified: false,
@@ -687,6 +731,20 @@ export function searchMarkets({
     } else {
       enrichedMarkets.sort((a, b) => b.modal_price - a.modal_price);
     }
+  }
+
+  if (enrichedMarkets.length === 0 && allowDynamic) {
+    return generateDynamicMarketSearchResult({
+      crop: matchedCommodity.name || crop,
+      location,
+      quantity,
+      unit,
+      lat,
+      lon,
+      filterState,
+      maxDistanceKm,
+      sortBy
+    });
   }
 
   return {

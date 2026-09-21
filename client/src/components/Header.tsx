@@ -109,12 +109,28 @@ export const Header: React.FC<HeaderProps> = ({
     ml: 'തിരയുക'
   };
 
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 15);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   const isHero = currentPage === 'home';
 
   return (
-    <header className="bg-transparent sticky top-0 z-50 print:hidden pt-2.5 sm:pt-3 transition-colors">
+    <header className={`sticky top-0 z-50 print:hidden transition-all duration-200 ${
+      isHero
+        ? (isScrolled 
+            ? 'bg-[#153424]/95 backdrop-blur-md shadow-md border-b border-white/10 py-2 sm:py-2.5' 
+            : 'bg-transparent pt-2.5 sm:pt-3')
+        : 'bg-[#FBFBFA]/95 backdrop-blur-md shadow-xs border-b border-[#E6E1D7] py-2 sm:py-2.5'
+    }`}>
       {/* Main Brand & Multi-Page Navigation Bar */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-2.5 sm:py-3 flex items-center justify-between gap-4 relative">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-1 sm:py-1.5 flex items-center justify-between gap-4 relative">
         {/* Brand Logo & Name (Minimalist Cultivo Style) */}
         <div 
           onClick={() => handleNavClick('home')}

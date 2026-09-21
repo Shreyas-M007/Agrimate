@@ -2,7 +2,7 @@
 // Implements PRD Section 19.2, 19.4 & 20:
 // "Farmer UI → API Gateway → AWS Lambda → Agricultural APIs / verified datasets + DynamoDB cache → Amazon Bedrock → Farmer-friendly UI"
 
-import { searchMarkets, getCommodities, getMarkets } from "./services/marketService.js";
+import { searchMarkets, getCommodities, getMarkets, generateDynamicMarketSearchResult } from "./services/marketService.js";
 import { getPriceTrends } from "./services/trendService.js";
 import { explainMarketWithBedrock, getBedrockConfig } from "./services/bedrockService.js";
 import { getSellingChecklist } from "./services/checklistService.js";
@@ -85,15 +85,29 @@ export async function handler(event, context) {
 
     // Route: GET /markets
     if (path.endsWith("/markets") && method === "GET") {
-      const { crop, location, quantity = 5, unit = 'quintal', lat, lon } = queryParams;
-      const result = await searchMarkets({
+      const { crop, location, quantity = 5, unit = 'quintal', lat, lon, pan_india, dynamic } = queryParams;
+      const allowDynamic = pan_india !== 'false' && dynamic !== 'false';
+      let result = await searchMarkets({
         crop,
         location,
         quantity: Number(quantity),
         unit,
         lat: lat ? parseFloat(lat) : null,
-        lon: lon ? parseFloat(lon) : null
+        lon: lon ? parseFloat(lon) : null,
+        allowDynamic
       });
+
+      if (allowDynamic && (!result.success || !result.verified || !result.markets || result.markets.length === 0)) {
+        result = generateDynamicMarketSearchResult({
+          crop,
+          location,
+          quantity: Number(quantity),
+          unit,
+          lat: lat ? parseFloat(lat) : null,
+          lon: lon ? parseFloat(lon) : null
+        });
+      }
+
       return {
         statusCode: 200,
         headers: CORS_HEADERS,
@@ -106,8 +120,9 @@ export async function handler(event, context) {
       const { crop, market_id, days = 7 } = queryParams;
       const result = await getPriceTrends({
         crop,
-        marketId: market_id,
-        days: parseInt(days, 10)
+        market_id,
+        days: parseInt(days, 10),
+        allowDynamic: true
       });
       return {
         statusCode: 200,

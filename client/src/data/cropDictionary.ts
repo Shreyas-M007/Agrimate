@@ -170,6 +170,96 @@ export const COMPREHENSIVE_CROPS: CropDictionaryEntry[] = [
     aliases: ['jowar', 'sorghum', 'jola', 'cholam'],
     modal: '₹2,800/q',
     category: 'Grains'
+  },
+  {
+    name: 'Apple',
+    hindi: 'सेब',
+    kannada: 'ಸೇಬು',
+    primaryAlias: 'Apple',
+    aliases: ['apple', 'apples', 'seb', 'sebu'],
+    modal: '₹8,500/q',
+    category: 'Fruits'
+  },
+  {
+    name: 'Banana',
+    hindi: 'केला',
+    kannada: 'ಬಾಳೆಹಣ್ಣು',
+    primaryAlias: 'Balehannu',
+    aliases: ['banana', 'bananas', 'kela', 'balehannu', 'bale hannu', 'valapalam'],
+    modal: '₹2,200/q',
+    category: 'Fruits'
+  },
+  {
+    name: 'Mango',
+    hindi: 'आम',
+    kannada: 'ಮಾವಿನಹಣ್ಣು',
+    primaryAlias: 'Mavinahannu',
+    aliases: ['mango', 'mangoes', 'aam', 'mavinahannu', 'mavina hannu', 'manga'],
+    modal: '₹4,500/q',
+    category: 'Fruits'
+  },
+  {
+    name: 'Pomegranate',
+    hindi: 'अनार',
+    kannada: 'ದಾಳಿಂಬೆ',
+    primaryAlias: 'Dalimbe',
+    aliases: ['pomegranate', 'anar', 'dalimbe', 'mathalam'],
+    modal: '₹9,000/q',
+    category: 'Fruits'
+  },
+  {
+    name: 'Grapes',
+    hindi: 'अंगूर',
+    kannada: 'ದ್ರಾಕ್ಷಿ',
+    primaryAlias: 'Drakshi',
+    aliases: ['grapes', 'grape', 'angoor', 'drakshi', 'thiratchai'],
+    modal: '₹5,800/q',
+    category: 'Fruits'
+  },
+  {
+    name: 'Orange',
+    hindi: 'संतरा',
+    kannada: 'ಕಿತ್ತಳೆ',
+    primaryAlias: 'Kittale',
+    aliases: ['orange', 'oranges', 'santra', 'kittale', 'naranga'],
+    modal: '₹3,600/q',
+    category: 'Fruits'
+  },
+  {
+    name: 'Papaya',
+    hindi: 'पपीता',
+    kannada: 'ಪರಂಗಿ',
+    primaryAlias: 'Parangi',
+    aliases: ['papaya', 'papita', 'parangi', 'pappali'],
+    modal: '₹1,800/q',
+    category: 'Fruits'
+  },
+  {
+    name: 'Coconut',
+    hindi: 'नारियल',
+    kannada: 'ತೆಂಗಿನಕಾಯಿ',
+    primaryAlias: 'Tenginakayi',
+    aliases: ['coconut', 'coconuts', 'nariyal', 'tenginakayi', 'thengai'],
+    modal: '₹3,100/q',
+    category: 'Plantation'
+  },
+  {
+    name: 'Coffee',
+    hindi: 'कॉफ़ी',
+    kannada: 'ಕಾಫಿ',
+    primaryAlias: 'Coffee',
+    aliases: ['coffee', 'kapi', 'kaapi'],
+    modal: '₹24,000/q',
+    category: 'Plantation'
+  },
+  {
+    name: 'Cashew',
+    hindi: 'काजू',
+    kannada: 'ಗೋಡಂಬಿ',
+    primaryAlias: 'Godambi',
+    aliases: ['cashew', 'kaju', 'godambi', 'mundhiri'],
+    modal: '₹65,000/q',
+    category: 'Plantation'
   }
 ];
 
