@@ -16,6 +16,7 @@ import { ValueCalculator } from '../components/ValueCalculator';
 import { PriceTrendChart } from '../components/PriceTrendChart';
 import { AiExplanation } from '../components/AiExplanation';
 import { SellingChecklist } from '../components/SellingChecklist';
+import { apiUrl } from '../utils/api';
 import { 
   ShieldCheck, 
   Sparkles,
@@ -119,8 +120,8 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
     const clean = (targetLoc || 'Bengaluru').trim();
 
     try {
-      // 1. Try local full-stack proxy endpoint
-      const apiRes = await fetch(`/api/weather?location=${encodeURIComponent(clean)}`);
+      // 1. Try backend proxy endpoint
+      const apiRes = await fetch(apiUrl(`/weather?location=${encodeURIComponent(clean)}`));
       if (apiRes.ok) {
         const json = await apiRes.json();
         if (json.success && json.telemetry) {

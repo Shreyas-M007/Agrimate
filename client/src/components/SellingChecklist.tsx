@@ -3,6 +3,7 @@ import confetti from 'canvas-confetti';
 import type { Language, SellingChecklistData } from '../types';
 import { TRANSLATIONS } from '../i18n/translations';
 import { CheckSquare, Square, Printer, CheckCircle2, Trophy, RotateCcw } from 'lucide-react';
+import { apiUrl } from '../utils/api';
 
 interface SellingChecklistProps {
   crop: string;
@@ -44,7 +45,7 @@ export const SellingChecklist: React.FC<SellingChecklistProps> = ({
     async function fetchChecklist() {
       setLoading(true);
       try {
-        const res = await fetch('/api/checklist', {
+        const res = await fetch(apiUrl('/checklist'), {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({

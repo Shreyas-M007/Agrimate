@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import type { PriceTrend, Language } from '../types';
 import { TRANSLATIONS } from '../i18n/translations';
 import { TrendingUp, TrendingDown, Minus, BarChart2 } from 'lucide-react';
+import { apiUrl } from '../utils/api';
 
 interface PriceTrendChartProps {
   crop: string;
@@ -41,7 +42,7 @@ export const PriceTrendChart: React.FC<PriceTrendChartProps> = ({
     async function fetchTrend() {
       setIsLoading(true);
       try {
-        const res = await fetch(`/api/trends?crop=${encodeURIComponent(crop)}&market_id=${encodeURIComponent(marketId)}&days=${days}`);
+        const res = await fetch(apiUrl(`/trends?crop=${encodeURIComponent(crop)}&market_id=${encodeURIComponent(marketId)}&days=${days}`));
         const data = await res.json();
         if (isMounted && data.success) setTrendData(data);
       } catch (err) {

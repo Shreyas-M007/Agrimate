@@ -27,6 +27,7 @@ import {
   getCachedSearchResult 
 } from './utils/storage';
 import { setSiteLanguage, clearAllTranslateCookies } from './utils/translator';
+import { apiUrl } from './utils/api';
 import { CheckCircle2, ShieldCheck, MessageSquare } from 'lucide-react';
 
 export const App: React.FC = () => {
@@ -144,7 +145,7 @@ export const App: React.FC = () => {
   // Fetch sync status on mount
   const fetchSyncStatus = async () => {
     try {
-      const res = await fetch('/api/sync/status');
+      const res = await fetch(apiUrl('/sync/status'));
       const data = await res.json();
       if (data.success) {
         setSyncStatus(data);
@@ -160,7 +161,7 @@ export const App: React.FC = () => {
     // Fetch user preferences (location and unit only; language remains 'en' on fresh load)
     async function loadPreferences() {
       try {
-        const res = await fetch('/api/preferences');
+        const res = await fetch(apiUrl('/preferences'));
         const data = await res.json();
         if (data.success && data.preferences) {
           if (data.preferences.location) setLocation(data.preferences.location);
@@ -182,7 +183,7 @@ export const App: React.FC = () => {
     const marketId = selectedMarket.market_id;
     async function loadMarketTrend() {
       try {
-        const res = await fetch(`/api/trends?crop=${encodeURIComponent(crop)}&market_id=${encodeURIComponent(marketId)}&days=7`);
+        const res = await fetch(apiUrl(`/trends?crop=${encodeURIComponent(crop)}&market_id=${encodeURIComponent(marketId)}&days=7`));
         const data = await res.json();
         if (data.success && data.has_data) {
           setActiveTrend(data);
@@ -200,7 +201,7 @@ export const App: React.FC = () => {
   const handleTriggerSync = async () => {
     setIsSyncing(true);
     try {
-      const res = await fetch('/api/sync', { method: 'POST' });
+      const res = await fetch(apiUrl('/sync'), { method: 'POST' });
       const data = await res.json();
       if (data.success) {
         setSyncToast(`Successfully synced ${data.records_synced} APMC records into SQLite & Cloud DB!`);
@@ -219,7 +220,7 @@ export const App: React.FC = () => {
   useEffect(() => {
     async function loadCrops() {
       try {
-        const res = await fetch('/api/crops');
+        const res = await fetch(apiUrl('/crops'));
         const data = await res.json();
         if (data.success && data.commodities) {
           setCommodities(data.commodities);
@@ -267,7 +268,7 @@ export const App: React.FC = () => {
         }
       }
 
-      const res = await fetch(`/api/markets?${queryParams.toString()}`);
+      const res = await fetch(apiUrl(`/markets?${queryParams.toString()}`));
       const data: SearchResult = await res.json();
 
       setSearchResult(data);

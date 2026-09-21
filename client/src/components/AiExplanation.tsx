@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import type { MarketItem, PriceTrend, Language, AiExplanationData } from '../types';
 import { TRANSLATIONS } from '../i18n/translations';
 import { Sparkles, Bot, ShieldCheck, Volume2, VolumeX, Share2, Check, Copy } from 'lucide-react';
+import { apiUrl } from '../utils/api';
 
 interface AiExplanationProps {
   market: MarketItem;
@@ -27,7 +28,7 @@ export const AiExplanation: React.FC<AiExplanationProps> = ({
     async function fetchExplanation() {
       setLoading(true);
       try {
-        const res = await fetch('/api/explain', {
+        const res = await fetch(apiUrl('/explain'), {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import type { Language, CropUnit, SyncStatusData } from '../types';
 import { X, Settings, Check, MapPin, Globe, Scale, RefreshCw, Database, ShieldCheck } from 'lucide-react';
+import { apiUrl } from '../utils/api';
 
 interface SettingsModalProps {
   isOpen: boolean;
@@ -64,7 +65,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
     onUnitChange(localUnit);
 
     try {
-      await fetch('/api/preferences', {
+      await fetch(apiUrl('/preferences'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

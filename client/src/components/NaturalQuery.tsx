@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import type { Language, CropUnit } from '../types';
 import { TRANSLATIONS } from '../i18n/translations';
 import { Mic, MicOff, CornerDownLeft, CheckCircle2, Sparkles } from 'lucide-react';
+import { apiUrl } from '../utils/api';
 
 interface NaturalQueryProps {
   language: Language;
@@ -55,7 +56,7 @@ export const NaturalQuery: React.FC<NaturalQueryProps> = ({
     if (!text.trim()) return;
     setIsProcessing(true);
     try {
-      const res = await fetch('/api/parse-query', {
+      const res = await fetch(apiUrl('/parse-query'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ query: text })

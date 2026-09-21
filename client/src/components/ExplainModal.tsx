@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import type { Language } from '../types';
 import { TRANSLATIONS } from '../i18n/translations';
 import { X, BookOpen, Lightbulb, Compass } from 'lucide-react';
+import { apiUrl } from '../utils/api';
 
 interface ExplainModalProps {
   term: string | null;
@@ -28,7 +29,7 @@ export const ExplainModal: React.FC<ExplainModalProps> = ({
     let isMounted = true;
     async function fetchTerm() {
       try {
-        const res = await fetch(`/api/explain-term/${activeTab}?lang=${language}`);
+        const res = await fetch(apiUrl(`/explain-term/${activeTab}?lang=${language}`));
         const data = await res.json();
         if (isMounted && data.success) {
           setTermData(data.data);
